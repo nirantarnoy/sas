@@ -29,13 +29,13 @@ return [
         '@frontendWeb'=>'@frontend/web',
     ],
     'components' => [
-        'view' => [
-            'theme' => [
-                'pathMap' => [
-                    '@app/views' => '@backend/theme/views'
-                ],
-            ],
-        ],
+//        'view' => [
+//            'theme' => [
+//                'pathMap' => [
+//                    '@app/views' => '@backend/theme/views'
+//                ],
+//            ],
+//        ],
 //        'view' => [
 //            'theme' => [
 //                'pathMap' => [
