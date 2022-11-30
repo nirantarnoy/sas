@@ -22,9 +22,9 @@ $is_pos_user = 0;
 //    $has_group = $_SESSION['user_group_id'];
 //}
 
-if (!empty(\Yii::$app->user->identity->group_id)) {
-    $has_group = \Yii::$app->user->identity->group_id;
-}
+//if (!empty(\Yii::$app->user->identity->group_id)) {
+//    $has_group = \Yii::$app->user->identity->group_id;
+//}
 
 
 //if (empty($session['user_second_id'])) {
