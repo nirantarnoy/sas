@@ -50,13 +50,19 @@ class Car extends \common\models\Car
             'name' => 'ชื่อ',
             'description' => 'รายละเอียด',
             'plate_no' => 'ป้ายทะเบียน',
-            'car_type_id' => 'ประเภท',
+            'car_type_id' => 'ประเภทรถ',
             'status' => 'สถานะ',
-            'company_id' => 'Company ID',
+            'company_id' => 'Company',
             'created_at' => 'Created At',
             'created_by' => 'Created By',
             'updated_at' => 'Updated At',
             'updated_by' => 'Updated By',
         ];
+    }
+
+    public static function findName($id)
+    {
+        $model = Car::find()->where(['id' => $id])->one();
+        return $model != null ? $model->name : '';
     }
 }

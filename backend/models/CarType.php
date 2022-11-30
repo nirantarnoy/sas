@@ -45,14 +45,20 @@ class CarType extends \common\models\CarType
     {
         return [
             'id' => 'ID',
-            'name' => 'Name',
-            'description' => 'Description',
-            'status' => 'Status',
-            'company_id' => 'Company ID',
+            'name' => 'ชื่อ',
+            'description' => 'รายละเอียด',
+            'status' => 'สถานะ',
+            'company_id' => 'Company',
             'created_at' => 'Created At',
             'created_by' => 'Created By',
             'updated_at' => 'Updated At',
             'updated_by' => 'Updated By',
         ];
+    }
+
+    public static function findName($id)
+    {
+        $model = CarType::find()->where(['id' => $id])->one();
+        return $model != null ? $model->name : '';
     }
 }

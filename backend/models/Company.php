@@ -53,4 +53,9 @@ class Company extends \common\models\Company
             'updated_by' => 'Updated By',
         ];
     }
+    public static function findCompanyName($id)
+    {
+        $model = Company::find()->where(['id' => $id])->one();
+        return $model != null ? $model->name : '';
+    }
 }

@@ -18,17 +18,28 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'fuel_type_id')->textInput() ?>
 
-    <?= $form->field($model, 'status')->textInput() ?>
+    <!-- <?= $form->field($model, 'status')->textInput() ?> -->
 
-    <?= $form->field($model, 'company_id')->textInput() ?>
+    <!-- <?= $form->field($model, 'company_id')->textInput() ?> -->
+    <?= $form->field($model, 'company_id')->Widget(\kartik\select2\Select2::className(), [
+                'data' => \yii\helpers\ArrayHelper::map(\backend\models\company::find()->all(), 'id', function ($data) {
+                    return $data->name;
+                }),
+                'options' => [
+                    'placeholder' => '--company--'
+                ]
+            ]) ?>
 
-    <?= $form->field($model, 'created_at')->textInput() ?>
+    <?php echo $form->field($model, 'status')->widget(\toxor88\switchery\Switchery::className(), ['options' => ['label' => '', 'class' => 'form-control']])->label() ?>
+
+
+    <!-- <?= $form->field($model, 'created_at')->textInput() ?>
 
     <?= $form->field($model, 'created_by')->textInput() ?>
 
     <?= $form->field($model, 'updated_at')->textInput() ?>
 
-    <?= $form->field($model, 'updated_by')->textInput() ?>
+    <?= $form->field($model, 'updated_by')->textInput() ?> -->
 
     <div class="form-group">
         <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>

@@ -10,7 +10,7 @@ use yii\widgets\Pjax;
 /** @var backend\models\CarSearch $searchModel */
 /** @var yii\data\ActiveDataProvider $dataProvider */
 
-$this->title = 'Cars';
+$this->title = 'รถ';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="car-index">
@@ -18,7 +18,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a('Create Car', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('สร้าง', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
     <?php Pjax::begin(); ?>
@@ -34,7 +34,13 @@ $this->params['breadcrumbs'][] = $this->title;
             'name',
             'description',
             'plate_no',
-            'car_type_id',
+            // 'car_type_id',
+            [
+                'attribute' => 'car_type_id',
+                'value' => function ($data){
+                    return \backend\models\Cartype::findName($data->car_type_id);
+                }
+            ],
             //'status',
             //'company_id',
             //'created_at',
