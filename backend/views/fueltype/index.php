@@ -1,19 +1,19 @@
 <?php
 
-use backend\models\Fuel;
+use backend\models\FuelType;
 use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\grid\ActionColumn;
 use yii\grid\GridView;
 use yii\widgets\Pjax;
 /** @var yii\web\View $this */
-/** @var backend\models\FuelSearch $searchModel */
+/** @var backend\models\FueltypeSearch $searchModel */
 /** @var yii\data\ActiveDataProvider $dataProvider */
 
-$this->title = 'น้ำมัน';
+$this->title = 'ประเภทน้ำมัน';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="fuel-index">
+<div class="fuel-type-index">
 
     <!-- <h1><?= Html::encode($this->title) ?></h1> -->
 
@@ -31,15 +31,9 @@ $this->params['breadcrumbs'][] = $this->title;
             ['class' => 'yii\grid\SerialColumn'],
 
             // 'id',
+            'code',
             'name',
             'description',
-            // 'fuel_type_id',
-            [
-                'attribute' => 'fuel_type_id',
-                'value' => function ($model){
-                    return \backend\models\FuelType::findFuelTypeName($model->fuel_type_id);
-                }
-            ],
             // 'status',
             [
                 'attribute' => 'status',
@@ -53,20 +47,13 @@ $this->params['breadcrumbs'][] = $this->title;
                     }
                 }
             ],
-            // 'company_id',
-            [
-                'attribute' => 'company_id',
-                'value' => function ($model){
-                    return \backend\models\Company::findCompanyName($model->company_id);
-                }
-            ],
             //'created_at',
             //'created_by',
             //'updated_at',
             //'updated_by',
             [
                 'class' => ActionColumn::className(),
-                'urlCreator' => function ($action, Fuel $model, $key, $index, $column) {
+                'urlCreator' => function ($action, FuelType $model, $key, $index, $column) {
                     return Url::toRoute([$action, 'id' => $model->id]);
                  }
             ],

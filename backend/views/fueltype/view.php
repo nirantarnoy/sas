@@ -4,14 +4,14 @@ use yii\helpers\Html;
 use yii\widgets\DetailView;
 
 /** @var yii\web\View $this */
-/** @var backend\models\Fuel $model */
+/** @var backend\models\FuelType $model */
 
 $this->title = $model->name;
-$this->params['breadcrumbs'][] = ['label' => 'Fuels', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'Fuel Types', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 \yii\web\YiiAsset::register($this);
 ?>
-<div class="fuel-view">
+<div class="fuel-type-view">
 
     <!-- <h1><?= Html::encode($this->title) ?></h1> -->
 
@@ -30,15 +30,10 @@ $this->params['breadcrumbs'][] = $this->title;
         'model' => $model,
         'attributes' => [
             'id',
+            'code',
             'name',
             'description',
-            // 'fuel_type_id',
-            [
-                'attribute' => 'fuel_type_id',
-                'value' => function ($model){
-                    return \backend\models\FuelType::findFuelTypeName($model->fuel_type_id);
-                }
-            ],
+            // 'status',
             [
                 'attribute' => 'status',
                 'format' => 'raw',
@@ -51,15 +46,6 @@ $this->params['breadcrumbs'][] = $this->title;
                     }
                 }
             ],
-            
-            [
-                'attribute' => 'company_id',
-                'value' => function ($model){
-                    return \backend\models\Company::findCompanyName($model->company_id);
-                }
-            ],
-            // 'status',
-            // 'company_id',
             // 'created_at',
             // 'created_by',
             // 'updated_at',

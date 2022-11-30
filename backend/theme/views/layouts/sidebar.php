@@ -80,7 +80,7 @@
                     <ul class="nav nav-treeview">
                         <?php //if (\Yii::$app->user->can('warehouse/index')): ?>
                             <li class="nav-item">
-                                <a href="index.php?r=warehouse/index" class="nav-link warehouse">
+                                <a href="index.php?r=fueltype/index" class="nav-link fueltype">
                                     <i class="far fa-circlez nav-icon"></i>
                                     <p>ประเภทน้ำมัน</p>
                                 </a>
