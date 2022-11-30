@@ -21,8 +21,17 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'car_type_id')->textInput() ?>
 
-    <?= $form->field($model, 'status')->textInput() ?>
-    <!-- <?php echo $form->field($model, 'status')->widget(\toxor88\switchery\Switchery::className(), ['options' => ['label' => '', 'class' => 'form-control']])->label() ?> -->
+    <?= $form->field($model, 'car_type_id')->Widget(\kartik\select2\Select2::className(), [
+                'data' => \yii\helpers\ArrayHelper::map(\backend\models\Cartype::find()->all(), 'id', function ($data) {
+                    return $data->name;
+                }),
+                'options' => [
+                    'placeholder' => '--ประเภทรถ--'
+                ]
+            ]) ?>
+
+    <!-- <?= $form->field($model, 'status')->textInput() ?> -->
+    <?php echo $form->field($model, 'status')->widget(\toxor88\switchery\Switchery::className(), ['options' => ['label' => '', 'class' => 'form-control']])->label() ?>
 
 
     <?= $form->field($model, 'company_id')->textInput() ?>
