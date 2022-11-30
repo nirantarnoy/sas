@@ -26,29 +26,6 @@ $is_pos_user = 0;
 //    $has_group = \Yii::$app->user->identity->group_id;
 //}
 
-
-//if (empty($session['user_second_id'])) {
-//    if (\backend\models\Employee::isPosUser(\Yii::$app->user->id)) {
-//        $is_pos_user = 1;
-//        $model_second_user = \common\models\LoginLogCal::find()->select(['id'])->where(['user_id' => \Yii::$app->user->id])->orderBy(['id' => SORT_DESC])->one();
-//        if ($model_second_user) {
-//            $model_user_ref = \common\models\LoginUserRef::find()->where(['login_log_cal_id' => $model_second_user->id])->one();
-//            if ($model_user_ref != null) {
-//                $has_second_user = 1;
-//
-//                $session['user_second_id'] = 1;
-//            }
-////        if($model_second_user->second_user_id != null || $model_second_user->second_user_id != ''){
-////            $has_second_user = 1;
-////            $session['user_second_id'] =1;
-////        }
-//        }
-//    }
-//} else {
-//    $has_second_user = $session['user_second_id'];
-//}
-
-
 ?>
 <?php $this->beginPage() ?>
 <!DOCTYPE html>
@@ -119,13 +96,9 @@ $is_pos_user = 0;
     </style>
 </head>
 <body class="hold-transition sidebar-mini">
-<input type="hidden" id="has-group" value="<?= $has_group ?>">
-<input type="hidden" id="is-pos-user" value="<?= $is_pos_user ?>">
-<input type="hidden" id="has-second-user" value="<?= $has_second_user ?>">
 <input type="hidden" id="current-url" value="<?= $cururl ?>">
 
 <?php $this->beginBody() ?>
-<a id="goto-login" href="<?= \yii\helpers\Url::to(['site/login'], true) ?>"></a>
 <div class="wrapper">
     <!-- Navbar -->
     <?= $this->render('navbar', ['assetDir' => $assetDir]) ?>
@@ -175,16 +148,6 @@ $is_pos_user = 0;
     var cururl = $("#current-url").val();
     $(function () {
 
-        var has_group = $("#has-group").val();
-        var is_pos_user = $("#is-pos-user").val();
-        var has_second_user = $("#has-second-user").val();
-
-        if (has_group == '') {
-            $("#goto-login").trigger('click');
-        }
-        if (is_pos_user ==1 && has_second_user == '' ) {
-            $("#secondLoginModal").modal("show");
-        }
 
         //---- active menu
         $("#perpage").change(function () {

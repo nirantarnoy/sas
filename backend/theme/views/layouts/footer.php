@@ -3,5 +3,5 @@
     <div class="float-right d-none d-sm-inline">
     </div>
     <!-- Default to the left -->
-    <strong>Copyright &copy; <?=date('Y')?> ICESYSTEM </strong>
+    <strong>Copyright &copy; <?=date('Y')?> narono </strong>
 </footer>
