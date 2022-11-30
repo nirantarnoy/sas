@@ -10,15 +10,15 @@ use yii\widgets\Pjax;
 /** @var backend\models\CustomergroupSearch $searchModel */
 /** @var yii\data\ActiveDataProvider $dataProvider */
 
-$this->title = 'Customergroups';
+$this->title = 'กลุ่มลูกค้า';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="customergroup-index">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+    <!-- <h1><?= Html::encode($this->title) ?></h1> -->
 
     <p>
-        <?= Html::a('Create Customergroup', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('สร้าง', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
     <?php Pjax::begin(); ?>
@@ -30,11 +30,29 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
-            'id',
+            // 'id',
             'name',
             'description',
-            'status',
-            'company_id',
+            // 'status',
+            [
+                'attribute' => 'status',
+                'format' => 'raw',
+                'label'=>'สถานะ',
+                'value' => function ($model) {
+                    if ($model->status == 1) {
+                        return '<div>ใช้งาน</div>';
+                    } else {
+                        return '<div>ไม่ใช้งาน</div>';
+                    }
+                }
+            ],
+            // 'company_id',
+            [
+                'attribute' => 'company_id',
+                'value' => function ($model){
+                    return \backend\models\Company::findCompanyName($model->company_id);
+                }
+            ],
             //'created_at',
             //'created_by',
             //'updated_at',

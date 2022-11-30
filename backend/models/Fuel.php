@@ -46,11 +46,11 @@ class Fuel extends \common\models\Fuel
     {
         return [
             'id' => 'ID',
-            'name' => 'Name',
-            'description' => 'Description',
-            'fuel_type_id' => 'Fuel Type ID',
-            'status' => 'Status',
-            'company_id' => 'Company ID',
+            'name' => 'ชื่อ',
+            'description' => 'รายละเอียด',
+            'fuel_type_id' => 'ประเภทน้ำมัน',
+            'status' => 'สภานะ',
+            'company_id' => 'Company',
             'created_at' => 'Created At',
             'created_by' => 'Created By',
             'updated_at' => 'Updated At',

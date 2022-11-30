@@ -10,15 +10,15 @@ use yii\widgets\Pjax;
 /** @var backend\models\FuelSearch $searchModel */
 /** @var yii\data\ActiveDataProvider $dataProvider */
 
-$this->title = 'Fuels';
+$this->title = 'น้ำมัน';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="fuel-index">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+    <!-- <h1><?= Html::encode($this->title) ?></h1> -->
 
     <p>
-        <?= Html::a('Create Fuel', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('สร้าง', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
     <?php Pjax::begin(); ?>
@@ -30,11 +30,23 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
-            'id',
+            // 'id',
             'name',
             'description',
             'fuel_type_id',
-            'status',
+            // 'status',
+            [
+                'attribute' => 'status',
+                'format' => 'raw',
+                'label'=>'สถานะ',
+                'value' => function ($model) {
+                    if ($model->status == 1) {
+                        return '<div>ใช้งาน</div>';
+                    } else {
+                        return '<div>ไม่ใช้งาน</div>';
+                    }
+                }
+            ],
             //'company_id',
             //'created_at',
             //'created_by',

@@ -49,10 +49,10 @@ class CarType extends \common\models\CarType
             'description' => 'รายละเอียด',
             'status' => 'สถานะ',
             'company_id' => 'Company',
-            'created_at' => 'Created At',
-            'created_by' => 'Created By',
-            'updated_at' => 'Updated At',
-            'updated_by' => 'Updated By',
+            // 'created_at' => 'Created At',
+            // 'created_by' => 'Created By',
+            // 'updated_at' => 'Updated At',
+            // 'updated_by' => 'Updated By',
         ];
     }
 

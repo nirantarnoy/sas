@@ -88,7 +88,7 @@
                         <?php //endif; ?>
                         <?php //if (\Yii::$app->user->can('location/index')): ?>
                             <li class="nav-item">
-                                <a href="index.php?r=location" class="nav-link location">
+                                <a href="index.php?r=fuel" class="nav-link fuel">
                                     <i class="far fa-circlez nav-icon"></i>
                                     <p>
                                         น้ำมัน
@@ -113,7 +113,7 @@
                     <ul class="nav nav-treeview">
                         <?php //if (\Yii::$app->user->can('producttype/index')): ?>
                             <li class="nav-item">
-                                <a href="index.php?r=producttype/index" class="nav-link producttype">
+                                <a href="index.php?r=cartype/index" class="nav-link cartype">
                                     <i class="far fa-circlez nav-icon"></i>
                                     <p>ประเภทรถ</p>
                                 </a>
@@ -121,7 +121,7 @@
                         <?php //endif; ?>
                         <?php // if (\Yii::$app->user->can('productgroup/index')): ?>
                             <li class="nav-item">
-                                <a href="index.php?r=productgroup" class="nav-link productgroup">
+                                <a href="index.php?r=car" class="nav-link car">
                                     <i class="far fa-circlez nav-icon"></i>
                                     <p>
                                         รถ
