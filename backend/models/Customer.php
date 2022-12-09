@@ -46,9 +46,9 @@ class Customer extends \common\models\Customer
         return [
             'id' => 'ID',
             'code' => 'Code',
-            'name' => 'Name',
+            'name' => 'ชื่อ',
             'business_type' => 'Business Type',
-            'status' => 'Status',
+            'status' => 'สถานะ',
             'crated_at' => 'Crated At',
             'created_by' => 'Created By',
             'updated_at' => 'Updated At',

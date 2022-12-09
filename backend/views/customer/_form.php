@@ -18,15 +18,9 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'business_type')->textInput() ?>
 
-    <?= $form->field($model, 'status')->textInput() ?>
+<!--    <?//= $form->field($model, 'status')->textInput() ?>-->
+    <?php echo $form->field($model, 'status')->widget(\toxor88\switchery\Switchery::className(), ['options' => ['label' => '', 'class' => 'form-control']])->label() ?>
 
-    <?= $form->field($model, 'crated_at')->textInput() ?>
-
-    <?= $form->field($model, 'created_by')->textInput() ?>
-
-    <?= $form->field($model, 'updated_at')->textInput() ?>
-
-    <?= $form->field($model, 'udpated_by')->textInput() ?>
 
     <div class="form-group">
         <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>

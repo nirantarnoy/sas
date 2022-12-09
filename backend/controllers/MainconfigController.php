@@ -120,23 +120,27 @@ class MainconfigController extends Controller
                 $i = -1;
                 $res = 0;
                 $data = [];
+                $loop = 0;
                 while (($rowData = fgetcsv($file, 10000, ",")) !== FALSE) {
                     $i += 1;
                     $catid = 0;
                     $qty = 0;
                     $price = 0;
                     $cost = 0;
+
+
                     if ($rowData[1] == '' || $i == 0) {
                         continue;
                     }
 
-//                    $model_dup = \backend\models\Customer::find()->where(['name' => trim($rowData[2]), 'company_id' => 1, 'branch_id' => 1])->one();
+//                    $model_dup = \backend\models\Customer::find()->where(['name' => trim($rowData[1]), 'company_id' => 1])->one();
 //                    if ($model_dup != null) {
+//                        $loop++;
 //                        continue;
 //                    }
 
 //                    $route_id = $this->checkRoute($rowData[3]);
-//                    $group_id = $this->checkCustomergroup($rowData[5]);
+                    $group_id = $this->checkCustomergroup($rowData[2]);
 //                    $type_id = $this->checkCustomertype($rowData[6]);
 //                    $payment_method = $this->checkPaymethod($rowData[14]);
 //                    $payment_term = $this->checkPayterm($rowData[15]);
@@ -155,7 +159,7 @@ class MainconfigController extends Controller
                     // $modelx->code = $rowData[0];
                     $modelx->code = $rowData[0];//$modelx->getLastNo(1, 2);
                     $modelx->name = $customer_name;
-                    $modelx->customer_group_id = 1;
+                    $modelx->customer_group_id = $group_id;
                     $modelx->phone = '';// $rowData[10];
                     $modelx->email = '';// $rowData[10];
                     $modelx->status = 1;
@@ -163,6 +167,24 @@ class MainconfigController extends Controller
 
 
                     if ($modelx->save(false)) {
+                        $district_id = $this->getDistrictId($rowData[6]);
+                        $amphur_id = $this->getAmphurId($rowData[7]);
+                        $province_id = $this->getProvinceId($rowData[8]);
+
+                        $model_address = new \common\models\Addressinfo();
+                        $model_address->party_type = 2;
+                        $model_address->party_id = $modelx->id;
+                        $model_address->address = $rowData[4];
+                        $model_address->street = $rowData[5];
+                        $model_address->district_id = $district_id;
+                        $model_address->city_id = $amphur_id;
+                        $model_address->province_id = $province_id;
+                        $model_address->zipcode = $rowData[9];
+                        $model_address->status = 1;
+
+                        if($model_address->save(false)){
+
+                        }
                         $res += 1;
                     }
                 }
@@ -274,17 +296,15 @@ class MainconfigController extends Controller
     {
         $id = 0;
         if ($name != '') {
-            $model = \backend\models\Customergroup::find()->where(['name' => $name, 'company_id' => 1, 'branch_id' => 1])->one();
+            $model = \backend\models\Customergroup::find()->where(['name' => $name])->one();
             if ($model) {
                 $id = $model->id;
             } else {
                 $model_new = new \backend\models\Customergroup();
-                $model_new->code = $name;
                 $model_new->name = $name;
                 $model_new->description = $name;
-                $model_new->status = 1;
                 $model_new->company_id = 1;
-                $model_new->branch_id = 1;
+                $model_new->status = 1;
                 if ($model_new->save()) {
                     $id = $model_new->id;
                 }
@@ -568,5 +588,42 @@ class MainconfigController extends Controller
             }
         }
     }
+
+    public function getDistrictId($name)
+    {
+        $id = 0;
+        if ($name != '') {
+            $model = \backend\models\District::find()->where(['DISTRICT_NAME' => trim($name)])->one();
+            if ($model) {
+                $id = $model->DISTRICT_ID;
+            }
+        }
+        return $id;
+    }
+
+    public function getAmphurId($name)
+    {
+        $id = 0;
+        if ($name != '') {
+            $model = \backend\models\Amphur::find()->where(['AMPHUR_NAME' => trim($name)])->one();
+            if ($model) {
+                $id = $model->AMPHUR_ID;
+            }
+        }
+        return $id;
+    }
+
+    public function getProvinceId($name)
+    {
+        $id = 0;
+        if ($name != '') {
+            $model = \backend\models\Province::find()->where(['PROVINCE_NAME' => trim($name)])->one();
+            if ($model) {
+                $id = $model->PROVINCE_ID;
+            }
+        }
+        return $id;
+    }
+
 
 }
