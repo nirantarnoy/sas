@@ -3,7 +3,7 @@
 use yii\db\Migration;
 
 /**
- * Handles the creation of table `{{%customer}}`.
+ * Handles the creation of table `{{%customers}}`.
  */
 class m221201_040707_create_customer_table extends Migration
 {
@@ -12,7 +12,7 @@ class m221201_040707_create_customer_table extends Migration
      */
     public function safeUp()
     {
-        $this->createTable('{{%customer}}', [
+        $this->createTable('{{%customers}}', [
             'id' => $this->primaryKey(),
             'code' => $this->string(),
             'name' => $this->string(),
@@ -30,6 +30,6 @@ class m221201_040707_create_customer_table extends Migration
      */
     public function safeDown()
     {
-        $this->dropTable('{{%customer}}');
+        $this->dropTable('{{%customers}}');
     }
 }

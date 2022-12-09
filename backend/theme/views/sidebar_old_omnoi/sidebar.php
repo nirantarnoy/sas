@@ -347,7 +347,7 @@
                                 </a>
                             </li>
                         <?php endif; ?>
-                        <?php if (\Yii::$app->user->can('customer/index')): ?>
+                        <?php if (\Yii::$app->user->can('customers/index')): ?>
                             <li class="nav-item">
                                 <a href="index.php?r=customer" class="nav-link customer">
                                     <i class="far fa-circlez nav-icon"></i>

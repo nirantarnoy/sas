@@ -126,7 +126,7 @@ class MainconfigController extends Controller
                     $qty = 0;
                     $price = 0;
                     $cost = 0;
-                    if ($rowData[2] == '' || $i == 0) {
+                    if ($rowData[1] == '' || $i == 0) {
                         continue;
                     }
 
@@ -135,57 +135,34 @@ class MainconfigController extends Controller
 //                        continue;
 //                    }
 
-                    $route_id = $this->checkRoute($rowData[3]);
-                    $group_id = $this->checkCustomergroup($rowData[5]);
-                    $type_id = $this->checkCustomertype($rowData[6]);
-                    $payment_method = $this->checkPaymethod($rowData[14]);
-                    $payment_term = $this->checkPayterm($rowData[15]);
+//                    $route_id = $this->checkRoute($rowData[3]);
+//                    $group_id = $this->checkCustomergroup($rowData[5]);
+//                    $type_id = $this->checkCustomertype($rowData[6]);
+//                    $payment_method = $this->checkPaymethod($rowData[14]);
+//                    $payment_term = $this->checkPayterm($rowData[15]);
+
+                    $customer_name = $rowData[1];
+                    $customer_group = $rowData[2];
+                    $tax_id = $rowData[3];
+                    $address = $rowData[4];
+                    $street = $rowData[5];
+                    $district = $rowData[6];
+                    $city = $rowData[7];
+                    $province = $rowData[8];
+                    $zipcode = $rowData[9];
 
                     $modelx = new \backend\models\Customer();
                     // $modelx->code = $rowData[0];
                     $modelx->code = $rowData[0];//$modelx->getLastNo(1, 2);
-                    $modelx->name = $rowData[2];
-                    $modelx->description = '';//$rowData[11];
-                    $modelx->contact_name = ''; //$rowData[9];
-                    $modelx->branch_no = $rowData[2];
-                    $modelx->location_info = '';//$rowData[10];
-                    $modelx->customer_group_id = $group_id;
-                    $modelx->customer_type_id = $type_id;
-                    $modelx->delivery_route_id = $route_id;
-                    $modelx->address = ''; //$rowData[7];
-                    $modelx->address2 = ''; //$rowData[8];
+                    $modelx->name = $customer_name;
+                    $modelx->customer_group_id = 1;
                     $modelx->phone = '';// $rowData[10];
-                    $modelx->branch_no = $rowData[3];
-                    $modelx->sort_name = $rowData[1];
-                    $modelx->payment_method_id = $payment_method;
-                    $modelx->payment_term_id = $payment_term;
+                    $modelx->email = '';// $rowData[10];
                     $modelx->status = 1;
                     $modelx->company_id = 1;
-                    $modelx->branch_id = 1;
 
-                    // original
 
-//                    $modelx->code = $modelx->getLastNo(1, 2);
-//                    $modelx->name = $rowData[1];
-//                    $modelx->description = $rowData[11];
-//                    $modelx->contact_name = $rowData[9];
-//                    $modelx->branch_no = $rowData[2];
-//                    $modelx->location_info = '';//$rowData[10];
-//                    $modelx->customer_group_id = $group_id;
-//                    $modelx->customer_type_id = $type_id;
-//                    $modelx->delivery_route_id = $route_id;
-//                    $modelx->address = $rowData[7];
-//                    $modelx->address2 = $rowData[8];
-//                    $modelx->phone = $rowData[10];
-//                    $modelx->sort_name = $rowData[16];
-//                    $modelx->payment_method_id = $payment_method;
-//                    $modelx->payment_term_id = $payment_term;
-//                    $modelx->status = 1;
-//                    $modelx->company_id = 1;
-//                    $modelx->branch_id = 1;
-                    //
                     if ($modelx->save(false)) {
-                        $sale_price_group = $this->checkPricegroup($rowData[5], $rowData[6], $type_id);
                         $res += 1;
                     }
                 }
