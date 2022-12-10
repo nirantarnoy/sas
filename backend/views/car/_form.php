@@ -4,6 +4,7 @@ use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
 
+
 /** @var yii\web\View $this */
 /** @var backend\models\Car $model */
 /** @var yii\widgets\ActiveForm $form */
@@ -20,7 +21,8 @@ use yii\widgets\ActiveForm;
     <?= $form->field($model, 'plate_no')->textInput(['maxlength' => true]) ?>
 
     <!-- <?= $form->field($model, 'car_type_id')->textInput() ?> -->
-
+    <div class="row">
+        <div class="col-lg-4">
     <?= $form->field($model, 'car_type_id')->Widget(\kartik\select2\Select2::className(), [
                 'data' => \yii\helpers\ArrayHelper::map(\backend\models\Cartype::find()->all(), 'id', function ($data) {
                     return $data->name;
@@ -29,6 +31,26 @@ use yii\widgets\ActiveForm;
                     'placeholder' => '--ประเภทรถ--'
                 ]
             ]) ?>
+        </div>
+            <div class="col-lg-4">
+    <?= $form->field($model, 'type_id')->Widget(\kartik\select2\Select2::className(), [
+        'data' => \yii\helpers\ArrayHelper::map(\backend\helpers\CarcatType::asArrayObject(), 'id', 'name'),
+        'options' => [
+            'placeholder' => '--ส่วนเสริม--'
+        ]
+    ]) ?>
+            </div>
+        <div class="col-lg-4">
+    <?= $form->field($model, 'fuel_type')->Widget(\kartik\select2\Select2::className(), [
+        'data' => \yii\helpers\ArrayHelper::map(\backend\models\FuelType::find()->all(), 'id', function ($data) {
+            return $data->name;
+        }),
+        'options' => [
+            'placeholder' => '--ประเภทน้ำมัน--'
+        ]
+    ]) ?>
+        </div>
+    </div>
 
     <!-- <?= $form->field($model, 'company_id')->textInput() ?> -->
     <?= $form->field($model, 'company_id')->Widget(\kartik\select2\Select2::className(), [

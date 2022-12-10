@@ -167,24 +167,44 @@ class MainconfigController extends Controller
 
 
                     if ($modelx->save(false)) {
+
+                        //update address
                         $district_id = $this->getDistrictId($rowData[6]);
                         $amphur_id = $this->getAmphurId($rowData[7]);
                         $province_id = $this->getProvinceId($rowData[8]);
 
-                        $model_address = new \common\models\Addressinfo();
-                        $model_address->party_type = 2;
-                        $model_address->party_id = $modelx->id;
-                        $model_address->address = $rowData[4];
-                        $model_address->street = $rowData[5];
-                        $model_address->district_id = $district_id;
-                        $model_address->city_id = $amphur_id;
-                        $model_address->province_id = $province_id;
-                        $model_address->zipcode = $rowData[9];
-                        $model_address->status = 1;
+                        $model_address_dup = \common\models\AddressInfo::find()->where(['party_type' => 2,'party_id' => $modelx->id])->one();
+                        if($model_address_dup){
+                            $model_address_dup->address = $rowData[4];
+                            $model_address_dup->street = $rowData[5];
+                            $model_address_dup->district_id = $district_id;
+                            $model_address_dup->city_id = $amphur_id;
+                            $model_address_dup->province_id = $province_id;
+                            $model_address_dup->zipcode = $rowData[9];
+                            $model_address_dup->status = 1;
 
-                        if($model_address->save(false)){
+                            if($model_address_dup->save(false)){
 
+                            }
+
+                        }else{
+                            $model_address = new \common\models\Addressinfo();
+                            $model_address->party_type = 2;
+                            $model_address->party_id = $modelx->id;
+                            $model_address->address = $rowData[4];
+                            $model_address->street = $rowData[5];
+                            $model_address->district_id = $district_id;
+                            $model_address->city_id = $amphur_id;
+                            $model_address->province_id = $province_id;
+                            $model_address->zipcode = $rowData[9];
+                            $model_address->status = 1;
+
+                            if($model_address->save(false)){
+
+                            }
                         }
+                        //end update address
+
                         $res += 1;
                     }
                 }

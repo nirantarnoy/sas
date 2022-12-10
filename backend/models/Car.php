@@ -35,7 +35,7 @@ class Car extends \common\models\Car
     public function rules()
     {
         return [
-            [['car_type_id', 'status', 'company_id', 'created_at', 'created_by', 'updated_at', 'updated_by'], 'integer'],
+            [['car_type_id', 'status', 'company_id', 'created_at', 'created_by', 'updated_at', 'updated_by','type_id','fuel_type'], 'integer'],
             [['name', 'description', 'plate_no'], 'string', 'max' => 255],
         ];
     }
@@ -51,6 +51,8 @@ class Car extends \common\models\Car
             'description' => 'รายละเอียด',
             'plate_no' => 'ป้ายทะเบียน',
             'car_type_id' => 'ประเภทรถ',
+            'type_id' => 'ส่วยเสริม',
+            'fuel_type' => 'น้ำมัน',
             'status' => 'สถานะ',
             'company_id' => 'Company',
             'created_at' => 'Created At',

@@ -41,6 +41,18 @@ $this->params['breadcrumbs'][] = $this->title;
                 }
             ],
 
+            [
+                'attribute' => 'type_id',
+                'value' => function ($model){
+                    return \backend\helpers\CarcatType::getTypeById($model->type_id);
+                }
+            ],
+            [
+                'attribute' => 'fuel_type',
+                'value' => function ($model){
+                    return \backend\models\FuelType::findFuelTypeName($model->fuel_type);
+                }
+            ],
             // 'company_id',
             [
                 'attribute' => 'company_id',
