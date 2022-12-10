@@ -154,6 +154,11 @@ class MainconfigController extends Controller
                     $city = $rowData[7];
                     $province = $rowData[8];
                     $zipcode = $rowData[9];
+                    $customer_contact_name = $rowData[10];
+                    $phone = $rowData[11];
+                    $email = $rowData[12];
+                    $line_id = $rowData[13];
+                    $facebook = $rowData[14];
 
                     $modelx = new \backend\models\Customer();
                     // $modelx->code = $rowData[0];
@@ -204,6 +209,37 @@ class MainconfigController extends Controller
                             }
                         }
                         //end update address
+
+                        //update customer contact
+//                        $district_id = $this->getDistrictId($rowData[6]);
+//                        $amphur_id = $this->getAmphurId($rowData[7]);
+//                        $province_id = $this->getProvinceId($rowData[8]);
+
+                        $model_cus_contact_dup = \common\models\ContactInfo::find()->where(['contact_name' => $customer_contact_name,'party_id' => $modelx->id])->one();
+                        if($model_cus_contact_dup){
+                            $model_cus_contact_dup->contact_no = $phone;
+                            $model_cus_contact_dup->contact_name = $customer_contact_name;
+                            $model_cus_contact_dup->type_id = 1;
+//                            $model_cus_contact_dup->status = 1;
+
+                            if($model_cus_contact_dup->save(false)){
+
+                            }
+
+                        }else{
+                            $model_cus_contact = new \common\models\ContactInfo();
+                            $model_cus_contact->party_type = 1;
+                            $model_cus_contact->party_id = $modelx->id;
+                            $model_cus_contact->type_id = 1;
+                            $model_cus_contact->contact_name = $customer_contact_name;
+                            $model_cus_contact->contact_no = $phone;
+//                            $model_cus_contact->status = 1;
+
+                            if($model_cus_contact->save(false)){
+
+                            }
+                        }
+                        //end update customer contact
 
                         $res += 1;
                     }
