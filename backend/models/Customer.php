@@ -33,8 +33,8 @@ class Customer extends \common\models\Customer
     public function rules()
     {
         return [
-            [['business_type', 'status', 'crated_at', 'created_by', 'updated_at', 'udpated_by'], 'integer'],
-            [['code', 'name'], 'string', 'max' => 255],
+            [['business_type', 'status', 'crated_at', 'created_by', 'updated_at', 'udpated_by','customer_group_id','company_id'], 'integer'],
+            [['code', 'name','phone','email'], 'string', 'max' => 255],
         ];
     }
 
@@ -48,6 +48,10 @@ class Customer extends \common\models\Customer
             'code' => 'Code',
             'name' => 'ชื่อ',
             'business_type' => 'Business Type',
+            'customer_group_id' => 'กลุ่มลูกค้า',
+            'phone' => 'เบอร์ติดต่อ',
+            'email' => 'อีเมล',
+            'company_id' => 'company',
             'status' => 'สถานะ',
             'crated_at' => 'Crated At',
             'created_by' => 'Created By',

@@ -36,7 +36,22 @@ $this->params['breadcrumbs'][] = $this->title;
 //            'district';
         ],
     ]) ?>
+
     <div class="row">
+        <div class="row">
+            <div class="col-lg-3">
+                <?= DetailView::widget([
+                    'model' => $model,
+                    'attributes' => [
+                        [
+                            'attribute' => 'address',
+                            'label' => 'ที่อยู่',
+                            'value' => function ($model) {
+                                return \backend\models\AddressInfo::findAddress($model->id);
+                            }
+                        ],
+                    ]]) ?>
+            </div>
         <div class="col-lg-3">
             <?= DetailView::widget([
                 'model' => $model,
