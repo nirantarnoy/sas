@@ -127,9 +127,9 @@ class CustomerController extends Controller
 //                              print_r($line_contact_name);return ;
                                 $contact_chk = \common\models\ContactInfo::find()->where(['party_id' => $model->id, 'type_id' => $line_type_id[$i]])->one();
                                 if ($contact_chk) {
-                                    $contact_chk->contact_name = $line_contact_name[$i];
+                                    $contact_chk->contact_name = trim($line_contact_name[$i]);
                                     $contact_chk->type_id = $line_type_id[$i];
-                                    $contact_chk->contact_no = $line_contact_no[$i];
+                                    $contact_chk->contact_no = trim($line_contact_no[$i]);
                                     if ($contact_chk->save(false)) {
 
                                     }
@@ -138,8 +138,8 @@ class CustomerController extends Controller
                                     $new_contact->party_type = $party_type;
                                     $new_contact->party_id = $model->id;
                                     $new_contact->type_id = $line_type_id[$i];
-                                    $new_contact->contact_name = $line_contact_name[$i];
-                                    $new_contact->contact_no = $line_contact_no[$i];
+                                    $new_contact->contact_name = trim($line_contact_name[$i]);
+                                    $new_contact->contact_no = trim($line_contact_no[$i]);
                                     if ($new_contact->save(false)) {
 
                                     }
@@ -234,9 +234,9 @@ class CustomerController extends Controller
                             //print_r($line_contact_name);return ;
                             $contact_chk = \common\models\ContactInfo::find()->where(['party_id' => $model->id, 'type_id' => $line_type_id[$i],'party_type'=>$party_type])->one();
                             if ($contact_chk) {
-                                $contact_chk->contact_name = $line_contact_name[$i];
+                                $contact_chk->contact_name = trim($line_contact_name[$i]);
                                 $contact_chk->type_id = $line_type_id[$i];
-                                $contact_chk->contact_no = $line_contact_no[$i];
+                                $contact_chk->contact_no = trim($line_contact_no[$i]);
                                 if ($contact_chk->save(false)) {
 
                                 }
@@ -245,8 +245,8 @@ class CustomerController extends Controller
                                 $new_contact->party_type = $party_type;
                                 $new_contact->party_id = $model->id;
                                 $new_contact->type_id = $line_type_id[$i];
-                                $new_contact->contact_name = $line_contact_name[$i];
-                                $new_contact->contact_no = $line_contact_no[$i];
+                                $new_contact->contact_name = trim($line_contact_name[$i]);
+                                $new_contact->contact_no = trim($line_contact_no[$i]);
                                 if ($new_contact->save(false)) {
 
                                 }
@@ -336,17 +336,19 @@ class CustomerController extends Controller
         }
     }
 
-//    public function actionShowzipcode($id)
-//    {
-//        $model = \common\models\Amphur::find()->where(['AMPHUR_ID' => 1])->one();
-////        echo $id;
-//        if (count($model) > 0) {
-//            echo $model->POSTCODE;
-//        } else {
-//            echo "";
-//        }
-////        echo '111';
-//    }
+    public function actionShowzipcode($id)
+    {
+        $model = \common\models\Amphur::find()->where(['AMPHUR_ID' => $id])->one();
+//        echo $id;
+        if ($model) {
+            echo $model->POSTCODE;
+//            echo '1110';
+        } else {
+            echo "";
+        }
+//        echo '111';
+    }
+
     public
     function actionShowaddress($id)
     {

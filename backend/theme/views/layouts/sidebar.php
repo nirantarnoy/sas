@@ -201,6 +201,34 @@
                 </li>
                 <li class="nav-item has-treeview has-sub">
                     <a href="#" class="nav-link">
+                        <i class="nav-icon fas fa-list-alt"></i>
+                        <p>
+                            จัดการใบงาน
+                            <i class="fas fa-angle-left right"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <?php //if (\Yii::$app->user->can('position/index')): ?>
+                        <li class="nav-item">
+                            <a href="index.php?r=workqueue/index" class="nav-link workqueue">
+                                <i class="far fa-circlez nav-icon"></i>
+                                <p>จัดคิวงาน</p>
+                            </a>
+                        </li>
+                        <?php //endif; ?>
+                        <?php //if (\Yii::$app->user->can('position/index')): ?>
+                        <li class="nav-item">
+                            <a href="index.php?r=routestandard/index" class="nav-link routestandard">
+                                <i class="far fa-circlez nav-icon"></i>
+                                <p>จัดการปลายทาง</p>
+                            </a>
+                        </li>
+                        <?php //endif; ?>
+
+                    </ul>
+                </li>
+                <li class="nav-item has-treeview has-sub">
+                    <a href="#" class="nav-link">
                         <i class="nav-icon fas fa-chart-pie"></i>
                         <p>
                             รายงาน

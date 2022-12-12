@@ -153,7 +153,7 @@ $contactcat_data = \backend\helpers\ContactcatType::asArrayObject();
         <div class="col-lg-3">
             <label for="">รหัสไปรษณีย์</label>
             <input type="text" class="form-control zipcode" id="zipcode"
-                   value="<?= $model->isNewRecord ? '' : $address_chk->zipcode ?>" name="zipcode">
+                   value="<?= $model->isNewRecord ? '' : $address_chk->zipcode ?>" name="zipcode" readonly>
         </div>
     </div>
     <br/>
@@ -205,7 +205,7 @@ $contactcat_data = \backend\helpers\ContactcatType::asArrayObject();
                                     <input type="hidden" class="rec-id" name="rec_id[]"
                                            value="<?=$value->id ?>">
                                     <input type="text" class="form-control line-name" name="line_name[]"
-                                           value=" <?=$value->contact_name ?>">
+                                           value=" <?=trim($value->contact_name)?>">
                                 </td>
                                 <td>
                                     <select name="line_type_id[]" class="form-control line-type-id" id=""
@@ -224,7 +224,7 @@ $contactcat_data = \backend\helpers\ContactcatType::asArrayObject();
                                 </td>
                                 <td>
                                     <input type="text" class="form-control line-contact-no" name="line_contact_no[]"
-                                           value=" <?= $value->contact_no ?>">
+                                           value=" <?=trim($value->contact_no)?>">
                                 </td>
                                 <td style="text-align: center">
                                     <div class="btn btn-danger btn-sm" onclick="removeline($(this))"><i
@@ -340,16 +340,16 @@ function getCity(e){
     });
 }
 
-//function getDistrict(e){
-//    $.post("$url_to_getdistrict"+"&id="+e.val(),function(data){
-//                                          $("select#district").html(data);
-//                                          $("select#district").prop("disabled","");
-//
-//                                        });
-//                                           $.post("$url_to_getzipcode"+"&id="+e.val(),function(data){
-//                                                $("#zipcode").val(data);
-//                                              });
-//}
+function getDistrict(e){
+    $.post("$url_to_getdistrict"+"&id="+e.val(),function(data){
+                                          $("select#district").html(data);
+                                          $("select#district").prop("disabled","");
+
+                                        });
+                                           $.post("$url_to_getzipcode"+"&id="+e.val(),function(data){
+                                                $("#zipcode").val(data);
+                                              });
+}
 
 function getAddres(e){
     $.post("$url_to_getAddress"+"&id="+e.val(),function(data){
