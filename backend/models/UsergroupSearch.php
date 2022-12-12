@@ -15,7 +15,7 @@ class UsergroupSearch extends Usergroup
     public function rules()
     {
         return [
-            [['id', 'car_type_id', 'status', 'created_at', 'updated_at', 'created_by', 'updated_by'], 'integer'],
+            [['id','status', 'created_at', 'updated_at', 'created_by', 'updated_by'], 'integer'],
             [['code', 'name', 'description'], 'safe'],
             [['globalSearch'],'string']
         ];
@@ -58,7 +58,6 @@ class UsergroupSearch extends Usergroup
         // grid filtering conditions
         $query->andFilterWhere([
             'id' => $this->id,
-            'car_type_id' => $this->car_type_id,
             'status' => $this->status,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
