@@ -5,13 +5,13 @@ namespace backend\helpers;
 class PartycatType
 {
     private static $data = [
-        '1' => '1',
-        '2' => '2'
+        '1' => 'ที่อยู่หลัก',
+        '2' => 'ที่อยู่เพื่อการจัดส่ง'
     ];
 
     private static $dataobj = [
-        ['id'=>'1','name' => '1'],
-        ['id'=>'2','name' => '2']
+        ['id'=>'1','name' => 'ที่อยู่หลัก'],
+        ['id'=>'2','name' => 'ที่อยู่เพื่อการจัดส่ง']
     ];
     public static function asArray()
     {

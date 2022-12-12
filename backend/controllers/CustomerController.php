@@ -14,6 +14,7 @@ use yii\filters\VerbFilter;
 class CustomerController extends Controller
 {
     public $enableCsrfValidation = false;
+
     /**
      * @inheritDoc
      */
@@ -90,7 +91,7 @@ class CustomerController extends Controller
                     if ($party_type) {
 //                        echo $address;
 //                        echo $zipcode; return ;
-                        $address_chk = \common\models\AddressInfo::find()->where(['party_id' => $model->id])->one();
+                        $address_chk = \common\models\AddressInfo::find()->where(['party_id' => $model->id,'party_type'=>$party_type])->one();
                         if ($address_chk) {
                             $address_chk->address = $address;
                             $address_chk->street = $street;
@@ -184,11 +185,20 @@ class CustomerController extends Controller
             $city_id = \Yii::$app->request->post('city_id');
             $province_id = \Yii::$app->request->post('province_id');
             $zipcode = \Yii::$app->request->post('zipcode');
-//            echo $party_type; return;
+
+            $line_contact_name = \Yii::$app->request->post('line_name');
+            $line_type_id = \Yii::$app->request->post('line_type_id');
+            $line_contact_no = \Yii::$app->request->post('line_contact_no');
+
+            $removelist = \Yii::$app->request->post('remove_list');
+            $rec_id = \Yii::$app->request->post('rec_id');
+
+//            print_r($removelist); return;
             if ($model->save()) {
                 if ($party_type) {
 //                    echo 'dd'; return
                     $address_chk = \common\models\AddressInfo::find()->where(['party_id' => $model->id, 'party_type' => $party_type])->one();
+//                    echo 'dd'; return;
                     if ($address_chk) {
                         $address_chk->party_type = $party_type;
                         $address_chk->address = $address;
@@ -217,6 +227,40 @@ class CustomerController extends Controller
                         }
                     }
                 }
+                if (count($line_type_id)) {
+                    for ($i = 0; $i <= count($line_type_id) - 1; $i++) {
+                        //print_r($line_contact_name);return ;
+                        if ($line_type_id[$i]) {
+                            //print_r($line_contact_name);return ;
+                            $contact_chk = \common\models\ContactInfo::find()->where(['party_id' => $model->id, 'type_id' => $line_type_id[$i],'party_type'=>$party_type])->one();
+                            if ($contact_chk) {
+                                $contact_chk->contact_name = $line_contact_name[$i];
+                                $contact_chk->type_id = $line_type_id[$i];
+                                $contact_chk->contact_no = $line_contact_no[$i];
+                                if ($contact_chk->save(false)) {
+
+                                }
+                            } else {
+                                $new_contact = new \common\models\ContactInfo();
+                                $new_contact->party_type = $party_type;
+                                $new_contact->party_id = $model->id;
+                                $new_contact->type_id = $line_type_id[$i];
+                                $new_contact->contact_name = $line_contact_name[$i];
+                                $new_contact->contact_no = $line_contact_no[$i];
+                                if ($new_contact->save(false)) {
+
+                                }
+                            }
+
+                            $delete_rec = explode(",", $removelist);
+                            if (count($delete_rec)){
+                                \common\models\ContactInfo::deleteAll(['party_id'=>$model->id,'id'=>$delete_rec]);
+                            }
+                        }
+                        //                            print_r($line_contact_name);return ;
+
+                    }
+                }
             }
             return $this->redirect(['view', 'id' => $model->id]);
         }
@@ -235,7 +279,8 @@ class CustomerController extends Controller
      * @return \yii\web\Response
      * @throws NotFoundHttpException if the model cannot be found
      */
-    public function actionDelete($id)
+    public
+    function actionDelete($id)
     {
         $this->findModel($id)->delete();
 
@@ -249,7 +294,8 @@ class CustomerController extends Controller
      * @return Customer the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
-    protected function findModel($id)
+    protected
+    function findModel($id)
     {
         if (($model = Customer::findOne(['id' => $id])) !== null) {
             return $model;
@@ -258,7 +304,8 @@ class CustomerController extends Controller
         throw new NotFoundHttpException('The requested page does not exist.');
     }
 
-    public function actionShowcity($id)
+    public
+    function actionShowcity($id)
     {
         $model = \common\models\Amphur::find()->where(['PROVINCE_ID' => $id])->all();
 
@@ -273,7 +320,8 @@ class CustomerController extends Controller
         }
     }
 
-    public function actionShowdistrict($id)
+    public
+    function actionShowdistrict($id)
     {
         $model = \common\models\District::find()->where(['AMPHUR_ID' => $id])->all();
 
@@ -299,4 +347,20 @@ class CustomerController extends Controller
 //        }
 ////        echo '111';
 //    }
+    public
+    function actionShowaddress($id)
+    {
+        $model = \common\models\AddressInfo::find()->where(['party_type' => $id])->all();
+
+        if (count($model) > 0) {
+            foreach ($model as $value) {
+
+                echo "<option value='" . $value->DISTRICT_ID . "'>$value->DISTRICT_NAME</option>";
+
+            }
+        } else {
+            echo "<option>-</option>";
+        }
+    }
+
 }

@@ -8,6 +8,7 @@ use yii\widgets\ActiveForm;
 /** @var yii\widgets\ActiveForm $form */
 
 $address_chk = \backend\models\AddressInfo::find()->where(['party_id' => $model->id])->one();
+
 $district_data = \backend\models\District::find()->all();
 $city_data = \backend\models\Amphur::find()->all();
 $province_data = \backend\models\Province::find()->all();
@@ -15,9 +16,11 @@ $district_chk = \backend\models\AddressInfo::findDistrictId($model->id);
 $city_chk = \backend\models\AddressInfo::findAmphurId($model->id);
 $province_chk = \backend\models\AddressInfo::findProvinceId($model->id);
 
-$party_data = \backend\helpers\PartycatType::asArrayObject();
+$partycat_data = \backend\helpers\PartycatType::asArrayObject();
+//$partycat_chk1 = \backend\models\AddressInfo::find()->where(['party_id' => $model->id])->one();
 
 $contactcat_data = \backend\helpers\ContactcatType::asArrayObject();
+
 
 //print_r($address_chk) ; return;
 ?>
@@ -25,6 +28,7 @@ $contactcat_data = \backend\helpers\ContactcatType::asArrayObject();
 <div class="customer-form">
 
     <?php $form = ActiveForm::begin(); ?>
+    <input type="hidden" class="remove-list" name="remove_list" value="">
 
     <div class="row">
         <div class="col-lg-3">
@@ -69,21 +73,32 @@ $contactcat_data = \backend\helpers\ContactcatType::asArrayObject();
     <div class="row">
         <div class="col-lg-4">
             <label for="">party type</label>
-            <input type="text" class="form-control party-type" name="party_type" id="">
-            <!--            <select name="province_id" class="form-control province-id" id=""-->
-            <!--                    onchange="">-->
-            <!--                <option value="0">--party type--</option>-->
-            <!---->
-            <!--            </select>-->
+<!--            <input type="text" class="form-control party-type" name="party_type" id="">-->
+            <select name="party_type" id="" class="form-control party-type" onchange="getAddress($(this))">
+                <?php for ($i = 0; $i <= count($partycat_data) - 1; $i++) : ?>
+                    <?php
+                    $selected = '';
+                    if ($address_chk){
+                        if ($partycat_data[$i]['id'] == $address_chk->party_type) {
+                            $selected = 'selected';
+                        }
+                    }
+//                    if ($partycat_data[$i]['id'] == $address_chk->party_type) {
+//                        $selected = 'selected';
+//                    }
+                    ?>
+                    <option value="<?= $partycat_data[$i]['id'] ?>" <?= $selected ?>><?= $partycat_data[$i]['name'] ?></option>
+                <?php endfor; ?>
+            </select>
         </div>
         <div class="col-lg-4">
             <label for="">ที่อยู่</label>
-            <input type="text" class="form-control cus-address"
+            <input type="text" class="form-control cus-address" id="cus-address"
                    value="<?= $model->isNewRecord ? '' : $address_chk->address ?>" name="cus_address">
         </div>
         <div class="col-lg-4">
             <label for="">ถนน</label>
-            <input type="text" class="form-control cus-street"
+            <input type="text" class="form-control cus-street" id="cus-street"
                    value="<?= $model->isNewRecord ? '' : $address_chk->street ?>" name="cus_street">
         </div>
     </div>
@@ -161,7 +176,7 @@ $contactcat_data = \backend\helpers\ContactcatType::asArrayObject();
                 </thead>
                 <tbody>
                 <?php if ($model->isNewRecord): ?>
-                    <tr>
+                    <tr data-var="">
                         <td>
                             <input type="text" class="form-control line-name" name="line_name[]" value="">
                         </td>
@@ -185,11 +200,12 @@ $contactcat_data = \backend\helpers\ContactcatType::asArrayObject();
                 <?php else: ?>
                     <?php if (count($model_contact_line) > 0) : ?>
                         <?php foreach ($model_contact_line as $value): ?>
-                            <tr data-var="<?= $value->id ?>">
-                            <tr>
+                            <tr data-var="<?=$value->id ?>">
                                 <td>
+                                    <input type="hidden" class="rec-id" name="rec_id[]"
+                                           value="<?=$value->id ?>">
                                     <input type="text" class="form-control line-name" name="line_name[]"
-                                           value=" <?= $value->contact_name ?>">
+                                           value=" <?=$value->contact_name ?>">
                                 </td>
                                 <td>
                                     <select name="line_type_id[]" class="form-control line-type-id" id=""
@@ -202,7 +218,7 @@ $contactcat_data = \backend\helpers\ContactcatType::asArrayObject();
                                                 $selected = 'selected';
                                             }
                                             ?>
-                                            <option value="<?= $contactcat_data[$i]['id'] ?>" <?= $selected ?>><?= $contactcat_data[$i]['name'] ?></option>
+                                            <option value="<?=$contactcat_data[$i]['id'] ?>" <?=$selected ?>><?=$contactcat_data[$i]['name'] ?></option>
                                         <?php endfor; ?>
                                     </select>
                                 </td>
@@ -217,7 +233,7 @@ $contactcat_data = \backend\helpers\ContactcatType::asArrayObject();
                             </tr>
                         <?php endforeach; ?>
                     <?php else: ?>
-                        <tr>
+                        <tr data-var="">
                             <td>
                                 <input type="text" class="form-control line-name" name="line_name[]" value="">
                             </td>
@@ -271,8 +287,11 @@ $url_to_getcity = \yii\helpers\Url::to(['customer/showcity'], true);
 $url_to_getdistrict = \yii\helpers\Url::to(['customer/showdistrict'], true);
 $url_to_getzipcode = \yii\helpers\Url::to(['customer/showzipcode'], true);
 
+$url_to_getAddress = \yii\helpers\Url::to(['customer/showaddress'], true);
+
 $js = <<<JS
 var removelist = [];
+
 $(function(){
     
 });
@@ -298,6 +317,7 @@ function removeline(e) {
                 $(".remove-list").val(removelist);
             }
             // alert(removelist);
+            // alert(e.parent().parent().attr("data-var"));
 
             if ($("#table-list tbody tr").length == 1) {
                 $("#table-list tbody tr").each(function () {
@@ -330,6 +350,14 @@ function getCity(e){
 //                                                $("#zipcode").val(data);
 //                                              });
 //}
+
+function getAddres(e){
+    $.post("$url_to_getAddress"+"&id="+e.val(),function(data){
+        $("#city").html(data);
+        $("select#city").prop("disabled","");
+    });
+}
+
 JS;
 $this->registerJs($js, static::POS_END);
 ?>
