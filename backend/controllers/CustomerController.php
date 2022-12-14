@@ -73,7 +73,7 @@ class CustomerController extends Controller
 
         if ($this->request->isPost) {
             if ($model->load($this->request->post())) {
-                $party_type = \Yii::$app->request->post('party_type');
+                $party_type = 2;
                 $address = \Yii::$app->request->post('cus_address');
                 $street = \Yii::$app->request->post('cus_street');
                 $district_id = \Yii::$app->request->post('district_id');
@@ -127,6 +127,7 @@ class CustomerController extends Controller
 //                              print_r($line_contact_name);return ;
                                 $contact_chk = \common\models\ContactInfo::find()->where(['party_id' => $model->id, 'type_id' => $line_type_id[$i]])->one();
                                 if ($contact_chk) {
+//                                    $contact_chk->type_id = $line_type_id[$i];
                                     $contact_chk->contact_name = trim($line_contact_name[$i]);
                                     $contact_chk->type_id = $line_type_id[$i];
                                     $contact_chk->contact_no = trim($line_contact_no[$i]);
@@ -178,7 +179,7 @@ class CustomerController extends Controller
         $model_contact_line = \common\models\ContactInfo::find()->where(['party_id' => $id])->all();
 
         if ($this->request->isPost && $model->load($this->request->post())) {
-            $party_type = \Yii::$app->request->post('party_type');
+            $party_type = 2;
             $address = \Yii::$app->request->post('cus_address');
             $street = \Yii::$app->request->post('cus_street');
             $district_id = \Yii::$app->request->post('district_id');

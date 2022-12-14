@@ -72,26 +72,6 @@ $contactcat_data = \backend\helpers\ContactcatType::asArrayObject();
 
     <div class="row">
         <div class="col-lg-4">
-            <label for="">party type</label>
-<!--            <input type="text" class="form-control party-type" name="party_type" id="">-->
-            <select name="party_type" id="" class="form-control party-type" onchange="getAddress($(this))">
-                <?php for ($i = 0; $i <= count($partycat_data) - 1; $i++) : ?>
-                    <?php
-                    $selected = '';
-                    if ($address_chk){
-                        if ($partycat_data[$i]['id'] == $address_chk->party_type) {
-                            $selected = 'selected';
-                        }
-                    }
-//                    if ($partycat_data[$i]['id'] == $address_chk->party_type) {
-//                        $selected = 'selected';
-//                    }
-                    ?>
-                    <option value="<?= $partycat_data[$i]['id'] ?>" <?= $selected ?>><?= $partycat_data[$i]['name'] ?></option>
-                <?php endfor; ?>
-            </select>
-        </div>
-        <div class="col-lg-4">
             <label for="">ที่อยู่</label>
             <input type="text" class="form-control cus-address" id="cus-address"
                    value="<?= $model->isNewRecord ? '' : $address_chk->address ?>" name="cus_address">
