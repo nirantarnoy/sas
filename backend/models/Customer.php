@@ -46,7 +46,7 @@ class Customer extends \common\models\Customer
         return [
             'id' => 'ID',
             'code' => 'Code',
-            'name' => 'ชื่อ',
+            'name' => 'ชื่อลูกค้า',
             'business_type' => 'Business Type',
             'customer_group_id' => 'กลุ่มลูกค้า',
             'phone' => 'เบอร์ติดต่อ',

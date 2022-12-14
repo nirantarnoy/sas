@@ -200,7 +200,7 @@ $drivingcard_data = \backend\helpers\DrivingcardType::asArrayObject();
                                 <input type="text" class="form-control card-no" name="card_no[]"
                                 value="<?=$value->license_no ?>">
                             </td>
-                            <td>
+                            <td value="">
                                 <!--                            <input type="text" class="form-control start-date" name="start_date[]">-->
                                 <?php
                                 echo DatePicker::widget([
@@ -210,7 +210,7 @@ $drivingcard_data = \backend\helpers\DrivingcardType::asArrayObject();
                                         'id' => 'start-date',
                                     ],
                                     'type' => DatePicker::TYPE_INPUT,
-                                    'value' => '',
+                                    'value' => date('d-m-Y',strtotime($value->issue_date)),
                                     'pluginOptions' => [
                                         'autoclose' => true,
                                         'format' => 'dd-mm-yyyy'
@@ -228,7 +228,7 @@ $drivingcard_data = \backend\helpers\DrivingcardType::asArrayObject();
                                         'id' => 'expire-date',
                                     ],
                                     'type' => DatePicker::TYPE_INPUT,
-                                    'value' => '',
+                                    'value' => date('d-m-Y',strtotime($value->expired_date)),
                                     'pluginOptions' => [
                                         'autoclose' => true,
                                         'format' => 'dd-mm-yyyy'

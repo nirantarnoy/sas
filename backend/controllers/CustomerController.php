@@ -283,6 +283,18 @@ class CustomerController extends Controller
     public
     function actionDelete($id)
     {
+        $model_address = \common\models\AddressInfo::find()->where(['party_id' => $id])->all();
+        $model_contact = \common\models\ContactInfo::find()->where(['party_id' => $id])->all();
+        if ($model_address) {
+            if (\common\models\AddressInfo::deleteAll(['party_id' => $id])) {
+//                $this->findModel($id)->delete();
+            }
+        }
+        if ($model_contact){
+            if (\common\models\ContactInfo::deleteAll(['party_id' => $id])) {
+//                $this->findModel($id)->delete();
+            }
+        }
         $this->findModel($id)->delete();
 
         return $this->redirect(['index']);

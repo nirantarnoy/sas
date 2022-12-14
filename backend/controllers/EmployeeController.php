@@ -125,6 +125,7 @@ class EmployeeController extends Controller
             $start_date = \Yii::$app->request->post('start_date');
             $expire_date = \Yii::$app->request->post('expire_date');
 //            print_r($start_date);return ;
+            $model->emp_start = date('Y-m-d',strtotime($model->emp_start));
 
             if($model->save(false)){
                 if (count($card_no)){
@@ -134,15 +135,15 @@ class EmployeeController extends Controller
                             if ($driving_chk){
 
                                 $new_start_date = date('Y-m-d');
-                                $x_date = explode('/', $start_date[$i]);
+                                $x_date = explode('-', $start_date[$i]);
                                 if (count($x_date) > 1) {
                                     $new_start_date = $x_date[2] . '/' . $x_date[1] . '/' . $x_date[0];
                                 }
 //                                print_r($new_start_date);return ;
                                 $new_expire_date = date('Y-m-d');
-                                $x_date2 = explode('/', $expire_date[$i]);
+                                $x_date2 = explode('-', $expire_date[$i]);
                                 if (count($x_date2) > 1) {
-                                    $new_start_date = $x_date2[2] . '/' . $x_date2[1] . '/' . $x_date2[0];
+                                    $new_expire_date = $x_date2[2] . '/' . $x_date2[1] . '/' . $x_date2[0];
                                 }
 
                                 $driving_chk->license_type_id = $card_type[$i];
@@ -155,16 +156,16 @@ class EmployeeController extends Controller
                                 }
                             }else {
 
-                                $x_date = explode('/', $start_date[$i]);
+                                $x_date = explode('-', $start_date[$i]);
                                 $new_start_date = date('Y-m-d');
                                 if (count($x_date) > 1) {
                                     $new_start_date = $x_date[2] . '/' . $x_date[0] . '/' . $x_date[1];
                                 }
 //                                print_r($new_start_date);return ;
                                 $new_expire_date = date('Y-m-d');
-                                $x_date2 = explode('/', $expire_date[$i]);
+                                $x_date2 = explode('-', $expire_date[$i]);
                                 if (count($x_date2) > 1) {
-                                    $new_start_date = $x_date2[2] . '/' . $x_date2[1] . '/' . $x_date2[0];
+                                    $new_expire_date = $x_date2[2] . '/' . $x_date2[1] . '/' . $x_date2[0];
                                 }
 
                                 $new_driver_license = new \common\models\DriverLicense();
@@ -222,25 +223,29 @@ class EmployeeController extends Controller
             $removelist = \Yii::$app->request->post('remove_list');
 //            print_r($removelist);return ;
 
+            $model->emp_start = date('Y-m-d',strtotime($model->emp_start));
+
             if($model->save()){
 
                 if (count($card_no)){
                     for ($i = 0; $i <= count($card_no) - 1; $i++) {
                         if ($card_no[$i] != ''){
+//                            echo 'ttt'; return;
                             $driving_chk = \common\models\DriverLicense::find()->where(['emp_id'=>$model->id,'license_type_id'=>$card_type[$i]])->one();
                             if ($driving_chk){
-
+//                                echo 'ttt'; return;
                                 $new_start_date = date('Y-m-d');
-                                $x_date = explode('/', $start_date[$i]);
+                                $x_date = explode('-', $start_date[$i]);
                                 if (count($x_date) > 1) {
                                     $new_start_date = $x_date[2] . '/' . $x_date[1] . '/' . $x_date[0];
                                 }
 //                                print_r($new_start_date);return ;
                                 $new_expire_date = date('Y-m-d');
-                                $x_date2 = explode('/', $expire_date[$i]);
+                                $x_date2 = explode('-', $expire_date[$i]);
                                 if (count($x_date2) > 1) {
-                                    $new_start_date = $x_date2[2] . '/' . $x_date2[1] . '/' . $x_date2[0];
+                                    $new_expire_date = $x_date2[2] . '/' . $x_date2[1] . '/' . $x_date2[0];
                                 }
+//                                print_r($new_start_date);return ;
 
                                 $driving_chk->license_type_id = $card_type[$i];
                                 $driving_chk->license_no = $card_no[$i];
@@ -252,16 +257,16 @@ class EmployeeController extends Controller
                                 }
                             }else {
 
-                                $x_date = explode('/', $start_date[$i]);
+                                $x_date = explode('-', $start_date[$i]);
                                 $new_start_date = date('Y-m-d');
                                 if (count($x_date) > 1) {
                                     $new_start_date = $x_date[2] . '/' . $x_date[0] . '/' . $x_date[1];
                                 }
 //                                print_r($new_start_date);return ;
                                 $new_expire_date = date('Y-m-d');
-                                $x_date2 = explode('/', $expire_date[$i]);
+                                $x_date2 = explode('-', $expire_date[$i]);
                                 if (count($x_date2) > 1) {
-                                    $new_start_date = $x_date2[2] . '/' . $x_date2[1] . '/' . $x_date2[0];
+                                    $new_expire_date = $x_date2[2] . '/' . $x_date2[1] . '/' . $x_date2[0];
                                 }
 
                                 $new_driver_license = new \common\models\DriverLicense();
@@ -306,7 +311,15 @@ class EmployeeController extends Controller
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
+        $model_license = \common\models\DriverLicense::find()->where(['emp_id'=>$id])->all();
+        if ($model_license){
+            if (\common\models\DriverLicense::deleteAll(['emp_id' => $id])){
+                $this->findModel($id)->delete();
+            }
+        }else{
+            $this->findModel($id)->delete();
+        }
+
         $session = Yii::$app->session;
         $session->setFlash('msg', 'ดำเนินการเรียบร้อย');
         return $this->redirect(['index']);
