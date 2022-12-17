@@ -20,7 +20,8 @@ class CartypeSearch extends CarType
     {
         return [
             [['id', 'status', 'company_id', 'created_at', 'created_by', 'updated_at', 'updated_by'], 'integer'],
-            [['name', 'description'.'globalSearch'], 'safe'],
+            [['name', 'description'], 'safe'],
+            [['globalSearch'],'string'],
         ];
     }
 
