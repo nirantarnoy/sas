@@ -35,12 +35,13 @@ class Car extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['car_type_id', 'status', 'company_id', 'created_at', 'created_by', 'updated_at', 'updated_by'], 'integer'],
+            [['car_type_id', 'status', 'company_id', 'created_at', 'created_by', 'updated_at', 'updated_by','tail_id'], 'integer'],
             [['name', 'description', 'plate_no'], 'string', 'max' => 255],
         ];
     }
 
     /**
+     *
      * {@inheritdoc}
      */
     public function attributeLabels()
@@ -52,6 +53,7 @@ class Car extends \yii\db\ActiveRecord
             'plate_no' => 'Plate No',
             'car_type_id' => 'Car Type ID',
             'status' => 'Status',
+            'tail_id'=> 'ต่อพ่วง',
             'company_id' => 'Company ID',
             'created_at' => 'Created At',
             'created_by' => 'Created By',
