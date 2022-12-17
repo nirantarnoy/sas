@@ -32,10 +32,10 @@ use yii\widgets\ActiveForm;
             ]) ?>
         </div>
         <div class="col-lg-4">
-            <?= $form->field($model, 'type_id')->Widget(\kartik\select2\Select2::className(), [
-                'data' => \yii\helpers\ArrayHelper::map(\backend\helpers\CarcatType::asArrayObject(), 'id', 'name'),
+            <?= $form->field($model, 'tail_id')->Widget(\kartik\select2\Select2::className(), [
+                'data' => \yii\helpers\ArrayHelper::map(\backend\models\Car::find()->where(['car_type_id'=>5])->all(), 'id', 'name'),
                 'options' => [
-                    'placeholder' => '--ส่วนเสริม--'
+                    'placeholder' => '--ต่อพ่วง--'
                 ]
             ]) ?>
         </div>
