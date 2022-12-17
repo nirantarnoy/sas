@@ -13,6 +13,8 @@ if ($f_date != null && $t_date != null) {
 
 ?>
 <br/>
+<!--<input type="text" class="form-control qr-read" value="" onchange="showqr($(this))">-->
+<!--<p class="show-qr-code"></p>-->
 <div class="site-index">
     <div class="body-content">
 
@@ -391,6 +393,11 @@ function takeshot() {
               });
         });
         
+     }
+     
+     function showqr(e){
+       var res = e.val().split(',');
+       $(".show-qr-code").html(res[0]);
      }
 JS;
 
