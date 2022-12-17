@@ -14,11 +14,14 @@ class RouteplanSearch extends Routeplan
     /**
      * {@inheritdoc}
      */
+    public $globalSearch;
+
     public function rules()
     {
         return [
             [['id', 'route_plan_id', 'dropoff_place_id', 'status'], 'integer'],
             [['dropoff_qty'], 'number'],
+            [['globalSearch'], 'string'],
         ];
     }
 
@@ -57,13 +60,15 @@ class RouteplanSearch extends Routeplan
         }
 
         // grid filtering conditions
-        $query->andFilterWhere([
-            'id' => $this->id,
-            'route_plan_id' => $this->route_plan_id,
-            'dropoff_place_id' => $this->dropoff_place_id,
-            'dropoff_qty' => $this->dropoff_qty,
-            'status' => $this->status,
-        ]);
+//        $query->andFilterWhere([
+//            'id' => $this->id,
+//            'route_plan_id' => $this->route_plan_id,
+//            'dropoff_place_id' => $this->dropoff_place_id,
+//            'dropoff_qty' => $this->dropoff_qty,
+//            'status' => $this->status,
+//        ]);
+
+//        $query->orFilterWhere(['like', 'des_name', $this->globalSearch]);
 
         return $dataProvider;
     }

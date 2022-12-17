@@ -14,11 +14,15 @@ class FueltypeSearch extends FuelType
     /**
      * {@inheritdoc}
      */
+
+    public $globalSearch;
+
     public function rules()
     {
         return [
             [['id', 'status', 'created_at', 'created_by', 'updated_at', 'updated_by'], 'integer'],
             [['code', 'name', 'description'], 'safe'],
+            [['globalSearch'], 'string'],
         ];
     }
 
@@ -57,18 +61,18 @@ class FueltypeSearch extends FuelType
         }
 
         // grid filtering conditions
-        $query->andFilterWhere([
-            'id' => $this->id,
-            'status' => $this->status,
-            'created_at' => $this->created_at,
-            'created_by' => $this->created_by,
-            'updated_at' => $this->updated_at,
-            'updated_by' => $this->updated_by,
-        ]);
+//        $query->andFilterWhere([
+//            'id' => $this->id,
+//            'status' => $this->status,
+//            'created_at' => $this->created_at,
+//            'created_by' => $this->created_by,
+//            'updated_at' => $this->updated_at,
+//            'updated_by' => $this->updated_by,
+//        ]);
 
-        $query->andFilterWhere(['like', 'code', $this->code])
-            ->andFilterWhere(['like', 'name', $this->name])
-            ->andFilterWhere(['like', 'description', $this->description]);
+        $query->orFilterWhere(['like', 'code', $this->globalSearch])
+            ->orFilterWhere(['like', 'name', $this->globalSearch])
+            ->orFilterWhere(['like', 'description', $this->globalSearch]);
 
         return $dataProvider;
     }

@@ -13,7 +13,6 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="workqueue-view">
 
-    <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
         <?= Html::a('Update', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
@@ -35,10 +34,10 @@ $this->params['breadcrumbs'][] = $this->title;
             'customer_id',
             'emp_assign',
             'status',
-            'create_at',
-            'created_by',
-            'updated_at',
-            'updated_by',
+//            'create_at',
+//            'created_by',
+//            'updated_at',
+//            'updated_by',
         ],
     ]) ?>
 

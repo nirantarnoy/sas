@@ -12,7 +12,7 @@ class Workqueue extends \common\models\WorkQueue
             'timestampcdate'=>[
                 'class'=> \yii\behaviors\AttributeBehavior::className(),
                 'attributes'=>[
-                    ActiveRecord::EVENT_BEFORE_INSERT=>'created_at',
+                    ActiveRecord::EVENT_BEFORE_INSERT=>'create_at',
                 ],
                 'value'=> time(),
             ],

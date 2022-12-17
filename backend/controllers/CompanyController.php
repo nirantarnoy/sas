@@ -13,6 +13,7 @@ use yii\filters\VerbFilter;
  */
 class CompanyController extends Controller
 {
+    public $enableCsrfValidation = false;
     /**
      * @inheritDoc
      */
@@ -38,12 +39,17 @@ class CompanyController extends Controller
      */
     public function actionIndex()
     {
+        $pageSize = \Yii::$app->request->post("perpage");
+
         $searchModel = new CompanySearch();
         $dataProvider = $searchModel->search($this->request->queryParams);
+
+        $dataProvider->pagination->pageSize = $pageSize;
 
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
+            'perpage' => $pageSize,
         ]);
     }
 

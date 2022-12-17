@@ -13,6 +13,8 @@ use yii\filters\VerbFilter;
  */
 class CartypeController extends Controller
 {
+
+    public $enableCsrfValidation = false;
     /**
      * @inheritDoc
      */
@@ -38,12 +40,17 @@ class CartypeController extends Controller
      */
     public function actionIndex()
     {
+        $pageSize = \Yii::$app->request->post("perpage");
+
         $searchModel = new CartypeSearch();
         $dataProvider = $searchModel->search($this->request->queryParams);
+
+        $dataProvider->pagination->pageSize = $pageSize;
 
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
+            'perpage' => $pageSize,
         ]);
     }
 

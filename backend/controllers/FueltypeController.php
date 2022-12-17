@@ -13,6 +13,7 @@ use yii\filters\VerbFilter;
  */
 class FueltypeController extends Controller
 {
+    public $enableCsrfValidation = false;
     /**
      * @inheritDoc
      */
@@ -38,12 +39,17 @@ class FueltypeController extends Controller
      */
     public function actionIndex()
     {
+        $pageSize = \Yii::$app->request->post("perpage");
+
         $searchModel = new FueltypeSearch();
         $dataProvider = $searchModel->search($this->request->queryParams);
+
+        $dataProvider->pagination->pageSize = $pageSize;
 
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
+            'perpage' => $pageSize,
         ]);
     }
 

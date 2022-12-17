@@ -14,11 +14,14 @@ class WorkqueueSearch extends Workqueue
     /**
      * {@inheritdoc}
      */
+
+    public $globalSearch;
     public function rules()
     {
         return [
             [['id', 'customer_id', 'emp_assign', 'status', 'create_at', 'created_by', 'updated_at', 'updated_by'], 'integer'],
             [['work_queue_no', 'work_queue_date'], 'safe'],
+            [['globalSearch'], 'string'],
         ];
     }
 
@@ -57,19 +60,19 @@ class WorkqueueSearch extends Workqueue
         }
 
         // grid filtering conditions
-        $query->andFilterWhere([
-            'id' => $this->id,
-            'work_queue_date' => $this->work_queue_date,
-            'customer_id' => $this->customer_id,
-            'emp_assign' => $this->emp_assign,
-            'status' => $this->status,
-            'create_at' => $this->create_at,
-            'created_by' => $this->created_by,
-            'updated_at' => $this->updated_at,
-            'updated_by' => $this->updated_by,
-        ]);
+//        $query->andFilterWhere([
+//            'id' => $this->id,
+//            'work_queue_date' => $this->work_queue_date,
+//            'customer_id' => $this->customer_id,
+//            'emp_assign' => $this->emp_assign,
+//            'status' => $this->status,
+//            'create_at' => $this->create_at,
+//            'created_by' => $this->created_by,
+//            'updated_at' => $this->updated_at,
+//            'updated_by' => $this->updated_by,
+//        ]);
 
-        $query->andFilterWhere(['like', 'work_queue_no', $this->work_queue_no]);
+        $query->orFilterWhere(['like', 'work_queue_no', $this->globalSearch]);
 
         return $dataProvider;
     }
