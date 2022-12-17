@@ -14,11 +14,14 @@ class CarSearch extends Car
     /**
      * {@inheritdoc}
      */
+
+    public $globalSearch;
+
     public function rules()
     {
         return [
             [['id', 'car_type_id', 'status', 'company_id', 'created_at', 'created_by', 'updated_at', 'updated_by'], 'integer'],
-            [['name', 'description', 'plate_no'], 'safe'],
+            [['name', 'description', 'plate_no','globalSearch'], 'safe'],
         ];
     }
 
@@ -57,20 +60,20 @@ class CarSearch extends Car
         }
 
         // grid filtering conditions
-        $query->andFilterWhere([
-            'id' => $this->id,
-            'car_type_id' => $this->car_type_id,
-            'status' => $this->status,
-            'company_id' => $this->company_id,
-            'created_at' => $this->created_at,
-            'created_by' => $this->created_by,
-            'updated_at' => $this->updated_at,
-            'updated_by' => $this->updated_by,
-        ]);
+//        $query->andFilterWhere([
+//            'id' => $this->id,
+//            'car_type_id' => $this->car_type_id,
+//            'status' => $this->status,
+//            'company_id' => $this->company_id,
+//            'created_at' => $this->created_at,
+//            'created_by' => $this->created_by,
+//            'updated_at' => $this->updated_at,
+//            'updated_by' => $this->updated_by,
+//        ]);
 
-        $query->andFilterWhere(['like', 'name', $this->name])
-            ->andFilterWhere(['like', 'description', $this->description])
-            ->andFilterWhere(['like', 'plate_no', $this->plate_no]);
+        $query->orFilterWhere(['like', 'name', $this->globalSearch])
+            ->orFilterWhere(['like', 'description', $this->globalSearch])
+            ->orFilterWhere(['like', 'plate_no', $this->globalSearch]);
 
         return $dataProvider;
     }

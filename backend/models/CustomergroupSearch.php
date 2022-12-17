@@ -70,8 +70,8 @@ class CustomergroupSearch extends Customergroup
 //            'updated_by' => $this->updated_by,
 //        ]);
 
-        $query->andFilterWhere(['like', 'name', $this->globalSearch])
-            ->andFilterWhere(['like', 'description', $this->globalSearch]);
+        $query->orFilterWhere(['like', 'name', $this->globalSearch])
+            ->orFilterWhere(['like', 'description', $this->globalSearch]);
 
         return $dataProvider;
     }

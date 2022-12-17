@@ -20,6 +20,8 @@ use yii\web\UploadedFile;
  */
 class EmployeeController extends Controller
 {
+
+    public $enableCsrfValidation = false;
     /**
      * {@inheritdoc}
      */

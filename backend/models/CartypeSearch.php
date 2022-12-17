@@ -14,11 +14,13 @@ class CartypeSearch extends CarType
     /**
      * {@inheritdoc}
      */
+    public $globalSearch;
+
     public function rules()
     {
         return [
             [['id', 'status', 'company_id', 'created_at', 'created_by', 'updated_at', 'updated_by'], 'integer'],
-            [['name', 'description'], 'safe'],
+            [['name', 'description'.'globalSearch'], 'safe'],
         ];
     }
 
@@ -57,18 +59,18 @@ class CartypeSearch extends CarType
         }
 
         // grid filtering conditions
-        $query->andFilterWhere([
-            'id' => $this->id,
-            'status' => $this->status,
-            'company_id' => $this->company_id,
-            'created_at' => $this->created_at,
-            'created_by' => $this->created_by,
-            'updated_at' => $this->updated_at,
-            'updated_by' => $this->updated_by,
-        ]);
+//        $query->andFilterWhere([
+//            'id' => $this->id,
+//            'status' => $this->status,
+//            'company_id' => $this->company_id,
+//            'created_at' => $this->created_at,
+//            'created_by' => $this->created_by,
+//            'updated_at' => $this->updated_at,
+//            'updated_by' => $this->updated_by,
+//        ]);
 
-        $query->andFilterWhere(['like', 'name', $this->name])
-            ->andFilterWhere(['like', 'description', $this->description]);
+        $query->orFilterWhere(['like', 'name', $this->globalSearch])
+            ->orFilterWhere(['like', 'description', $this->globalSearch]);
 
         return $dataProvider;
     }
