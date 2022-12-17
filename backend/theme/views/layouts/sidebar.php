@@ -218,7 +218,7 @@
                         <?php //endif; ?>
                         <?php //if (\Yii::$app->user->can('position/index')): ?>
                         <li class="nav-item">
-                            <a href="index.php?r=routestandard/index" class="nav-link routestandard">
+                            <a href="index.php?r=routeplan/index" class="nav-link routeplan">
                                 <i class="far fa-circlez nav-icon"></i>
                                 <p>จัดการปลายทาง</p>
                             </a>
