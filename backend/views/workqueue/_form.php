@@ -14,13 +14,30 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'work_queue_no')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'work_queue_date')->textInput() ?>
+    <?= $form->field($model, 'work_queue_date')->widget(\kartik\date\DatePicker::className(), [
+        'value' => date('d/m/Y')
+    ]) ?>
 
-    <?= $form->field($model, 'customer_id')->textInput() ?>
 
-    <?= $form->field($model, 'emp_assign')->textInput() ?>
+    <?= $form->field($model, 'customer_id')->Widget(\kartik\select2\Select2::className(), [
+        'data' => \yii\helpers\ArrayHelper::map(\backend\models\Customer::find()->all(), 'id', function ($data) {
+            return $data->name;
+        }),
+        'options' => [
+            'placeholder' => '--ลูกค้า--'
+        ]
+    ]) ?>
 
-    <?= $form->field($model, 'status')->textInput() ?>
+    <?= $form->field($model, 'emp_assign')->Widget(\kartik\select2\Select2::className(), [
+        'data' => \yii\helpers\ArrayHelper::map(\backend\models\Employee::find()->all(), 'id', function ($data) {
+            return $data->fname.' '.$data->lname;
+        }),
+        'options' => [
+            'placeholder' => '--พนักงาน--'
+        ]
+    ]) ?>
+
+    <?php echo $form->field($model, 'status')->widget(\toxor88\switchery\Switchery::className(), ['options' => ['label' => '', 'class' => 'form-control']])->label() ?>
 
 
     <div class="form-group">

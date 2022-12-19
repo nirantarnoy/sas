@@ -31,9 +31,33 @@ $this->params['breadcrumbs'][] = $this->title;
             'id',
             'work_queue_no',
             'work_queue_date',
-            'customer_id',
-            'emp_assign',
-            'status',
+//            'customer_id',
+//            'emp_assign',
+            [
+                'attribute' => 'customer_id',
+                'value' => function ($data) {
+                    return \backend\models\Customer::findCusName($data->customer_id);
+                }
+            ],
+//            'emp_assign',
+            [
+                'attribute' => 'emp_assign',
+                'value' => function ($data) {
+                    return \backend\models\Employee::findFullName($data->emp_assign);
+                }
+            ],
+//            'status',
+            [
+                'attribute' => 'status',
+                'format' => 'raw',
+                'value' => function ($data) {
+                    if ($data->status == 1) {
+                        return '<div class="badge badge-success">ใช้งาน</div>';
+                    } else {
+                        return '<div class="badge badge-secondary">ไม่ใช้งาน</div>';
+                    }
+                }
+            ],
 //            'create_at',
 //            'created_by',
 //            'updated_at',

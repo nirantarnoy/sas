@@ -19,8 +19,9 @@ class RouteplanSearch extends Routeplan
     public function rules()
     {
         return [
-            [['id', 'route_plan_id', 'dropoff_place_id', 'status'], 'integer'],
-            [['dropoff_qty'], 'number'],
+            [['id', 'des_province_id', 'status', 'created_at', 'created_by', 'updated_at', 'updated_by'], 'integer'],
+            [['des_name'], 'safe'],
+            [['total_distanct'], 'number'],
             [['globalSearch'], 'string'],
         ];
     }
@@ -62,13 +63,16 @@ class RouteplanSearch extends Routeplan
         // grid filtering conditions
 //        $query->andFilterWhere([
 //            'id' => $this->id,
-//            'route_plan_id' => $this->route_plan_id,
-//            'dropoff_place_id' => $this->dropoff_place_id,
-//            'dropoff_qty' => $this->dropoff_qty,
+//            'des_province_id' => $this->des_province_id,
+//            'total_distanct' => $this->total_distanct,
 //            'status' => $this->status,
+//            'created_at' => $this->created_at,
+//            'created_by' => $this->created_by,
+//            'updated_at' => $this->updated_at,
+//            'updated_by' => $this->updated_by,
 //        ]);
 
-//        $query->orFilterWhere(['like', 'des_name', $this->globalSearch]);
+        $query->orFilterWhere(['like', 'des_name', $this->globalSearch]);
 
         return $dataProvider;
     }

@@ -5,13 +5,17 @@ namespace common\models;
 use Yii;
 
 /**
- * This is the model class for table "route_plan_line".
+ * This is the model class for table "route_plan".
  *
  * @property int $id
- * @property int|null $route_plan_id
- * @property int|null $dropoff_place_id
- * @property float|null $dropoff_qty
+ * @property string|null $des_name
+ * @property int|null $des_province_id
+ * @property float|null $total_distanct
  * @property int|null $status
+ * @property int|null $created_at
+ * @property int|null $created_by
+ * @property int|null $updated_at
+ * @property int|null $updated_by
  */
 class RoutePlan extends \yii\db\ActiveRecord
 {
@@ -20,7 +24,7 @@ class RoutePlan extends \yii\db\ActiveRecord
      */
     public static function tableName()
     {
-        return 'route_plan_line';
+        return 'route_plan';
     }
 
     /**
@@ -29,8 +33,9 @@ class RoutePlan extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['route_plan_id', 'dropoff_place_id', 'status'], 'integer'],
-            [['dropoff_qty'], 'number'],
+            [['des_province_id', 'status', 'created_at', 'created_by', 'updated_at', 'updated_by'], 'integer'],
+            [['total_distanct'], 'number'],
+            [['des_name'], 'string', 'max' => 255],
         ];
     }
 
@@ -41,10 +46,14 @@ class RoutePlan extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'route_plan_id' => 'Route Plan ID',
-            'dropoff_place_id' => 'Dropoff Place ID',
-            'dropoff_qty' => 'Dropoff Qty',
+            'des_name' => 'Des Name',
+            'des_province_id' => 'Des Province ID',
+            'total_distanct' => 'Total Distanct',
             'status' => 'Status',
+            'created_at' => 'Created At',
+            'created_by' => 'Created By',
+            'updated_at' => 'Updated At',
+            'updated_by' => 'Updated By',
         ];
     }
 }

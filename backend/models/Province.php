@@ -47,4 +47,10 @@ class Province extends \common\models\Province
             'GEO_ID' => 'Geo ID',
         ];
     }
+
+    public static function findProvinceName($id)
+    {
+        $model = Province::find()->where(['PROVINCE_ID' => $id])->one();
+        return $model != null ? $model->PROVINCE_NAME : '';
+    }
 }

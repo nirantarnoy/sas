@@ -59,4 +59,10 @@ class Customer extends \common\models\Customer
             'udpated_by' => 'Udpated By',
         ];
     }
+
+    public static function findCusName($id)
+    {
+        $model = Customer::find()->where(['id' => $id])->one();
+        return $model != null ? $model->name : '';
+    }
 }
