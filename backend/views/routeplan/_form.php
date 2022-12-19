@@ -6,6 +6,11 @@ use yii\widgets\ActiveForm;
 /** @var yii\web\View $this */
 /** @var backend\models\Routeplan $model */
 /** @var yii\widgets\ActiveForm $form */
+
+$dropoff_place_data = \common\models\DropoffPlace::find()->all();
+
+//print_r($dropoff_place_data);return;
+
 ?>
 
     <div class="routeplan-form">
@@ -37,7 +42,7 @@ use yii\widgets\ActiveForm;
             <div class="col-lg-12">
                 <table class="table table-bordered table-striped" id="table-list">
                     <thead>
-                    <th>จุดส่ง</th>
+                    <th>จุดรับ</th>
                     <th>จำนวน</th>
                     <th></th>
                     </thead>
@@ -45,7 +50,13 @@ use yii\widgets\ActiveForm;
                     <?php if ($model->isNewRecord): ?>
                         <tr>
                             <td>
-                                <input type="text" class="form-control drop-off-place" name="drop_off_place[]">
+                                <select name="drop_off_place[]" class="form-control drop-off-place" id="" onchange="">
+                                    <option value="0">--ประเภท--</option>
+                                    <?php for ($i = 0; $i <= count($dropoff_place_data) - 1; $i++) : ?>
+                                        <option value="<?= $dropoff_place_data[$i]['id'] ?>"><?= $dropoff_place_data[$i]['name'] ?></option>
+                                    <?php endfor; ?>
+                                </select>
+                                <!--                                <input type="text" class="form-control drop-off-place" name="drop_off_place[]">-->
                             </td>
                             <td>
                                 <input type="text" class="form-control drop-off-qty" name="drop_off_qty[]">
@@ -61,8 +72,18 @@ use yii\widgets\ActiveForm;
                                 <tr data-var="<?= $value->id ?>">
                                     <td>
                                         <input type="hidden" class="rec-id" name="rec_id[]" value="<?= $value->id ?>">
-                                        <input type="text" class="form-control drop-off-place" name="drop_off_place[]"
-                                               value="<?= $value->dropoff_place_id ?>">
+                                        <select name="drop_off_place[]" class="form-control drop-off-place" onchange="">
+                                            <option value="0">--ประเภท--</option>
+                                            <?php for ($i = 0; $i <= count($dropoff_place_data) - 1; $i++) : ?>
+                                                <?php
+                                                $selected = '';
+                                                if ($dropoff_place_data[$i]['id'] == $value->dropoff_place_id) {
+                                                    $selected = 'selected';
+                                                }
+                                                ?>
+                                                <option value="<?= $dropoff_place_data[$i]['id'] ?>" <?= $selected ?>><?= $dropoff_place_data[$i]['name'] ?></option>
+                                            <?php endfor; ?>
+                                        </select>
                                     </td>
                                     <td>
                                         <input type="text" class="form-control drop-off-qty" name="drop_off_qty[]"
@@ -77,7 +98,12 @@ use yii\widgets\ActiveForm;
                         <?php else: ?>
                             <tr>
                                 <td>
-                                    <input type="text" class="form-control drop-off-place" name="drop_off_place[]">
+                                    <select name="drop_off_place[]" class="form-control drop-off-place" id="" onchange="">
+                                        <option value="0">--ประเภท--</option>
+                                        <?php for ($i = 0; $i <= count($dropoff_place_data) - 1; $i++) : ?>
+                                            <option value="<?= $dropoff_place_data[$i]['id'] ?>"><?= $dropoff_place_data[$i]['name'] ?></option>
+                                        <?php endfor; ?>
+                                    </select>
                                 </td>
                                 <td>
                                     <input type="text" class="form-control drop-off-qty" name="drop_off_qty[]">

@@ -53,6 +53,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     return \backend\models\FuelType::findFuelTypeName($model->fuel_type);
                 }
             ],
+            'horse_power',
             // 'company_id',
             [
                 'attribute' => 'company_id',

@@ -13,11 +13,17 @@ use yii\widgets\ActiveForm;
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
-
-    <?= $form->field($model, 'description')->textInput(['maxlength' => true]) ?>
-
-    <?= $form->field($model, 'plate_no')->textInput(['maxlength' => true]) ?>
+    <div class="row">
+        <div class="col-lg-4">
+            <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
+        </div>
+        <div class="col-lg-4">
+            <?= $form->field($model, 'description')->textInput(['maxlength' => true]) ?>
+        </div>
+        <div class="col-lg-4">
+            <?= $form->field($model, 'plate_no')->textInput(['maxlength' => true]) ?>
+        </div>
+    </div>
 
     <!-- <?= $form->field($model, 'car_type_id')->textInput() ?> -->
     <div class="row">
@@ -40,6 +46,12 @@ use yii\widgets\ActiveForm;
             ]) ?>
         </div>
         <div class="col-lg-4">
+            <?= $form->field($model, 'horse_power')->textInput(['maxlength' => true]) ?>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-6">
             <?= $form->field($model, 'fuel_type')->Widget(\kartik\select2\Select2::className(), [
                 'data' => \yii\helpers\ArrayHelper::map(\backend\models\FuelType::find()->all(), 'id', function ($data) {
                     return $data->name;
@@ -49,17 +61,20 @@ use yii\widgets\ActiveForm;
                 ]
             ]) ?>
         </div>
+        <div class="col-lg-6">
+            <?= $form->field($model, 'company_id')->Widget(\kartik\select2\Select2::className(), [
+                'data' => \yii\helpers\ArrayHelper::map(\backend\models\company::find()->all(), 'id', function ($data) {
+                    return $data->name;
+                }),
+                'options' => [
+                    'placeholder' => '--company--'
+                ]
+            ]) ?>
+        </div>
     </div>
 
     <!-- <?= $form->field($model, 'company_id')->textInput() ?> -->
-    <?= $form->field($model, 'company_id')->Widget(\kartik\select2\Select2::className(), [
-        'data' => \yii\helpers\ArrayHelper::map(\backend\models\company::find()->all(), 'id', function ($data) {
-            return $data->name;
-        }),
-        'options' => [
-            'placeholder' => '--company--'
-        ]
-    ]) ?>
+
 
     <!-- <?= $form->field($model, 'status')->textInput() ?> -->
     <?php echo $form->field($model, 'status')->widget(\toxor88\switchery\Switchery::className(), ['options' => ['label' => '', 'class' => 'form-control']])->label() ?>
