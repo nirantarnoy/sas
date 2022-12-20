@@ -11,6 +11,59 @@ if ($f_date != null && $t_date != null) {
 
 //echo \backend\models\Stockjournal::getLastNo(1,1);
 
+$url = \Yii::$app->basePath.'/web/api_con/simple_html_dom.php';
+include $url;
+
+$domain = 'https://xn--42cah7d0cxcvbbb9x.com/%E0%B8%A3%E0%B8%B2%E0%B8%84%E0%B8%B2%E0%B8%99%E0%B9%89%E0%B8%B3%E0%B8%A1%E0%B8%B1%E0%B8%99%E0%B8%A7%E0%B8%B1%E0%B8%99%E0%B8%99%E0%B8%B5%E0%B9%89/';
+
+$target = file_get_html($domain);
+$i = 0;
+
+$fuel_data = ['แก๊สโซฮอล์ 95','แก๊สโซฮอล์ 91','แก๊สโซฮอล์ E20','แก๊สโซฮอล์ E85','เบนซิน 95','ดีเซล B7','ดีเซล B20','ดีเซลพรีเมี่ยม','แก๊ส NGV'];
+
+$current_loop = '';
+$is_start = 0;
+$completed_data = [];
+foreach ($target->find('.gtoday table tbody tr td') as $el) {
+    if(in_array(trim($el->plaintext),$fuel_data)){
+        $is_start = 1;
+        //echo $el->plaintext.'<br />';
+        $current_loop = $el->plaintext;
+    }else{
+        // echo $is_start;
+        if($is_start == 1){
+            // echo $el->plaintext.'<br />';
+            $is_start = 0;
+
+            array_push($completed_data,['name'=>$current_loop,'price'=>$el->plaintext]);
+
+        }
+    }
+}
+
+//print_r($completed_data);
+$html = '<table style="border: 1px solid black;" class="table table-striped table-bordered">';
+if(count($completed_data) > 0){
+    for($xx=0;$xx<=count($completed_data)-1;$xx++) {
+        $html .= '<tr>';
+        $html .= '<td style="padding: 10px;">';
+        $html.= $completed_data[$xx]['name'];
+        $html .= '</td>';
+        $html .= '<td style="padding: 10px;">';
+        $html.= $completed_data[$xx]['price'];
+        $html .= '</td>';
+
+        $html .= '</tr>';
+    }
+}
+$html.='</table>';
+
+
+
+//echo '<h2 style="color:red;">ค้นหาพบทั้งหมด : ' . $i . ' link</h2>';
+$target->clear();
+unset($target);
+
 ?>
 <br/>
 <!--<input type="text" class="form-control qr-read" value="" onchange="showqr($(this))">-->
@@ -292,7 +345,7 @@ if ($f_date != null && $t_date != null) {
 
                     <div class="card">
                         <div class="card-header border-0">
-                            <h3 class="card-title">ใบงานแยกตามรถ</h3>
+                            <h3 class="card-title">ราคาน้ำมัน ปตท. วันนี้</h3>
                             <div class="card-tools">
                                 <a href="#" class="btn btn-sm btn-tool">
                                     <i class="fas fa-download"></i>
@@ -304,27 +357,9 @@ if ($f_date != null && $t_date != null) {
                         </div>
                         <div class="card-body">
                             <div class="d-flex justify-content-between align-items-center border-bottom mb-3">
-                                <p class="text-success text-xl">
-                                    <i class="ion ion-ios-refresh-empty"></i>
-                                </p>
-                                <p class="d-flex flex-column text-right">
-                    <span class="font-weight-bold">
-                      <i class="ion ion-android-arrow-up text-success"></i> <?= number_format(1) ?>
-                    </span>
-                                    <span class="text-muted">ลูกค้า</span>
-                                </p>
-                            </div>
-                            <!-- /.d-flex -->
-                            <div class="d-flex justify-content-between align-items-center border-bottom mb-3">
-                                <p class="text-warning text-xl">
-                                    <i class="ion ion-ios-cart-outline"></i>
-                                </p>
-                                <p class="d-flex flex-column text-right">
-                    <span class="font-weight-bold">
-                      <i class="ion ion-android-arrow-up text-warning"></i> <?= number_format(1) ?>
-                    </span>
-                                    <span class="text-muted">ใบงาน</span>
-                                </p>
+                                <?php
+                                echo $html;
+                                ?>
                             </div>
                             <!-- /.d-flex -->
                         </div>
@@ -340,7 +375,7 @@ if ($f_date != null && $t_date != null) {
 <br/>
 <!--<div class="row">-->
 <!--    <div class="col-lg-12">-->
-<!--        <form action="--><?//=Url::to(['site/getcominfo'],true)?><!--">-->
+<!--        <form action="--><? //=Url::to(['site/getcominfo'],true)?><!--">-->
 <!--            <button class="btn btn-success">Get Mac</button>-->
 <!--        </form>-->
 <!--    </div>-->
@@ -361,7 +396,7 @@ if ($f_date != null && $t_date != null) {
 <?php
 $this->registerJsFile(\Yii::$app->request->baseUrl . '/js/jquery.html2canvas.js', ['depends' => [\yii\web\JqueryAsset::className()]]);
 
-$url_to_save_screenshort = \yii\helpers\Url::to(['site/createscreenshort'],true);
+$url_to_save_screenshort = \yii\helpers\Url::to(['site/createscreenshort'], true);
 $js = <<<JS
 $(function(){
     //aleret();
