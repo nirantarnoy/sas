@@ -80,7 +80,7 @@ class WorkqueueController extends Controller
                 $model->work_queue_date = date('Y-m-d',strtotime($model->work_queue_date));
 
                 $model->work_queue_no = $model->getLastNo();
-                if ($model->save()){
+                if ($model->save(false)){
 
                 }
                 return $this->redirect(['view', 'id' => $model->id]);
