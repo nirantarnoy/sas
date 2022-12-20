@@ -12,12 +12,25 @@ use yii\widgets\ActiveForm;
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'work_queue_no')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'work_queue_no')->textInput(['maxlength' => true,'readonly'=>'readonly', 'value' => $model->isNewRecord ? 'Draft' : $model->work_queue_no]) ?>
 
-    <?= $form->field($model, 'work_queue_date')->widget(\kartik\date\DatePicker::className(), [
-        'value' => date('d/m/Y')
-    ]) ?>
-
+    <div class="row">
+        <div class="col-lg-6">
+            <?= $form->field($model, 'work_queue_date')->widget(\kartik\date\DatePicker::className(), [
+                'value' => date('d/m/Y')
+            ]) ?>
+        </div>
+        <div class="col-lg-6">
+            <?= $form->field($model, 'route_plan_id')->Widget(\kartik\select2\Select2::className(), [
+                'data' => \yii\helpers\ArrayHelper::map(\backend\models\RoutePlan::find()->all(), 'id', function ($data) {
+                    return $data->des_name;
+                }),
+                'options' => [
+                    'placeholder' => '--Route Plans--'
+                ]
+            ]) ?>
+        </div>
+    </div>
 
     <?= $form->field($model, 'customer_id')->Widget(\kartik\select2\Select2::className(), [
         'data' => \yii\helpers\ArrayHelper::map(\backend\models\Customer::find()->all(), 'id', function ($data) {
