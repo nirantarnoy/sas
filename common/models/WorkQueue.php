@@ -35,7 +35,7 @@ class WorkQueue extends \yii\db\ActiveRecord
     {
         return [
             [['work_queue_date'], 'safe'],
-            [['customer_id', 'emp_assign', 'status', 'create_at', 'created_by', 'updated_at', 'updated_by'], 'integer'],
+            [['customer_id', 'emp_assign', 'status', 'create_at', 'created_by', 'updated_at', 'updated_by','route_plan_id'], 'integer'],
             [['work_queue_no'], 'string', 'max' => 255],
         ];
     }
@@ -52,6 +52,7 @@ class WorkQueue extends \yii\db\ActiveRecord
             'customer_id' => 'ลูกค้า',
             'emp_assign' => 'พนักงาน',
             'status' => 'สถานะ',
+            'route_plan_id' => 'ปลายทาง',
             'create_at' => 'Create At',
             'created_by' => 'Created By',
             'updated_at' => 'Updated At',
