@@ -15,7 +15,7 @@ $url = \Yii::$app->basePath.'/web/api_con/simple_html_dom.php';
 include $url;
 
 $domain = 'https://xn--42cah7d0cxcvbbb9x.com/%E0%B8%A3%E0%B8%B2%E0%B8%84%E0%B8%B2%E0%B8%99%E0%B9%89%E0%B8%B3%E0%B8%A1%E0%B8%B1%E0%B8%99%E0%B8%A7%E0%B8%B1%E0%B8%99%E0%B8%99%E0%B8%B5%E0%B9%89/';
-
+$html = '';
 $target = file_get_html($domain);
 $i = 0;
 
