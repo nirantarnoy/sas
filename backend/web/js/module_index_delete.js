@@ -41,7 +41,7 @@ function recDelete(e){
     //e.preventDefault();
     var url = e.attr("data-url");
     var id = e.attr("data-var");
-    alert(id);return;
+    // alert();return;
     //alert(url);
     swal({
         title: "ต้องการลบรายการนี้ใช่หรือไม่",

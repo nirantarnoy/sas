@@ -148,4 +148,17 @@ class WorkqueueController extends Controller
 
         throw new NotFoundHttpException('The requested page does not exist.');
     }
+
+    public function actionPrintdocx($id)
+    {
+        if ($id) {
+            $model = \backend\models\Workqueue::find()->where(['id' => $id])->one();
+            $modelline = \common\models\WorkQueueLine::find()->where(['work_queue_id' => $id])->all();
+            return $this->render('_printdocx', [
+                'model' => $model,
+                'modelline' => $modelline,
+            ]);
+        }
+
+    }
 }
