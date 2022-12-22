@@ -6,9 +6,9 @@ use yii\helpers\Html;
 /** @var backend\models\Workqueue $model */
 
 $this->title = 'แก้ไขคิวงาน: ' . $model->work_queue_no;
-$this->params['breadcrumbs'][] = ['label' => 'Workqueues', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'คิวงาน', 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => $model->work_queue_no, 'url' => ['view', 'id' => $model->id]];
-$this->params['breadcrumbs'][] = 'Update';
+$this->params['breadcrumbs'][] = 'แก้ไข';
 ?>
 <div class="workqueue-update">
 

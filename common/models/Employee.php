@@ -53,7 +53,7 @@ class Employee extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'code' => 'Code',
+            'code' => 'รหัส',
             'fname' => 'ชื่อ',
             'lname' => 'นามสกุล',
             'gender' => 'เพศ',

@@ -56,7 +56,7 @@ class Car extends \common\models\Car
             'fuel_type' => 'น้ำมัน',
             'status' => 'สถานะ',
             'horse_power' => 'แรงม้า',
-            'company_id' => 'Company',
+            'company_id' => 'บริษัท',
             'created_at' => 'Created At',
             'created_by' => 'Created By',
             'updated_at' => 'Updated At',

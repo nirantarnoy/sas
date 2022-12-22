@@ -7,7 +7,7 @@ use yii\widgets\DetailView;
 /** @var backend\models\Routeplan $model */
 
 $this->title = $model->des_name;
-$this->params['breadcrumbs'][] = ['label' => 'Routeplans', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'จัดการปลายทาง', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 \yii\web\YiiAsset::register($this);
 ?>

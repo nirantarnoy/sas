@@ -75,7 +75,7 @@ use yii\widgets\ActiveForm;
                     return $data->name;
                 }),
                 'options' => [
-                    'placeholder' => '--company--'
+                    'placeholder' => '--บริษัท--'
                 ]
             ]) ?>
         </div>

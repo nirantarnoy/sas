@@ -6,9 +6,9 @@ use yii\helpers\Html;
 /** @var backend\models\CarType $model */
 
 $this->title = 'แก้ไขประเภทรถ: ' . $model->name;
-$this->params['breadcrumbs'][] = ['label' => 'Car Types', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'ประเภทรถ', 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => $model->name, 'url' => ['view', 'id' => $model->id]];
-$this->params['breadcrumbs'][] = 'Update';
+$this->params['breadcrumbs'][] = 'แก้ไข';
 ?>
 <div class="car-type-update">
 

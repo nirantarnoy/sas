@@ -6,7 +6,7 @@ use yii\helpers\Html;
 /** @var backend\models\Customergroup $model */
 
 $this->title = 'สร้างกลุ่มลูกค้า';
-$this->params['breadcrumbs'][] = ['label' => 'Customergroups', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'กลุ่มลูกค้า', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="customergroup-create">

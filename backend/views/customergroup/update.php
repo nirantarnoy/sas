@@ -6,9 +6,9 @@ use yii\helpers\Html;
 /** @var backend\models\Customergroup $model */
 
 $this->title = 'แก้ไขกลุ่มลูกกค้า: ' . $model->name;
-$this->params['breadcrumbs'][] = ['label' => 'Customergroups', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'กลุ่มลูกค้า', 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => $model->name, 'url' => ['view', 'id' => $model->id]];
-$this->params['breadcrumbs'][] = 'Update';
+$this->params['breadcrumbs'][] = 'แกเไข';
 ?>
 <div class="customergroup-update">
 

@@ -6,7 +6,7 @@ use yii\helpers\Html;
 /** @var backend\models\CarType $model */
 
 $this->title = 'สร้างประเภทรถ';
-$this->params['breadcrumbs'][] = ['label' => 'Car Types', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'ประเภทรถ', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="car-type-create">

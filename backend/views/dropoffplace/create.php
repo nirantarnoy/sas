@@ -6,7 +6,7 @@ use yii\helpers\Html;
 /** @var common\models\DropoffPlace $model */
 
 $this->title = 'สร้างจุดรับ';
-$this->params['breadcrumbs'][] = ['label' => 'Dropoff Places', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'จุดรับ', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="dropoff-place-create">

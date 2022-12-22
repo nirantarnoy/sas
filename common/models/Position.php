@@ -46,11 +46,11 @@ class Position extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'code' => 'Code',
-            'name' => 'Name',
-            'description' => 'Description',
-            'status' => 'Status',
-            'company_id' => 'Company ID',
+            'code' => 'รหัส',
+            'name' => 'ชื่อ',
+            'description' => 'รายละเอียด',
+            'status' => 'สถานะ',
+            'company_id' => 'บริษัท',
             'created_at' => 'Created At',
             'created_by' => 'Created By',
             'updated_at' => 'Updated At',

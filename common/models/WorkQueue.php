@@ -35,8 +35,9 @@ class WorkQueue extends \yii\db\ActiveRecord
     {
         return [
             [['work_queue_date'], 'safe'],
-            [['customer_id', 'emp_assign', 'status', 'create_at', 'created_by', 'updated_at', 'updated_by','route_plan_id','tail_id','car_id'], 'integer'],
-            [['work_queue_no'], 'string', 'max' => 255],
+            [['customer_id', 'emp_assign', 'status', 'create_at', 'created_by', 'updated_at', 'updated_by','route_plan_id','tail_id','car_id','tail_back_id'], 'integer'],
+            [['work_queue_no','go_deduct_reason','back_reason'], 'string', 'max' => 255],
+            [['weight_on_go','weight_on_back','weight_go_deduct','back_deduct'], 'double'],
         ];
     }
 
@@ -47,7 +48,7 @@ class WorkQueue extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'work_queue_no' => 'Work Queue No',
+            'work_queue_no' => 'คิวงานเลขที่',
             'work_queue_date' => 'วันที่',
             'customer_id' => 'ลูกค้า',
             'emp_assign' => 'พนักงาน',
@@ -55,6 +56,13 @@ class WorkQueue extends \yii\db\ActiveRecord
             'route_plan_id' => 'ปลายทาง',
             'car_id' => 'รถ',
             'tail_id' => 'พ่วง',
+            'weight_on_go' => 'น้ำหนักเที่ยวไป',
+            'weight_on_back' => 'น้ำหนักเที่ยวกลับ',
+            'weight_go_deduct' => 'หักขาไป',
+            'back_deduct' => 'หักขากลับ',
+            'go_deduct_reason' => 'เหตุผลขาไป',
+            'back_reason' => 'เหตุผลขากลับ',
+            'tail_back_id' => 'ส่วนพ่วงขากลับ',
             'create_at' => 'Create At',
             'created_by' => 'Created By',
             'updated_at' => 'Updated At',

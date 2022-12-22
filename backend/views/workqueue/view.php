@@ -7,7 +7,7 @@ use yii\widgets\DetailView;
 /** @var backend\models\Workqueue $model */
 
 $this->title = $model->work_queue_no;
-$this->params['breadcrumbs'][] = ['label' => 'Workqueues', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'คิวงาน', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 \yii\web\YiiAsset::register($this);
 ?>

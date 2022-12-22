@@ -5,10 +5,10 @@ use yii\helpers\Html;
 /** @var yii\web\View $this */
 /** @var common\models\DropoffPlace $model */
 
-$this->title = 'จแก้ไขุดรับ: ' . $model->name;
-$this->params['breadcrumbs'][] = ['label' => 'Dropoff Places', 'url' => ['index']];
+$this->title = 'จแก้ไขจุดรับ: ' . $model->name;
+$this->params['breadcrumbs'][] = ['label' => 'จุดรับ', 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => $model->name, 'url' => ['view', 'id' => $model->id]];
-$this->params['breadcrumbs'][] = 'Update';
+$this->params['breadcrumbs'][] = 'แก้ไข';
 ?>
 <div class="dropoff-place-update">
 

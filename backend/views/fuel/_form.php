@@ -16,7 +16,6 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'description')->textInput(['maxlength' => true]) ?>
 
-    <!-- <?= $form->field($model, 'fuel_type_id')->textInput() ?> -->
     <?= $form->field($model, 'fuel_type_id')->Widget(\kartik\select2\Select2::className(), [
                 'data' => \yii\helpers\ArrayHelper::map(\backend\models\FuelType::find()->all(), 'id', function ($data) {
                     return $data->name;
@@ -28,13 +27,12 @@ use yii\widgets\ActiveForm;
 
     <!-- <?= $form->field($model, 'status')->textInput() ?> -->
 
-    <!-- <?= $form->field($model, 'company_id')->textInput() ?> -->
     <?= $form->field($model, 'company_id')->Widget(\kartik\select2\Select2::className(), [
                 'data' => \yii\helpers\ArrayHelper::map(\backend\models\company::find()->all(), 'id', function ($data) {
                     return $data->name;
                 }),
                 'options' => [
-                    'placeholder' => '--company--'
+                    'placeholder' => '--บริษัท--'
                 ]
             ]) ?>
 

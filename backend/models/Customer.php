@@ -45,18 +45,18 @@ class Customer extends \common\models\Customer
     {
         return [
             'id' => 'ID',
-            'code' => 'Code',
+            'code' => 'รหัส',
             'name' => 'ชื่อลูกค้า',
             'business_type' => 'Business Type',
             'customer_group_id' => 'กลุ่มลูกค้า',
             'phone' => 'เบอร์ติดต่อ',
             'email' => 'อีเมล',
-            'company_id' => 'company',
+            'company_id' => 'บริษัท',
             'status' => 'สถานะ',
-            'crated_at' => 'Crated At',
-            'created_by' => 'Created By',
-            'updated_at' => 'Updated At',
-            'udpated_by' => 'Udpated By',
+            'crated_at' => 'สร้างเมื่อ',
+            'created_by' => 'สร้างโดย',
+            'updated_at' => 'แก้ไขเมื่อ',
+            'udpated_by' => 'แก้ไขโดย',
         ];
     }
 

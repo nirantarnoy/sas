@@ -27,7 +27,7 @@ use yii\widgets\ActiveForm;
                     return $data->des_name;
                 }),
                 'options' => [
-                    'placeholder' => '--Route Plans--'
+                    'placeholder' => '--ปลายทาง--'
                 ]
             ]) ?>
         </div>
@@ -95,6 +95,48 @@ use yii\widgets\ActiveForm;
             <input type="text" class="form-control tail-plate-no" readonly>
         </div>
         <div class="col-lg-4"></div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-4">
+            <?= $form->field($model, 'weight_on_go')->textInput(['maxlength' => true]) ?>
+        </div>
+        <div class="col-lg-4">
+            <?= $form->field($model, 'weight_go_deduct')->textInput(['maxlength' => true]) ?>
+        </div>
+        <div class="col-lg-4">
+            <?= $form->field($model, 'go_deduct_reason')->textarea(['maxlength' => true]) ?>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-4">
+            <?= $form->field($model, 'weight_on_back')->textInput(['maxlength' => true]) ?>
+        </div>
+        <div class="col-lg-4">
+            <?= $form->field($model, 'back_deduct')->textInput(['maxlength' => true]) ?>
+        </div>
+        <div class="col-lg-4">
+            <?= $form->field($model, 'back_reason')->textarea(['maxlength' => true]) ?>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-4">
+            <?= $form->field($model, 'tail_back_id')->Widget(\kartik\select2\Select2::className(), [
+                'data' => \yii\helpers\ArrayHelper::map(\backend\models\Car::find()->where(['type_id' => '2'])->all(), 'id', function ($data) {
+                    return $data->name;
+                }),
+                'options' => [
+                    'placeholder' => '--พ่วง--',
+                    'onchange' => 'getTailinfo1($(this))',
+                ]
+            ]) ?>
+        </div>
+        <div class="col-lg-4">
+            <label for="">ทะเบียน</label>
+            <input type="text" class="form-control tail-back-plate-no" readonly>
+        </div>
     </div>
 
 
@@ -168,6 +210,28 @@ function getTailinfo(e){
                     // alert(data[0]['plate_no']);
                     var plat_no = data[0]['plate_no'];
                     $('.tail-plate-no').val(plat_no);
+                }
+            },
+            'error': function(data){
+                 alert(data);//return;
+            }
+        });
+    }
+}
+function getTailinfo1(e){
+    // alert(e.val());
+    if(e.val() != ''){
+        $.ajax({
+            'type': 'post',
+            'dataType': 'json',
+            'url': '$url_to_getCardata',
+            'data': {'car_id': e.val()},
+            'success': function(data){
+                // alert(data);
+                if(data != null){
+                    // alert(data[0]['plate_no']);
+                    var plat_no = data[0]['plate_no'];
+                    $('.tail-back-plate-no').val(plat_no);
                 }
             },
             'error': function(data){

@@ -49,9 +49,9 @@ class Car extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'name' => 'Name',
-            'description' => 'Description',
-            'plate_no' => 'Plate No',
+            'name' => 'ชื่อ',
+            'description' => 'รายละเอียด',
+            'plate_no' => 'ป้ายทะเบียน',
             'car_type_id' => 'Car Type ID',
             'status' => 'Status',
             'tail_id'=> 'ต่อพ่วง',

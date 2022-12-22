@@ -6,7 +6,7 @@ use yii\helpers\Html;
 /** @var backend\models\Workqueue $model */
 
 $this->title = 'สร้างคิวงาน';
-$this->params['breadcrumbs'][] = ['label' => 'Workqueues', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'คิวงาน', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="workqueue-create">

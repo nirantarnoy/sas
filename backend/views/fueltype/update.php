@@ -6,9 +6,9 @@ use yii\helpers\Html;
 /** @var backend\models\FuelType $model */
 
 $this->title = 'แก้ไขประเภทน้ำมัน: ' . $model->name;
-$this->params['breadcrumbs'][] = ['label' => 'Fuel Types', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'ประเภทน้ำมัน', 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => $model->name, 'url' => ['view', 'id' => $model->id]];
-$this->params['breadcrumbs'][] = 'Update';
+$this->params['breadcrumbs'][] = 'แก้ไข';
 ?>
 <div class="fuel-type-update">
 

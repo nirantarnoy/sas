@@ -45,7 +45,7 @@ class FuelType extends \common\models\FuelType
     {
         return [
             'id' => 'ID',
-            'code' => 'Code',
+            'code' => 'รหัส',
             'name' => 'ชื่อ',
             'description' => 'รายละเอียด',
             'status' => 'สถานะ',

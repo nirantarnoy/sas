@@ -9,7 +9,7 @@ use yii\widgets\DetailView;
 $license_data = \common\models\DriverLicense::find()->where(['emp_id'=>$model->id])->all();
 
 $this->title = $model->code;
-$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Employees'), 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'พนักงาน'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 \yii\web\YiiAsset::register($this);
 ?>

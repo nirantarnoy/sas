@@ -6,9 +6,9 @@ use yii\helpers\Html;
 /** @var backend\models\Routeplan $model */
 
 $this->title = 'แก้ไขจัดการปลายทาง: ' . $model->des_name;
-$this->params['breadcrumbs'][] = ['label' => 'Routeplans', 'url' => ['index']];
-$this->params['breadcrumbs'][] = ['label' => $model->id, 'url' => ['view', 'id' => $model->id]];
-$this->params['breadcrumbs'][] = 'Update';
+$this->params['breadcrumbs'][] = ['label' => 'จัดการปลายทาง', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => $model->des_name, 'url' => ['view', 'id' => $model->id]];
+$this->params['breadcrumbs'][] = 'แก้ไข';
 ?>
 <div class="routeplan-update">
 

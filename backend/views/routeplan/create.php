@@ -6,7 +6,7 @@ use yii\helpers\Html;
 /** @var backend\models\Routeplan $model */
 
 $this->title = 'สร้างจัดการปลายทาง';
-$this->params['breadcrumbs'][] = ['label' => 'Routeplans', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'จัดการปลายทาง', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="routeplan-create">

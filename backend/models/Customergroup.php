@@ -48,7 +48,7 @@ class Customergroup extends \common\models\Customergroup
             'name' => 'ชื่อ',
             'description' => 'รายละเอียด',
             'status' => 'สถานะ',
-            'company_id' => 'Company',
+            'company_id' => 'บริษัท',
             'created_at' => 'Created At',
             'created_by' => 'Created By',
             'updated_at' => 'Updated At',

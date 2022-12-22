@@ -6,9 +6,9 @@ use yii\helpers\Html;
 /** @var backend\models\Car $model */
 
 $this->title = 'แก้ไขรถ: ' . $model->name;
-$this->params['breadcrumbs'][] = ['label' => 'Cars', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'รถ', 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => $model->name, 'url' => ['view', 'id' => $model->id]];
-$this->params['breadcrumbs'][] = 'Update';
+$this->params['breadcrumbs'][] = 'แก้ไข';
 ?>
 <div class="car-update">
 

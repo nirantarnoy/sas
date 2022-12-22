@@ -6,7 +6,7 @@ use yii\helpers\Html;
 /** @var backend\models\Fuel $model */
 
 $this->title = 'สร้างน้ำมัน';
-$this->params['breadcrumbs'][] = ['label' => 'Fuels', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'น้ำมัน', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="fuel-create">
