@@ -27,7 +27,7 @@ use yii\widgets\ActiveForm;
 
     <!-- <?= $form->field($model, 'car_type_id')->textInput() ?> -->
     <div class="row">
-        <div class="col-lg-4">
+        <div class="col-lg-3">
             <?= $form->field($model, 'car_type_id')->Widget(\kartik\select2\Select2::className(), [
                 'data' => \yii\helpers\ArrayHelper::map(\backend\models\Cartype::find()->all(), 'id', function ($data) {
                     return $data->name;
@@ -37,15 +37,23 @@ use yii\widgets\ActiveForm;
                 ]
             ]) ?>
         </div>
-        <div class="col-lg-4">
-            <?= $form->field($model, 'tail_id')->Widget(\kartik\select2\Select2::className(), [
-                'data' => \yii\helpers\ArrayHelper::map(\backend\models\Car::find()->where(['car_type_id'=>5])->all(), 'id', 'name'),
+        <div class="col-lg-3">
+            <?= $form->field($model, 'type_id')->Widget(\kartik\select2\Select2::className(), [
+                'data' => \yii\helpers\ArrayHelper::map(\backend\helpers\CarcatType::asArrayObject(), 'id', 'name'),
                 'options' => [
                     'placeholder' => '--ต่อพ่วง--'
                 ]
             ]) ?>
         </div>
-        <div class="col-lg-4">
+        <div class="col-lg-3">
+            <?= $form->field($model, 'tail_id')->Widget(\kartik\select2\Select2::className(), [
+                'data' => \yii\helpers\ArrayHelper::map(\backend\models\Car::find()->where(['type_id'=>2])->all(), 'id', 'name'),
+                'options' => [
+                    'placeholder' => '--ต่อพ่วง--'
+                ]
+            ]) ?>
+        </div>
+        <div class="col-lg-3">
             <?= $form->field($model, 'horse_power')->textInput(['maxlength' => true]) ?>
         </div>
     </div>

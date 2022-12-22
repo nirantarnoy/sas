@@ -85,4 +85,10 @@ class RoutePlan extends \common\models\RoutePlan
             ],
         ];
     }
+
+    public static function findDes($id)
+    {
+        $model = RoutePlan::find()->where(['id' => $id])->one();
+        return $model != null ? $model->des_name : '';
+    }
 }

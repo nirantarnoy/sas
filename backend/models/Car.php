@@ -69,4 +69,24 @@ class Car extends \common\models\Car
         $model = Car::find()->where(['id' => $id])->one();
         return $model != null ? $model->name : '';
     }
+
+    public static function getPlateno($id)
+    {
+        $model = Car::find()->where(['id' => $id])->one();
+        return $model != null ? $model->plate_no : '';
+    }
+    public static function getHp($id)
+    {
+        $model = Car::find()->where(['id' => $id])->one();
+        return $model != null ? $model->horse_power : '';
+    }
+    public static function getCartype($id)
+    {
+        $model = Car::find()->where(['id' => $id])->one();
+        if ($model){
+            $car_type = \backend\models\CarType::findName($model->car_type_id);
+            return $car_type;
+        }
+        return '';
+    }
 }

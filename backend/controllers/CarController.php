@@ -138,4 +138,16 @@ class CarController extends Controller
 
         throw new NotFoundHttpException('The requested page does not exist.');
     }
+
+    public function actionGetcarinfo(){
+        $id = \Yii::$app->request->post('car_id');
+        $data = [];
+        if ($id){
+            $plate_no = \backend\models\Car::getPlateno($id);
+            $hp = \backend\models\Car::getHp($id);
+
+            array_push($data,['plate_no'=>$plate_no,'hp'=>$hp]);
+        }
+        echo json_encode($data);
+    }
 }
