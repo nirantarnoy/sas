@@ -45,7 +45,7 @@ use yii\helpers\Html;
 
                 <div class="login-logo">
                     <a href="#">
-                        <img src="../../backend/web/uploads/logo/logo_bp.jpg" width="90%" alt="">
+                        <img src="../../backend/web/uploads/logo/narono_logo.png" width="90%" alt="">
                     </a>
 <!--                    <h1 style="color: dodgerblue">BKT</h1>-->
 <!--                    <h1 style="color: dodgerblue">BP</h1>-->
