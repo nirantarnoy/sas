@@ -2,7 +2,7 @@
 
 namespace backend\controllers;
 
-use backend\models\Routeplan;
+use backend\models\RoutePlan;
 use backend\models\RouteplanSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
