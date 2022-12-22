@@ -4,12 +4,12 @@ namespace backend\models;
 
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use backend\models\Routeplan;
+use backend\models\RoutePlan;
 
 /**
  * RouteplanSearch represents the model behind the search form of `backend\models\Routeplan`.
  */
-class RouteplanSearch extends Routeplan
+class RouteplanSearch extends RoutePlan
 {
     /**
      * {@inheritdoc}
@@ -44,7 +44,7 @@ class RouteplanSearch extends Routeplan
      */
     public function search($params)
     {
-        $query = Routeplan::find();
+        $query = RoutePlan::find();
 
         // add conditions that should always apply here
 

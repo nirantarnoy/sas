@@ -2,7 +2,7 @@
 
 namespace backend\controllers;
 
-use backend\models\Routeplan;
+use backend\models\RoutePlan;
 use backend\models\RouteplanSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -72,7 +72,7 @@ class RouteplanController extends Controller
      */
     public function actionCreate()
     {
-        $model = new Routeplan();
+        $model = new RoutePlan();
 
         if ($this->request->isPost) {
             if ($model->load($this->request->post())) {
@@ -206,7 +206,7 @@ class RouteplanController extends Controller
      */
     protected function findModel($id)
     {
-        if (($model = Routeplan::findOne(['id' => $id])) !== null) {
+        if (($model = RoutePlan::findOne(['id' => $id])) !== null) {
             return $model;
         }
 
