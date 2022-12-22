@@ -12,7 +12,7 @@ use yii\widgets\LinkPager;
 /** @var backend\models\CompanySearch $searchModel */
 /** @var yii\data\ActiveDataProvider $dataProvider */
 
-$this->title = 'Companies';
+$this->title = 'ข้อมูลบริษัท';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="company-index">

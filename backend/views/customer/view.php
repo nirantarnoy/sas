@@ -9,7 +9,7 @@ use yii\widgets\DetailView;
 $model_contact_data = \common\models\ContactInfo::find()->where(['party_id' => $model->id])->all();
 
 $this->title = $model->name;
-$this->params['breadcrumbs'][] = ['label' => 'Customers', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'ลูกค้า', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 \yii\web\YiiAsset::register($this);
 ?>
