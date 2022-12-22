@@ -89,8 +89,10 @@ class SiteController extends Controller
         }
 
      //   $model->password = '';
-
-        return $this->render('login', [
+        $model->password = '';
+        $this->layout = 'main_login';
+        $model->password = '';
+        return $this->render('login_new', [
             'model' => $model,
         ]);
 
