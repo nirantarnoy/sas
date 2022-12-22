@@ -28,7 +28,7 @@ class SiteController extends Controller
                         'allow' => true,
                     ],
                     [
-                        'actions' => ['logout', 'index','changepassword'],
+                        'actions' => ['logout', 'index', 'changepassword','grab'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -37,7 +37,7 @@ class SiteController extends Controller
             'verbs' => [
                 'class' => VerbFilter::class,
                 'actions' => [
-                    'logout' => ['post','get'],
+                    'logout' => ['post', 'get'],
                 ],
             ],
         ];
@@ -62,9 +62,9 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-        return $this->render('index',[
-            'f_date'=> null,
-            't_date'=> null,
+        return $this->render('index', [
+            'f_date' => null,
+            't_date' => null,
         ]);
     }
 
@@ -84,11 +84,11 @@ class SiteController extends Controller
         $model = new LoginForm();
         if ($model->load(Yii::$app->request->post()) && $model->login()) {
             //echo "login ok"; return;
-           // return $this->goBack();
+            // return $this->goBack();
             return $this->redirect(['site/index']);
         }
 
-     //   $model->password = '';
+        //   $model->password = '';
         $model->password = '';
         $this->layout = 'main_login';
         $model->password = '';
@@ -110,6 +110,7 @@ class SiteController extends Controller
 
         return $this->goHome();
     }
+
     public function actionChangepassword()
     {
         $model = new \backend\models\Resetform();
@@ -143,5 +144,135 @@ class SiteController extends Controller
         return $this->render('_setpassword', [
             'model' => $model
         ]);
+    }
+
+    public function actionGrab()
+    {
+
+        $aControllers = [];
+
+
+        // $path = \Yii::$app->getBasePath() . 'icesystem/';
+        $path = \Yii::$app->basePath;
+
+        $ctrls = function ($path) use (&$ctrls, &$aControllers) {
+
+            $oIterator = new \DirectoryIterator($path);
+
+            foreach ($oIterator as $oFile) {
+
+                if (!$oFile->isDot()
+
+                    && (false !== strpos($oFile->getPathname(), 'controllers')
+
+                        || false !== strpos($oFile->getPathname(), 'modules')
+
+                    )
+
+                ) {
+
+
+                    if ($oFile->isDir()) {
+
+                        $ctrls($oFile->getPathname());
+
+                    } else {
+
+                        if (strpos($oFile->getBasename(), 'Controller.php')) {
+
+
+                            $content = file_get_contents($oFile->getPathname());
+
+                            $controllerName = $oFile->getBasename('.php');
+
+
+                            $route = explode(\Yii::$app->basePath, $oFile->getPathname());
+
+                            $route = str_ireplace(array('modules', 'controllers', 'Controller.php'), '', $route[1]);
+
+                            $route = preg_replace("/(\/){2,}/", "/", $route);
+
+
+                            $aControllers[$controllerName] = [
+
+                                'filepath' => $oFile->getPathname(),
+
+                                'route' => mb_strtolower($route),
+
+                                'actions' => [],
+
+                            ];
+
+                            preg_match_all('#function action(.*)\(#ui', $content, $aData);
+
+
+                            $acts = function ($aData) use (&$aControllers, &$controllerName) {
+
+
+                                if (!empty($aData) && isset($aData[1]) && !empty($aData[1])) {
+
+
+                                    $aControllers[$controllerName]['actions'] = array_map(
+
+                                        function ($actionName) {
+                                            return mb_strtolower(trim($actionName, '{\\.*()'));
+                                        },
+
+                                        $aData[1]
+
+                                    );
+
+
+                                }
+
+                            };
+
+
+                            $acts($aData);
+
+                        }
+
+                    }
+
+
+                }
+
+            }
+
+        };
+
+
+        $ctrls($path);
+
+
+        echo '<pre>';
+
+        //   print_r($aControllers);
+
+        foreach ($aControllers as $value) {
+
+            //  $route_name = substr($value['route'],2);
+            $route_name = substr($value['route'], 1);
+            for ($x = 0; $x <= count($value['actions']) - 1; $x++) {
+                $fullname = $route_name . '/' . $value['actions'][$x];
+                if ($fullname != '') {
+                    $chk = \common\models\AuthItem::find()->where(['name' => $fullname])->one();
+                    if ($chk) continue;
+
+                    $model = new \common\models\AuthItem();
+                    $model->name = $fullname;
+                    $model->type = 2;
+                    $model->description = '';
+                    $model->created_at = time();
+                    $model->save(false);
+                }
+                echo $fullname . '<br/>';
+
+            }
+            //echo $route_name;
+            // print_r($value['route']);
+        }
+        // print_r($aControllers['AdjustmentController']);
+
     }
 }
