@@ -133,7 +133,7 @@ class MainconfigController extends Controller
                         continue;
                     }
 
-//                    $model_dup = \backend\models\Customer::find()->where(['name' => trim($rowData[1]), 'company_id' => 1])->one();
+//                    $model_dup = \backend\models\Customer::find()->where(['name' => trim($rowData[1]), 'company_id' => 1,''])->one();
 //                    if ($model_dup != null) {
 //                        $loop++;
 //                        continue;
