@@ -29,7 +29,7 @@ use yii\widgets\ActiveForm;
     <div class="row">
         <div class="col-lg-3">
             <?= $form->field($model, 'car_type_id')->Widget(\kartik\select2\Select2::className(), [
-                'data' => \yii\helpers\ArrayHelper::map(\backend\models\Cartype::find()->all(), 'id', function ($data) {
+                'data' => \yii\helpers\ArrayHelper::map(\backend\models\CarType::find()->all(), 'id', function ($data) {
                     return $data->name;
                 }),
                 'options' => [
