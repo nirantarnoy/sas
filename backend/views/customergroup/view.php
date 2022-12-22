@@ -29,19 +29,18 @@ $this->params['breadcrumbs'][] = $this->title;
     <?= DetailView::widget([
         'model' => $model,
         'attributes' => [
-            'id',
+//            'id',
             'name',
             'description',
             // 'status',
             [
                 'attribute' => 'status',
                 'format' => 'raw',
-                'label'=>'สถานะ',
-                'value' => function ($model) {
-                    if ($model->status == 1) {
-                        return '<div>ใช้งาน</div>';
+                'value' => function ($data) {
+                    if ($data->status == 1) {
+                        return '<div class="badge badge-success" >ใช้งาน</div>';
                     } else {
-                        return '<div>ไม่ใช้งาน</div>';
+                        return '<div class="badge badge-secondary" >ไม่ใช้งาน</div>';
                     }
                 }
             ],
