@@ -9,7 +9,7 @@ use backend\models\Routeplan;
 /**
  * RouteplanSearch represents the model behind the search form of `backend\models\Routeplan`.
  */
-class RouteplanSearch extends Routeplan
+class RouteplanSearch extends RoutePlan
 {
     /**
      * {@inheritdoc}
