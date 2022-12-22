@@ -22,7 +22,7 @@ $date_year = date('Y') + 543;
         <tr>
             <td>เล่มที่</td>
             <td style="text-align: right"><h5><b>ใบสั่งจ่ายน้ำมัน</b></h5></td>
-            <td style="text-align: right">เลขที่ <?= $model->work_queue_no ?></td>
+            <td style="text-align: right">เลขที่ <b><?= $model->work_queue_no ?></b></td>
         </tr>
     </table>
     <br>
@@ -35,13 +35,13 @@ $date_year = date('Y') + 543;
     <br>
     <table style="width: 100%">
         <tr>
-            <td>ทะเบียนหัว <?= \backend\models\Car::getPlateno($model->car_id) ?></td>
+            <td>ทะเบียนหัว <b><?= \backend\models\Car::getPlateno($model->car_id) ?></b></td>
             <!--            <td><input type="text" class="form-control"></td>-->
-            <td> ทะเบียนหาง <?= \backend\models\Car::getPlateno($model->tail_id) ?></td>
+            <td> ทะเบียนหาง <b><?= \backend\models\Car::getPlateno($model->tail_id) ?></b></td>
             <!--            <td><input type="text" class="form-control"></td>-->
-            <td> ประเภทรถ <?= \backend\models\Car::getCartype($model->car_id) ?></td>
+            <td> ประเภทรถ <b><?= \backend\models\Car::getCartype($model->car_id) ?></b></td>
             <!--            <td><input type="text" class="form-control"></td>-->
-            <td> แรงรถ <?= \backend\models\Car::getHp($model->car_id) ?></td>
+            <td> แรงรถ <b><?= \backend\models\Car::getHp($model->car_id) ?></b></td>
             <!--            <td><input type="text" class="form-control"></td>-->
         </tr>
     </table>
@@ -49,7 +49,7 @@ $date_year = date('Y') + 543;
     <table style="width: 100%">
         <tr>
             <td>
-                พนักงาน <?= \backend\models\Employee::findFullName($model->emp_assign) ?>
+                พนักงาน <b><?= \backend\models\Employee::findFullName($model->emp_assign) ?></b>
             </td>
         </tr>
     </table>
@@ -57,7 +57,7 @@ $date_year = date('Y') + 543;
     <table style="width: 100%">
         <tr>
             <td>
-                ต้นทาง-ปลายทาง <?= \backend\models\RoutePlan::findDes($model->route_plan_id) ?>
+                ต้นทาง-ปลายทาง <b><?= \backend\models\RoutePlan::findDes($model->route_plan_id) ?></b>
             </td>
         </tr>
     </table>
