@@ -71,7 +71,7 @@ use yii\widgets\ActiveForm;
         </div>
         <div class="col-lg-6">
             <?= $form->field($model, 'company_id')->Widget(\kartik\select2\Select2::className(), [
-                'data' => \yii\helpers\ArrayHelper::map(\backend\models\company::find()->all(), 'id', function ($data) {
+                'data' => \yii\helpers\ArrayHelper::map(\backend\models\Company::find()->all(), 'id', function ($data) {
                     return $data->name;
                 }),
                 'options' => [
