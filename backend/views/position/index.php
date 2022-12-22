@@ -3,7 +3,7 @@
 use yii\helpers\Html;
 use yii\grid\GridView;
 use yii\widgets\Pjax;
-use yii\widgets\LinkPager;
+use yii\bootstrap4\LinkPager;
 use yii\helpers\Url;
 
 $this->title = 'ตำแหน่ง';

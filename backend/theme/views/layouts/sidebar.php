@@ -1,9 +1,7 @@
 <aside class="main-sidebar sidebar-dark-blue elevation-4">
     <!-- Brand Logo -->
     <a href="index.php?r=site/index" class="brand-link">
-<!--        <img src="--><?php //echo Yii::$app->request->baseUrl; ?><!--/uploads/logo/logo_bp.jpg" alt="Narono"-->
-<!--             class="brand-image img-circle elevation-3"-->
-<!--             style="opacity: .8">-->
+<!--        <img src="--><?php //echo Yii::$app->request->baseUrl; ?><!--/uploads/logo/narono_logo.png" alt="Narono" class="brand-image">-->
 <!--        <span class="brand-text font-weight-light">VORAPAT</span>-->
         <span class="brand-text font-weight-light">NARONO</span>
     </a>

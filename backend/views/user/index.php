@@ -4,7 +4,7 @@ use yii\helpers\Html;
 use kartik\grid\GridView;
 use yii\widgets\Pjax;
 use yii\helpers\Url;
-use yii\widgets\LinkPager;
+use yii\bootstrap4\LinkPager;
 
 $this->title = 'ผู้ใช้งาน';
 $this->params['breadcrumbs'][] = $this->title;

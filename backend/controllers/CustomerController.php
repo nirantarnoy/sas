@@ -125,13 +125,13 @@ class CustomerController extends Controller
                             }
                         }
                     }
-                    if (count($line_type_id)) {
+                    if (count($line_contact_name)) {
 //                        echo count($line_contact_name);return ;
-                        for ($i = 0; $i <= count($line_type_id) - 1; $i++) {
+                        for ($i = 0; $i <= count($line_contact_name) - 1; $i++) {
 //                            print_r($line_contact_name);return ;
-                            if ($line_type_id[$i]) {
+                            if ($line_contact_name[$i]) {
 //                              print_r($line_contact_name);return ;
-                                $contact_chk = \common\models\ContactInfo::find()->where(['party_id' => $model->id, 'type_id' => $line_type_id[$i]])->one();
+                                $contact_chk = \common\models\ContactInfo::find()->where(['party_id' => $model->id, 'contact_name' => $line_contact_name[$i]])->one();
                                 if ($contact_chk) {
 //                                    $contact_chk->type_id = $line_type_id[$i];
                                     $contact_chk->contact_name = trim($line_contact_name[$i]);
@@ -234,12 +234,13 @@ class CustomerController extends Controller
                         }
                     }
                 }
-                if (count($line_type_id)) {
-                    for ($i = 0; $i <= count($line_type_id) - 1; $i++) {
+                if (count($line_contact_name)) {
+                    for ($i = 0; $i <= count($line_contact_name) - 1; $i++) {
                         //print_r($line_contact_name);return ;
-                        if ($line_type_id[$i]) {
+                        if ($line_contact_name[$i]) {
                             //print_r($line_contact_name);return ;
-                            $contact_chk = \common\models\ContactInfo::find()->where(['party_id' => $model->id, 'type_id' => $line_type_id[$i],'party_type'=>$party_type])->one();
+                            $contact_chk = \common\models\ContactInfo::find()->where(['party_id' => $model->id, 'contact_name' => trim($line_contact_name[$i]),'party_type'=>$party_type])->one();
+//                            print_r($contact_chk);return ;
                             if ($contact_chk) {
                                 $contact_chk->contact_name = trim($line_contact_name[$i]);
                                 $contact_chk->type_id = $line_type_id[$i];
