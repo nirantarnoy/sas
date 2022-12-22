@@ -4,7 +4,7 @@ use Yii;
 use yii\db\ActiveRecord;
 date_default_timezone_set('Asia/Bangkok');
 
-class Usergroup extends \common\models\UserGroup
+class Usergroup extends \common\models\Usergroup
 {
     public function behaviors()
     {
