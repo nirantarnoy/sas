@@ -44,7 +44,7 @@ class RouteplanSearch extends RoutePlan
      */
     public function search($params)
     {
-        $query = Routeplan::find();
+        $query = RoutePlan::find();
 
         // add conditions that should always apply here
 
