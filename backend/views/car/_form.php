@@ -51,7 +51,7 @@ use yii\widgets\ActiveForm;
                 'options' => [
                     'placeholder' => '--ต่อพ่วง--'
                 ]
-            ]) ?>
+            ])->label('หาง') ?>
         </div>
         <div class="col-lg-3">
             <?= $form->field($model, 'horse_power')->textInput(['maxlength' => true]) ?>
