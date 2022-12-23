@@ -36,6 +36,7 @@ class Fuel extends \yii\db\ActiveRecord
         return [
             [['fuel_type_id', 'status', 'company_id', 'created_at', 'created_by', 'updated_at', 'updated_by'], 'integer'],
             [['name', 'description'], 'string', 'max' => 255],
+            [['active_price','active_price_date'],'safe'],
         ];
     }
 
@@ -51,6 +52,8 @@ class Fuel extends \yii\db\ActiveRecord
             'fuel_type_id' => 'ประเภทน้ำมัน',
             'status' => 'สถานะ',
             'company_id' => 'บริษัท',
+            'active_price'=>'ราคา',
+            'active_price_date'=>'วันที่ราคา',
             'created_at' => 'Created At',
             'created_by' => 'Created By',
             'updated_at' => 'Updated At',

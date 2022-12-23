@@ -17,35 +17,29 @@ use yii\widgets\ActiveForm;
     <?= $form->field($model, 'description')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'fuel_type_id')->Widget(\kartik\select2\Select2::className(), [
-                'data' => \yii\helpers\ArrayHelper::map(\backend\models\FuelType::find()->all(), 'id', function ($data) {
-                    return $data->name;
-                }),
-                'options' => [
-                    'placeholder' => '--ประเภทน้ำมัน--'
-                ]
-            ]) ?>
+        'data' => \yii\helpers\ArrayHelper::map(\backend\models\FuelType::find()->all(), 'id', function ($data) {
+            return $data->name;
+        }),
+        'options' => [
+            'placeholder' => '--ประเภทน้ำมัน--'
+        ]
+    ]) ?>
 
     <!-- <?= $form->field($model, 'status')->textInput() ?> -->
 
     <?= $form->field($model, 'company_id')->Widget(\kartik\select2\Select2::className(), [
-                'data' => \yii\helpers\ArrayHelper::map(\backend\models\Company::find()->all(), 'id', function ($data) {
-                    return $data->name;
-                }),
-                'options' => [
-                    'placeholder' => '--บริษัท--'
-                ]
-            ]) ?>
+        'data' => \yii\helpers\ArrayHelper::map(\backend\models\Company::find()->all(), 'id', function ($data) {
+            return $data->name;
+        }),
+        'options' => [
+            'placeholder' => '--บริษัท--'
+        ]
+    ]) ?>
+    <?= $form->field($model, 'active_price')->textInput(['maxlength' => true, 'readonly' => 'readonly']) ?>
 
+    <?= $form->field($model, 'active_price_date')->textInput(['maxlength' => true, 'readonly' => 'readonly']) ?>
     <?php echo $form->field($model, 'status')->widget(\toxor88\switchery\Switchery::className(), ['options' => ['label' => '', 'class' => 'form-control']])->label() ?>
 
-
-    <!-- <?= $form->field($model, 'created_at')->textInput() ?>
-
-    <?= $form->field($model, 'created_by')->textInput() ?>
-
-    <?= $form->field($model, 'updated_at')->textInput() ?>
-
-    <?= $form->field($model, 'updated_by')->textInput() ?> -->
 
     <div class="form-group">
         <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
