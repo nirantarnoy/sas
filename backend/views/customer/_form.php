@@ -21,6 +21,12 @@ $partycat_data = \backend\helpers\PartycatType::asArrayObject();
 
 $contactcat_data = \backend\helpers\ContactcatType::asArrayObject();
 
+$x_address = $address_chk==null?'':$address_chk->address;
+$x_street = $address_chk==null?'':$address_chk->street;
+$x_zipcode = $address_chk==null?'':$address_chk->zipcode;
+
+
+
 
 //print_r($address_chk) ; return;
 ?>
@@ -74,12 +80,12 @@ $contactcat_data = \backend\helpers\ContactcatType::asArrayObject();
         <div class="col-lg-4">
             <label for="">ที่อยู่</label>
             <input type="text" class="form-control cus-address" id="cus-address"
-                   value="<?= $model->isNewRecord ? '' : $address_chk->address ?>" name="cus_address">
+                   value="<?= $model->isNewRecord ? '' : $x_address ?>" name="cus_address">
         </div>
         <div class="col-lg-4">
             <label for="">ถนน</label>
             <input type="text" class="form-control cus-street" id="cus-street"
-                   value="<?= $model->isNewRecord ? '' : $address_chk->street ?>" name="cus_street">
+                   value="<?= $model->isNewRecord ? '' : $x_street ?>" name="cus_street">
         </div>
     </div>
     <br/>
@@ -133,7 +139,7 @@ $contactcat_data = \backend\helpers\ContactcatType::asArrayObject();
         <div class="col-lg-3">
             <label for="">รหัสไปรษณีย์</label>
             <input type="text" class="form-control zipcode" id="zipcode"
-                   value="<?= $model->isNewRecord ? '' : $address_chk->zipcode ?>" name="zipcode" readonly>
+                   value="<?= $model->isNewRecord ? '' : $x_zipcode ?>" name="zipcode" readonly>
         </div>
     </div>
     <br/>
