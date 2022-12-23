@@ -149,12 +149,12 @@
                             </li>
                         <?php //endif; ?>
                         <?php //if (\Yii::$app->user->can('customertype/index')): ?>
-                            <li class="nav-item">
-                                <a href="index.php?r=customertype/index" class="nav-link customertype">
-                                    <i class="far fa-circlez nav-icon"></i>
-                                    <p>ประเภทลูกค้า</p>
-                                </a>
-                            </li>
+<!--                            <li class="nav-item">-->
+<!--                                <a href="index.php?r=customertype/index" class="nav-link customertype">-->
+<!--                                    <i class="far fa-circlez nav-icon"></i>-->
+<!--                                    <p>ประเภทลูกค้า</p>-->
+<!--                                </a>-->
+<!--                            </li>-->
                         <?php //endif; ?>
                         <?php //if (\Yii::$app->user->can('customers/index')): ?>
                             <li class="nav-item">

@@ -20,7 +20,7 @@ use yii\widgets\ActiveForm;
 
     <!-- <?= $form->field($model, 'company_id')->textInput() ?> -->
     <?= $form->field($model, 'company_id')->Widget(\kartik\select2\Select2::className(), [
-                'data' => \yii\helpers\ArrayHelper::map(\backend\models\company::find()->all(), 'id', function ($data) {
+                'data' => \yii\helpers\ArrayHelper::map(\backend\models\Company::find()->all(), 'id', function ($data) {
                     return $data->name;
                 }),
                 'options' => [
