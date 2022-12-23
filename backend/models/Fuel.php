@@ -57,4 +57,16 @@ class Fuel extends \common\models\Fuel
             'updated_by' => 'Updated By',
         ];
     }
+
+    public static function findName($id)
+    {
+        $model = Fuel::find()->where(['id' => $id])->one();
+        return $model != null ? $model->name : '';
+    }
+
+    public static function findId($name)
+    {
+        $model = Fuel::find()->where(['name' => trim($name)])->one();
+        return $model != null ? $model->id : 0;
+    }
 }
