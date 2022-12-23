@@ -15,6 +15,7 @@ class FuelController extends Controller
 {
 
     public $enableCsrfValidation = false;
+
     /**
      * @inheritDoc
      */
@@ -137,5 +138,34 @@ class FuelController extends Controller
         }
 
         throw new NotFoundHttpException('The requested page does not exist.');
+    }
+
+    public function actionActiveprice()
+    {
+        $fuel_name = \Yii::$app->request->post('line_name');
+        $fuel_price = \Yii::$app->request->post('line_price');
+
+        if ($fuel_name != null && $fuel_price != null) {
+            for ($i = 0; $i <= count($fuel_name) - 1; $i++) {
+                $fuel_id = \backend\models\Fuel::findId($fuel_name[$i]);
+                if($fuel_id){
+                    $model = new \common\models\FuelPrice();
+                    $model->fuel_id = $fuel_id;
+                    $model->price = $fuel_price[$i];
+                    $model->price_date = date('Y-m-d H:i:s');
+                    $model->status = 1;
+                    if ($model->save(false)) {
+                        $model_update = \backend\models\Fuel::find()->where(['id' => $fuel_id])->one();
+                        if ($model_update) {
+                            $model_update->active_price = $fuel_price[$i];
+                            $model_update->active_price_date = date('Y-m-d H:i:s');
+                            $model_update->save(false);
+                        }
+                    }
+                }
+
+            }
+        }
+        return $this->redirect(['site/index']);
     }
 }

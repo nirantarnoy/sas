@@ -11,7 +11,7 @@ if ($f_date != null && $t_date != null) {
 
 //echo \backend\models\Stockjournal::getLastNo(1,1);
 
-$url = \Yii::$app->basePath.'/web/api_con/simple_html_dom.php';
+$url = \Yii::$app->basePath . '/web/api_con/simple_html_dom.php';
 include $url;
 
 $domain = 'https://xn--42cah7d0cxcvbbb9x.com/%E0%B8%A3%E0%B8%B2%E0%B8%84%E0%B8%B2%E0%B8%99%E0%B9%89%E0%B8%B3%E0%B8%A1%E0%B8%B1%E0%B8%99%E0%B8%A7%E0%B8%B1%E0%B8%99%E0%B8%99%E0%B8%B5%E0%B9%89/';
@@ -19,45 +19,45 @@ $html = '';
 $target = file_get_html($domain);
 $i = 0;
 
-$fuel_data = ['แก๊สโซฮอล์ 95','แก๊สโซฮอล์ 91','แก๊สโซฮอล์ E20','แก๊สโซฮอล์ E85','เบนซิน 95','ดีเซล','ดีเซล B7','ดีเซล B20','ดีเซลพรีเมี่ยม','แก๊ส NGV'];
+$fuel_data = ['แก๊สโซฮอล์ 95', 'แก๊สโซฮอล์ 91', 'แก๊สโซฮอล์ E20', 'แก๊สโซฮอล์ E85', 'เบนซิน 95', 'ดีเซล', 'ดีเซล B7', 'ดีเซล B20', 'ดีเซลพรีเมี่ยม', 'แก๊ส NGV'];
 
 $current_loop = '';
 $is_start = 0;
 $completed_data = [];
 foreach ($target->find('.gtoday table tbody tr td') as $el) {
-    if(in_array(trim($el->plaintext),$fuel_data)){
+    if (in_array(trim($el->plaintext), $fuel_data)) {
         $is_start = 1;
         //echo $el->plaintext.'<br />';
         $current_loop = $el->plaintext;
-    }else{
+    } else {
         // echo $is_start;
-        if($is_start == 1){
+        if ($is_start == 1) {
             // echo $el->plaintext.'<br />';
             $is_start = 0;
 
-            array_push($completed_data,['name'=>$current_loop,'price'=>$el->plaintext]);
+            array_push($completed_data, ['name' => $current_loop, 'price' => $el->plaintext]);
 
         }
     }
 }
 
 //print_r($completed_data);
-$html = '<table style="border: 1px solid black;" class="table table-striped table-bordered">';
-if(count($completed_data) > 0){
-    for($xx=0;$xx<=count($completed_data)-1;$xx++) {
+
+$html .= '<table style="border: 1px solid black;" class="table table-striped table-bordered">';
+if (count($completed_data) > 0) {
+    for ($xx = 0; $xx <= count($completed_data) - 1; $xx++) {
         $html .= '<tr>';
-        $html .= '<td style="padding: 10px;">';
-        $html.= $completed_data[$xx]['name'];
+        $html .= '<td style="padding: 10px;"><input type="hidden" name="line_name[]" value="' . $completed_data[$xx]['name'] . '">';
+        $html .= $completed_data[$xx]['name'];
         $html .= '</td>';
-        $html .= '<td style="padding: 10px;">';
-        $html.= $completed_data[$xx]['price'];
+        $html .= '<td style="padding: 10px;"><input type="hidden" name="line_price[]" value="' . $completed_data[$xx]['price'] . '">';
+        $html .= $completed_data[$xx]['price'];
         $html .= '</td>';
 
         $html .= '</tr>';
     }
 }
-$html.='</table>';
-
+$html .= '</table>';
 
 
 //echo '<h2 style="color:red;">ค้นหาพบทั้งหมด : ' . $i . ' link</h2>';
@@ -356,11 +356,24 @@ unset($target);
                             </div>
                         </div>
                         <div class="card-body">
-                            <div class="d-flex justify-content-between align-items-center border-bottom mb-3">
-                                <?php
-                                echo $html;
-                                ?>
-                            </div>
+                            <form id="form-update-price" action="<?= Url::to(["fuel/activeprice"], true) ?>"  method="post">
+
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <?php
+                                        echo $html;
+                                        ?>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-lg-3">
+                                        <button class="btn btn-info">อัพเดทราคาน้ำมัน</button>
+                                    </div>
+                                </div>
+
+
+                            </form>
                             <!-- /.d-flex -->
                         </div>
                     </div>
