@@ -210,7 +210,7 @@
                         <li class="nav-item">
                             <a href="index.php?r=dropoffplace/index" class="nav-link dropoffplace">
                                 <i class="far fa-circlez nav-icon"></i>
-                                <p>จัดการจุด Drop-off</p>
+                                <p>จัดการจุดขึ้นสินค้า</p>
                             </a>
                         </li>
                         <li class="nav-item">
