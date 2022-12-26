@@ -13,7 +13,7 @@ use yii\bootstrap4\LinkPager;
 /** @var backend\models\DropoffplaceSearch $searchModel */
 /** @var yii\data\ActiveDataProvider $dataProvider */
 
-$this->title = 'จุดรับ';
+$this->title = 'จุดขึ้นสินค้า';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="dropoff-place-index">

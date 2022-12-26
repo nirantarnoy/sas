@@ -6,7 +6,7 @@ use yii\helpers\Html;
 /** @var common\models\DropoffPlace $model */
 
 $this->title = 'จแก้ไขจุดรับ: ' . $model->name;
-$this->params['breadcrumbs'][] = ['label' => 'จุดรับ', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'จุดขึ้นสินค้า', 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => $model->name, 'url' => ['view', 'id' => $model->id]];
 $this->params['breadcrumbs'][] = 'แก้ไข';
 ?>

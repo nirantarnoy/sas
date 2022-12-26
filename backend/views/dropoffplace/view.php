@@ -7,7 +7,7 @@ use yii\widgets\DetailView;
 /** @var common\models\DropoffPlace $model */
 
 $this->title = $model->name;
-$this->params['breadcrumbs'][] = ['label' => 'จุดรับ', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'จุดขึ้นสินค้า', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 \yii\web\YiiAsset::register($this);
 ?>

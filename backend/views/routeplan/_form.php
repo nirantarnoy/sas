@@ -43,8 +43,8 @@ $dropoff_place_data = \common\models\DropoffPlace::find()->all();
                 <table class="table table-bordered table-striped" id="table-list">
                     <thead>
                     <th>จุดรับ</th>
-                    <th>จำนวน</th>
-                    <th></th>
+                    <th style="width: 30%">จำนวนบวกเพิ่ม (ลิตร)</th>
+                    <th style="width: 5%"></th>
                     </thead>
                     <tbody>
                     <?php if ($model->isNewRecord): ?>
