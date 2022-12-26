@@ -67,7 +67,7 @@ $this->params['breadcrumbs'][] = $this->title;
             [
                 'attribute' => 'car_type_id',
                 'value' => function ($data){
-                    return \backend\models\Cartype::findName($data->car_type_id);
+                    return \backend\models\CarType::findName($data->car_type_id);
                 }
             ],
             //'status',
