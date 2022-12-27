@@ -32,8 +32,9 @@ class DropoffPlace extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['status', 'created_at', 'created_by', 'updated_at', 'updated_by'], 'integer'],
+            [['status', 'created_at', 'created_by', 'updated_at', 'updated_by','hp'], 'integer'],
             [['name', 'description'], 'string', 'max' => 255],
+            [['oil_rate_qyt'],'safe']
         ];
     }
 
@@ -46,6 +47,8 @@ class DropoffPlace extends \yii\db\ActiveRecord
             'id' => 'ID',
             'name' => 'ชื่อ',
             'description' => 'รายละเอียด',
+            'hp' => 'แรงม้า',
+            'oil_rate_qty' => 'จำนวนเรทน้ำมัน(ลิตร)',
             'status' => 'สถานะ',
             'created_at' => 'Created At',
             'created_by' => 'Created By',
