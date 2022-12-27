@@ -70,6 +70,12 @@ $this->params['breadcrumbs'][] = $this->title;
                     return \backend\models\CarType::findName($data->car_type_id);
                 }
             ],
+            [
+                'attribute' => 'type_id',
+                'value' => function ($data){
+                    return \backend\helpers\CarcatType::getTypeById($data->type_id);
+                }
+            ],
             //'status',
             //'company_id',
             //'created_at',
