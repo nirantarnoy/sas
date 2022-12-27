@@ -32,6 +32,8 @@ $this->params['breadcrumbs'][] = $this->title;
             'name',
             'description',
 //            'status',
+            'hp',
+            'oil_rate_qty',
             [
                 'attribute' => 'status',
                 'format' => 'raw',

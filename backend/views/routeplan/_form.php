@@ -42,7 +42,9 @@ $dropoff_place_data = \common\models\DropoffPlace::find()->all();
             <div class="col-lg-12">
                 <table class="table table-bordered table-striped" id="table-list">
                     <thead>
-                    <th>จุดรับ</th>
+                    <th>จุดขึ้นสินค้า</th>
+                    <th>แรงรถ</th>
+                    <th>จำนวนเรทน้ำมัน(ลิตร)</th>
                     <th style="width: 30%">จำนวนบวกเพิ่ม (ลิตร)</th>
                     <th style="width: 5%"></th>
                     </thead>
@@ -50,13 +52,20 @@ $dropoff_place_data = \common\models\DropoffPlace::find()->all();
                     <?php if ($model->isNewRecord): ?>
                         <tr>
                             <td>
-                                <select name="drop_off_place[]" class="form-control drop-off-place" id="" onchange="">
+                                <select name="drop_off_place[]" class="form-control drop-off-place" id=""
+                                        onchange="getDropoffinfo($(this))">
                                     <option value="0">--ประเภท--</option>
                                     <?php for ($i = 0; $i <= count($dropoff_place_data) - 1; $i++) : ?>
                                         <option value="<?= $dropoff_place_data[$i]['id'] ?>"><?= $dropoff_place_data[$i]['name'] ?></option>
                                     <?php endfor; ?>
                                 </select>
                                 <!--                                <input type="text" class="form-control drop-off-place" name="drop_off_place[]">-->
+                            </td>
+                            <td>
+                                <input type="text" class="form-control hp" name="hp[]" readonly>
+                            </td>
+                            <td>
+                                <input type="text" class="form-control oil-rate" name="oil_rate[]" readonly>
                             </td>
                             <td>
                                 <input type="text" class="form-control drop-off-qty" name="drop_off_qty[]">
@@ -69,10 +78,12 @@ $dropoff_place_data = \common\models\DropoffPlace::find()->all();
                     <?php else: ?>
                         <?php if (count($model_line)): ?>
                             <?php foreach ($model_line as $value) : ?>
+                                <?php $data = \backend\models\dropoffplace::getinfo($value->dropoff_place_id) ?>
                                 <tr data-var="<?= $value->id ?>">
                                     <td>
                                         <input type="hidden" class="rec-id" name="rec_id[]" value="<?= $value->id ?>">
-                                        <select name="drop_off_place[]" class="form-control drop-off-place" onchange="">
+                                        <select name="drop_off_place[]" class="form-control drop-off-place"
+                                                onchange="getDropoffinfo($(this))">
                                             <option value="0">--ประเภท--</option>
                                             <?php for ($i = 0; $i <= count($dropoff_place_data) - 1; $i++) : ?>
                                                 <?php
@@ -84,6 +95,14 @@ $dropoff_place_data = \common\models\DropoffPlace::find()->all();
                                                 <option value="<?= $dropoff_place_data[$i]['id'] ?>" <?= $selected ?>><?= $dropoff_place_data[$i]['name'] ?></option>
                                             <?php endfor; ?>
                                         </select>
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form-control hp" name="hp[]"
+                                               value="<?= $data != null ? $data[0]['hp'] : 0 ?>" readonly>
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form-control oil-rate" name="oil_rate[]"
+                                               value="<?= $data != null ? $data[0]['oil_rate_qty'] : 0 ?>" readonly>
                                     </td>
                                     <td>
                                         <input type="text" class="form-control drop-off-qty" name="drop_off_qty[]"
@@ -98,12 +117,19 @@ $dropoff_place_data = \common\models\DropoffPlace::find()->all();
                         <?php else: ?>
                             <tr>
                                 <td>
-                                    <select name="drop_off_place[]" class="form-control drop-off-place" id="" onchange="">
+                                    <select name="drop_off_place[]" class="form-control drop-off-place" id=""
+                                            onchange="getDropoffinfo($(this))">
                                         <option value="0">--ประเภท--</option>
                                         <?php for ($i = 0; $i <= count($dropoff_place_data) - 1; $i++) : ?>
                                             <option value="<?= $dropoff_place_data[$i]['id'] ?>"><?= $dropoff_place_data[$i]['name'] ?></option>
                                         <?php endfor; ?>
                                     </select>
+                                </td>
+                                <td>
+                                    <input type="text" class="form-control hp" name="hp[]" readonly>
+                                </td>
+                                <td>
+                                    <input type="text" class="form-control oil-rate" name="oil_rate[]" readonly>
                                 </td>
                                 <td>
                                     <input type="text" class="form-control drop-off-qty" name="drop_off_qty[]">
@@ -139,6 +165,7 @@ $dropoff_place_data = \common\models\DropoffPlace::find()->all();
     </div>
 
 <?php
+$url_to_Dropoffdata = \yii\helpers\Url::to(['dropoffplace/getdropoffdata'], true);
 
 $js = <<<JS
 var removelist = [];
@@ -154,6 +181,8 @@ function addline(e){
                     //clone.find(":text").val("");
                     // clone.find("td:eq(1)").text("");
                     clone.find(".drop-off-place").val("");
+                    clone.find(".hp").val("");
+                    clone.find(".oil-rate").val("");
                     clone.find(".drop-off-qty").val("");
                     
                   
@@ -186,6 +215,32 @@ function removeline(e) {
             // cal_all();
         }
     }
+    
+    function getDropoffinfo(e){
+    // alert(e.val());
+    if(e.val() != ''){
+        $.ajax({
+            'type': 'post',
+            'dataType': 'json',
+            'url': '$url_to_Dropoffdata',
+            'data': {'drop_off_id': e.val()},
+            // alert(data)
+            'success': function(data){
+                if(data != null){
+                    // alert(data[0]['oil_rate']);
+                    var oil_rate = data[0]['oil_rate'];
+                    var hp = data[0]['hp'];
+                    e.closest('tr').find('.oil-rate').val(oil_rate);
+                    e.closest('tr').find('.hp').val(hp);
+                }
+            },
+            'error': function(data){
+                 alert(data);//return;
+            }
+        });
+    }
+}
+
 
 JS;
 

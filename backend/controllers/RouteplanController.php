@@ -79,29 +79,33 @@ class RouteplanController extends Controller
                 $drop_off_place = \Yii::$app->request->post('drop_off_place');
                 $drop_off_qty = \Yii::$app->request->post('drop_off_qty');
 
+//                print_r($drop_off_place);return ;
                 if ($model->save(false)) {
                     if (count($drop_off_place)) {
-                        for ($i = 0; $i <= count($drop_off_place) - 1; $i++) {
-                            $route_plan_line_chk = \common\models\RoutePlanLine::find()->where(['route_plan_id' => $model->id, 'dropoff_place_id' => $drop_off_place[$i]])->one();
-                            if ($route_plan_line_chk) {
-                                $route_plan_line_chk->dropoff_place_id = $drop_off_place[$i];
-                                $route_plan_line_chk->dropoff_qty = $drop_off_qty[$i];
-                                $route_plan_line_chk->status = $model->status;
-                                if ($route_plan_line_chk->save(false)) {
+                            for ($i = 0; $i <= count($drop_off_place) - 1; $i++) {
+                                if ($drop_off_place[$i] != 0) {
+                                $route_plan_line_chk = \common\models\RoutePlanLine::find()->where(['route_plan_id' => $model->id, 'dropoff_place_id' => $drop_off_place[$i]])->one();
+                                if ($route_plan_line_chk) {
+                                    $route_plan_line_chk->dropoff_place_id = $drop_off_place[$i];
+                                    $route_plan_line_chk->dropoff_qty = $drop_off_qty[$i];
+                                    $route_plan_line_chk->status = $model->status;
+                                    if ($route_plan_line_chk->save(false)) {
 
-                                }
-                            } else {
-                                $new_line = new \common\models\RoutePlanLine();
-                                $new_line->route_plan_id = $model->id;
-                                $new_line->dropoff_place_id = $drop_off_place[$i];
-                                $new_line->dropoff_qty = $drop_off_qty[$i];
-                                $new_line->status = $model->status;
-                                if ($new_line->save(false)) {
+                                    }
+                                } else {
+                                    $new_line = new \common\models\RoutePlanLine();
+                                    $new_line->route_plan_id = $model->id;
+                                    $new_line->dropoff_place_id = $drop_off_place[$i];
+                                    $new_line->dropoff_qty = $drop_off_qty[$i];
+                                    $new_line->status = $model->status;
+                                    if ($new_line->save(false)) {
 
+                                    }
                                 }
+
                             }
-
                         }
+
                     }
                 }
 
@@ -127,7 +131,7 @@ class RouteplanController extends Controller
     {
         $model = $this->findModel($id);
 
-        $model_line = \common\models\RoutePlanLine::find()->where(['route_plan_id'=>$model->id])->all();
+        $model_line = \common\models\RoutePlanLine::find()->where(['route_plan_id' => $model->id])->all();
 
         if ($this->request->isPost && $model->load($this->request->post())) {
             $drop_off_place = \Yii::$app->request->post('drop_off_place');
@@ -137,23 +141,25 @@ class RouteplanController extends Controller
 
             if ($model->save(false)) {
                 if (count($drop_off_place)) {
-                    for ($i = 0; $i <= count($drop_off_place) - 1; $i++) {
-                        $route_plan_line_chk = \common\models\RoutePlanLine::find()->where(['route_plan_id' => $model->id, 'dropoff_place_id' => $drop_off_place[$i]])->one();
-                        if ($route_plan_line_chk) {
-                            $route_plan_line_chk->dropoff_place_id = $drop_off_place[$i];
-                            $route_plan_line_chk->dropoff_qty = $drop_off_qty[$i];
-                            $route_plan_line_chk->status = $model->status;
-                            if ($route_plan_line_chk->save(false)) {
+                        for ($i = 0; $i <= count($drop_off_place) - 1; $i++) {
+                            if ($drop_off_place[$i] != 0) {
+                            $route_plan_line_chk = \common\models\RoutePlanLine::find()->where(['route_plan_id' => $model->id, 'dropoff_place_id' => $drop_off_place[$i]])->one();
+                            if ($route_plan_line_chk) {
+                                $route_plan_line_chk->dropoff_place_id = $drop_off_place[$i];
+                                $route_plan_line_chk->dropoff_qty = $drop_off_qty[$i];
+                                $route_plan_line_chk->status = $model->status;
+                                if ($route_plan_line_chk->save(false)) {
 
-                            }
-                        } else {
-                            $new_line = new \common\models\RoutePlanLine();
-                            $new_line->route_plan_id = $model->id;
-                            $new_line->dropoff_place_id = $drop_off_place[$i];
-                            $new_line->dropoff_qty = $drop_off_qty[$i];
-                            $new_line->status = $model->status;
-                            if ($new_line->save(false)) {
+                                }
+                            } else {
+                                $new_line = new \common\models\RoutePlanLine();
+                                $new_line->route_plan_id = $model->id;
+                                $new_line->dropoff_place_id = $drop_off_place[$i];
+                                $new_line->dropoff_qty = $drop_off_qty[$i];
+                                $new_line->status = $model->status;
+                                if ($new_line->save(false)) {
 
+                                }
                             }
                         }
                     }
@@ -170,7 +176,7 @@ class RouteplanController extends Controller
 
         return $this->render('update', [
             'model' => $model,
-            'model_line'=>$model_line,
+            'model_line' => $model_line,
         ]);
     }
 
@@ -185,12 +191,12 @@ class RouteplanController extends Controller
     {
 //        $this->findModel($id)->delete();
 
-        $model_line = \common\models\RoutePlanLine::find()->where(['route_plan_id'=>$id])->all();
-        if ($model_line){
-            if (\common\models\RoutePlanLine::deleteAll(['route_plan_id' => $id])){
+        $model_line = \common\models\RoutePlanLine::find()->where(['route_plan_id' => $id])->all();
+        if ($model_line) {
+            if (\common\models\RoutePlanLine::deleteAll(['route_plan_id' => $id])) {
                 $this->findModel($id)->delete();
             }
-        }else{
+        } else {
             $this->findModel($id)->delete();
         }
 
