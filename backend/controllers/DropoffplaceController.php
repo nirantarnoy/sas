@@ -138,4 +138,16 @@ class DropoffplaceController extends Controller
 
         throw new NotFoundHttpException('The requested page does not exist.');
     }
+
+    public function actionGetdropoffdata(){
+        $id = \Yii::$app->request->post('drop_off_id');
+        $data = [];
+        if ($id){
+            $hp = \backend\models\DropoffPlace::getHp($id);
+            $oil_rate = \backend\models\DropoffPlace::getOilrate($id);
+
+            array_push($data,['oil_rate'=>$oil_rate,'hp'=>$hp]);
+        }
+        echo json_encode($data);
+    }
 }

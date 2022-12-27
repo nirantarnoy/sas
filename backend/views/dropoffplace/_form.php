@@ -14,6 +14,10 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
 
+    <?= $form->field($model, 'hp')->textInput(['maxlength' => true]) ?>
+
+    <?= $form->field($model, 'oil_rate_qty')->textInput(['maxlength' => true]) ?>
+
     <?= $form->field($model, 'description')->textarea(['maxlength' => true]) ?>
 
 

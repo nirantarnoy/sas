@@ -32,8 +32,9 @@ class DropoffPlace extends \common\models\DropoffPlace
     public function rules()
     {
         return [
-            [['status', 'created_at', 'created_by', 'updated_at', 'updated_by'], 'integer'],
+            [['status', 'created_at', 'created_by', 'updated_at', 'updated_by','hp'], 'integer'],
             [['name', 'description'], 'string', 'max' => 255],
+            [['oil_rate_qty'],'safe']
         ];
     }
 
@@ -52,5 +53,16 @@ class DropoffPlace extends \common\models\DropoffPlace
             'updated_at' => 'Updated At',
             'updated_by' => 'Updated By',
         ];
+    }
+
+    public static function getHp($id)
+    {
+        $model = DropoffPlace::find()->where(['id' => $id])->one();
+        return $model != null ? $model->hp : '';
+    }
+    public static function getOilrate($id)
+    {
+        $model = DropoffPlace::find()->where(['id' => $id])->one();
+        return $model != null ? $model->oil_rate_qty : '';
     }
 }

@@ -34,7 +34,7 @@ class DropoffPlace extends \yii\db\ActiveRecord
         return [
             [['status', 'created_at', 'created_by', 'updated_at', 'updated_by','hp'], 'integer'],
             [['name', 'description'], 'string', 'max' => 255],
-            [['oil_rate_qyt'],'safe']
+            [['oil_rate_qty'],'safe']
         ];
     }
 
