@@ -78,10 +78,12 @@ $dropoff_place_data = \common\models\DropoffPlace::find()->all();
                     <?php else: ?>
                         <?php if (count($model_line)): ?>
                             <?php foreach ($model_line as $value) : ?>
+                                <?php $data = \backend\models\dropoffplace::getinfo($value->dropoff_place_id) ?>
                                 <tr data-var="<?= $value->id ?>">
                                     <td>
                                         <input type="hidden" class="rec-id" name="rec_id[]" value="<?= $value->id ?>">
-                                        <select name="drop_off_place[]" class="form-control drop-off-place" onchange="getDropoffinfo($(this))">
+                                        <select name="drop_off_place[]" class="form-control drop-off-place"
+                                                onchange="getDropoffinfo($(this))">
                                             <option value="0">--ประเภท--</option>
                                             <?php for ($i = 0; $i <= count($dropoff_place_data) - 1; $i++) : ?>
                                                 <?php
@@ -95,10 +97,12 @@ $dropoff_place_data = \common\models\DropoffPlace::find()->all();
                                         </select>
                                     </td>
                                     <td>
-                                        <input type="text" class="form-control hp" name="hp[]" readonly>
+                                        <input type="text" class="form-control hp" name="hp[]"
+                                               value="<?= $data != null ? $data[0]['hp'] : 0 ?>" readonly>
                                     </td>
                                     <td>
-                                        <input type="text" class="form-control oil-rate" name="oil_rate[]" readonly>
+                                        <input type="text" class="form-control oil-rate" name="oil_rate[]"
+                                               value="<?= $data != null ? $data[0]['oil_rate_qty'] : 0 ?>" readonly>
                                     </td>
                                     <td>
                                         <input type="text" class="form-control drop-off-qty" name="drop_off_qty[]"
@@ -226,8 +230,8 @@ function removeline(e) {
                     // alert(data[0]['oil_rate']);
                     var oil_rate = data[0]['oil_rate'];
                     var hp = data[0]['hp'];
-                    $('.oil-rate').val(oil_rate);
-                    $('.hp').val(hp);
+                    e.closest('tr').find('.oil-rate').val(oil_rate);
+                    e.closest('tr').find('.hp').val(hp);
                 }
             },
             'error': function(data){
