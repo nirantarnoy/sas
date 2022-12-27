@@ -54,4 +54,14 @@ class DropoffPlace extends \common\models\DropoffPlace
             'updated_by' => 'Updated By',
         ];
     }
+
+    public static function getInfo($id)
+    {
+        $data = [];
+        $model = DropoffPlace::find()->where(['id' => $id])->one();
+        if ($model) {
+            array_push($data, ['hp' => $model->hp, 'oil_rate_qty' => $model->oil_rate_qty]);
+        }
+        return $data;
+    }
 }
