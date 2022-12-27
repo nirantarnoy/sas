@@ -82,8 +82,8 @@ class RouteplanController extends Controller
 //                print_r($drop_off_place);return ;
                 if ($model->save(false)) {
                     if (count($drop_off_place)) {
-                        if ($drop_off_place[0] != 0) {
                             for ($i = 0; $i <= count($drop_off_place) - 1; $i++) {
+                                if ($drop_off_place[$i] != 0) {
                                 $route_plan_line_chk = \common\models\RoutePlanLine::find()->where(['route_plan_id' => $model->id, 'dropoff_place_id' => $drop_off_place[$i]])->one();
                                 if ($route_plan_line_chk) {
                                     $route_plan_line_chk->dropoff_place_id = $drop_off_place[$i];
@@ -141,8 +141,8 @@ class RouteplanController extends Controller
 
             if ($model->save(false)) {
                 if (count($drop_off_place)) {
-                    if ($drop_off_place[0] != 0) {
                         for ($i = 0; $i <= count($drop_off_place) - 1; $i++) {
+                            if ($drop_off_place[$i] != 0) {
                             $route_plan_line_chk = \common\models\RoutePlanLine::find()->where(['route_plan_id' => $model->id, 'dropoff_place_id' => $drop_off_place[$i]])->one();
                             if ($route_plan_line_chk) {
                                 $route_plan_line_chk->dropoff_place_id = $drop_off_place[$i];
