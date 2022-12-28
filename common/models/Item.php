@@ -44,9 +44,9 @@ class Item extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'name' => 'Name',
-            'description' => 'Description',
-            'status' => 'Status',
+            'name' => 'ชื่อ',
+            'description' => 'รายละเอียด',
+            'status' => 'สภานะ',
             'created_at' => 'Created At',
             'created_by' => 'Created By',
             'updated_at' => 'Updated At',
