@@ -35,6 +35,15 @@ $dropoff_place_data = \common\models\DropoffPlace::find()->all();
                 <?= $form->field($model, 'total_distanct')->textInput() ?>
             </div>
         </div>
+        <div class="row">
+            <div class="col-lg-4">
+                <?= $form->field($model, 'hp')->textInput() ?>
+            </div>
+            <div class="col-lg-4">
+                <?= $form->field($model, 'oil_rate_qty')->textInput() ?>
+            </div>
+            <div class="col-lg-4"></div>
+        </div>
 
         <?php echo $form->field($model, 'status')->widget(\toxor88\switchery\Switchery::className(), ['options' => ['label' => '', 'class' => 'form-control']])->label() ?>
 

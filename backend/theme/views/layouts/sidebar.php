@@ -214,6 +214,12 @@
                             </a>
                         </li>
                         <li class="nav-item">
+                            <a href="index.php?r=item/index" class="nav-link item">
+                                <i class="far fa-circlez nav-icon"></i>
+                                <p>ของนำกลับ</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
                             <a href="index.php?r=workqueue/index" class="nav-link workqueue">
                                 <i class="far fa-circlez nav-icon"></i>
                                 <p>จัดคิวงาน</p>
