@@ -139,7 +139,7 @@ class RouteplanController extends Controller
 
             $removelist = \Yii::$app->request->post('remove_list');
 
-            
+
             if ($model->save(false)) {
                 if (count($drop_off_place)) {
                         for ($i = 0; $i <= count($drop_off_place) - 1; $i++) {
