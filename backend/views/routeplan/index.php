@@ -69,7 +69,8 @@ $this->params['breadcrumbs'][] = $this->title;
                 }
             ],
             'total_distanct',
-//            'status',
+            'hp',
+            'oil_rate_qty',
             [
                 'attribute' => 'status',
                 'format' => 'raw',
