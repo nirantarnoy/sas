@@ -5,13 +5,13 @@ namespace backend\helpers;
 class CarcatType
 {
     private static $data = [
-        '1' => 'ส่วนหัว',
-        '2' => 'ส่วนพ่วง'
+        '1' => 'หัว',
+        '2' => 'หาง'
     ];
 
     private static $dataobj = [
-        ['id'=>'1','name' => 'ส่วนหัว'],
-        ['id'=>'2','name' => 'ส่วนพ่วง']
+        ['id'=>'1','name' => 'หัว'],
+        ['id'=>'2','name' => 'หาง']
     ];
     public static function asArray()
     {

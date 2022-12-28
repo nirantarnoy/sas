@@ -63,7 +63,8 @@ $this->params['breadcrumbs'][] = $this->title;
 //            'id',
             'name',
             'description',
-//            'status',
+            'hp',
+            'oil_rate_qty',
             [
                 'attribute' => 'status',
                 'format' => 'raw',

@@ -214,17 +214,24 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="index.php?r=workqueue/index" class="nav-link workqueue">
+                            <a href="index.php?r=item/index" class="nav-link item">
                                 <i class="far fa-circlez nav-icon"></i>
-                                <p>จัดคิวงาน</p>
+                                <p>ของนำกลับ</p>
                             </a>
                         </li>
+
                         <?php //endif; ?>
                         <?php //if (\Yii::$app->user->can('position/index')): ?>
                         <li class="nav-item">
                             <a href="index.php?r=routeplan/index" class="nav-link routeplan">
                                 <i class="far fa-circlez nav-icon"></i>
                                 <p>จัดการปลายทาง</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="index.php?r=workqueue/index" class="nav-link workqueue">
+                                <i class="far fa-circlez nav-icon"></i>
+                                <p>จัดคิวงาน</p>
                             </a>
                         </li>
                         <?php //endif; ?>
