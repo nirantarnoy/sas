@@ -14,6 +14,7 @@ use yii\filters\VerbFilter;
 class CarController extends Controller
 {
     public $enableCsrfValidation = false;
+
     /**
      * @inheritDoc
      */
@@ -25,8 +26,8 @@ class CarController extends Controller
                 'verbs' => [
                     'class' => VerbFilter::className(),
                     'actions' => [
-                        'delete' => ['POST','GET'],
-                
+                        'delete' => ['POST', 'GET'],
+
                     ],
                 ],
             ]
@@ -139,14 +140,16 @@ class CarController extends Controller
         throw new NotFoundHttpException('The requested page does not exist.');
     }
 
-    public function actionGetcarinfo(){
+    public function actionGetcarinfo()
+    {
         $id = \Yii::$app->request->post('car_id');
         $data = [];
-        if ($id){
+        if ($id) {
             $plate_no = \backend\models\Car::getPlateno($id);
             $hp = \backend\models\Car::getHp($id);
+            $car_type = \backend\models\Car::getCartype($id);
 
-            array_push($data,['plate_no'=>$plate_no,'hp'=>$hp]);
+            array_push($data, ['plate_no' => $plate_no, 'hp' => $hp, 'car_type' => $car_type]);
         }
         echo json_encode($data);
     }

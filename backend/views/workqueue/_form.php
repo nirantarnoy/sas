@@ -58,7 +58,7 @@ use yii\widgets\ActiveForm;
     </div>
 
     <div class="row">
-        <div class="col-lg-4">
+        <div class="col-lg-3">
             <?= $form->field($model, 'car_id')->Widget(\kartik\select2\Select2::className(), [
                 'data' => \yii\helpers\ArrayHelper::map(\backend\models\Car::find()->where(['type_id' => '1'])->all(), 'id', function ($data) {
                     return $data->name;
@@ -69,11 +69,15 @@ use yii\widgets\ActiveForm;
                 ]
             ]) ?>
         </div>
-        <div class="col-lg-4">
+        <div class="col-lg-3">
             <label for="">ทะเบียน</label>
             <input type="text" class="form-control car-plate-no" readonly>
         </div>
-        <div class="col-lg-4">
+        <div class="col-lg-3">
+            <label for="">ประเภทรถ</label>
+            <input type="text" class="form-control car-type" readonly>
+        </div>
+        <div class="col-lg-3">
             <label for="">แรงม้า</label>
             <input type="text" class="form-control hp" readonly>
         </div>
@@ -186,7 +190,9 @@ function getCarinfo(e){
                     // alert(data[0]['plate_no']);
                     var plat_no = data[0]['plate_no'];
                     var hp = data[0]['hp'];
+                    var car_type = data[0]['car_type'];
                     $('.car-plate-no').val(plat_no);
+                    $('.car-type').val(car_type);
                     $('.hp').val(hp);
                 }
             },
