@@ -153,4 +153,25 @@ class CarController extends Controller
         }
         echo json_encode($data);
     }
+    public function actionGetrouteplan()
+    {
+        $id = \Yii::$app->request->post('route_plan_id');
+        $data = [];
+        if ($id) {
+            $distance = 0;
+            $total_rate_qty = 0;
+
+            $model = \backend\models\RoutePlan::find()->select(['total_distanct'])->where(['id'=>$id])->one();
+            if($model){
+                $distance = $model->total_distanct;
+            }
+            $model_line = \common\models\RoutePlanLine::find()->where(['route_plan_id'=>$id])->sum('oil_rate_qty');
+            if($model_line){
+                $total_rate_qty = $model_line;
+            }
+
+            array_push($data, ['total_distance' => $distance, 'total_rate_qty' => $total_rate_qty]);
+        }
+        echo json_encode($data);
+    }
 }

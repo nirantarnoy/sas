@@ -28,7 +28,8 @@ use yii\widgets\ActiveForm;
                     return $data->des_name;
                 }),
                 'options' => [
-                    'placeholder' => '--ปลายทาง--'
+                    'placeholder' => '--ปลายทาง--',
+                    'onchange'=>'getRouteplan($(this))'
                 ]
             ]) ?>
         </div>
@@ -187,6 +188,7 @@ use yii\widgets\ActiveForm;
 
 <?php
 $url_to_getCardata = \yii\helpers\Url::to(['car/getcarinfo'], true);
+$url_to_routeplan = \yii\helpers\Url::to(['car/getrouteplan'], true);
 
 $js = <<<JS
 var removelist = [];
@@ -194,7 +196,29 @@ var removelist = [];
 $(function(){
     
 });
-
+function getRouteplan(e){
+    if(e.val() > 0){
+        $.ajax({
+            'type': 'post',
+            'dataType': 'json',
+            'url': '$url_to_routeplan',
+            'data': {'route_plan_id': e.val()},
+            'success': function(data){
+                // alert(data);
+                if(data != null){
+                    // alert(data[0]['plate_no']);
+                    var distance = data[0]['total_distance'];
+                    var rate_qty = data[0]['total_rate_qty'];
+                    $('.total-distance').val(distance);
+                    $('.total-qty').val(rate_qty);
+                }
+            },
+            'error': function(data){
+                 alert(data);//return;
+            }
+        });
+    }
+}
 function getCarinfo(e){
     // alert(e.val());
     if(e.val() != ''){
