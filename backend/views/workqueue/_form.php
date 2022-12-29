@@ -145,6 +145,10 @@ use yii\widgets\ActiveForm;
     </div>
     <div class="row">
         <div class="col-lg-4">
+            <label for="">ระยะทางไป-กลับ</label>
+            <input type="text" class="form-control total-distance" readonly>
+        </div>
+        <div class="col-lg-4">
             <label for="">รวมจำนวน(ลิตร)</label>
             <input type="text" class="form-control total-qty" readonly>
         </div>
@@ -152,7 +156,6 @@ use yii\widgets\ActiveForm;
             <label for="">รวมจำนวน(บาท)</label>
             <input type="text" class="form-control total-amount" readonly>
         </div>
-        <div class="col-lg-4"></div>
     </div>
     <div style="height: 10px;"></div>
     <div class="row">

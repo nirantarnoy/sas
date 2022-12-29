@@ -52,6 +52,7 @@ class RoutePlan extends \common\models\RoutePlan
             'des_province_id' => 'จังหวัดปลายทาง',
             'total_distanct' => 'ระยะทาง',
             'status' => 'สถานะ',
+            'customer_id' => 'ลูกค้าปลายทาง',
             'hp'=> 'แรงม้า',
             'oil_rate_qty' => 'จำนวนเรทน้ำมัน(ลิตร)',
             'item_back_id' => 'ของนำกลับ',
