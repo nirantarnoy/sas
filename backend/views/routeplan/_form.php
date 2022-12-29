@@ -94,7 +94,7 @@ $dropoff_place_data = \common\models\DropoffPlace::find()->all();
                     <?php else: ?>
                         <?php if (count($model_line)): ?>
                             <?php foreach ($model_line as $value) : ?>
-                                <?php $data = \backend\models\dropoffplace::getinfo($value->dropoff_place_id) ?>
+                                <?php $data = \backend\models\Dropoffplace::getinfo($value->dropoff_place_id) ?>
                                 <tr data-var="<?= $value->id ?>">
                                     <td>
                                         <input type="hidden" class="rec-id" name="rec_id[]" value="<?= $value->id ?>">
