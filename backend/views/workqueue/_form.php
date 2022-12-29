@@ -153,6 +153,7 @@ use yii\widgets\ActiveForm;
         </div>
         <div class="col-lg-4"></div>
     </div>
+    <div style="height: 10px;"></div>
     <div class="row">
         <div class="col-lg-4">
             <?php echo $form->field($model, 'status')->widget(\toxor88\switchery\Switchery::className(), ['options' => ['label' => '', 'class' => 'form-control']])->label() ?>
