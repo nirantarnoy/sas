@@ -19,7 +19,12 @@ $dropoff_place_data = \common\models\DropoffPlace::find()->all();
         <input type="hidden" class="remove-list" name="remove_list" value="">
         <div class="row">
             <div class="col-lg-4">
-                <?= $form->field($model, 'des_name')->textInput(['maxlength' => true]) ?>
+                <?= $form->field($model, 'customer_id')->Widget(\kartik\select2\Select2::className(), [
+                    'data' => \yii\helpers\ArrayHelper::map(\backend\models\Customer::find()->all(), 'id', 'name'),
+                    'options' => [
+                        'placeholder' => '--ลูกค้า--'
+                    ]
+                ]) ?>
             </div>
             <div class="col-lg-4">
                 <?= $form->field($model, 'des_province_id')->Widget(\kartik\select2\Select2::className(), [

@@ -66,9 +66,18 @@ class WorkqueuereceiveController extends Controller
 
     public function actionView($id){
         $this->layout = 'main_login';
-        return $this->render('_view',[
-            'model' => null,
-        ]);
+//        return $this->render('_view',[
+//            'model' => null,
+//        ]);
+
+        if ($id) {
+            $model = \backend\models\Workqueue::find()->where(['id' => $id])->one();
+            $modelline = \common\models\WorkQueueLine::find()->where(['work_queue_id' => $id])->all();
+            return $this->render('_view', [
+                'model' => $model,
+                'modelline' => $modelline,
+            ]);
+        }
     }
 
 
