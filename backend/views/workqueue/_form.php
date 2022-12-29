@@ -17,6 +17,7 @@ use yii\widgets\ActiveForm;
             <?= $form->field($model, 'work_queue_no')->textInput(['maxlength' => true, 'readonly' => 'readonly', 'value' => $model->isNewRecord ? 'Draft' : $model->work_queue_no]) ?>
         </div>
         <div class="col-lg-4">
+            <?php $model->work_queue_date = $model->isNewRecord?date('Y-m-d'): date('Y-m-d',strtotime($model->work_queue_date))?>
             <?= $form->field($model, 'work_queue_date')->widget(\kartik\date\DatePicker::className(), [
                 'value' => date('d/m/Y')
             ]) ?>
