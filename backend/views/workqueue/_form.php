@@ -142,9 +142,23 @@ use yii\widgets\ActiveForm;
             <input type="text" class="form-control tail-back-plate-no" readonly>
         </div>
     </div>
+    <div class="row">
+        <div class="col-lg-4">
+            <label for="">รวมจำนวน(ลิตร)</label>
+            <input type="text" class="form-control total-qty" readonly>
+        </div>
+        <div class="col-lg-4">
+            <label for="">รวมจำนวน(บาท)</label>
+            <input type="text" class="form-control total-amount" readonly>
+        </div>
+        <div class="col-lg-4"></div>
+    </div>
+    <div class="row">
+        <div class="col-lg-4">
+            <?php echo $form->field($model, 'status')->widget(\toxor88\switchery\Switchery::className(), ['options' => ['label' => '', 'class' => 'form-control']])->label() ?>
+        </div>
+    </div>
 
-
-    <?php echo $form->field($model, 'status')->widget(\toxor88\switchery\Switchery::className(), ['options' => ['label' => '', 'class' => 'form-control']])->label() ?>
 
 
     <div class="row">
