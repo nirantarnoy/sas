@@ -171,6 +171,9 @@ use yii\widgets\ActiveForm;
         <div class="col-lg-6">
             <div class="form-group">
                 <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
+                <?php if (!$model->isNewRecord): ?>
+                    <a class="btn btn-primary" href="<?= \yii\helpers\Url::to(['workqueue/approvejob', 'id' => $model->id,'approve_id'=>1], true) ?>">อนุมัติจำนวน</a>
+                <?php endif;?>
             </div>
         </div>
         <div class="col-lg-6" style="text-align: right">
