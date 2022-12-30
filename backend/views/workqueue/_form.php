@@ -143,6 +143,10 @@ use yii\widgets\ActiveForm;
             <label for="">ทะเบียน</label>
             <input type="text" class="form-control tail-back-plate-no" readonly>
         </div>
+        <div class="col-lg-4">
+            <label for="">ราคาน้ำมัน</label>
+            <input type="text" class="form-control oil-daily-price" readonly>
+        </div>
     </div>
     <div class="row">
         <div class="col-lg-4">
