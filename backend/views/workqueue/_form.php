@@ -209,8 +209,9 @@ function getRouteplan(e){
                     // alert(data[0]['plate_no']);
                     var distance = data[0]['total_distance'];
                     var rate_qty = data[0]['total_rate_qty'];
+                    var dropoff_qty = data[0]['total_dropoff_rate_qty'];
                     $('.total-distance').val(distance);
-                    $('.total-qty').val(rate_qty);
+                    $('.total-qty').val(parseFloat(rate_qty) + parseFloat(dropoff_qty));
                 }
             },
             'error': function(data){
