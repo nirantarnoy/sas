@@ -143,6 +143,10 @@ use yii\widgets\ActiveForm;
             <label for="">ทะเบียน</label>
             <input type="text" class="form-control tail-back-plate-no" readonly>
         </div>
+        <div class="col-lg-4">
+            <label for="">ราคาน้ำมัน</label>
+            <input type="text" class="form-control oil-daily-price" readonly>
+        </div>
     </div>
     <div class="row">
         <div class="col-lg-4">
@@ -171,6 +175,9 @@ use yii\widgets\ActiveForm;
         <div class="col-lg-6">
             <div class="form-group">
                 <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
+                <?php if (!$model->isNewRecord): ?>
+                    <a class="btn btn-primary" href="<?= \yii\helpers\Url::to(['workqueue/approvejob', 'id' => $model->id,'approve_id'=>1], true) ?>">อนุมัติจำนวน</a>
+                <?php endif;?>
             </div>
         </div>
         <div class="col-lg-6" style="text-align: right">
@@ -209,8 +216,9 @@ function getRouteplan(e){
                     // alert(data[0]['plate_no']);
                     var distance = data[0]['total_distance'];
                     var rate_qty = data[0]['total_rate_qty'];
+                    var dropoff_qty = data[0]['total_dropoff_rate_qty'];
                     $('.total-distance').val(distance);
-                    $('.total-qty').val(rate_qty);
+                    $('.total-qty').val(parseFloat(rate_qty) + parseFloat(dropoff_qty));
                 }
             },
             'error': function(data){

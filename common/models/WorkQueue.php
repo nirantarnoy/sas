@@ -38,6 +38,7 @@ class WorkQueue extends \yii\db\ActiveRecord
             [['customer_id', 'emp_assign', 'status', 'create_at', 'created_by', 'updated_at', 'updated_by','route_plan_id','tail_id','car_id','tail_back_id','approve_status','approve_by'], 'integer'],
             [['work_queue_no','go_deduct_reason','back_reason'], 'string', 'max' => 255],
             [['weight_on_go','weight_on_back','weight_go_deduct','back_deduct'], 'double'],
+            [['oil_daily_price'],'safe'],
         ];
     }
 
@@ -65,6 +66,7 @@ class WorkQueue extends \yii\db\ActiveRecord
             'tail_back_id' => 'ส่วนพ่วงขากลับ',
             'approve_status' => 'อนุมัติ',
             'approve_by'=>'ผู้อนุมัติ',
+            'oil_daily_price'=> 'ราคาน้ำมัน',
             'create_at' => 'Create At',
             'created_by' => 'Created By',
             'updated_at' => 'Updated At',

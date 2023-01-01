@@ -162,9 +162,11 @@ class WorkqueueController extends Controller
 
     }
 
-    public function actionApprovejob(){
-        $work_id = \Yii::$app->request->post('work_id');
-        $user_approve = \Yii::$app->request->post('user_approve_id');
+    public function actionApprovejob($id,$approve_id){
+//        $work_id = \Yii::$app->request->post('work_id');
+//        $user_approve = \Yii::$app->request->post('user_approve_id');
+        $work_id = $id;
+        $user_approve = $approve_id;
         $res = 0;
         if($work_id && $user_approve){
             $model = \backend\models\Workqueue::find()->where(['id'=>$work_id])->one();
