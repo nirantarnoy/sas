@@ -76,7 +76,7 @@ unset($target);
                 <!-- small box -->
                 <div class="small-box bg-info">
                     <div class="inner">
-                        <h3><?= number_format(1) ?></h3>
+                        <h3><?= number_format($car_qty) ?></h3>
                         <p>จำนวนรถทั้งหมด</p>
                     </div>
                     <div class="icon">
@@ -91,7 +91,7 @@ unset($target);
                 <!-- small box -->
                 <div class="small-box bg-success">
                     <div class="inner">
-                        <h3><?= number_format(1) ?></h3>
+                        <h3><?= number_format($work_queue_qty) ?></h3>
                         <!--                        <sup style="font-size: 20px">%</sup>-->
                         <p>จำนวนใบงานทั้งหมด</p>
                     </div>
@@ -107,7 +107,7 @@ unset($target);
                 <!-- small box -->
                 <div class="small-box bg-warning">
                     <div class="inner">
-                        <h3><?= number_format(1) ?></h3>
+                        <h3><?= number_format($work_queue_not_complete_qty) ?></h3>
                         <p>จำนวนไม่รับงาน</p>
                     </div>
                     <div class="icon">
@@ -122,7 +122,7 @@ unset($target);
                 <!-- small box -->
                 <div class="small-box bg-fuchsia">
                     <div class="inner">
-                        <h3><?= number_format(1) ?></h3>
+                        <h3><?= number_format($work_queue_complete_qty) ?></h3>
                         <p>จำนวนงานเสร็จ</p>
                     </div>
                     <div class="icon">
