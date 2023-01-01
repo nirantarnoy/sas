@@ -1,10 +1,98 @@
 <?php
-
-
 $date_day = date('d');
 $date_month = \backend\helpers\Thaimonth::getTypeById((int)(date('m')));
 $date_year = date('Y') + 543;
 ?>
+<style>
+    body {
+        font-family: sarabun;
+        /*font-family: garuda;*/
+        font-size: 18px;
+        width: 350px;
+    }
+
+    table.table-header {
+        border: 0px;
+        border-spacing: 1px;
+    }
+
+    table.table-qrcode {
+        border: 0px;
+        border-spacing: 1px;
+    }
+
+    table.table-qrcode td, th {
+        border: 0px solid #dddddd;
+        text-align: left;
+        padding-top: 2px;
+        padding-bottom: 2px;
+    }
+
+    table.table-footer {
+        border: 0px;
+        border-spacing: 0px;
+    }
+
+    table.table-header td, th {
+        border: 0px solid #dddddd;
+        text-align: left;
+        padding-top: 2px;
+        padding-bottom: 2px;
+    }
+
+    table.table-title {
+        border: 0px;
+        border-spacing: 0px;
+    }
+
+    table.table-title td, th {
+        border: 0px solid #dddddd;
+        text-align: left;
+        padding-top: 2px;
+        padding-bottom: 2px;
+    }
+
+    table {
+        border-collapse: collapse;
+        width: 100%;
+    }
+
+    td, th {
+        border: 1px solid #dddddd;
+        text-align: left;
+        padding: 8px;
+    }
+
+    tr:nth-child(even) {
+        /*background-color: #dddddd;*/
+    }
+
+    table.table-detail {
+        border-collapse: collapse;
+        width: 100%;
+    }
+
+    table.table-detail td, th {
+        border: 1px solid #dddddd;
+        text-align: left;
+        padding: 2px;
+    }
+
+    @media print {
+        @page {
+            size: auto;
+        }
+    }
+
+    /*@media print {*/
+    /*    html, body {*/
+    /*        width: 80mm;*/
+    /*        height:100%;*/
+    /*        position:absolute;*/
+    /*    }*/
+    /*}*/
+
+</style>
 <div class="row">
     <div class="col-lg-12">
         <div class="btn btn-default btn-print" onclick="printContent('print-area')">พิมพ์</div>
