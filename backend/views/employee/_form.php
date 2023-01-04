@@ -116,7 +116,7 @@ $drivingcard_data = \backend\helpers\DrivingcardType::asArrayObject();
                 <thead>
                 <tr>
                     <th>ประเภทใบขับขี่</th>
-                    <th>รหัส</th>
+                    <th>เลขที่ใบขับขี่</th>
                     <th>วันเริ่มต้น</th>
                     <th>วันหมดอายุ</th>
                     <th></th>
