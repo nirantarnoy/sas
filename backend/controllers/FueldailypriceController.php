@@ -132,6 +132,14 @@ class FueldailypriceController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
+        $model_line = null;
+
+
+        if($model){
+            $province_id = $model->province_id;
+            $price_date = $model->price_date;
+            $model_line = \backend\models\Fueldailyprice::find()->where(['province_id'=>$province_id])->andFilterWhere(['date(price_date)'=>date('Y-m-d',strtotime($price_date))])->all();
+        }
 
         if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
@@ -139,6 +147,7 @@ class FueldailypriceController extends Controller
 
         return $this->render('update', [
             'model' => $model,
+            'model_line' => $model_line
         ]);
     }
 

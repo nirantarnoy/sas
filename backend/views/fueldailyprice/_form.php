@@ -14,11 +14,13 @@ $city_chk = \backend\models\AddressInfo::findAmphurId($model->id);
 ?>
 
 <div class="fueldailyprice-form">
+    <?php if($model->isNewRecord):?>
     <div class="row">
         <div class="col-lg-3">
             <div class="btn btn-info btn-pull-price">ดึงราคาน้ำมัน (วันนี้)</div>
         </div>
     </div>
+    <?php endif;?>
     <br/>
     <?php $form = ActiveForm::begin(); ?>
     <div class="row">
@@ -60,6 +62,8 @@ $city_chk = \backend\models\AddressInfo::findAmphurId($model->id);
         <div class="col-lg-3"></div>
     </div>
 
+    <?php if($model->isNewRecord):?>
+
     <div class="row">
         <div class="col-lg-12">
             <table class="table table-striped table-bordered" id="table-list">
@@ -79,6 +83,43 @@ $city_chk = \backend\models\AddressInfo::findAmphurId($model->id);
             </table>
         </div>
     </div>
+    <?php else:?>
+        <div class="row">
+            <div class="col-lg-12">
+                <table class="table table-striped table-bordered" id="table-list">
+                    <thead>
+                    <tr>
+                        <th>น้ำมัน</th>
+                        <th style="text-align: right">ราคาวันนี้</th>
+                        <th style="text-align: right">บวกเพิ่ม</th>
+                        <th style="text-align: right">ราคาสุทธิ</th>
+                        <th style="text-align: center"></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <?php foreach ($model_line as $value):?>
+                    <tr>
+                        <td>
+                            <input type="hidden" name="line_fuel_id[]" class="form-control line-fuel-id" value="<?=$value->fuel_id?>'" />
+                            <?=\backend\models\Fuel::findName($value->fuel_id)?>
+                        </td>
+                        <td>
+                            <input style="text-align: right;" type="text" name="line_fuel_price[]" class="form-control line-fuel-price" readonly value="<?=$value->price_origin?>" />
+                        </td>
+                        <td>
+                            <input style="text-align: right;" type="text" name="line_fuel_price_add[]" class="form-control line-fuel-price-add" value="<?=$value->price_add?>" onchange="getPrice($(this))" />
+                        </td>
+                        <td>
+                            <input style="text-align: right;" type="text" name="line_fuel_price_total[]" class="form-control line-fuel-price-total" readonly value="<?=$value->price?>" />
+                        </td>
+                        <td></td>
+                    </tr>
+                    <?php endforeach;?>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    <?php endif;?>
 
 
     <div class="form-group">
