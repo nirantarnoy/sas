@@ -85,15 +85,26 @@
                             </li>
                         <?php //endif; ?>
                         <?php //if (\Yii::$app->user->can('location/index')): ?>
-                            <li class="nav-item">
-                                <a href="index.php?r=fuel" class="nav-link fuel">
-                                    <i class="far fa-circlez nav-icon"></i>
-                                    <p>
-                                        น้ำมัน
-                                        <!--                                <span class="right badge badge-danger">New</span>-->
-                                    </p>
-                                </a>
-                            </li>
+                        <li class="nav-item">
+                            <a href="index.php?r=fuel" class="nav-link fuel">
+                                <i class="far fa-circlez nav-icon"></i>
+                                <p>
+                                    น้ำมัน
+                                    <!--                                <span class="right badge badge-danger">New</span>-->
+                                </p>
+                            </a>
+                        </li>
+                        <?php //endif; ?>
+                        <?php //if (\Yii::$app->user->can('location/index')): ?>
+                        <li class="nav-item">
+                            <a href="index.php?r=fueldailyprice" class="nav-link fueldailyprice">
+                                <i class="far fa-oil-can nav-icon"></i>
+                                <p>
+                                    ราคาน้ำมัน
+                                    <!--                                <span class="right badge badge-danger">New</span>-->
+                                </p>
+                            </a>
+                        </li>
                         <?php //endif; ?>
 
 
