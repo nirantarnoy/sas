@@ -66,6 +66,6 @@ class Fueldailyprice extends \common\models\FuelDailyPrice
         return $model != null ? $model->name : '';
     }
 
-
+//
 
 }

@@ -74,6 +74,7 @@ $city_chk = \backend\models\AddressInfo::findAmphurId($model->id);
                 </thead>
                 <tbody>
 
+
                 </tbody>
             </table>
         </div>
@@ -89,7 +90,7 @@ $city_chk = \backend\models\AddressInfo::findAmphurId($model->id);
 </div>
 
 <?php
-$url_to_get_price = \yii\helpers\Url::to(['fueldailyprice/getapiprice'],true);
+$url_to_get_price = \yii\helpers\Url::to(['fueldailyprice/getapiprice'], true);
 $url_to_getcity = \yii\helpers\Url::to(['customer/showcity'], true);
 $js = <<<JS
 $(function(){
@@ -120,6 +121,30 @@ function getCity(e){
         $("select#city").prop("disabled","");
     });
 }
+
+function getPrice(e){
+    var start_price = e.closest('tr').find('.line-fuel-price').val();
+    var price_add = e.closest('tr').find('.line-fuel-price-add').val();
+    // var new_price = 0;
+    // alert(price_add);
+    if(start_price != null && price_add != null){
+          var new_price = parseFloat(start_price) + parseFloat(price_add);
+          e.closest('tr').find('.line-fuel-price-total').val(addCommas(parseFloat(new_price).toFixed(2)));
+          // e.closest('tr').find('.line-fuel-price-total').val(new_price);
+      }
+    
+}
+function addCommas(nStr) {
+        nStr += '';
+        var x = nStr.split('.');
+        var x1 = x[0];
+        var x2 = x.length > 1 ? '.' + x[1] : '';
+        var rgx = /(\d+)(\d{3})/;
+        while (rgx.test(x1)) {
+            x1 = x1.replace(rgx, '$1' + ',' + '$2');
+        }
+        return x1 + x2;
+ }
 JS;
 $this->registerJs($js, static::POS_END);
 ?>

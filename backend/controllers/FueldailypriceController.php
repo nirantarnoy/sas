@@ -77,16 +77,30 @@ class FueldailypriceController extends Controller
                 $line_fuel_price_add = \Yii::$app->request->post('line_fuel_price_add');
                 $line_fuel_price_total = \Yii::$app->request->post('line_fuel_price_total');
 
+                $province_id = \Yii::$app->request->post('province_id');
+                $city_id = \Yii::$app->request->post('city_id');
+
                 $res = 0;
+
+                $price_date = $model->price_date;
+                //explode ตามขั้นตอน
+                $new_price_date = date('Y-m-d');
+                $x_date = explode('/', $price_date);
+                if (count($x_date) > 1) {
+                    $new_price_date = $x_date[2] . '/' . $x_date[1] . '/' . $x_date[0];
+                }
+//                print_r($new_price_date); return ;
 
                 if($line_fuel_id != null){
                     for($x=0;$x<=count($line_fuel_id)-1;$x++){
                         $model_x = new \backend\models\Fueldailyprice();
+                        $model_x->province_id = $province_id;
+                        $model_x->city_id = $city_id;
                         $model_x->fuel_id= $line_fuel_id[$x];
-                        $model_x->price_date = date('Y-m-d H:i:s');
+                        $model_x->price_date = date('Y-m-d H:i:s',strtotime($new_price_date));
                         $model_x->price_origin = $line_fuel_price[$x];
                         $model_x->price_add = $line_fuel_price_add[$x];
-                        $model_x->price = $line_fuel_price[$x];
+                        $model_x->price = $line_fuel_price_total[$x];
                         $model_x->status = 1;
                         if($model_x->save(false)){
                             $res+=1;
@@ -173,7 +187,7 @@ class FueldailypriceController extends Controller
                 $html.='</td>';
                 $html.='<td> <input style="text-align: right;" type="text" name="line_fuel_price[]" class="form-control line-fuel-price" readonly value="'.$price.'" />';
                 $html.='</td>';
-                $html.='<td><input style="text-align: right;" type="text" name="line_fuel_price_add[]" class="form-control line-fuel-price-add" value="0" />';
+                $html.='<td><input style="text-align: right;" type="text" name="line_fuel_price_add[]" class="form-control line-fuel-price-add" value="0" onchange="getPrice($(this))" />';
                 $html.='</td>';
                 $html.='<td><input style="text-align: right;" type="text" name="line_fuel_price_total[]" class="form-control line-fuel-price-total" readonly value="0" />';
                 $html.='</td>';
