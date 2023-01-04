@@ -5,13 +5,15 @@ namespace backend\helpers;
 class DrivingcardType
 {
     private static $data = [
-        '1' => 'ใบขับขี่รถชนิดชั่วคราว',
-        '2' => 'ใบขับขี่รถยนต์ส่วนบุคคล'
+        '1' => 'ท.2',
+        '2' => 'ท.3',
+        '3' => 'ท.4',
     ];
 
     private static $dataobj = [
-        ['id'=>'1','name' => 'ใบขับขี่รถชนิดชั่วคราว'],
-        ['id'=>'2','name' => 'ใบขับขี่รถยนต์ส่วนบุคคล']
+        ['id'=>'1','name' => 'ท.2'],
+        ['id'=>'2','name' => 'ท.3'],
+        ['id'=>'3','name' => 'ท.4'],
     ];
     public static function asArray()
     {

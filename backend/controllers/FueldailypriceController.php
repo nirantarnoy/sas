@@ -175,7 +175,7 @@ class FueldailypriceController extends Controller
     public function actionGetapiprice(){
         $html = '';
 
-        $model = \common\models\FuelPrice::find()->all();
+        $model = \common\models\FuelPrice::find()->where(['date(price_date)'=>date('Y-m-d')])->all();
         if($model){
             foreach($model as $value){
                 $oil_id = $value->fuel_id;
