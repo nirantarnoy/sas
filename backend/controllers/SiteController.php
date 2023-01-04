@@ -75,7 +75,7 @@ class SiteController extends Controller
         if($model_work_qty){
             foreach($model_work_qty as $value){
                 $work_queue_qty +=1;
-                if($value->statue == 1){
+                if($value->status == 1){
                     $work_queue_complete_qty +=1;
                 }else{
                     $work_queue_not_complete_qty +=1;
