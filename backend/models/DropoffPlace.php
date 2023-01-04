@@ -32,7 +32,7 @@ class DropoffPlace extends \common\models\DropoffPlace
     public function rules()
     {
         return [
-            [['status', 'created_at', 'created_by', 'updated_at', 'updated_by','hp'], 'integer'],
+            [['status', 'created_at', 'created_by', 'updated_at', 'updated_by','hp','car_type_id'], 'integer'],
             [['name', 'description'], 'string', 'max' => 255],
             [['oil_rate_qty'],'safe']
         ];
@@ -48,6 +48,7 @@ class DropoffPlace extends \common\models\DropoffPlace
             'name' => 'ชื่อ',
             'description' => 'รายละเอียด',
             'status' => 'สถานะ',
+            'car_type_id'=>'ประเภทรถ',
             'created_at' => 'Created At',
             'created_by' => 'Created By',
             'updated_at' => 'Updated At',

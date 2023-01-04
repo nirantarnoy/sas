@@ -13,13 +13,21 @@ use yii\widgets\ActiveForm;
     <?php $form = ActiveForm::begin(); ?>
 
     <div class="row">
-        <div class="col-lg-4">
+        <div class="col-lg-3">
             <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
         </div>
-        <div class="col-lg-4">
+        <div class="col-lg-3">
+            <?= $form->field($model, 'car_type_id')->Widget(\kartik\select2\Select2::className(), [
+                'data' => \yii\helpers\ArrayHelper::map(\backend\models\CarType::find()->all(), 'id', 'name'),
+                'options' => [
+                    'placeholder' => '--เลือกประเภทรถ--'
+                ]
+            ]) ?>
+        </div>
+        <div class="col-lg-3">
             <?= $form->field($model, 'hp')->textInput(['maxlength' => true]) ?>
         </div>
-        <div class="col-lg-4">
+        <div class="col-lg-3">
             <?= $form->field($model, 'oil_rate_qty')->textInput(['maxlength' => true]) ?>
         </div>
     </div>

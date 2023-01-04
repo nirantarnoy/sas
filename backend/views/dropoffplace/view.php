@@ -32,6 +32,12 @@ $this->params['breadcrumbs'][] = $this->title;
             'name',
             'description',
 //            'status',
+            [
+                'attribute' => 'car_type_id',
+                'value' => function ($data) {
+                    return \backend\models\CarType::findName($data->car_type_id);
+                }
+            ],
             'hp',
             'oil_rate_qty',
             [
