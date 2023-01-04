@@ -151,4 +151,18 @@ class AddressInfo extends \common\models\AddressInfo
         $model_3 = Province::find()->where(['PROVINCE_ID' => $c_address->province_id])->one();
         return $model != null ? $model->DISTRICT_NAME .' '.$model_2->AMPHUR_NAME.' '.$model_3->PROVINCE_NAME : '';
     }
+
+    public static function findProvinceShowname($id)
+    {
+            $model = Province::find()->where(['PROVINCE_ID' => $id])->one();
+            return $model != null ? $model->PROVINCE_NAME : '-';
+
+    }
+    public static function findAmphurShowname($id)
+    {
+
+            $model = Amphur::find()->where(['AMPHUR_ID' => $id])->one();
+            return $model != null ? $model->AMPHUR_NAME : '-';
+
+    }
 }

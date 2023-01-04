@@ -8,9 +8,9 @@ use yii\widgets\ActiveForm;
 /** @var yii\widgets\ActiveForm $form */
 
 $province_data = \backend\models\Province::find()->all();
-$province_chk = \backend\models\AddressInfo::findProvinceId($model->id);
+//$province_chk = \backend\models\AddressInfo::findProvinceShowname($model->province_id);
 $city_data = \backend\models\Amphur::find()->all();
-$city_chk = \backend\models\AddressInfo::findAmphurId($model->id);
+//$city_chk = \backend\models\AddressInfo::findAmphurShowname($model->city_id);
 ?>
 
 <div class="fueldailyprice-form">
@@ -32,7 +32,7 @@ $city_chk = \backend\models\AddressInfo::findAmphurId($model->id);
                 <?php foreach ($province_data as $val3): ?>
                     <?php
                     $selected = '';
-                    if ($val3->PROVINCE_ID == $province_chk)
+                    if ($val3->PROVINCE_ID == $model->province_id)
                         $selected = 'selected';
 //                    ?>
                     <option value="<?= $val3->PROVINCE_ID ?>" <?= $selected ?>><?= $val3->PROVINCE_NAME ?></option>
@@ -47,7 +47,7 @@ $city_chk = \backend\models\AddressInfo::findAmphurId($model->id);
                 <?php foreach ($city_data as $val2): ?>
                     <?php
                     $selected = '';
-                    if ($val2->AMPHUR_ID == $city_chk)
+                    if ($val2->AMPHUR_ID == $model->city_id)
                         $selected = 'selected';
 //                    ?>
                     <option value="<?= $val2->AMPHUR_ID ?>" <?= $selected ?>><?= $val2->AMPHUR_NAME ?></option>
