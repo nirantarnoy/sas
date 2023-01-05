@@ -330,6 +330,7 @@ class CustomerController extends Controller
         $model = \common\models\Amphur::find()->where(['PROVINCE_ID' => $id])->all();
 
         if (count($model) > 0) {
+            echo "<option>--- เลือกอำเภอ ---</option>";
             foreach ($model as $value) {
 
                 echo "<option value='" . $value->AMPHUR_ID . "'>$value->AMPHUR_NAME</option>";
