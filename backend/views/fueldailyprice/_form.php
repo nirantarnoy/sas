@@ -56,7 +56,7 @@ $city_data = \backend\models\Amphur::find()->all();
         </div>
         <div class="col-lg-3">
             <?= $form->field($model, 'price_date')->widget(\kartik\date\DatePicker::className(), [
-                'value' => date('d/m/Y')
+                'value' => date('m/d/Y')
             ]) ?>
         </div>
         <div class="col-lg-3"></div>

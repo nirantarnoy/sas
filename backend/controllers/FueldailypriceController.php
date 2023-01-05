@@ -38,12 +38,17 @@ class FueldailypriceController extends Controller
      */
     public function actionIndex()
     {
+        $pageSize = \Yii::$app->request->post("perpage");
+
         $searchModel = new FueldailypriceSearch();
         $dataProvider = $searchModel->search($this->request->queryParams);
+
+        $dataProvider->pagination->pageSize = $pageSize;
 
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
+            'perpage' => $pageSize,
         ]);
     }
 
@@ -87,7 +92,7 @@ class FueldailypriceController extends Controller
                 $new_price_date = date('Y-m-d');
                 $x_date = explode('/', $price_date);
                 if (count($x_date) > 1) {
-                    $new_price_date = $x_date[2] . '/' . $x_date[1] . '/' . $x_date[0];
+                    $new_price_date = $x_date[2] . '/' . $x_date[0] . '/' . $x_date[1];
                 }
 //                print_r($new_price_date); return ;
 
@@ -141,7 +146,64 @@ class FueldailypriceController extends Controller
             $model_line = \backend\models\Fueldailyprice::find()->where(['province_id'=>$province_id])->andFilterWhere(['date(price_date)'=>date('Y-m-d',strtotime($price_date))])->all();
         }
 
-        if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
+        if ($this->request->isPost && $model->load($this->request->post())) {
+
+            $line_fuel_id = \Yii::$app->request->post('line_fuel_id');
+            $line_fuel_price = \Yii::$app->request->post('line_fuel_price');
+            $line_fuel_price_add = \Yii::$app->request->post('line_fuel_price_add');
+            $line_fuel_price_total = \Yii::$app->request->post('line_fuel_price_total');
+
+            $province_id = \Yii::$app->request->post('province_id');
+            $city_id = \Yii::$app->request->post('city_id');
+
+            $res = 0;
+
+            $price_date1 = $model->price_date;
+            //explode ตามขั้นตอน
+            $new_price_date = date('Y-m-d');
+            $x_date = explode('/', $price_date1);
+            if (count($x_date) > 1) {
+                $new_price_date = $x_date[2] . '/' . $x_date[0] . '/' . $x_date[1];
+            }
+//                print_r($line_fuel_id); return ;
+
+            if($line_fuel_id != null){
+                $price_date2 = $model->price_date;
+                for($x=0;$x<=count($line_fuel_id)-1;$x++){
+                    $model_x_chk = \backend\models\Fueldailyprice::find()->where(['fuel_id'=>$line_fuel_id[$x],'province_id'=>$province_id,'city_id'=>$city_id])->andFilterWhere(['date(price_date)'=>date('Y-m-d',strtotime($price_date2))])->one();
+                    if ($model_x_chk){
+                        $model_x_chk->province_id = $province_id;
+                        $model_x_chk->city_id = $city_id;
+                        $model_x_chk->fuel_id = $line_fuel_id[$x];
+                        $model_x_chk->price_date = date('Y-m-d H:i:s',strtotime($new_price_date));
+                        $model_x_chk->price_origin = $line_fuel_price[$x];
+                        $model_x_chk->price_add = $line_fuel_price_add[$x];
+                        $model_x_chk->price = $line_fuel_price_total[$x];
+                        $model_x_chk->status = 1;
+                        if ($model_x_chk->save(false)){
+
+                        }
+                    }else{
+                        $model_x = new \backend\models\Fueldailyprice();
+                        $model_x->province_id = $province_id;
+                        $model_x->city_id = $city_id;
+                        $model_x->fuel_id= $line_fuel_id[$x];
+                        $model_x->price_date = date('Y-m-d H:i:s',strtotime($new_price_date));
+                        $model_x->price_origin = $line_fuel_price[$x];
+                        $model_x->price_add = $line_fuel_price_add[$x];
+                        $model_x->price = $line_fuel_price_total[$x];
+                        $model_x->status = 1;
+                        if($model_x->save(false)){
+                            $res+=1;
+                        }
+                    }
+                }
+            }
+
+            if($res > 0){
+                return $this->redirect(['index']);
+            }
+
             return $this->redirect(['view', 'id' => $model->id]);
         }
 

@@ -66,6 +66,17 @@ class Fueldailyprice extends \common\models\FuelDailyPrice
         return $model != null ? $model->name : '';
     }
 
+    public static function findModelName($id)
+    {
+        $model = Fueldailyprice::find()->where(['id' => $id])->one();
+        $province = '';
+        $date = '';
+        if ($model){
+            $province = \backend\models\Province::findProvinceName($model->province_id);
+            $date = date('d-m-Y',strtotime($model->price_date));
+        }
+        return $model != null ? $province.''.$date : '';
+    }
 //
 
 }

@@ -52,5 +52,11 @@ class Amphur extends \common\models\Amphur
             'PROVINCE_ID' => 'Province ID',
         ];
     }
+
+    public static function findAmphurName($id)
+    {
+        $model = Amphur::find()->where(['AMPHUR_ID' => $id])->one();
+        return $model != null ? $model->AMPHUR_NAME : '';
+    }
 }
 

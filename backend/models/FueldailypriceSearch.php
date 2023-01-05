@@ -14,12 +14,15 @@ class FueldailypriceSearch extends Fueldailyprice
     /**
      * {@inheritdoc}
      */
+    public $globalSearch;
+
     public function rules()
     {
         return [
             [['id', 'fuel_id', 'province_id', 'city_id', 'status', 'created_at', 'created_by', 'updated_at', 'updated_by'], 'integer'],
             [['price_date'], 'safe'],
             [['price'], 'number'],
+            [['globalSearch'], 'string'],
         ];
     }
 
@@ -58,19 +61,24 @@ class FueldailypriceSearch extends Fueldailyprice
         }
 
         // grid filtering conditions
-        $query->andFilterWhere([
-            'id' => $this->id,
-            'fuel_id' => $this->fuel_id,
-            'province_id' => $this->province_id,
-            'city_id' => $this->city_id,
-            'price_date' => $this->price_date,
-            'price' => $this->price,
-            'status' => $this->status,
-            'created_at' => $this->created_at,
-            'created_by' => $this->created_by,
-            'updated_at' => $this->updated_at,
-            'updated_by' => $this->updated_by,
-        ]);
+//        $query->orFilterWhere([
+//            'id' => $this->globalSearch,
+//            'fuel_id' => $this->globalSearch,
+//            'province_id' => $this->globalSearch,
+//            'city_id' => $this->globalSearch,
+//            'price_date' => $this->globalSearch,
+//            'price' => $this->globalSearch,
+//            'status' => $this->globalSearch,
+//            'created_at' => $this->globalSearch,
+//            'created_by' => $this->globalSearch,
+//            'updated_at' => $this->globalSearch,
+//            'updated_by' => $this->globalSearch,
+//        ]);
+
+        $query->orFilterWhere(['like', 'fuel_id', $this->globalSearch])
+            ->orFilterWhere(['like', 'province_id', $this->globalSearch])
+            ->orFilterWhere(['like', 'city_id', $this->globalSearch])
+            ->orFilterWhere(['like', 'price', $this->globalSearch]);
 
         return $dataProvider;
     }

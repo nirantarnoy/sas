@@ -21,7 +21,8 @@ class CustomerSearch extends Customer
     {
         return [
             [['id', 'business_type', 'status', 'crated_at', 'created_by', 'updated_at', 'udpated_by'], 'integer'],
-            [['code', 'name','globalSearch'], 'safe'],
+            [['code', 'name'], 'safe'],
+            [['globalSearch'], 'string'],
         ];
     }
 
