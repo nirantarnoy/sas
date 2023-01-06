@@ -77,14 +77,25 @@ $this->params['breadcrumbs'][] = $this->title;
                 }
             ],
             //'status',
+//            [
+//                'attribute' => 'status',
+//                'format' => 'raw',
+//                'value' => function ($data) {
+//                    if ($data->status == 1) {
+//                        return '<div class="badge badge-success" >ใช้งาน</div>';
+//                    } else {
+//                        return '<div class="badge badge-secondary" >ไม่ใช้งาน</div>';
+//                    }
+//                }
+//            ],
             [
-                'attribute' => 'status',
+                'attribute' => 'approve_status',
                 'format' => 'raw',
                 'value' => function ($data) {
-                    if ($data->status == 1) {
-                        return '<div class="badge badge-success" >ใช้งาน</div>';
+                    if ($data->approve_status == 1) {
+                        return '<div class="badge badge-success" >อนุมัติแล้ว</div>';
                     } else {
-                        return '<div class="badge badge-secondary" >ไม่ใช้งาน</div>';
+                        return '<div class="badge badge-secondary" >ยังไม่อนุมัติ</div>';
                     }
                 }
             ],
