@@ -74,7 +74,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     return \backend\models\Customer::findCusName($data->customer_id);
                 }
             ],
-//            'emp_assign',
+            'dp_no',
             [
                 'attribute' => 'emp_assign',
                 'value' => function ($data) {
