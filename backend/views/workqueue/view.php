@@ -46,7 +46,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     return \backend\models\Employee::findFullName($data->emp_assign);
                 }
             ],
-//            'status',
+            'dp_no',
             [
                 'attribute' => 'status',
                 'format' => 'raw',

@@ -36,7 +36,7 @@ class Car extends \yii\db\ActiveRecord
     {
         return [
             [['car_type_id', 'status', 'company_id', 'created_at', 'created_by', 'updated_at', 'updated_by','tail_id','brand_id'], 'integer'],
-            [['name', 'description', 'plate_no'], 'string', 'max' => 255],
+            [['name', 'description', 'plate_no','doc'], 'string', 'max' => 255],
             [['horse_power'], 'double'],
         ];
     }
@@ -56,6 +56,7 @@ class Car extends \yii\db\ActiveRecord
             'status' => 'Status',
             'tail_id'=> 'ต่อพ่วง',
             'horse_power'=> 'แรงม้า',
+            'doc'=> 'เอกสารรถ',
             'company_id' => 'Company ID',
             'created_at' => 'Created At',
             'created_by' => 'Created By',

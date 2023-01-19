@@ -43,7 +43,7 @@ class WorkqueueController extends Controller
 
         $searchModel = new WorkqueueSearch();
         $dataProvider = $searchModel->search($this->request->queryParams);
-
+        $dataProvider->query->orderBy(['id'=>SORT_DESC]);
         $dataProvider->pagination->pageSize = $pageSize;
 
         return $this->render('index', [
@@ -77,8 +77,8 @@ class WorkqueueController extends Controller
 
         if ($this->request->isPost) {
             if ($model->load($this->request->post())) {
-                $model->work_queue_date = date('Y-m-d',strtotime($model->work_queue_date));
-
+                $new_date = $model->work_queue_date.' '.date('H:i:s');
+                $model->work_queue_date = date('Y-m-d H:i:s',strtotime($new_date));
                 $model->work_queue_no = $model->getLastNo();
                 if ($model->save(false)){
 

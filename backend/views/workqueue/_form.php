@@ -37,7 +37,7 @@ use yii\widgets\ActiveForm;
 
 
     <div class="row">
-        <div class="col-lg-6">
+        <div class="col-lg-4">
             <?= $form->field($model, 'customer_id')->Widget(\kartik\select2\Select2::className(), [
                 'data' => \yii\helpers\ArrayHelper::map(\backend\models\Customer::find()->all(), 'id', function ($data) {
                     return $data->name;
@@ -47,7 +47,10 @@ use yii\widgets\ActiveForm;
                 ]
             ]) ?>
         </div>
-        <div class="col-lg-6">
+        <div class="col-lg-4">
+            <?= $form->field($model, 'dp_no')->textInput(['maxlength' => true]) ?>
+        </div>
+        <div class="col-lg-4">
             <?= $form->field($model, 'emp_assign')->Widget(\kartik\select2\Select2::className(), [
                 'data' => \yii\helpers\ArrayHelper::map(\backend\models\Employee::find()->all(), 'id', function ($data) {
                     return $data->fname . ' ' . $data->lname;
