@@ -7,6 +7,7 @@ use backend\models\CarSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\web\UploadedFile;
 
 /**
  * CarController implements the CRUD actions for Car model.
@@ -27,7 +28,6 @@ class CarController extends Controller
                     'class' => VerbFilter::className(),
                     'actions' => [
                         'delete' => ['POST', 'GET'],
-
                     ],
                 ],
             ]
@@ -78,8 +78,19 @@ class CarController extends Controller
         $model = new Car();
 
         if ($this->request->isPost) {
-            if ($model->load($this->request->post()) && $model->save()) {
-                return $this->redirect(['view', 'id' => $model->id]);
+            if ($model->load($this->request->post())) {
+                $uploaded = UploadedFile::getInstance($model, 'doc');
+                if (!empty($uploaded)) {
+                    $upfiles = time() . "." . $uploaded->getExtension();
+                    // if ($uploaded->saveAs(Yii::$app->request->baseUrl . '/uploads/files/' . $upfiles)) {
+                    if ($uploaded->saveAs('../web/uploads/car_doc/' . $upfiles)) {
+                        $model->doc = $upfiles;
+                    }
+                }
+                if ($model->save()) {
+                    return $this->redirect(['view', 'id' => $model->id]);
+                }
+
             }
         } else {
             $model->loadDefaultValues();
@@ -101,8 +112,21 @@ class CarController extends Controller
     {
         $model = $this->findModel($id);
 
-        if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+        if ($this->request->isPost && $model->load($this->request->post())) {
+            if ($model->load($this->request->post())) {
+                $uploaded = UploadedFile::getInstance($model, 'doc');
+                if (!empty($uploaded)) {
+                    $upfiles = time() . "." . $uploaded->getExtension();
+                    // if ($uploaded->saveAs(Yii::$app->request->baseUrl . '/uploads/files/' . $upfiles)) {
+                    if ($uploaded->saveAs('../web/uploads/car_doc/' . $upfiles)) {
+                        $model->doc = $upfiles;
+                    }
+                }
+                if ($model->save()) {
+                    return $this->redirect(['view', 'id' => $model->id]);
+                }
+
+            }
         }
 
         return $this->render('update', [
@@ -153,6 +177,7 @@ class CarController extends Controller
         }
         echo json_encode($data);
     }
+
     public function actionGetrouteplan()
     {
         $id = \Yii::$app->request->post('route_plan_id');
@@ -162,18 +187,40 @@ class CarController extends Controller
             $total_rate_qty = 0;
             $total_dropoff_qty = 0;
 
-            $model = \common\models\RoutePlan::find()->where(['id'=>$id])->one();
-            if($model){
+            $model = \common\models\RoutePlan::find()->where(['id' => $id])->one();
+            if ($model) {
                 $distance = $model->total_distanct;
                 $total_rate_qty = $model->oil_rate_qty;
             }
-            $model_line_qty = \common\models\RoutePlanLine::find()->where(['route_plan_id'=>$id])->sum('dropoff_qty');
-            if($model_line_qty){
+            $model_line_qty = \common\models\RoutePlanLine::find()->where(['route_plan_id' => $id])->sum('dropoff_qty');
+            if ($model_line_qty) {
                 $total_rate_qty = $model_line_qty;
             }
 
-            array_push($data, ['total_distance' => $distance, 'total_rate_qty' => $total_rate_qty,'total_dropoff_rate_qty'=>$total_dropoff_qty]);
+            array_push($data, ['total_distance' => $distance, 'total_rate_qty' => $total_rate_qty, 'total_dropoff_rate_qty' => $total_dropoff_qty]);
         }
         echo json_encode($data);
+    }
+
+    public function actionRemovedoc(){
+        $car_id = \Yii::$app->request->post('car_id');
+        $doc_name = \Yii::$app->request->post('doc_name');
+
+        echo $car_id.' = '.$doc_name;
+
+        if($car_id && $doc_name != ''){
+            if(file_exists(\Yii::getAlias('@backend') . '/web/uploads/car_doc/'.$doc_name)){
+                if(unlink(\Yii::getAlias('@backend') . '/web/uploads/car_doc/'.$doc_name)){
+                    $model = \backend\models\Car::find()->where(['id'=>$car_id])->one();
+                    if($model){
+                        $model->doc = '';
+                        $model->save(false);
+                    }
+                }
+            }
+        }else{
+            echo "no";return;
+        }
+        return $this->redirect(['car/update','id'=>$car_id]);
     }
 }

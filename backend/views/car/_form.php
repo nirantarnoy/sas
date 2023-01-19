@@ -11,7 +11,7 @@ use yii\widgets\ActiveForm;
 
     <div class="car-form">
 
-        <?php $form = ActiveForm::begin(); ?>
+        <?php $form = ActiveForm::begin(['options' => ['enctype' => 'multipart/form-data']]); ?>
 
         <div class="row">
             <div class="col-lg-4">
@@ -33,7 +33,8 @@ use yii\widgets\ActiveForm;
                         return $data->name;
                     }),
                     'options' => [
-                        'placeholder' => '--ยี่ห้อรถ--'
+                        'placeholder' => '--ยี่ห้อรถ--',
+//                        'onchange' => 'showid($(this))',
                     ]
                 ]) ?>
             </div>
@@ -62,7 +63,7 @@ use yii\widgets\ActiveForm;
                     'options' => [
                         'class' => 'tail-id',
                         'placeholder' => '--ต่อพ่วง--',
-                        'disabled'=> 'true',
+                        'disabled' => 'true',
                     ],
 
                 ])->label('หาง') ?>
@@ -94,13 +95,43 @@ use yii\widgets\ActiveForm;
                     ]
                 ]) ?>
             </div>
+            <div class="col-lg-4">
+                <?php echo $form->field($model, 'status')->widget(\toxor88\switchery\Switchery::className(), ['options' => ['label' => '', 'class' => 'form-control']])->label() ?>
+
+            </div>
         </div>
+        <?php if ($model->doc == '' || $model->doc == null): ?>
+            <div class="row">
+                <div class="col-lg-4">
+                    <?= $form->field($model, 'doc')->fileInput(['maxlength' => true]) ?>
+                </div>
+            </div>
+        <?php else: ?>
+        <div class="row">
+            <div class="col-lg-12">
+                <label for="">เอกสารรถ</label>
+                <table class="table table-striped table-bordered">
+
+                    <tbody>
+                    <tr>
+                        <td><?=$model->doc?></td>
+                        <td><a href="<?=\Yii::$app->getUrlManager()->getBaseUrl() . '/uploads/car_doc/'.$model->doc ?>" target="_blank">ดูเอกสาร</a></td>
+                        <td>
+                            <div data-var="<?=$model->doc ?>" class="btn btn-danger" onclick="removedoc($(this))" >ลบ</div>
+                        </td>
+                    </tr>
+                    </tbody>
+
+                </table>
+            </div>
+        </div>
+
+        <?php endif; ?>
 
         <!-- <?= $form->field($model, 'company_id')->textInput() ?> -->
 
 
         <!-- <?= $form->field($model, 'status')->textInput() ?> -->
-        <?php echo $form->field($model, 'status')->widget(\toxor88\switchery\Switchery::className(), ['options' => ['label' => '', 'class' => 'form-control']])->label() ?>
 
 
         <!-- <?= $form->field($model, 'created_at')->textInput() ?>
@@ -117,9 +148,12 @@ use yii\widgets\ActiveForm;
         </div>
 
         <?php ActiveForm::end(); ?>
-
     </div>
 
+    <form id="form-delete-doc" action="<?=\yii\helpers\Url::to(['car/removedoc'],true)?>" method="post">
+        <input type="hidden" name="car_id" value="<?=$model->id?>">
+        <input type="hidden" class="car-doc-delete" name="doc_name" value="">
+    </form>
 
 <?php
 $js = <<<JS
@@ -134,6 +168,19 @@ function showtail(e){
         $(".tail-id").prop("disabled","disabled");
     }
 }
+function removedoc(e){
+    var doc_name = e.attr("data-var");
+    $(".car-doc-delete").val(doc_name);
+    if(doc_name != ''){
+        $("form#form-delete-doc").submit();
+    }
+}
+
+function showid(e){
+    var id = e.val();
+    alert(e.val());
+}
+
 JS;
 $this->registerJs($js, static::POS_END);
 

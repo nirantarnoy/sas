@@ -61,7 +61,12 @@ $this->params['breadcrumbs'][] = $this->title;
 
 //            'id',
             'work_queue_no',
-            'work_queue_date',
+            [
+                'attribute' => 'work_queue_date',
+                'value' => function ($data) {
+                    return date('d-m-Y H:i:s', strtotime($data->work_queue_date));
+                }
+            ],
 //            'customer_id',
             [
                 'attribute' => 'customer_id',
@@ -69,7 +74,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     return \backend\models\Customer::findCusName($data->customer_id);
                 }
             ],
-//            'emp_assign',
+            'dp_no',
             [
                 'attribute' => 'emp_assign',
                 'value' => function ($data) {
