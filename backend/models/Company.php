@@ -33,7 +33,7 @@ class Company extends \common\models\Company
     {
         return [
             [['status', 'created_at', 'created_by', 'updated_at', 'updated_by'], 'integer'],
-            [['name', 'description'], 'string', 'max' => 255],
+            [['name', 'description','doc'], 'string', 'max' => 255],
         ];
     }
 
@@ -47,6 +47,7 @@ class Company extends \common\models\Company
             'name' => 'ชื่อ',
             'description' => 'รายละเอียด',
             'status' => 'สถานะ',
+            'doc' => 'เอกสารแนบ',
             'created_at' => 'Created At',
             'created_by' => 'Created By',
             'updated_at' => 'Updated At',

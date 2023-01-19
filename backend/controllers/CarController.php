@@ -113,7 +113,7 @@ class CarController extends Controller
         $model = $this->findModel($id);
 
         if ($this->request->isPost && $model->load($this->request->post())) {
-            if ($model->load($this->request->post())) {
+
                 $uploaded = UploadedFile::getInstance($model, 'doc');
                 if (!empty($uploaded)) {
                     $upfiles = time() . "." . $uploaded->getExtension();
@@ -126,7 +126,7 @@ class CarController extends Controller
                     return $this->redirect(['view', 'id' => $model->id]);
                 }
 
-            }
+
         }
 
         return $this->render('update', [
