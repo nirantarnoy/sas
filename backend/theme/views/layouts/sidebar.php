@@ -129,15 +129,26 @@
                             </li>
                         <?php //endif; ?>
                         <?php // if (\Yii::$app->user->can('productgroup/index')): ?>
-                            <li class="nav-item">
-                                <a href="index.php?r=car" class="nav-link car">
-                                    <i class="far fa-circlez nav-icon"></i>
-                                    <p>
-                                        รถ
-                                        <!--                                <span class="right badge badge-danger">New</span>-->
-                                    </p>
-                                </a>
-                            </li>
+                        <li class="nav-item">
+                            <a href="index.php?r=carbrand" class="nav-link carbrand">
+                                <i class="far fa-circlez nav-icon"></i>
+                                <p>
+                                    ยี่ห้อรถ
+                                    <!--                                <span class="right badge badge-danger">New</span>-->
+                                </p>
+                            </a>
+                        </li>
+                        <?php //endif; ?>
+                        <?php // if (\Yii::$app->user->can('productgroup/index')): ?>
+                        <li class="nav-item">
+                            <a href="index.php?r=car" class="nav-link car">
+                                <i class="far fa-circlez nav-icon"></i>
+                                <p>
+                                    รถ
+                                    <!--                                <span class="right badge badge-danger">New</span>-->
+                                </p>
+                            </a>
+                        </li>
                         <?php //endif; ?>
 
                     </ul>
