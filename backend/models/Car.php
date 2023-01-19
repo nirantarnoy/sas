@@ -48,11 +48,11 @@ class Car extends \common\models\Car
     {
         return [
             'id' => 'ID',
-            'name' => 'ชื่อ',
+            'name' => 'รถ',
             'description' => 'รายละเอียด',
             'plate_no' => 'ป้ายทะเบียน',
             'car_type_id' => 'ประเภทรถ',
-            'type_id' => 'ส่วยเสริม',
+            'type_id' => 'ลักษณะรถ',
             'fuel_type' => 'น้ำมัน',
             'status' => 'สถานะ',
             'horse_power' => 'แรงม้า',
