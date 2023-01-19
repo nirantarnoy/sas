@@ -28,6 +28,16 @@ use yii\widgets\ActiveForm;
         <!-- <?= $form->field($model, 'car_type_id')->textInput() ?> -->
         <div class="row">
             <div class="col-lg-3">
+                <?= $form->field($model, 'brand_id')->Widget(\kartik\select2\Select2::className(), [
+                    'data' => \yii\helpers\ArrayHelper::map(\backend\models\CarBrand::find()->all(), 'id', function ($data) {
+                        return $data->name;
+                    }),
+                    'options' => [
+                        'placeholder' => '--ยี่ห้อรถ--'
+                    ]
+                ]) ?>
+            </div>
+            <div class="col-lg-3">
                 <?= $form->field($model, 'car_type_id')->Widget(\kartik\select2\Select2::className(), [
                     'data' => \yii\helpers\ArrayHelper::map(\backend\models\CarType::find()->all(), 'id', function ($data) {
                         return $data->name;
@@ -57,13 +67,14 @@ use yii\widgets\ActiveForm;
 
                 ])->label('หาง') ?>
             </div>
-            <div class="col-lg-3">
-                <?= $form->field($model, 'horse_power')->textInput(['maxlength' => true]) ?>
-            </div>
+
         </div>
 
         <div class="row">
-            <div class="col-lg-6">
+            <div class="col-lg-4">
+                <?= $form->field($model, 'horse_power')->textInput(['maxlength' => true]) ?>
+            </div>
+            <div class="col-lg-4">
                 <?= $form->field($model, 'fuel_type')->Widget(\kartik\select2\Select2::className(), [
                     'data' => \yii\helpers\ArrayHelper::map(\backend\models\FuelType::find()->all(), 'id', function ($data) {
                         return $data->name;
@@ -73,7 +84,7 @@ use yii\widgets\ActiveForm;
                     ]
                 ]) ?>
             </div>
-            <div class="col-lg-6">
+            <div class="col-lg-4">
                 <?= $form->field($model, 'company_id')->Widget(\kartik\select2\Select2::className(), [
                     'data' => \yii\helpers\ArrayHelper::map(\backend\models\Company::find()->all(), 'id', function ($data) {
                         return $data->name;

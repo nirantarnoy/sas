@@ -1,32 +1,29 @@
 <?php
 
-namespace common\models;
+namespace backend\models;
 
 use Yii;
 
 /**
- * This is the model class for table "car".
+ * This is the model class for table "car_brand".
  *
  * @property int $id
  * @property string|null $name
  * @property string|null $description
- * @property string|null $plate_no
- * @property int|null $car_type_id
  * @property int|null $status
- * @property int|null $company_id
  * @property int|null $created_at
  * @property int|null $created_by
  * @property int|null $updated_at
  * @property int|null $updated_by
  */
-class Car extends \yii\db\ActiveRecord
+class CarBrand extends \common\models\CarBrand
 {
     /**
      * {@inheritdoc}
      */
     public static function tableName()
     {
-        return 'car';
+        return 'car_brand';
     }
 
     /**
@@ -35,14 +32,12 @@ class Car extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['car_type_id', 'status', 'company_id', 'created_at', 'created_by', 'updated_at', 'updated_by','tail_id','brand_id'], 'integer'],
-            [['name', 'description', 'plate_no'], 'string', 'max' => 255],
-            [['horse_power'], 'double'],
+            [['status', 'created_at', 'created_by', 'updated_at', 'updated_by'], 'integer'],
+            [['name', 'description'], 'string', 'max' => 255],
         ];
     }
 
     /**
-     *
      * {@inheritdoc}
      */
     public function attributeLabels()
@@ -51,17 +46,17 @@ class Car extends \yii\db\ActiveRecord
             'id' => 'ID',
             'name' => 'ชื่อ',
             'description' => 'รายละเอียด',
-            'plate_no' => 'ป้ายทะเบียน',
-            'car_type_id' => 'Car Type ID',
-            'brand_id' => 'ยี่ห้อรถ',
-            'status' => 'Status',
-            'tail_id'=> 'ต่อพ่วง',
-            'horse_power'=> 'แรงม้า',
-            'company_id' => 'Company ID',
+            'status' => 'สถานะ',
             'created_at' => 'Created At',
             'created_by' => 'Created By',
             'updated_at' => 'Updated At',
             'updated_by' => 'Updated By',
         ];
+    }
+
+    public static function findCarbrandName($id)
+    {
+        $model = CarBrand::find()->where(['id' => $id])->one();
+        return $model != null ? $model->name : '';
     }
 }

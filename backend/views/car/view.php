@@ -33,6 +33,13 @@ $this->params['breadcrumbs'][] = $this->title;
             'name',
             'description',
             'plate_no',
+//            'brand_id',
+            [
+                'attribute' => 'brand_id',
+                'value' => function ($model){
+                    return \backend\models\CarBrand::findCarbrandName($model->brand_id);
+                }
+            ],
             // 'car_type_id',
             [
                 'attribute' => 'car_type_id',
