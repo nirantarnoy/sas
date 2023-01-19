@@ -35,7 +35,7 @@ class RoutePlan extends \common\models\RoutePlan
     public function rules()
     {
         return [
-            [['des_province_id', 'status', 'created_at', 'created_by', 'updated_at', 'updated_by','item_back_id'], 'integer'],
+            [['des_province_id', 'status', 'created_at', 'created_by', 'updated_at', 'updated_by','item_back_id','customer_id'], 'integer'],
             [['total_distanct'], 'number'],
             [['des_name'], 'string', 'max' => 255],
         ];

@@ -60,7 +60,11 @@ $this->params['breadcrumbs'][] = $this->title;
             ['class' => 'yii\grid\SerialColumn'],
 
 //            'id',
-            'des_name',
+//            'des_name',
+            ['attribute' => 'customer_id',
+                'value' => function ($data) {
+                    return \backend\models\Customer::findCusName($data->customer_id);
+                }],
 //            'des_province_id',
             [
                 'attribute' => 'des_province_id',
