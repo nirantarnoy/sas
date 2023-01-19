@@ -7,6 +7,7 @@ use backend\models\CompanySearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\web\UploadedFile;
 
 /**
  * CompanyController implements the CRUD actions for Company model.
@@ -14,6 +15,7 @@ use yii\filters\VerbFilter;
 class CompanyController extends Controller
 {
     public $enableCsrfValidation = false;
+
     /**
      * @inheritDoc
      */
@@ -76,9 +78,22 @@ class CompanyController extends Controller
         $model = new Company();
 
         if ($this->request->isPost) {
-            if ($model->load($this->request->post()) && $model->save()) {
-                return $this->redirect(['view', 'id' => $model->id]);
+
+            if ($model->load($this->request->post())) {
+                $uploaded = UploadedFile::getInstance($model, 'doc');
+                if (!empty($uploaded)) {
+                    $upfiles = time() . "." . $uploaded->getExtension();
+                    // if ($uploaded->saveAs(Yii::$app->request->baseUrl . '/uploads/files/' . $upfiles)) {
+                    if ($uploaded->saveAs('../web/uploads/company_doc/' . $upfiles)) {
+                        $model->doc = $upfiles;
+                    }
+                }
+                if ($model->save()) {
+                    return $this->redirect(['view', 'id' => $model->id]);
+                }
+
             }
+
         } else {
             $model->loadDefaultValues();
         }
@@ -99,8 +114,18 @@ class CompanyController extends Controller
     {
         $model = $this->findModel($id);
 
-        if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+        if ($this->request->isPost && $model->load($this->request->post())) {
+            $uploaded = UploadedFile::getInstance($model, 'doc');
+            if (!empty($uploaded)) {
+                $upfiles = time() . "." . $uploaded->getExtension();
+                // if ($uploaded->saveAs(Yii::$app->request->baseUrl . '/uploads/files/' . $upfiles)) {
+                if ($uploaded->saveAs('../web/uploads/company_doc/' . $upfiles)) {
+                    $model->doc = $upfiles;
+                }
+            }
+            if ($model->save()) {
+                return $this->redirect(['view', 'id' => $model->id]);
+            }
         }
 
         return $this->render('update', [
@@ -136,5 +161,29 @@ class CompanyController extends Controller
         }
 
         throw new NotFoundHttpException('The requested page does not exist.');
+    }
+
+    public function actionRemovedoc()
+    {
+        $company_id = \Yii::$app->request->post('company_id');
+        $doc_name = \Yii::$app->request->post('doc_name');
+
+        echo $company_id . ' = ' . $doc_name;
+
+        if ($company_id && $doc_name != '') {
+            if (file_exists(\Yii::getAlias('@backend') . '/web/uploads/company_doc/' . $doc_name)) {
+                if (unlink(\Yii::getAlias('@backend') . '/web/uploads/company_doc/' . $doc_name)) {
+                    $model = \backend\models\Company::find()->where(['id' => $company_id])->one();
+                    if ($model) {
+                        $model->doc = '';
+                        $model->save(false);
+                    }
+                }
+            }
+        } else {
+            echo "no";
+            return;
+        }
+        return $this->redirect(['company/update', 'id' => $company_id]);
     }
 }
