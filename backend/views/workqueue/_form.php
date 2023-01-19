@@ -28,10 +28,10 @@ use yii\widgets\ActiveForm;
                     return $data->des_name;
                 }),
                 'options' => [
-                    'placeholder' => '--ปลายทาง--',
+                    'placeholder' => '--จุดขึ้นสินค้า--',
                     'onchange'=>'getRouteplan($(this))'
                 ]
-            ]) ?>
+            ])->label('จุดขึ้นสินค้า') ?>
         </div>
     </div>
 

@@ -45,7 +45,7 @@ class CarType extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'name' => 'ชื่อ',
+            'name' => 'ประเภท',
             'description' => 'รายละเอียด',
             'status' => 'สถานะ',
             'company_id' => 'บริษัท',
