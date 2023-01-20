@@ -4,6 +4,7 @@ namespace backend\controllers;
 
 use backend\models\Company;
 use backend\models\CompanySearch;
+use common\models\CompanyDoc;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -80,15 +81,34 @@ class CompanyController extends Controller
         if ($this->request->isPost) {
 
             if ($model->load($this->request->post())) {
-                $uploaded = UploadedFile::getInstance($model, 'doc');
-                if (!empty($uploaded)) {
-                    $upfiles = time() . "." . $uploaded->getExtension();
-                    // if ($uploaded->saveAs(Yii::$app->request->baseUrl . '/uploads/files/' . $upfiles)) {
-                    if ($uploaded->saveAs('../web/uploads/company_doc/' . $upfiles)) {
-                        $model->doc = $upfiles;
-                    }
-                }
+
+                $line_doc_name = \Yii::$app->request->post('line_doc_name');
+                // $line_file_name = \Yii::$app->request->post('line_file_name');
+                $uploaded = UploadedFile::getInstancesByName('line_file_name');
+
                 if ($model->save()) {
+                    if ($line_doc_name != null) {
+                        for ($i = 0; $i <= count($line_doc_name) - 1; $i++) {
+
+                            foreach ($uploaded as $key => $value) {
+                                if ($key == $i) {
+                                    if (!empty($value)) {
+                                        $upfiles = time() . "." . $value->getExtension();
+                                        // if ($uploaded->saveAs(Yii::$app->request->baseUrl . '/uploads/files/' . $upfiles)) {
+                                        if ($value->saveAs('../web/uploads/company_doc/' . $upfiles)) {
+                                            $model_doc = new \common\models\CompanyDoc();
+                                            $model_doc->company_id = $model->id;
+                                            $model_doc->doc_name = $upfiles;
+                                            $model_doc->description = $line_doc_name[$i];
+                                            $model_doc->save(false);
+                                        }
+                                    }
+                                }
+                            }
+
+
+                        }
+                    }
                     return $this->redirect(['view', 'id' => $model->id]);
                 }
 
@@ -113,23 +133,63 @@ class CompanyController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
+        $model_line_doc = \common\models\CompanyDoc::find()->where(['company_id' => $id])->all();
 
         if ($this->request->isPost && $model->load($this->request->post())) {
-            $uploaded = UploadedFile::getInstance($model, 'doc');
-            if (!empty($uploaded)) {
-                $upfiles = time() . "." . $uploaded->getExtension();
-                // if ($uploaded->saveAs(Yii::$app->request->baseUrl . '/uploads/files/' . $upfiles)) {
-                if ($uploaded->saveAs('../web/uploads/company_doc/' . $upfiles)) {
-                    $model->doc = $upfiles;
-                }
-            }
+//            $uploaded = UploadedFile::getInstance($model, 'doc');
+            $removelist = \Yii::$app->request->post('remove_list');
+            $line_doc_name = \Yii::$app->request->post('line_doc_name');
+            // $line_file_name = \Yii::$app->request->post('line_file_name');
+            $uploaded = UploadedFile::getInstancesByName('line_file_name');
+            $line_id = \Yii::$app->request->post('rec_id');
+
+            //  print_r($line_id);return;
             if ($model->save()) {
+                if ($line_id != null) {
+                    // echo count($uploaded);return;
+                    for ($i = 0; $i <= count($line_id) - 1; $i++) {
+                        $model_check = \common\models\CompanyDoc::find()->where(['id' => $line_id[$i]])->one();
+                        if ($model_check) {
+                            $model_check->description = $line_doc_name[$i];
+                            $model_check->save(false);
+                        } else {
+                            foreach ($uploaded as $key => $value) {
+
+                                if (!empty($value)) {
+                                    $upfiles = time() + 2 . "." . $value->getExtension();
+                                    // if ($uploaded->saveAs(Yii::$app->request->baseUrl . '/uploads/files/' . $upfiles)) {
+                                    if ($value->saveAs('../web/uploads/company_doc/' . $upfiles)) {
+                                        $model_doc = new \common\models\CompanyDoc();
+                                        $model_doc->company_id = $model->id;
+                                        $model_doc->doc_name = $upfiles;
+                                        $model_doc->description = $line_doc_name[$i];
+                                        $model_doc->save(false);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+
+                $delete_rec = explode(",", $removelist);
+                if (count($delete_rec)) {
+                    $model_find_doc_delete = \common\models\CompanyDoc::find()->where(['id' => $delete_rec])->one();
+                    if ($model_find_doc_delete) {
+                        if (file_exists(\Yii::getAlias('@backend') . '/web/uploads/company_doc/' . $model_find_doc_delete->doc_name)) {
+                            if (unlink(\Yii::getAlias('@backend') . '/web/uploads/company_doc/' . $model_find_doc_delete->doc_name)) {
+                                \common\models\CompanyDoc::deleteAll(['id' => $delete_rec]);
+                            }
+                        }
+                    }
+
+                }
                 return $this->redirect(['view', 'id' => $model->id]);
             }
         }
 
         return $this->render('update', [
             'model' => $model,
+            'model_line_doc' => $model_line_doc,
         ]);
     }
 
