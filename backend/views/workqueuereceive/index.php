@@ -1,7 +1,9 @@
 <?php
 $model = $dataProvider->getModels();
+
+$emp_name = \backend\models\Employee::findFullName($emp_id);
 ?>
-<div style="height: 10px;"></div>
+<div style="height: 15px;"></div>
 <div class="row">
     <div class="col-lg-3">
         <a href="#">
@@ -12,15 +14,18 @@ $model = $dataProvider->getModels();
 <div style="height: 10px;"></div>
 <div class="row">
     <div class="col-lg-6" style="vertical-align: middle;">
-       <h3><span><i class="fa fa-user-circle"></i> </span>พนักงานขับรถ <span style="color: red"> นายทดสอบ คิวงาน</span></h3>
+       <h3><span><i class="fa fa-user-circle"></i> </span>พนักงานขับรถ <span style="color: red"> <?=$emp_name?></span></h3>
     </div>
     <div class="col-lg-6" style="text-align: right;">
-        <button class="btn btn-info">แก้ไขข้อมูลส่วนตัว</button>
+        <div class="btn-group">
+            <a href="<?=\yii\helpers\Url::to(['workqueuereceive/editprofile','id'=>$emp_id],true)?>" class="btn btn-info"><i class="fa fa-edit"></i> แก้ไขข้อมูลส่วนตัว</a>
+            <a href="<?=\yii\helpers\Url::to(['site/logoutdriver'],true)?>" class="btn btn-danger"><i class="fa fa-power-off"></i> ออกจากระบบ</a>
+        </div>
     </div>
 </div><br />
 <div class="row">
     <div class="col-lg-12" style="text-align: center;">
-        <h5>รายการคิวงานของคุณ</h5>
+        <h3>รายการคิวงานของคุณ</h3>
     </div>
 </div>
 <div class="row">
@@ -29,6 +34,8 @@ $model = $dataProvider->getModels();
           <thead>
           <tr>
               <th style="width: 10%;text-align: center;">ลำดับที่</th>
+              <th>เลขที่คิวงาน</th>
+              <th>วันที่</th>
               <th>บริษัท</th>
               <th>ปลายทาง</th>
               <th style="width: 15%;text-align: center;">รายละเอียด</th>
@@ -40,6 +47,8 @@ $model = $dataProvider->getModels();
                  <?php $x +=1;?>
              <tr>
                  <td style="text-align: center;vertical-align: middle;"><?=$x?></td>
+                 <td style="vertical-align: middle;"><?=$value->work_queue_no?></td>
+                 <td style="vertical-align: middle;"><?=date('d-m-Y H:i:s',strtotime($value->work_queue_date))?></td>
                  <td style="vertical-align: middle;">SCG</td>
                  <td style="vertical-align: middle;">ชุมพร</td>
                  <td style="text-align: center;">

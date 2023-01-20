@@ -49,6 +49,7 @@ class WorkqueuereceiveController extends Controller
         $searchModel = new WorkqueueSearch();
         $dataProvider = $searchModel->search($this->request->queryParams);
         if($emp_id){
+
             $dataProvider->query->andFilterWhere(['emp_assign'=>$emp_id]);
         }
 
@@ -61,6 +62,8 @@ class WorkqueuereceiveController extends Controller
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
             'perpage' => $pageSize,
+            'emp_id' => $emp_id,
+
         ]);
     }
 
@@ -78,6 +81,27 @@ class WorkqueuereceiveController extends Controller
                 'modelline' => $modelline,
             ]);
         }
+    }
+
+    public function actionEditprofile($id){
+        $emp_id = $id;
+        $emp_data = null;
+        if($emp_id != ''){
+            $emp_data = \backend\models\Employee::find()->where(['id'=>$emp_id])->one();
+        }
+        $this->layout = 'main_login';
+        if($emp_data != null){
+            return $this->render('_editprofile',[
+                'model'=>$emp_data,
+            ]);
+        }else{
+            return $this->redirect(['workqueuereceive/index']);
+        }
+    }
+
+    public function actionUpdateprofile(){
+        $emp_id = \Yii::$app->request->post('emp_id');
+        $emp_phone = \Yii::$app->request->post('emp_phone');
     }
 
 

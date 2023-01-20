@@ -24,11 +24,11 @@ class SiteController extends Controller
                 'class' => AccessControl::class,
                 'rules' => [
                     [
-                        'actions' => ['login', 'error'],
+                        'actions' => ['login', 'error','logindriver'],
                         'allow' => true,
                     ],
                     [
-                        'actions' => ['logout', 'index', 'changepassword','grab'],
+                        'actions' => ['logout', 'index', 'changepassword','grab','logoutdriver'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -124,6 +124,31 @@ class SiteController extends Controller
 
 
     }
+    public function actionLogindriver()
+    {
+        if (!Yii::$app->user->isGuest) {
+            return $this->goHome();
+        }
+
+        $this->layout = 'blank';
+
+        $model = new LoginForm();
+        if ($model->load(Yii::$app->request->post()) && $model->login()) {
+            //echo "login ok"; return;
+            // return $this->goBack();
+            return $this->redirect(['workqueuereceive/index']);
+        }
+
+        //   $model->password = '';
+        $model->password = '';
+        $this->layout = 'main_login';
+        $model->password = '';
+        return $this->render('login_emp_car', [
+            'model' => $model,
+        ]);
+
+
+    }
 
     /**
      * Logout action.
@@ -132,9 +157,15 @@ class SiteController extends Controller
      */
     public function actionLogout()
     {
-        Yii::$app->user->logout();
+        \Yii::$app->user->logout();
 
         return $this->goHome();
+    }
+    public function actionLogoutdriver()
+    {
+        \Yii::$app->user->logout();
+
+        return $this->redirect(['site/logindriver']);
     }
 
     public function actionChangepassword()
