@@ -141,9 +141,9 @@ class CompanyController extends Controller
             $line_doc_name = \Yii::$app->request->post('line_doc_name');
             // $line_file_name = \Yii::$app->request->post('line_file_name');
             $uploaded = UploadedFile::getInstancesByName('line_file_name');
-            $line_id = \Yii::$app->request->post('rec_id');
+             $line_id = \Yii::$app->request->post('rec_id');
 
-            //  print_r($line_id);return;
+             // print_r($line_id);return;
             if ($model->save()) {
                 if ($line_id != null) {
                     // echo count($uploaded);return;

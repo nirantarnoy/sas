@@ -27,6 +27,7 @@ use yii\widgets\ActiveForm;
                         <tbody>
                         <tr>
                             <td>
+                                <input type="hidden" class="rec-id" name="rec_id[]" value="0">
                                 <input type="text" class="form-control line-doc-name" name="line_doc_name[]" value="">
                             </td>
                             <td>
