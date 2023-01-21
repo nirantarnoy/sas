@@ -95,4 +95,13 @@ class RoutePlan extends \common\models\RoutePlan
         $model = RoutePlan::find()->where(['id' => $id])->one();
         return $model != null ? $model->des_name : '';
     }
+    public static function findDes2($id)
+    {
+        $customer_name = '';
+        $model = RoutePlan::find()->where(['id' => $id])->one();
+        if($model){
+            $customer_name = \backend\models\Customer::findCusName($model->customer_id);
+        }
+        return $customer_name;
+    }
 }

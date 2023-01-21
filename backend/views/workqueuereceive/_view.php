@@ -50,7 +50,7 @@ $date_year = date('Y',strtotime($model->work_queue_date)) + 543;
     <table style="width: 100%">
         <tr>
             <td>
-                ต้นทาง-ปลายทาง <b><?= \backend\models\RoutePlan::findDes($model->route_plan_id) ?></b>
+                ต้นทาง-ปลายทาง <b><?= \backend\models\RoutePlan::findDes2($model->route_plan_id) ?></b>
             </td>
         </tr>
     </table>
