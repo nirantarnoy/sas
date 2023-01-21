@@ -49,10 +49,8 @@ class WorkqueuereceiveController extends Controller
         $searchModel = new WorkqueueSearch();
         $dataProvider = $searchModel->search($this->request->queryParams);
         if($emp_id){
-
-            $dataProvider->query->andFilterWhere(['emp_assign'=>$emp_id]);
+           // $dataProvider->query->andFilterWhere(['emp_assign'=>$emp_id]);
         }
-
 
         $dataProvider->pagination->pageSize = $pageSize;
 

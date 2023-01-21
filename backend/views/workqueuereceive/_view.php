@@ -1,31 +1,24 @@
 <?php
 
 
-$date_day = date('d');
-$date_month = \backend\helpers\Thaimonth::getTypeById((int)(date('m')));
-$date_year = date('Y') + 543;
+$date_day = date('d',strtotime($model->work_queue_date));
+$date_month = \backend\helpers\Thaimonth::getTypeById((int)(date('m', strtotime($model->work_queue_date))));
+$date_year = date('Y',strtotime($model->work_queue_date)) + 543;
 ?>
-<div class="row">
-    <div class="col-lg-12">
-        <div class="btn btn-default btn-print" onclick="printContent('print-area')">พิมพ์</div>
-    </div>
-</div>
+<br />
 <div id="print-area">
-    <table style="width: 100%">
+    <table style="width: 100%;" border="0">
         <tr>
-            <td style="text-align: right"></td>
-            <td style="text-align: center"><h4><b>บริษัท ลานเหล็กลำเลียง จำกัด</b></h4></td>
+            <td colspan="3" style="text-align: center"><h4><b>บริษัท ณโรโน่ จำกัด</b></h4></td>
+        </tr>
+        <tr>
+            <td style="width: 33%"></td>
+            <td style="text-align: center;width: 33%"><h5><b>ใบสั่งจ่ายน้ำมัน</b></h5></td>
+            <td style="text-align: right;width: 33%">เลขที่ <b><?= $model->work_queue_no ?></b></td>
         </tr>
     </table>
     <br>
-    <table style="width: 100%">
-        <tr>
-            <td>เล่มที่</td>
-            <td style="text-align: right"><h5><b>ใบสั่งจ่ายน้ำมัน</b></h5></td>
-            <td style="text-align: right">เลขที่ <b><?= $model->work_queue_no ?></b></td>
-        </tr>
-    </table>
-    <br>
+
     <table style="width: 100%">
         <tr>
             <td style="text-align: center"><b>วันที่ <?= $date_day ?> เดือน <?= $date_month ?>
@@ -65,36 +58,54 @@ $date_year = date('Y') + 543;
     <br>
     <table style="width: 100%">
         <tr>
-            <td>น้ำหนักเที่ยวไป</td>
-            <td>หัก</td>
-            <td>เหตุผล</td>
+            <td>น้ำหนักเที่ยวไป <b><?=number_format($model->weight_on_go,2)?></b></td>
+            <td>หัก <b><?=number_format($model->weight_go_deduct,2)?></b></td>
+            <td>เหตุผล <b><?=$model->go_deduct_reason?></b></td>
         </tr>
     </table>
     <br>
     <table style="width: 100%">
         <tr>
-            <td>เที่ยวกลับ</td>
+            <td>เที่ยวกลับ </td>
         </tr>
     </table>
     <br>
     <table style="width: 100%">
         <tr>
-            <td>น้ำหนักเที่ยวกลับ</td>
-            <td>เรทน้ำมันกลับ</td>
-            <td>หัก</td>
-            <td>เหตุผล</td>
-            <td>หางกลับ</td>
+            <td>น้ำหนักเที่ยวกลับ <b><?=number_format($model->weight_on_back,2)?></b></td>
+            <td>เรทน้ำมันกลับ <b></b></td>
+            <td>หัก <b><?=number_format($model->back_deduct,2)?></b></td>
+            <td>เหตุผล <b><?=$model->back_reason?></b></td>
+            <td>หางกลับ <b><?= \backend\models\Car::findName($model->tail_back_id) ?></b></td>
         </tr>
     </table>
 
     <br>
     <table style="width: 100%">
         <tr>
-            <td>น้ำมัน</td>
+            <td>น้ำมัน <b></b></td>
         </tr>
     </table>
 
 </div>
+<br/>
+<div class="row">
+    <div class="col-lg-12" style="text-align: center">
+        <div class="btn btn-default btn-print" onclick="printContent('print-area')">พิมพ์</div>
+    </div>
+</div>
+<br/>
+<div class="row">
+    <div class="col-lg-4"></div>
+    <div class="col-lg-4" style="text-align: center;">
+        <div class="btn btn-success"><h3>ยืนยันรับงานและปริ้นเอกสาร</h3></div>
+    </div>
+    <div class="col-lg-4"></div>
+</div>
+
+<form id="form-confirm" action="<?= \yii\helpers\Url::to(['site/index'], true) ?>" method="post">
+    <input type="hidden" name="work_queue_id" ="<?= $model->id ?>">
+</form>
 
 <?php
 $js = <<<JS
@@ -106,6 +117,12 @@ function printContent(el)
          window.print();
          document.body.innerHTML = restorepage;
      }
+     
+function confirmwork(){
+    if(confirm("ยืนยันการทำรายการใช่หรือไม่ ?")){
+        $("form#form-confirm").submit();
+    }
+}     
 JS;
 $this->registerJs($js, static::POS_END);
 ?>

@@ -52,7 +52,7 @@ $emp_name = \backend\models\Employee::findFullName($emp_id);
                  <td style="vertical-align: middle;">SCG</td>
                  <td style="vertical-align: middle;">ชุมพร</td>
                  <td style="text-align: center;">
-                     <a href="<?=\yii\helpers\Url::to(['workqueuereceive/view','id'=>1],true)?>" target="_parent" class="btn btn-success">ดูรายละเอียด</a>
+                     <a href="<?=\yii\helpers\Url::to(['workqueuereceive/view','id'=>$value->id],true)?>" target="_parent" class="btn btn-success">ดูรายละเอียด</a>
                  </td>
              </tr>
             <?php endforeach;?>
