@@ -10,14 +10,15 @@ use yii\widgets\ActiveForm;
 
 <div class="workqueue-form">
 
-    <?php $form = ActiveForm::begin(); ?>
+    <?php $form = ActiveForm::begin(['options' => ['enctype' => 'multipart/form-data']]); ?>
 
+    <input type="hidden" class="remove-list" name="remove_list" value="">
     <div class="row">
         <div class="col-lg-4">
             <?= $form->field($model, 'work_queue_no')->textInput(['maxlength' => true, 'readonly' => 'readonly', 'value' => $model->isNewRecord ? 'Draft' : $model->work_queue_no]) ?>
         </div>
         <div class="col-lg-4">
-            <?php $model->work_queue_date = $model->isNewRecord?date('Y-m-d'): date('Y-m-d',strtotime($model->work_queue_date))?>
+            <?php $model->work_queue_date = $model->isNewRecord ? date('Y-m-d') : date('Y-m-d', strtotime($model->work_queue_date)) ?>
             <?= $form->field($model, 'work_queue_date')->widget(\kartik\date\DatePicker::className(), [
                 'value' => date('d/m/Y')
             ]) ?>
@@ -29,7 +30,7 @@ use yii\widgets\ActiveForm;
                 }),
                 'options' => [
                     'placeholder' => '--จุดขึ้นสินค้า--',
-                    'onchange'=>'getRouteplan($(this))'
+                    'onchange' => 'getRouteplan($(this))'
                 ]
             ])->label('จุดขึ้นสินค้า') ?>
         </div>
@@ -172,6 +173,85 @@ use yii\widgets\ActiveForm;
         </div>
     </div>
 
+    <?php if ($model_line_doc == null): ?>
+
+        <div class="row">
+            <div class="col-lg-12">
+                <table class="table table-striped table-bordered" id="table-list">
+                    <tbody>
+                    <tr>
+                        <td>
+                            <input type="hidden" class="rec-id" name="rec_id[]" value="0">
+                            <input type="text" class="form-control line-doc-name" name="line_doc_name[]" value="">
+                        </td>
+                        <td>
+                            <input type="file" class="line-file-name" name="line_file_name[]">
+                        </td>
+                        <td>
+                            <div class="btn btn-danger" onclick="removeline($(this))">ลบ</div>
+                        </td>
+                    </tr>
+                    </tbody>
+                    <tfoot>
+                    <tr>
+                        <td>
+                            <div class="btn btn-primary" onclick="addline($(this))">เพิ่ม</div>
+                        </td>
+                        <td colspan="2"></td>
+                    </tr>
+                    </tfoot>
+
+                </table>
+            </div>
+        </div>
+    <?php else: ?>
+        <div class="row">
+            <div class="col-lg-12">
+                <table class="table table-striped table-bordered" id="table-list">
+                    <tbody>
+                    <?php foreach ($model_line_doc as $val): ?>
+                        <tr data-var="<?= $val->id ?>">
+                            <td>
+                                <input type="hidden" class="rec-id" name="rec_id[]" value="<?= $val->id ?>">
+                                <input type="text" class="form-control line-doc-name" name="line_doc_name[]"
+                                       value="<?= $val->description ?>">
+                            </td>
+                            <td>
+                                <a href="<?= \Yii::$app->getUrlManager()->getBaseUrl() . '/uploads/workqueue_doc/' . $val->doc ?>"
+                                   target="_blank">ดูเอกสาร</a></td>
+                            </td>
+                            <td>
+                                <div class="btn btn-danger" onclick="removeline($(this))">ลบ</div>
+                            </td>
+                        </tr>
+                    <?php endforeach; ?>
+                    <tr>
+                        <td>
+                            <input type="hidden" class="rec-id" name="rec_id[]" value="0">
+                            <input type="text" class="form-control line-doc-name" name="line_doc_name[]" value="">
+                        </td>
+                        <td>
+                            <input type="file" class="line-file-name" name="line_file_name[]">
+                        </td>
+                        <td>
+                            <div class="btn btn-danger" onclick="removeline($(this))">ลบ</div>
+                        </td>
+                    </tr>
+                    </tbody>
+                    <tfoot>
+                    <tr>
+                        <td>
+                            <div class="btn btn-primary" onclick="addline($(this))">เพิ่ม</div>
+                        </td>
+                        <td colspan="2"></td>
+                    </tr>
+                    </tfoot>
+
+                </table>
+            </div>
+        </div>
+
+    <?php endif; ?>
 
 
     <div class="row">
@@ -179,8 +259,9 @@ use yii\widgets\ActiveForm;
             <div class="form-group">
                 <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
                 <?php if (!$model->isNewRecord && $model->approve_status != 1): ?>
-                    <a class="btn btn-primary" href="<?= \yii\helpers\Url::to(['workqueue/approvejob', 'id' => $model->id,'approve_id'=>1], true) ?>">อนุมัติจำนวน</a>
-                <?php endif;?>
+                    <a class="btn btn-primary"
+                       href="<?= \yii\helpers\Url::to(['workqueue/approvejob', 'id' => $model->id, 'approve_id' => 1], true) ?>">อนุมัติจำนวน</a>
+                <?php endif; ?>
             </div>
         </div>
         <div class="col-lg-6" style="text-align: right">
@@ -195,6 +276,10 @@ use yii\widgets\ActiveForm;
     <?php ActiveForm::end(); ?>
 
 </div>
+<form id="form-delete-doc" action="<?= \yii\helpers\Url::to(['workqueue/removedoc'], true) ?>" method="post">
+    <input type="hidden" name="work_queue_id" value="<?= $model->id ?>">
+    <input type="hidden" class="work-queue-doc-delete" name="doc_name" value="">
+</form>
 
 <?php
 $url_to_getCardata = \yii\helpers\Url::to(['car/getcarinfo'], true);
@@ -204,8 +289,9 @@ $js = <<<JS
 var removelist = [];
 
 $(function(){
-    
+    // alert();
 });
+
 function getRouteplan(e){
     if(e.val() > 0){
         $.ajax({
@@ -300,7 +386,50 @@ function getTailinfo1(e){
         });
     }
 }
+function addline(e){
+    var tr = $("#table-list tbody tr:last");
+                    var clone = tr.clone();
+                    //clone.find(":text").val("");
+                    // clone.find("td:eq(1)").text("");
+                    clone.find(".line-doc-name").val("");
+                    clone.find(".line-file-name").val("");
+                   
+                    clone.attr("data-var", "");
+                    clone.find('.rec-id').val("0");
+                   
+                    tr.after(clone);
+    
+}
+function removeline(e) {
+        if (confirm("ต้องการลบรายการนี้ใช่หรือไม่?")) {
+            if (e.parent().parent().attr("data-var") != '') {
+                removelist.push(e.parent().parent().attr("data-var"));
+                $(".remove-list").val(removelist);
+            }
+            // alert(removelist);
+            // alert(e.parent().parent().attr("data-var"));
 
+            if ($("#table-list tbody tr").length == 1) {
+                $("#table-list tbody tr").each(function () {
+                    $(this).find(":text").val("");
+                   // $(this).find(".line-prod-photo").attr('src', '');
+                    $(this).find(".line-file-name").val('');
+                    // cal_num();
+                });
+            } else {
+                e.parent().parent().remove();
+            }
+            // cal_linenum();
+            // cal_all();
+        }
+    }
+function removedoc(e){
+    var doc_name = e.attr("data-var");
+    $("work-queue-doc-delete").val(doc_name);
+    if(doc_name != ''){
+        $("form#form-delete-doc").submit();
+    }
+}
 
 JS;
 $this->registerJs($js, static::POS_END);

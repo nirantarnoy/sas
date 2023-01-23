@@ -7,6 +7,7 @@ use backend\models\WorkqueueSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\web\UploadedFile;
 
 /**
  * WorkqueueController implements the CRUD actions for Workqueue model.
@@ -14,6 +15,7 @@ use yii\filters\VerbFilter;
 class WorkqueueController extends Controller
 {
     public $enableCsrfValidation = false;
+
     /**
      * @inheritDoc
      */
@@ -43,7 +45,7 @@ class WorkqueueController extends Controller
 
         $searchModel = new WorkqueueSearch();
         $dataProvider = $searchModel->search($this->request->queryParams);
-        $dataProvider->query->orderBy(['id'=>SORT_DESC]);
+        $dataProvider->query->orderBy(['id' => SORT_DESC]);
         $dataProvider->pagination->pageSize = $pageSize;
 
         return $this->render('index', [
@@ -77,11 +79,42 @@ class WorkqueueController extends Controller
 
         if ($this->request->isPost) {
             if ($model->load($this->request->post())) {
-                $new_date = $model->work_queue_date.' '.date('H:i:s');
-                $model->work_queue_date = date('Y-m-d H:i:s',strtotime($new_date));
+                $new_date = $model->work_queue_date . ' ' . date('H:i:s');
+                $model->work_queue_date = date('Y-m-d H:i:s', strtotime($new_date));
                 $model->work_queue_no = $model->getLastNo();
-                if ($model->save(false)){
 
+                $line_doc_name = \Yii::$app->request->post('line_doc_name');
+                // $line_file_name = \Yii::$app->request->post('line_file_name');
+                $uploaded = UploadedFile::getInstancesByName('line_file_name');
+
+//                print_r(count($uploaded)); return ;
+
+                if ($model->save()) {
+
+//                    echo '123'; return ;
+                    if ($line_doc_name != null) {
+                        for ($i = 0; $i <= count($line_doc_name) - 1; $i++) {
+
+                            foreach ($uploaded as $key => $value) {
+                                if ($key == $i) {
+//                                    echo '123'; return ;
+                                    if (!empty($value)) {
+                                        $upfiles = time() . "." . $value->getExtension();
+                                        // if ($uploaded->saveAs(Yii::$app->request->baseUrl . '/uploads/files/' . $upfiles)) {
+                                        if ($value->saveAs('../web/uploads/workqueue_doc/' . $upfiles)) {
+                                            $model_doc = new \common\models\WorkQueueLine();
+                                            $model_doc->work_queue_id = $model->id;
+                                            $model_doc->doc = $upfiles;
+                                            $model_doc->description = $line_doc_name[$i];
+                                            $model_doc->save(false);
+                                        }
+                                    }
+                                }
+                            }
+
+
+                        }
+                    }
                 }
                 return $this->redirect(['view', 'id' => $model->id]);
             }
@@ -105,17 +138,63 @@ class WorkqueueController extends Controller
     {
         $model = $this->findModel($id);
 
-        if ($this->request->isPost && $model->load($this->request->post()) ) {
-            $model->work_queue_date = date('Y-m-d',strtotime($model->work_queue_date));
-            if ($model->save()){
+        $model_line_doc = \common\models\WorkQueueLine::find()->where(['work_queue_id' => $id])->all();
 
+        if ($this->request->isPost && $model->load($this->request->post())) {
+            $model->work_queue_date = date('Y-m-d', strtotime($model->work_queue_date));
+            $removelist = \Yii::$app->request->post('remove_list');
+            $line_doc_name = \Yii::$app->request->post('line_doc_name');
+            // $line_file_name = \Yii::$app->request->post('line_file_name');
+            $uploaded = UploadedFile::getInstancesByName('line_file_name');
+            $line_id = \Yii::$app->request->post('rec_id');
+
+            // print_r($line_id);return;
+            if ($model->save()) {
+                if ($line_id != null) {
+                    // echo count($uploaded);return;
+                    for ($i = 0; $i <= count($line_id) - 1; $i++) {
+                        $model_check = \common\models\WorkQueueLine::find()->where(['id' => $line_id[$i]])->one();
+                        if ($model_check) {
+                            $model_check->description = $line_doc_name[$i];
+                            $model_check->save(false);
+                        } else {
+                            foreach ($uploaded as $key => $value) {
+
+                                if (!empty($value)) {
+                                    $upfiles = time() + 2 . "." . $value->getExtension();
+                                    // if ($uploaded->saveAs(Yii::$app->request->baseUrl . '/uploads/files/' . $upfiles)) {
+                                    if ($value->saveAs('../web/uploads/workqueue_doc/' . $upfiles)) {
+                                        $model_doc = new \common\models\WorkQueueLine();
+                                        $model_doc->work_queue_id = $model->id;
+                                        $model_doc->doc = $upfiles;
+                                        $model_doc->description = $line_doc_name[$i];
+                                        $model_doc->save(false);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+
+                $delete_rec = explode(",", $removelist);
+                if (count($delete_rec)) {
+                    $model_find_doc_delete = \common\models\WorkQueueLine::find()->where(['id' => $delete_rec])->one();
+                    if ($model_find_doc_delete) {
+                        if (file_exists(\Yii::getAlias('@backend') . '/web/uploads/workqueue_doc/' . $model_find_doc_delete->doc)) {
+                            if (unlink(\Yii::getAlias('@backend') . '/web/uploads/workqueue_doc/' . $model_find_doc_delete->doc)) {
+                                \common\models\WorkQueueLine::deleteAll(['id' => $delete_rec]);
+                            }
+                        }
+                    }
+
+                }
+                return $this->redirect(['view', 'id' => $model->id]);
             }
-
-            return $this->redirect(['view', 'id' => $model->id]);
         }
 
         return $this->render('update', [
             'model' => $model,
+            'model_line_doc' => $model_line_doc,
         ]);
     }
 
@@ -162,27 +241,52 @@ class WorkqueueController extends Controller
 
     }
 
-    public function actionApprovejob($id,$approve_id){
+    public function actionApprovejob($id, $approve_id)
+    {
 //        $work_id = \Yii::$app->request->post('work_id');
 //        $user_approve = \Yii::$app->request->post('user_approve_id');
         $work_id = $id;
         $user_approve = $approve_id;
         $res = 0;
-        if($work_id && $user_approve){
-            $model = \backend\models\Workqueue::find()->where(['id'=>$work_id])->one();
-            if($model){
+        if ($work_id && $user_approve) {
+            $model = \backend\models\Workqueue::find()->where(['id' => $work_id])->one();
+            if ($model) {
                 $model->approve_status = 1;
                 $model->approve_by = $user_approve;
-                if($model->save(false)){
+                if ($model->save(false)) {
                     $res = 1;
                 }
             }
 
         }
-        if($res > 0){
+        if ($res > 0) {
             $this->redirect(['workqueue/index']);
-        }else{
+        } else {
             $this->redirect(['workqueue/index']);
         }
+    }
+
+    public function actionRemovedoc()
+    {
+        $workqueue_id = \Yii::$app->request->post('work_queue_id');
+        $doc_name = \Yii::$app->request->post('doc_name');
+
+        echo $workqueue_id . ' = ' . $doc_name;
+
+        if ($workqueue_id && $doc_name != '') {
+            if (file_exists(\Yii::getAlias('@backend') . '/web/uploads/workqueue_doc/' . $doc_name)) {
+                if (unlink(\Yii::getAlias('@backend') . '/web/uploads/workqueue_doc/' . $doc_name)) {
+//                    $model = \backend\models\Workqueue::find()->where(['id' => $workqueue_id])->one();
+//                    if ($model) {
+//                        $model->doc = '';
+//                        $model->save(false);
+//                    }
+                }
+            }
+        } else {
+            echo "no";
+            return;
+        }
+        return $this->redirect(['workqueue/update', 'id' => $workqueue_id]);
     }
 }

@@ -86,6 +86,7 @@ class CompanyController extends Controller
                 // $line_file_name = \Yii::$app->request->post('line_file_name');
                 $uploaded = UploadedFile::getInstancesByName('line_file_name');
 
+
                 if ($model->save()) {
                     if ($line_doc_name != null) {
                         for ($i = 0; $i <= count($line_doc_name) - 1; $i++) {
