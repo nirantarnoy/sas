@@ -16,11 +16,12 @@ class WorkqueueSearch extends Workqueue
      */
 
     public $globalSearch;
+
     public function rules()
     {
         return [
             [['id', 'customer_id', 'emp_assign', 'status', 'create_at', 'created_by', 'updated_at', 'updated_by'], 'integer'],
-            [['work_queue_no', 'work_queue_date'], 'safe'],
+            [['work_queue_no', 'work_queue_date', 'dp_no'], 'safe'],
             [['globalSearch'], 'string'],
         ];
     }
@@ -72,7 +73,8 @@ class WorkqueueSearch extends Workqueue
 //            'updated_by' => $this->updated_by,
 //        ]);
 
-        $query->orFilterWhere(['like', 'work_queue_no', $this->globalSearch]);
+        $query->orFilterWhere(['like', 'work_queue_no', $this->globalSearch])
+            ->orFilterWhere(['like', 'dp_no', $this->globalSearch]);
 
         return $dataProvider;
     }
