@@ -6,6 +6,19 @@ use yii\widgets\ActiveForm;
 /** @var yii\web\View $this */
 /** @var backend\models\Workqueue $model */
 /** @var yii\widgets\ActiveForm $form */
+$plate_no ="";
+$hp ="";
+$car_type ="";
+$driver_id ="";
+$driver_name ="";
+if(!$model->isNewRecord){
+    $plate_no = \backend\models\Car::getPlateno($model->car_id);
+    $hp = \backend\models\Car::getHp($model->car_id);
+    $car_type = \backend\models\Car::getCartype($model->car_id);
+    $driver_id = \backend\models\Car::getDriver($model->car_id);
+    $driver_name = \backend\models\Employee::findFullName($driver_id);
+}
+
 ?>
 
 <div class="workqueue-form">
@@ -40,31 +53,18 @@ use yii\widgets\ActiveForm;
     <div class="row">
         <div class="col-lg-4">
             <?= $form->field($model, 'customer_id')->Widget(\kartik\select2\Select2::className(), [
-                'data' => \yii\helpers\ArrayHelper::map(\backend\models\Customer::find()->all(), 'id', function ($data) {
-                    return $data->name;
-                }),
-                'options' => [
-                    'placeholder' => '--ลูกค้า--'
-                ]
-            ]) ?>
+                            'data' => \yii\helpers\ArrayHelper::map(\backend\models\Customer::find()->all(), 'id', function ($data) {
+                                return $data->name;
+                            }),
+                            'options' => [
+                                'placeholder' => '--ลูกค้า--'
+                            ]
+                        ]) ?>
         </div>
         <div class="col-lg-4">
             <?= $form->field($model, 'dp_no')->textInput(['maxlength' => true]) ?>
         </div>
         <div class="col-lg-4">
-            <?= $form->field($model, 'emp_assign')->Widget(\kartik\select2\Select2::className(), [
-                'data' => \yii\helpers\ArrayHelper::map(\backend\models\Employee::find()->all(), 'id', function ($data) {
-                    return $data->fname . ' ' . $data->lname;
-                }),
-                'options' => [
-                    'placeholder' => '--พนักงาน--'
-                ]
-            ]) ?>
-        </div>
-    </div>
-
-    <div class="row">
-        <div class="col-lg-3">
             <?= $form->field($model, 'car_id')->Widget(\kartik\select2\Select2::className(), [
                 'data' => \yii\helpers\ArrayHelper::map(\backend\models\Car::find()->where(['type_id' => '1'])->all(), 'id', function ($data) {
                     return $data->name;
@@ -75,17 +75,38 @@ use yii\widgets\ActiveForm;
                 ]
             ]) ?>
         </div>
+
+    </div>
+
+    <div class="row">
+
         <div class="col-lg-3">
             <label for="">ทะเบียน</label>
-            <input type="text" class="form-control car-plate-no" readonly>
+            <input type="text" class="form-control car-plate-no" value="<?=$plate_no?>" readonly>
         </div>
         <div class="col-lg-3">
             <label for="">ประเภทรถ</label>
-            <input type="text" class="form-control car-type" readonly>
+            <input type="text" class="form-control car-type" value="<?=$car_type?>" readonly>
         </div>
         <div class="col-lg-3">
             <label for="">แรงม้า</label>
-            <input type="text" class="form-control hp" readonly>
+            <input type="text" class="form-control hp" value="<?=$hp?>" readonly>
+        </div>
+        <div class="col-lg-3">
+            <label for="">พนักงานขับรถ</label>
+            <input type="text" class="form-control emp-assign-driver-id" value="<?=$driver_name?>" readonly>
+            <?= $form->field($model, 'emp_assign')->hiddenInput(['id'=>'emp-assign','value'=>$driver_id])->label(false) ?>
+
+            <?php //echo $form->field($model, 'emp_assign')->Widget(\kartik\select2\Select2::className(), [
+            //                'data' => \yii\helpers\ArrayHelper::map(\backend\models\Employee::find()->all(), 'id', function ($data) {
+            //                    return $data->fname . ' ' . $data->lname;
+            //                }),
+            //                'options' => [
+            //                    'id' => 'driver-id',
+            //                    'readonly'=> true,
+            //                    'placeholder' => '--พนักงาน--'
+            //                ]
+            //            ]) ?>
         </div>
     </div>
     <div class="row">
@@ -331,9 +352,13 @@ function getCarinfo(e){
                     var plat_no = data[0]['plate_no'];
                     var hp = data[0]['hp'];
                     var car_type = data[0]['car_type'];
+                    var driver_id = data[0]['driver_id'];
+                    var driver_name  = data[0]['driver_name'];
                     $('.car-plate-no').val(plat_no);
                     $('.car-type').val(car_type);
                     $('.hp').val(hp);
+                    $("#emp-assign").val(driver_id);
+                    $(".emp-assign-driver-id").val(driver_name);
                 }
             },
             'error': function(data){

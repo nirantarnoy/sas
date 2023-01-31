@@ -7,6 +7,7 @@ use yii\grid\ActionColumn;
 use yii\grid\GridView;
 use yii\widgets\Pjax;
 use yii\bootstrap4\LinkPager;
+
 /** @var yii\web\View $this */
 /** @var backend\models\CarSearch $searchModel */
 /** @var yii\data\ActiveDataProvider $dataProvider */
@@ -61,18 +62,23 @@ $this->params['breadcrumbs'][] = $this->title;
 
             // 'id',
             'name',
-            'description',
             'plate_no',
+            [
+                'attribute' => 'driver_id',
+                'value' => function ($data) {
+                    return \backend\models\Employee::findFullName($data->driver_id);
+                }
+            ],
             // 'car_type_id',
             [
                 'attribute' => 'car_type_id',
-                'value' => function ($data){
+                'value' => function ($data) {
                     return \backend\models\CarType::findName($data->car_type_id);
                 }
             ],
             [
                 'attribute' => 'type_id',
-                'value' => function ($data){
+                'value' => function ($data) {
                     return \backend\helpers\CarcatType::getTypeById($data->type_id);
                 }
             ],

@@ -35,7 +35,7 @@ class Car extends \common\models\Car
     public function rules()
     {
         return [
-            [['car_type_id', 'status', 'company_id', 'created_at', 'created_by', 'updated_at', 'updated_by','type_id','fuel_type','brand_id'], 'integer'],
+            [['car_type_id', 'status', 'company_id', 'created_at', 'created_by', 'updated_at', 'updated_by','type_id','fuel_type','brand_id','driver_id'], 'integer'],
             [['name', 'description', 'plate_no','doc'], 'string', 'max' => 255],
             [['horse_power'], 'double'],
         ];
@@ -57,6 +57,7 @@ class Car extends \common\models\Car
             'fuel_type' => 'น้ำมัน',
             'status' => 'สถานะ',
             'doc' => 'เอกสารรถ',
+            'driver_id'=> 'พนักงานขับรถ',
             'horse_power' => 'แรงม้า',
             'company_id' => 'บริษัท',
             'created_at' => 'Created At',
@@ -90,5 +91,11 @@ class Car extends \common\models\Car
             return $car_type;
         }
         return '';
+    }
+
+    public static function getDriver($id)
+    {
+        $model = Car::find()->where(['id' => $id])->one();
+        return $model != null ? $model->driver_id : 0;
     }
 }

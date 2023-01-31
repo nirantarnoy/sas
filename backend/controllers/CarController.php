@@ -172,8 +172,10 @@ class CarController extends Controller
             $plate_no = \backend\models\Car::getPlateno($id);
             $hp = \backend\models\Car::getHp($id);
             $car_type = \backend\models\Car::getCartype($id);
+            $driver_id = \backend\models\Car::getDriver($id);
+            $driver_name = \backend\models\Employee::findFullName($driver_id);
 
-            array_push($data, ['plate_no' => $plate_no, 'hp' => $hp, 'car_type' => $car_type]);
+            array_push($data, ['plate_no' => $plate_no, 'hp' => $hp, 'car_type' => $car_type,'driver_id'=>$driver_id,'driver_name'=>$driver_name]);
         }
         echo json_encode($data);
     }

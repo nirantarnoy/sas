@@ -95,6 +95,20 @@ use yii\widgets\ActiveForm;
                     ]
                 ]) ?>
             </div>
+
+        </div>
+        <div class="row">
+            <div class="col-lg-4">
+                <?= $form->field($model, 'driver_id')->Widget(\kartik\select2\Select2::className(), [
+                    'data' => \yii\helpers\ArrayHelper::map(\backend\models\Employee::find()->all(), 'id', function ($data) {
+                        return $data->fname.' '.$data->lname;
+                    }),
+                    'options' => [
+                        'placeholder' => '--พนักงานขับรถ--',
+//                        'onchange' => 'showid($(this))',
+                    ]
+                ]) ?>
+            </div>
             <div class="col-lg-4">
                 <?php echo $form->field($model, 'status')->widget(\toxor88\switchery\Switchery::className(), ['options' => ['label' => '', 'class' => 'form-control']])->label() ?>
 
