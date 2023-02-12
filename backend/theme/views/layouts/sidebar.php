@@ -269,14 +269,23 @@
                         </p>
                     </a>
                     <ul class="nav nav-treeview">
-                        <?php if (\Yii::$app->user->can('salecomreport/index')): ?>
+                        <?php //if (\Yii::$app->user->can('salecomreport/index')): ?>
                         <li class="nav-item">
                             <a href="index.php?r=salecomreport" class="nav-link salecomreport">
                                 <i class="far fa-circlez nav-icon"></i>
-                                <p>รายงานค่าคอมฯ</p>
+                                <p>จำนวนน้ำมันใช้ต่อวัน</p>
                             </a>
                         </li>
-                        <?php endif;?>
+                        <?php //endif;?>
+
+                        <?php //if (\Yii::$app->user->can('salecomreport/index')): ?>
+                        <li class="nav-item">
+                            <a href="index.php?r=salecomreport" class="nav-link salecomreport">
+                                <i class="far fa-circlez nav-icon"></i>
+                                <p> สรุปน้ำมันแยกคัน </p>
+                            </a>
+                        </li>
+                        <?php //endif;?>
 
                     </ul>
                 </li>

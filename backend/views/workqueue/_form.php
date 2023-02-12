@@ -331,6 +331,7 @@ function getRouteplan(e){
                     var distance = data[0]['total_distance'];
                     var rate_qty = data[0]['total_rate_qty'];
                     var dropoff_qty = data[0]['total_dropoff_rate_qty'];
+                   // alert(dropoff_qty);
                     $('.total-distance').val(distance);
                     $('.total-qty').val(parseFloat(rate_qty) + parseFloat(dropoff_qty));
                 }

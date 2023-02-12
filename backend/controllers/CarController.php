@@ -196,7 +196,7 @@ class CarController extends Controller
             }
             $model_line_qty = \common\models\RoutePlanLine::find()->where(['route_plan_id' => $id])->sum('dropoff_qty');
             if ($model_line_qty) {
-                $total_rate_qty = $model_line_qty;
+                $total_dropoff_qty = $model_line_qty;
             }
 
             array_push($data, ['total_distance' => $distance, 'total_rate_qty' => $total_rate_qty, 'total_dropoff_rate_qty' => $total_dropoff_qty]);
