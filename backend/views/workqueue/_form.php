@@ -6,12 +6,12 @@ use yii\widgets\ActiveForm;
 /** @var yii\web\View $this */
 /** @var backend\models\Workqueue $model */
 /** @var yii\widgets\ActiveForm $form */
-$plate_no ="";
-$hp ="";
-$car_type ="";
-$driver_id ="";
-$driver_name ="";
-if(!$model->isNewRecord){
+$plate_no = "";
+$hp = "";
+$car_type = "";
+$driver_id = "";
+$driver_name = "";
+if (!$model->isNewRecord) {
     $plate_no = \backend\models\Car::getPlateno($model->car_id);
     $hp = \backend\models\Car::getHp($model->car_id);
     $car_type = \backend\models\Car::getCartype($model->car_id);
@@ -53,13 +53,13 @@ if(!$model->isNewRecord){
     <div class="row">
         <div class="col-lg-4">
             <?= $form->field($model, 'customer_id')->Widget(\kartik\select2\Select2::className(), [
-                            'data' => \yii\helpers\ArrayHelper::map(\backend\models\Customer::find()->all(), 'id', function ($data) {
-                                return $data->name;
-                            }),
-                            'options' => [
-                                'placeholder' => '--ลูกค้า--'
-                            ]
-                        ]) ?>
+                'data' => \yii\helpers\ArrayHelper::map(\backend\models\Customer::find()->all(), 'id', function ($data) {
+                    return $data->name;
+                }),
+                'options' => [
+                    'placeholder' => '--ลูกค้า--'
+                ]
+            ]) ?>
         </div>
         <div class="col-lg-4">
             <?= $form->field($model, 'dp_no')->textInput(['maxlength' => true]) ?>
@@ -82,20 +82,20 @@ if(!$model->isNewRecord){
 
         <div class="col-lg-3">
             <label for="">ทะเบียน</label>
-            <input type="text" class="form-control car-plate-no" value="<?=$plate_no?>" readonly>
+            <input type="text" class="form-control car-plate-no" value="<?= $plate_no ?>" readonly>
         </div>
         <div class="col-lg-3">
             <label for="">ประเภทรถ</label>
-            <input type="text" class="form-control car-type" value="<?=$car_type?>" readonly>
+            <input type="text" class="form-control car-type" value="<?= $car_type ?>" readonly>
         </div>
         <div class="col-lg-3">
             <label for="">แรงม้า</label>
-            <input type="text" class="form-control hp" value="<?=$hp?>" readonly>
+            <input type="text" class="form-control hp" value="<?= $hp ?>" readonly>
         </div>
         <div class="col-lg-3">
             <label for="">พนักงานขับรถ</label>
-            <input type="text" class="form-control emp-assign-driver-id" value="<?=$driver_name?>" readonly>
-            <?= $form->field($model, 'emp_assign')->hiddenInput(['id'=>'emp-assign','value'=>$driver_id])->label(false) ?>
+            <input type="text" class="form-control emp-assign-driver-id" value="<?= $driver_name ?>" readonly>
+            <?= $form->field($model, 'emp_assign')->hiddenInput(['id' => 'emp-assign', 'value' => $driver_id])->label(false) ?>
 
             <?php //echo $form->field($model, 'emp_assign')->Widget(\kartik\select2\Select2::className(), [
             //                'data' => \yii\helpers\ArrayHelper::map(\backend\models\Employee::find()->all(), 'id', function ($data) {
@@ -193,9 +193,20 @@ if(!$model->isNewRecord){
             <?php echo $form->field($model, 'status')->widget(\toxor88\switchery\Switchery::className(), ['options' => ['label' => '', 'class' => 'form-control']])->label() ?>
         </div>
         <div class="col-lg-4">
-            <?php echo $form->field($model, 'is_labur')->widget(\toxor88\switchery\Switchery::className(), ['options' => ['label' => '', 'class' => 'form-control']])->label() ?>
+            <?php echo $form->field($model, 'is_labur')->widget(\toxor88\switchery\Switchery::className(), ['options' => ['label' => '', 'class' => 'form-control', 'onchange' => 'enableLabour($(this))']])->label() ?>
         </div>
-        <div class="col-lg-4"> <?php echo $form->field($model, 'is_express_road')->widget(\toxor88\switchery\Switchery::className(), ['options' => ['label' => '', 'class' => 'form-control']])->label() ?></div>
+        <div class="col-lg-4"> <?php echo $form->field($model, 'is_express_road')->widget(\toxor88\switchery\Switchery::className(), ['options' => ['label' => '', 'class' => 'form-control','onchange'=>'enableExpressroad($(this))']])->label() ?></div>
+    </div>
+    <div class="row">
+        <div class="col-lg-4">
+            <?= $form->field($model, 'labour_price')->textinput(['maxlength' => true, 'id' => 'labour-price', 'readonly' => 'readonly']) ?>
+        </div>
+        <div class="col-lg-4">
+            <?= $form->field($model, 'express_road_price')->textInput(['maxlength' => true, 'id' => 'express-road-price', 'readonly' => 'readonly']) ?>
+        </div>
+        <div class="col-lg-4">
+
+        </div>
     </div>
 
     <?php if ($model_line_doc == null): ?>
@@ -306,15 +317,21 @@ if(!$model->isNewRecord){
     <input type="hidden" class="work-queue-doc-delete" name="doc_name" value="">
 </form>
 
+<input type="hidden" id="labour-price-checked" value="">
+<input type="hidden" id="labour-price-plan" value="<?=$model->labour_price?>">
+<input type="hidden" id="express-road-price-checked" value="">
+<input type="hidden" id="express-road-price-plan" value="<?=$model->express_road_price?>">
 <?php
 $url_to_getCardata = \yii\helpers\Url::to(['car/getcarinfo'], true);
 $url_to_routeplan = \yii\helpers\Url::to(['car/getrouteplan'], true);
 
 $js = <<<JS
 var removelist = [];
-
+var loop = 0;
 $(function(){
     // alert();
+    $("#labour-price-checked").val($("#workqueue-is_labur").val());
+    $("#express-road-price-checked").val($("#workqueue-is_express_road").val());
 });
 
 function getRouteplan(e){
@@ -331,9 +348,13 @@ function getRouteplan(e){
                     var distance = data[0]['total_distance'];
                     var rate_qty = data[0]['total_rate_qty'];
                     var dropoff_qty = data[0]['total_dropoff_rate_qty'];
+                    var labour_price = data[0]['labour_price'];
+                    var express_road_price = data[0]['express_road_price'];
                    // alert(dropoff_qty);
                     $('.total-distance').val(distance);
                     $('.total-qty').val(parseFloat(rate_qty) + parseFloat(dropoff_qty));
+                    $('#labour-price-plan').val(labour_price);
+                    $('#express-road-price-plan').val(express_road_price);
                 }
             },
             'error': function(data){
@@ -341,6 +362,135 @@ function getRouteplan(e){
             }
         });
     }
+}
+function enableLabour(e){
+    if(loop >= 1){
+        loop = 0;
+        return false;
+    }
+   // alert('loop is' + loop);
+  // alert($("#labour-price-checked").val());
+   if($("#labour-price-checked").val() == 1){
+     //  alert("has 1");
+       $("#labour-price-checked").val(0);
+       if($("#labour-price-checked").val() == 0){
+           $("#labour-price-checked").val(0)
+       }
+         loop +=1;
+         if($("#labour-price-checked").val() == 1){
+           var labour = $('#labour-price-plan').val();
+           $("#labour-price").val(labour);
+           }else{
+                $("#labour-price").val(0);
+           }
+       return false;
+   }
+ 
+   if($("#labour-price-checked").val() == 0){
+      // alert("has 0");
+       $("#labour-price-checked").val(1);
+       if($("#labour-price-checked").val() == 0){
+           $("#labour-price-checked").val(1)
+       }
+        loop +=1;
+       if($("#labour-price-checked").val() == 1){
+           var labour = $('#labour-price-plan').val();
+           $("#labour-price").val(labour);
+           }else{
+                $("#labour-price").val(0);
+           }
+      
+       // loop = 0;
+       return  false;
+   }
+  
+ 
+}
+function enableExpressroad(e){
+    if(loop >= 1){
+        loop = 0;
+        return false;
+    }
+   // alert('loop is' + loop);
+  // alert($("#labour-price-checked").val());
+   if($("#express-road-price-checked").val() == 1){
+     //  alert("has 1");
+       $("#express-road-price-checked").val(0);
+       if($("#express-road-price-checked").val() == 0){
+           $("#express-road-price-checked").val(0)
+       }
+         loop +=1;
+         if($("#express-road-price-checked").val() == 1){
+           var labour = $('#express-road-price-plan').val();
+           $("#express-road-price").val(labour);
+           }else{
+                $("#express-road-price").val(0);
+           }
+       return false;
+   }
+ 
+   if($("#express-road-price-checked").val() == 0){
+      // alert("has 0");
+       $("#express-road-price-checked").val(1);
+       if($("#express-road-price-checked").val() == 0){
+           $("#express-road-price-checked").val(1)
+       }
+        loop +=1;
+       if($("#express-road-price-checked").val() == 1){
+           var labour = $('#express-road-price-plan').val();
+           $("#express-road-price").val(labour);
+           }else{
+                $("#express-road-price").val(0);
+           }
+      
+       // loop = 0;
+       return  false;
+   }
+  
+ 
+}
+function enableLabour(e){
+    if(loop >= 1){
+        loop = 0;
+        return false;
+    }
+   // alert('loop is' + loop);
+  // alert($("#labour-price-checked").val());
+   if($("#labour-price-checked").val() == 1){
+     //  alert("has 1");
+       $("#labour-price-checked").val(0);
+       if($("#labour-price-checked").val() == 0){
+           $("#labour-price-checked").val(0)
+       }
+         loop +=1;
+         if($("#labour-price-checked").val() == 1){
+           var labour = $('#labour-price-plan').val();
+           $("#labour-price").val(labour);
+           }else{
+                $("#labour-price").val(0);
+           }
+       return false;
+   }
+ 
+   if($("#labour-price-checked").val() == 0){
+      // alert("has 0");
+       $("#labour-price-checked").val(1);
+       if($("#labour-price-checked").val() == 0){
+           $("#labour-price-checked").val(1)
+       }
+        loop +=1;
+       if($("#labour-price-checked").val() == 1){
+           var labour = $('#labour-price-plan').val();
+           $("#labour-price").val(labour);
+           }else{
+                $("#labour-price").val(0);
+           }
+      
+       // loop = 0;
+       return  false;
+   }
+  
+ 
 }
 function getCarinfo(e){
     // alert(e.val());

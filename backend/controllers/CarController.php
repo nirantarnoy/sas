@@ -188,18 +188,28 @@ class CarController extends Controller
             $distance = 0;
             $total_rate_qty = 0;
             $total_dropoff_qty = 0;
+            $labour_price = 0;
+            $express_road_price = 0;
 
             $model = \common\models\RoutePlan::find()->where(['id' => $id])->one();
             if ($model) {
                 $distance = $model->total_distanct;
                 $total_rate_qty = $model->oil_rate_qty;
+                $labour_price = $model->labour_price;
+                $express_road_price = $model->express_road_price;
             }
             $model_line_qty = \common\models\RoutePlanLine::find()->where(['route_plan_id' => $id])->sum('dropoff_qty');
             if ($model_line_qty) {
                 $total_dropoff_qty = $model_line_qty;
             }
 
-            array_push($data, ['total_distance' => $distance, 'total_rate_qty' => $total_rate_qty, 'total_dropoff_rate_qty' => $total_dropoff_qty]);
+            array_push($data, [
+                'total_distance' => $distance,
+                'total_rate_qty' => $total_rate_qty,
+                'total_dropoff_rate_qty' => $total_dropoff_qty,
+                'labour_price' => $labour_price,
+                'express_road_price' => $express_road_price,
+            ]);
         }
         echo json_encode($data);
     }
