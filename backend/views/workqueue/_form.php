@@ -192,6 +192,10 @@ if(!$model->isNewRecord){
         <div class="col-lg-4">
             <?php echo $form->field($model, 'status')->widget(\toxor88\switchery\Switchery::className(), ['options' => ['label' => '', 'class' => 'form-control']])->label() ?>
         </div>
+        <div class="col-lg-4">
+            <?php echo $form->field($model, 'is_labur')->widget(\toxor88\switchery\Switchery::className(), ['options' => ['label' => '', 'class' => 'form-control']])->label() ?>
+        </div>
+        <div class="col-lg-4"> <?php echo $form->field($model, 'is_express_road')->widget(\toxor88\switchery\Switchery::className(), ['options' => ['label' => '', 'class' => 'form-control']])->label() ?></div>
     </div>
 
     <?php if ($model_line_doc == null): ?>

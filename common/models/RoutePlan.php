@@ -33,8 +33,8 @@ class RoutePlan extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['des_province_id', 'status', 'created_at', 'created_by', 'updated_at', 'updated_by','customer_id','hp','item_back_id'], 'integer'],
-            [['total_distanct','oil_rate_qty'], 'number'],
+            [['des_province_id', 'status', 'created_at', 'created_by', 'updated_at', 'updated_by','customer_id','hp','item_back_id','car_type_id'], 'integer'],
+            [['total_distanct','oil_rate_qty','labour_price','express_road_price'], 'number'],
             [['des_name'], 'string', 'max' => 255],
         ];
     }
@@ -54,6 +54,9 @@ class RoutePlan extends \yii\db\ActiveRecord
             'hp'=> 'แรงม้า',
             'item_back_id' => 'ของนำกลับ',
             'oil_rate_qty' => 'จำนวนเรทน้ำมัน(ลิตร)',
+            'car_type_id' => 'ประเภทรถ',
+            'labour_price' => 'ค่าแรง',
+            'express_road_price'=> 'ค่าทางด่วน',
             'created_at' => 'Created At',
             'created_by' => 'Created By',
             'updated_at' => 'Updated At',

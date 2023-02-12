@@ -37,7 +37,7 @@ class Car extends \yii\db\ActiveRecord
         return [
             [['car_type_id', 'status', 'company_id', 'created_at', 'created_by', 'updated_at', 'updated_by','tail_id','brand_id','driver_id'], 'integer'],
             [['name', 'description', 'plate_no','doc'], 'string', 'max' => 255],
-            [['horse_power'], 'double'],
+            [['horse_power','labur_price','express_road_price'], 'double'],
         ];
     }
 
@@ -59,6 +59,8 @@ class Car extends \yii\db\ActiveRecord
             'horse_power'=> 'แรงม้า',
             'doc'=> 'เอกสารรถ',
             'driver_id'=> 'พนักงานขับรถ',
+            'labur_price'=>'',
+            'express_road_price' => 'ค่าทางด่วน',
             'company_id' => 'Company ID',
             'created_at' => 'Created At',
             'created_by' => 'Created By',
