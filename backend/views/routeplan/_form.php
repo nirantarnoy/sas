@@ -60,25 +60,25 @@ $car_type_data = \common\models\CarType::find()->all();
             </div>
         </div>
 
-        <div class="row">
-            <div class="col-lg-4">
-                <?= $form->field($model, 'car_type_id')->Widget(\kartik\select2\Select2::className(), [
-                    'data' => \yii\helpers\ArrayHelper::map(\backend\models\CarType::find()->all(), 'id', 'name'),
-                    'options' => [
-                        'placeholder' => '--ประเภทรถ--'
-                    ]
-                ]) ?>
-            </div>
-            <div class="col-lg-4">
-                <?= $form->field($model, 'labour_price')->textInput() ?>
-            </div>
-            <div class="col-lg-4">
-                <?= $form->field($model, 'express_road_price')->textInput() ?>
-            </div>
-        </div>
+<!--        <div class="row">-->
+<!--            <div class="col-lg-4">-->
+                <?php //echo $form->field($model, 'car_type_id')->Widget(\kartik\select2\Select2::className(), [
+//                    'data' => \yii\helpers\ArrayHelper::map(\backend\models\CarType::find()->all(), 'id', 'name'),
+//                    'options' => [
+//                        'placeholder' => '--ประเภทรถ--'
+//                    ]
+//                ]) ?>
+<!--            </div>-->
+<!--            <div class="col-lg-4">-->
+<!--                --><?php ////echo $form->field($model, 'labour_price')->textInput() ?>
+<!--            </div>-->
+<!--            <div class="col-lg-4">-->
+<!--                --><?php ////echo $form->field($model, 'express_road_price')->textInput() ?>
+<!--            </div>-->
+<!--        </div>-->
 
         <?php echo $form->field($model, 'status')->widget(\toxor88\switchery\Switchery::className(), ['options' => ['label' => '', 'class' => 'form-control']])->label() ?>
-
+        <h5>กำหนดจุดขึ้นสินค้า</h5>
         <div class="row">
             <div class="col-lg-12">
                 <table class="table table-bordered table-striped" id="table-list">
@@ -199,6 +199,7 @@ $car_type_data = \common\models\CarType::find()->all();
         </div>
 
         <br/>
+        <h5>กำหนดค่าเที่ยว</h5>
         <div class="row">
             <div class="col-lg-12">
                 <table class="table table-bordered table-striped" id="table-list2">
