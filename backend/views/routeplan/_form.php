@@ -9,6 +9,8 @@ use yii\widgets\ActiveForm;
 
 $dropoff_place_data = \common\models\DropoffPlace::find()->all();
 
+$car_type_data = \common\models\CarType::find()->all();
+
 //print_r($dropoff_place_data);return;
 
 ?>
@@ -17,6 +19,7 @@ $dropoff_place_data = \common\models\DropoffPlace::find()->all();
 
         <?php $form = ActiveForm::begin(); ?>
         <input type="hidden" class="remove-list" name="remove_list" value="">
+        <input type="hidden" class="remove-list2" name="remove_list2" value="">
         <div class="row">
             <div class="col-lg-4">
                 <?= $form->field($model, 'customer_id')->Widget(\kartik\select2\Select2::className(), [
@@ -192,7 +195,119 @@ $dropoff_place_data = \common\models\DropoffPlace::find()->all();
                     </tfoot>
                 </table>
             </div>
+
         </div>
+
+        <br/>
+        <div class="row">
+            <div class="col-lg-12">
+                <table class="table table-bordered table-striped" id="table-list2">
+                    <thead>
+                    <th>ประเภทรถ</th>
+                    <th>ค่าแรง</th>
+                    <th>ค่าทางด่วน</th>
+                    <th></th>
+                    </thead>
+                    <tbody>
+                    <?php if ($model->isNewRecord): ?>
+                        <tr>
+                            <td>
+                                <select name="car_type_id[]" class="form-control car-type-id" id="">
+                                    <option value="0">--ประเภทรถ--</option>
+                                    <?php for ($i = 0; $i <= count($car_type_data) - 1; $i++) : ?>
+                                        <option value="<?= $car_type_data[$i]['id'] ?>"><?= $car_type_data[$i]['name'] ?></option>
+                                    <?php endfor; ?>
+                                </select>
+                            </td>
+                            <td>
+                                <input type="number" name="labour_price_line[]" class="form-control labour-price-line"
+                                       id="">
+                            </td>
+                            <td>
+                                <input type="number" name="express_road_price_line[]"
+                                       class="form-control express-road-price-line" id="">
+                            </td>
+                            <td>
+                                <div class="btn btn-danger btn-sm" onclick="removeline2($(this))"><i
+                                            class="fa fa-trash"></i></div>
+                            </td>
+                        </tr>
+                    <?php else: ?>
+                        <?php if (count($model_line2)): ?>
+                            <?php foreach ($model_line2 as $key): ?>
+                                <tr data-var="<?= $key->id ?>">
+                                    <td>
+                                        <input type="hidden" class="rec-id" name="rec_id[]" value="<?= $key->id ?>">
+                                        <select name="car_type_id[]" class="form-control car-type-id" id="">
+                                            <option value="0">--ประเภทรถ--</option>
+                                            <?php for ($i = 0; $i <= count($car_type_data) - 1; $i++) : ?>
+                                                <?php
+                                                $selected = "";
+                                                if ($car_type_data[$i]['id'] == $key->car_type_id) {
+                                                    $selected = 'selected';
+                                                }
+                                                ?>
+                                                <option value="<?= $car_type_data[$i]['id'] ?>" <?= $selected ?>><?= $car_type_data[$i]['name'] ?></option>
+                                            <?php endfor; ?>
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <input type="number" name="labour_price_line[]"
+                                               class="form-control labour-price-line" id=""
+                                               value="<?= $key->labour_price ?>">
+                                    </td>
+                                    <td>
+                                        <input type="number" name="express_road_price_line[]"
+                                               class="form-control express-road-price-line" id=""
+                                               value="<?= $key->express_road_price ?>">
+                                    </td>
+                                    <td>
+                                        <div class="btn btn-danger btn-sm" onclick="removeline2($(this))"><i
+                                                    class="fa fa-trash"></i></div>
+                                    </td>
+                                </tr>
+                            <?php endforeach; ?>
+                        <?php else: ?>
+                            <tr>
+                                <td>
+                                    <select name="car_type_id[]" class="form-control car-type-id" id="">
+                                        <option value="0">--ประเภทรถ--</option>
+                                        <?php for ($i = 0; $i <= count($car_type_data) - 1; $i++) : ?>
+                                            <option value="<?= $car_type_data[$i]['id'] ?>"><?= $car_type_data[$i]['name'] ?></option>
+                                        <?php endfor; ?>
+                                    </select>
+                                </td>
+                                <td>
+                                    <input type="number" name="labour_price_line[]"
+                                           class="form-control labour-price-line" id="">
+                                </td>
+                                <td>
+                                    <input type="number" name="express_road_price_line[]"
+                                           class="form-control express-road-price-line" id="">
+                                </td>
+                                <td>
+                                    <div class="btn btn-danger btn-sm" onclick="removeline2($(this))"><i
+                                                class="fa fa-trash"></i></div>
+                                </td>
+                            </tr>
+                        <?php endif; ?>
+                    <?php endif; ?>
+
+                    </tbody>
+                    <tfoot>
+                    <tr>
+                        <td colspan="4">
+                            <div class="btn btn-primary"
+                                 onclick="addline2($(this))">
+                                <i class="fa fa-plus-circle"></i>
+                            </div>
+                        </td>
+                    </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+
 
         <div class="form-group">
             <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
@@ -207,6 +322,7 @@ $url_to_Dropoffdata = \yii\helpers\Url::to(['dropoffplace/getdropoffdata'], true
 
 $js = <<<JS
 var removelist = [];
+var removelist2 = [];
 
 $(function(){
     // $('.start-date').datepicker({dateformat: 'dd-mm-yy'});
@@ -230,6 +346,22 @@ function addline(e){
                     tr.after(clone);
      
 }
+function addline2(e){
+    var tr = $("#table-list2 tbody tr:last");
+                    var clone = tr.clone();
+                    //clone.find(":text").val("");
+                    // clone.find("td:eq(1)").text("");
+                    clone.find(".car-type-id").val("");
+                    clone.find(".labour-price-line").val("0");
+                    clone.find(".express-road-price-line").val("0");
+                    
+                  
+                    clone.attr("data-var", "");
+                    clone.find('.rec-id').val("");
+                    
+                    tr.after(clone);
+     
+}
 function removeline(e) {
         if (confirm("ต้องการลบรายการนี้ใช่หรือไม่?")) {
             if (e.parent().parent().attr("data-var") != '') {
@@ -241,6 +373,29 @@ function removeline(e) {
 
             if ($("#table-list tbody tr").length == 1) {
                 $("#table-list tbody tr").each(function () {
+                    $(this).find(":text").val("");
+                   // $(this).find(".line-prod-photo").attr('src', '');
+                    $(this).find(".line-price").val(0);
+                    // cal_num();
+                });
+            } else {
+                e.parent().parent().remove();
+            }
+            // cal_linenum();
+            // cal_all();
+        }
+    }
+    function removeline2(e) {
+        if (confirm("ต้องการลบรายการนี้ใช่หรือไม่?")) {
+            if (e.parent().parent().attr("data-var") != '') {
+                removelist2.push(e.parent().parent().attr("data-var"));
+                $(".remove-list2").val(removelist2);
+            }
+            // alert(removelist);
+            // alert(e.parent().parent().attr("data-var"));
+
+            if ($("#table-list2 tbody tr").length == 1) {
+                $("#table-list2 tbody tr").each(function () {
                     $(this).find(":text").val("");
                    // $(this).find(".line-prod-photo").attr('src', '');
                     $(this).find(".line-price").val(0);

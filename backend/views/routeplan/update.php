@@ -16,6 +16,7 @@ $this->params['breadcrumbs'][] = 'แก้ไข';
     <?= $this->render('_form', [
         'model' => $model,
         'model_line' => $model_line,
+        'model_line2' => $model_line2,
     ]) ?>
 
 </div>
