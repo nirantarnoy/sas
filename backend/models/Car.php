@@ -92,6 +92,15 @@ class Car extends \common\models\Car
         }
         return '';
     }
+    public static function getCartypeId($id)
+    {
+        $model = Car::find()->where(['id' => $id])->one();
+        if ($model){
+           return $model->car_type_id;
+
+        }
+        return 0;
+    }
 
     public static function getDriver($id)
     {

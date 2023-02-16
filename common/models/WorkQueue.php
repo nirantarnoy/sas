@@ -35,9 +35,9 @@ class WorkQueue extends \yii\db\ActiveRecord
     {
         return [
             [['work_queue_date'], 'safe'],
-            [['customer_id', 'emp_assign', 'status', 'create_at', 'created_by', 'updated_at', 'updated_by','route_plan_id','tail_id','car_id','tail_back_id','approve_status','approve_by','is_labur','is_express_road'], 'integer'],
+            [['customer_id', 'emp_assign', 'status', 'create_at', 'created_by', 'updated_at', 'updated_by','route_plan_id','tail_id','car_id','tail_back_id','approve_status','approve_by','is_labur','is_express_road','is_other'], 'integer'],
             [['work_queue_no','go_deduct_reason','back_reason','dp_no'], 'string', 'max' => 255],
-            [['weight_on_go','weight_on_back','weight_go_deduct','back_deduct','labour_price','express_road_price'], 'double'],
+            [['weight_on_go','weight_on_back','weight_go_deduct','back_deduct','labour_price','express_road_price','other_price'], 'double'],
             [['oil_daily_price'],'safe'],
         ];
     }
@@ -70,8 +70,10 @@ class WorkQueue extends \yii\db\ActiveRecord
             'oil_daily_price'=> 'ราคาน้ำมัน',
             'is_labur'=>'มีค่าแรง',
             'is_express_road'=>'มีค่าทางด่วน',
+            'is_other'=>'มีค่าอื่นๆ',
             'labour_price' => 'ค่าแรง',
             'express_road_price'=> 'ค่าทางด่วน',
+            'other_price' => 'ค่าอื่นๆ',
             'create_at' => 'Create At',
             'created_by' => 'Created By',
             'updated_at' => 'Updated At',

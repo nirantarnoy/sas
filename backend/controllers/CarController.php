@@ -172,10 +172,18 @@ class CarController extends Controller
             $plate_no = \backend\models\Car::getPlateno($id);
             $hp = \backend\models\Car::getHp($id);
             $car_type = \backend\models\Car::getCartype($id);
+            $car_type_id = \backend\models\Car::getCartypeId($id);
             $driver_id = \backend\models\Car::getDriver($id);
             $driver_name = \backend\models\Employee::findFullName($driver_id);
 
-            array_push($data, ['plate_no' => $plate_no, 'hp' => $hp, 'car_type' => $car_type,'driver_id'=>$driver_id,'driver_name'=>$driver_name]);
+            array_push($data, [
+                'plate_no' => $plate_no,
+                'hp' => $hp,
+                'car_type' => $car_type,
+                'driver_id'=>$driver_id,
+                'driver_name'=>$driver_name,
+                'car_type_id'=>$car_type_id,
+            ]);
         }
         echo json_encode($data);
     }
@@ -183,6 +191,7 @@ class CarController extends Controller
     public function actionGetrouteplan()
     {
         $id = \Yii::$app->request->post('route_plan_id');
+        $car_type_id = \Yii::$app->request->post('car_type_id');
         $data = [];
         if ($id) {
             $distance = 0;
@@ -190,13 +199,21 @@ class CarController extends Controller
             $total_dropoff_qty = 0;
             $labour_price = 0;
             $express_road_price = 0;
+            $other_price = 10;
 
             $model = \common\models\RoutePlan::find()->where(['id' => $id])->one();
             if ($model) {
                 $distance = $model->total_distanct;
                 $total_rate_qty = $model->oil_rate_qty;
-                $labour_price = $model->labour_price;
-                $express_road_price = $model->express_road_price;
+
+            }
+            $model_plan_price = \common\models\RoutePlanPrice::find()->where(['route_plan_id'=>$id,'car_type_id'=>$car_type_id])->all();
+            if($model_plan_price){
+                foreach ($model_plan_price as $value){
+                    $labour_price = $value->labour_price;
+                    $express_road_price = $value->express_road_price;
+                    $other_price = $value->other_price;
+                }
             }
             $model_line_qty = \common\models\RoutePlanLine::find()->where(['route_plan_id' => $id])->sum('dropoff_qty');
             if ($model_line_qty) {
@@ -209,6 +226,7 @@ class CarController extends Controller
                 'total_dropoff_rate_qty' => $total_dropoff_qty,
                 'labour_price' => $labour_price,
                 'express_road_price' => $express_road_price,
+                'other_price' => $other_price,
             ]);
         }
         echo json_encode($data);

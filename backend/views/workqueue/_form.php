@@ -43,7 +43,8 @@ if (!$model->isNewRecord) {
                 }),
                 'options' => [
                     'placeholder' => '--จุดขึ้นสินค้า--',
-                    'onchange' => 'getRouteplan($(this))'
+                     'onchange'=> '$("#route-plan-id").val($(this).val())'
+                  //  'onchange' => 'getRouteplan($(this))'
                 ]
             ])->label('จุดขึ้นสินค้า') ?>
         </div>
@@ -189,13 +190,14 @@ if (!$model->isNewRecord) {
     </div>
     <div style="height: 10px;"></div>
     <div class="row">
-        <div class="col-lg-4">
+        <div class="col-lg-3">
             <?php echo $form->field($model, 'status')->widget(\toxor88\switchery\Switchery::className(), ['options' => ['label' => '', 'class' => 'form-control']])->label() ?>
         </div>
-        <div class="col-lg-4">
+        <div class="col-lg-3">
             <?php echo $form->field($model, 'is_labur')->widget(\toxor88\switchery\Switchery::className(), ['options' => ['label' => '', 'class' => 'form-control', 'onchange' => 'enableLabour($(this))']])->label() ?>
         </div>
-        <div class="col-lg-4"> <?php echo $form->field($model, 'is_express_road')->widget(\toxor88\switchery\Switchery::className(), ['options' => ['label' => '', 'class' => 'form-control','onchange'=>'enableExpressroad($(this))']])->label() ?></div>
+        <div class="col-lg-3"> <?php echo $form->field($model, 'is_express_road')->widget(\toxor88\switchery\Switchery::className(), ['options' => ['label' => '', 'class' => 'form-control','onchange'=>'enableExpressroad($(this))']])->label() ?></div>
+        <div class="col-lg-3"> <?php echo $form->field($model, 'is_other')->widget(\toxor88\switchery\Switchery::className(), ['options' => ['label' => '', 'class' => 'form-control','onchange'=>'enableOther($(this))']])->label() ?></div>
     </div>
     <div class="row">
         <div class="col-lg-4">
@@ -205,7 +207,7 @@ if (!$model->isNewRecord) {
             <?= $form->field($model, 'express_road_price')->textInput(['maxlength' => true, 'id' => 'express-road-price', 'readonly' => 'readonly']) ?>
         </div>
         <div class="col-lg-4">
-
+            <?= $form->field($model, 'other_price')->textInput(['maxlength' => true, 'id' => 'other-price', 'readonly' => 'readonly']) ?>
         </div>
     </div>
 
@@ -316,11 +318,15 @@ if (!$model->isNewRecord) {
     <input type="hidden" name="work_queue_id" value="<?= $model->id ?>">
     <input type="hidden" class="work-queue-doc-delete" name="doc_name" value="">
 </form>
-
-<input type="hidden" id="labour-price-checked" value="">
+<input type="hidden" id="is-page-new" value="<?=$model->isNewRecord?1:0?>">
+<input type="hidden" id="route-plan-id" value="">
+<input type="hidden" id="car-type-selected" value="">
+<input type="hidden" id="labour-price-checked" value="0">
 <input type="hidden" id="labour-price-plan" value="<?=$model->labour_price?>">
-<input type="hidden" id="express-road-price-checked" value="">
+<input type="hidden" id="express-road-price-checked" value="0">
 <input type="hidden" id="express-road-price-plan" value="<?=$model->express_road_price?>">
+<input type="hidden" id="other-price-checked" value="0">
+<input type="hidden" id="other-price-plan" value="<?=$model->other_price?>">
 <?php
 $url_to_getCardata = \yii\helpers\Url::to(['car/getcarinfo'], true);
 $url_to_routeplan = \yii\helpers\Url::to(['car/getrouteplan'], true);
@@ -328,41 +334,20 @@ $url_to_routeplan = \yii\helpers\Url::to(['car/getrouteplan'], true);
 $js = <<<JS
 var removelist = [];
 var loop = 0;
+var loop2 = 0;
+var loop3 = 0;
 $(function(){
     // alert();
-    $("#labour-price-checked").val($("#workqueue-is_labur").val());
-    $("#express-road-price-checked").val($("#workqueue-is_express_road").val());
+   
+    if($("#is-page-new").val() == 0){
+        $("#labour-price-checked").val($("#workqueue-is_labur").val());
+        $("#express-road-price-checked").val($("#workqueue-is_express_road").val());
+        $("#other-price-checked").val($("#workqueue-is_other").val());
+    }
+    
 });
 
-function getRouteplan(e){
-    if(e.val() > 0){
-        $.ajax({
-            'type': 'post',
-            'dataType': 'json',
-            'url': '$url_to_routeplan',
-            'data': {'route_plan_id': e.val()},
-            'success': function(data){
-                // alert(data);
-                if(data != null){
-                    // alert(data[0]['plate_no']);
-                    var distance = data[0]['total_distance'];
-                    var rate_qty = data[0]['total_rate_qty'];
-                    var dropoff_qty = data[0]['total_dropoff_rate_qty'];
-                    var labour_price = data[0]['labour_price'];
-                    var express_road_price = data[0]['express_road_price'];
-                   // alert(dropoff_qty);
-                    $('.total-distance').val(distance);
-                    $('.total-qty').val(parseFloat(rate_qty) + parseFloat(dropoff_qty));
-                    $('#labour-price-plan').val(labour_price);
-                    $('#express-road-price-plan').val(express_road_price);
-                }
-            },
-            'error': function(data){
-                 alert(data);//return;
-            }
-        });
-    }
-}
+
 function enableLabour(e){
     if(loop >= 1){
         loop = 0;
@@ -407,19 +392,17 @@ function enableLabour(e){
  
 }
 function enableExpressroad(e){
-    if(loop >= 1){
-        loop = 0;
+    if(loop2 >= 1){
+        loop2 = 0;
         return false;
     }
-   // alert('loop is' + loop);
-  // alert($("#labour-price-checked").val());
    if($("#express-road-price-checked").val() == 1){
      //  alert("has 1");
        $("#express-road-price-checked").val(0);
        if($("#express-road-price-checked").val() == 0){
            $("#express-road-price-checked").val(0)
        }
-         loop +=1;
+         loop2 +=1;
          if($("#express-road-price-checked").val() == 1){
            var labour = $('#express-road-price-plan').val();
            $("#express-road-price").val(labour);
@@ -435,7 +418,7 @@ function enableExpressroad(e){
        if($("#express-road-price-checked").val() == 0){
            $("#express-road-price-checked").val(1)
        }
-        loop +=1;
+        loop2 +=1;
        if($("#express-road-price-checked").val() == 1){
            var labour = $('#express-road-price-plan').val();
            $("#express-road-price").val(labour);
@@ -449,43 +432,45 @@ function enableExpressroad(e){
   
  
 }
-function enableLabour(e){
-    if(loop >= 1){
-        loop = 0;
+
+
+function enableOther(e){
+   
+    if(loop3 >= 1){
+        loop3 = 0;
         return false;
     }
-   // alert('loop is' + loop);
-  // alert($("#labour-price-checked").val());
-   if($("#labour-price-checked").val() == 1){
+  
+   if($("#other-price-checked").val() == 1){
      //  alert("has 1");
-       $("#labour-price-checked").val(0);
-       if($("#labour-price-checked").val() == 0){
-           $("#labour-price-checked").val(0)
+       $("#other-price-checked").val(0);
+       if($("#other-price-checked").val() == 0){
+           $("#other-price-checked").val(0)
        }
-         loop +=1;
-         if($("#labour-price-checked").val() == 1){
-           var labour = $('#labour-price-plan').val();
-           $("#labour-price").val(labour);
+         loop3 +=1;
+         if($("#other-price-checked").val() == 1){
+           var labour = $('#other-price-plan').val();
+           $("#other-price").val(labour);
            }else{
-                $("#labour-price").val(0);
+                $("#other-price").val(0);
            }
        return false;
    }
  
-   if($("#labour-price-checked").val() == 0){
+   if($("#other-price-checked").val() == 0){
       // alert("has 0");
-       $("#labour-price-checked").val(1);
-       if($("#labour-price-checked").val() == 0){
-           $("#labour-price-checked").val(1)
+       $("#other-price-checked").val(1);
+       if($("#other-price-checked").val() == 0){
+           $("#other-price-checked").val(1)
        }
-        loop +=1;
-       if($("#labour-price-checked").val() == 1){
-           var labour = $('#labour-price-plan').val();
-           $("#labour-price").val(labour);
+        loop3 +=1;
+       if($("#other-price-checked").val() == 1){
+           var labour = $('#other-price-plan').val();
+           $("#other-price").val(labour);
            }else{
-                $("#labour-price").val(0);
+                $("#other-price").val(0);
            }
-      
+     
        // loop = 0;
        return  false;
    }
@@ -507,13 +492,56 @@ function getCarinfo(e){
                     var plat_no = data[0]['plate_no'];
                     var hp = data[0]['hp'];
                     var car_type = data[0]['car_type'];
+                    var car_type_id = data[0]['car_type_id'];
                     var driver_id = data[0]['driver_id'];
                     var driver_name  = data[0]['driver_name'];
+                    
+                  //  alert(car_type_id);
                     $('.car-plate-no').val(plat_no);
                     $('.car-type').val(car_type);
                     $('.hp').val(hp);
                     $("#emp-assign").val(driver_id);
                     $(".emp-assign-driver-id").val(driver_name);
+                    $("#car-type-selected").val(car_type_id);
+                    
+                    getRouteplan();
+                }
+            },
+            'error': function(data){
+                 alert(data);//return;
+            }
+            
+        });
+    }
+}
+
+function getRouteplan(){
+    var route_plan_id = $("#route-plan-id").val();
+    //alert(route_plan_id);
+    if(route_plan_id > 0){
+        var car_type_id = $("#car-type-selected").val();
+       // alert(car_type_id);
+        $.ajax({
+            'type': 'post',
+            'dataType': 'json',
+            'url': '$url_to_routeplan',
+            'data': {'route_plan_id': route_plan_id,'car_type_id': car_type_id},
+            'success': function(data){
+                // alert(data);
+                if(data != null){
+                    // alert(data[0]['plate_no']);
+                    var distance = data[0]['total_distance'];
+                    var rate_qty = data[0]['total_rate_qty'];
+                    var dropoff_qty = data[0]['total_dropoff_rate_qty'];
+                    var labour_price = data[0]['labour_price'];
+                    var express_road_price = data[0]['express_road_price'];
+                    var other_price = data[0]['other_price'];
+                   // alert(other_price);
+                    $('.total-distance').val(distance);
+                    $('.total-qty').val(parseFloat(rate_qty) + parseFloat(dropoff_qty));
+                    $('#labour-price-plan').val(labour_price);
+                    $('#express-road-price-plan').val(express_road_price);
+                    $('#other-price-plan').val(other_price);
                 }
             },
             'error': function(data){
