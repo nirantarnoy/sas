@@ -207,6 +207,7 @@ $car_type_data = \common\models\CarType::find()->all();
                     <th>ประเภทรถ</th>
                     <th>ค่าแรง</th>
                     <th>ค่าทางด่วน</th>
+                    <th>ค่าอื่นๆ</th>
                     <th></th>
                     </thead>
                     <tbody>
@@ -227,6 +228,10 @@ $car_type_data = \common\models\CarType::find()->all();
                             <td>
                                 <input type="number" name="express_road_price_line[]"
                                        class="form-control express-road-price-line" id="">
+                            </td>
+                            <td>
+                                <input type="number" name="other_price_line[]"
+                                       class="form-control other-price-line" id="">
                             </td>
                             <td>
                                 <div class="btn btn-danger btn-sm" onclick="removeline2($(this))"><i
@@ -263,6 +268,10 @@ $car_type_data = \common\models\CarType::find()->all();
                                                value="<?= $key->express_road_price ?>">
                                     </td>
                                     <td>
+                                        <input type="number" name="other_price_line[]"
+                                               class="form-control other-price-line" id="" value="<?=$key->other_price?>">
+                                    </td>
+                                    <td>
                                         <div class="btn btn-danger btn-sm" onclick="removeline2($(this))"><i
                                                     class="fa fa-trash"></i></div>
                                     </td>
@@ -285,6 +294,10 @@ $car_type_data = \common\models\CarType::find()->all();
                                 <td>
                                     <input type="number" name="express_road_price_line[]"
                                            class="form-control express-road-price-line" id="">
+                                </td>
+                                <td>
+                                    <input type="number" name="other_price_line[]"
+                                           class="form-control other-price-line" id="">
                                 </td>
                                 <td>
                                     <div class="btn btn-danger btn-sm" onclick="removeline2($(this))"><i
@@ -355,6 +368,7 @@ function addline2(e){
                     clone.find(".car-type-id").val("");
                     clone.find(".labour-price-line").val("0");
                     clone.find(".express-road-price-line").val("0");
+                    clone.find(".other-price-line").val("0");
                     
                   
                     clone.attr("data-var", "");
@@ -399,7 +413,10 @@ function removeline(e) {
                 $("#table-list2 tbody tr").each(function () {
                     $(this).find(":text").val("");
                    // $(this).find(".line-prod-photo").attr('src', '');
-                    $(this).find(".line-price").val(0);
+                   
+                     $(this).find(".labour-price-line").val(0);
+                    $(this).find(".express-road-price-line").val(0);
+                    $(this).find(".other-price-line").val(0);
                     // cal_num();
                 });
             } else {

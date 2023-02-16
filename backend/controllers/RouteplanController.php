@@ -83,6 +83,7 @@ class RouteplanController extends Controller
                 $car_type_id = \Yii::$app->request->post('car_type_id');
                 $labour_price_line = \Yii::$app->request->post('labour_price_line');
                 $express_road_price_line = \Yii::$app->request->post('express_road_price_line');
+                $other_price_line = \Yii::$app->request->post('other_price_line');
 
 
 //                print_r($drop_off_place);return ;
@@ -121,6 +122,7 @@ class RouteplanController extends Controller
                                     $route_plan_price_line_chk->car_type_id = $car_type_id[$z];
                                     $route_plan_price_line_chk->labour_price = $labour_price_line[$z];
                                     $route_plan_price_line_chk->express_road_price = $express_road_price_line[$z];
+                                    $route_plan_price_line_chk->other_price = $other_price_line[$z];
                                     if ($route_plan_price_line_chk->save(false)){
 
                                     }
@@ -130,6 +132,7 @@ class RouteplanController extends Controller
                                     $new_route_plan_price->car_type_id = $car_type_id[$z];
                                     $new_route_plan_price->labour_price = $labour_price_line[$z];
                                     $new_route_plan_price->express_road_price = $express_road_price_line[$z];
+                                    $new_route_plan_price->other_price = $other_price_line[$z];
                                     $new_route_plan_price->status = $model->status;
                                     if ($new_route_plan_price->save(false)){
 
@@ -176,7 +179,7 @@ class RouteplanController extends Controller
             $car_type_id = \Yii::$app->request->post('car_type_id');
             $labour_price_line = \Yii::$app->request->post('labour_price_line');
             $express_road_price_line = \Yii::$app->request->post('express_road_price_line');
-
+            $other_price_line = \Yii::$app->request->post('other_price_line');
 
 
             if ($model->save(false)) {
@@ -212,6 +215,7 @@ class RouteplanController extends Controller
                                 $route_plan_price_line_chk->car_type_id = $car_type_id[$z];
                                 $route_plan_price_line_chk->labour_price = $labour_price_line[$z];
                                 $route_plan_price_line_chk->express_road_price = $express_road_price_line[$z];
+                                $route_plan_price_line_chk->other_price = $other_price_line[$z];
                                 if ($route_plan_price_line_chk->save(false)){
 
                                 }
@@ -221,6 +225,7 @@ class RouteplanController extends Controller
                                 $new_route_plan_price->car_type_id = $car_type_id[$z];
                                 $new_route_plan_price->labour_price = $labour_price_line[$z];
                                 $new_route_plan_price->express_road_price = $express_road_price_line[$z];
+                                $new_route_plan_price->other_price_line = $other_price_line[$z];
                                 $new_route_plan_price->status = $model->status;
                                 if ($new_route_plan_price->save(false)){
 

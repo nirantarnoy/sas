@@ -31,7 +31,7 @@ class RoutePlanPrice extends \yii\db\ActiveRecord
     {
         return [
             [['route_plan_id', 'car_type_id', 'status'], 'integer'],
-            [['labour_price', 'express_road_price'], 'number'],
+            [['labour_price', 'express_road_price','other_price'], 'number'],
         ];
     }
 
@@ -46,6 +46,7 @@ class RoutePlanPrice extends \yii\db\ActiveRecord
             'car_type_id' => 'Car Type ID',
             'labour_price' => 'Labour Price',
             'express_road_price' => 'Express Road Price',
+            'other_price'=> 'Other Price',
             'status' => 'Status',
         ];
     }
