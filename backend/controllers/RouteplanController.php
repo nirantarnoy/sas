@@ -225,7 +225,7 @@ class RouteplanController extends Controller
                                 $new_route_plan_price->car_type_id = $car_type_id[$z];
                                 $new_route_plan_price->labour_price = $labour_price_line[$z];
                                 $new_route_plan_price->express_road_price = $express_road_price_line[$z];
-                                $new_route_plan_price->other_price_line = $other_price_line[$z];
+                                $new_route_plan_price->other_price = $other_price_line[$z];
                                 $new_route_plan_price->status = $model->status;
                                 if ($new_route_plan_price->save(false)){
 
