@@ -25,7 +25,7 @@ class RouteplanController extends Controller
                 'verbs' => [
                     'class' => VerbFilter::className(),
                     'actions' => [
-                        'delete' => ['POST'],
+                        'delete' => ['POST','get'],
                     ],
                 ],
             ]
@@ -265,25 +265,32 @@ class RouteplanController extends Controller
      */
     public function actionDelete($id)
     {
+
 //        $this->findModel($id)->delete();
+        $is_deleted = 0;
+        if($id){
+            $model_line = \common\models\RoutePlanLine::find()->where(['route_plan_id' => $id])->all();
+            if ($model_line) {
+                if (\common\models\RoutePlanLine::deleteAll(['route_plan_id' => $id])) {
+                    $is_deleted +=1;
+                }
+                //echo "ok";return;
+            }
 
-        $model_line = \common\models\RoutePlanLine::find()->where(['route_plan_id' => $id])->all();
-        if ($model_line) {
-            if (\common\models\RoutePlanLine::deleteAll(['route_plan_id' => $id])) {
+            $model_line2 = \common\models\RoutePlanPrice::find()->where(['route_plan_id' => $id])->all();
+            if ($model_line2) {
+                if (\common\models\RoutePlanPrice::deleteAll(['route_plan_id' => $id])) {
+                    $is_deleted +=1;
+                }
+            }
+
+            if($is_deleted > 0){
+                $this->findModel($id)->delete();
+            }else{
                 $this->findModel($id)->delete();
             }
-        } else {
-            $this->findModel($id)->delete();
         }
 
-        $model_line2 = \common\models\RoutePlanPrice::find()->where(['route_plan_id' => $id])->all();
-        if ($model_line2) {
-            if (\common\models\RoutePlanPrice::deleteAll(['route_plan_id' => $id])) {
-                $this->findModel($id)->delete();
-            }
-        } else {
-            $this->findModel($id)->delete();
-        }
 
         return $this->redirect(['index']);
     }
