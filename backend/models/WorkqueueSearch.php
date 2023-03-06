@@ -44,7 +44,7 @@ class WorkqueueSearch extends Workqueue
      */
     public function search($params)
     {
-        $query = Workqueue::find();
+        $query = Workqueue::find()->innerJoin('customer','work_queue.customer_id = customer.id')->innerJoin('employee','work_queue.emp_assign=employee.id');
 
         // add conditions that should always apply here
 
@@ -74,7 +74,9 @@ class WorkqueueSearch extends Workqueue
 //        ]);
 
         $query->orFilterWhere(['like', 'work_queue_no', $this->globalSearch])
-            ->orFilterWhere(['like', 'dp_no', $this->globalSearch]);
+            ->orFilterWhere(['like', 'dp_no', $this->globalSearch])
+        ->orFilterWhere(['like', 'customer.name', $this->globalSearch])
+        ->orFilterWhere(['like', 'employee.fname', $this->globalSearch]);
 
         return $dataProvider;
     }

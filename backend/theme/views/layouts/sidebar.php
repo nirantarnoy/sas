@@ -256,6 +256,12 @@
                                 <p>จัดคิวงาน</p>
                             </a>
                         </li>
+                        <li class="nav-item">
+                            <a href="index.php?r=geninvoice/index" class="nav-link geninvoice">
+                                <i class="far fa-circlez nav-icon"></i>
+                                <p>วางบิล</p>
+                            </a>
+                        </li>
                         <?php //endif; ?>
 
                     </ul>

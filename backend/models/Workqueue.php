@@ -1,7 +1,10 @@
 <?php
+
 namespace backend\models;
+
 use Yii;
 use yii\db\ActiveRecord;
+
 date_default_timezone_set('Asia/Bangkok');
 
 class Workqueue extends \common\models\WorkQueue
@@ -9,19 +12,19 @@ class Workqueue extends \common\models\WorkQueue
     public function behaviors()
     {
         return [
-            'timestampcdate'=>[
-                'class'=> \yii\behaviors\AttributeBehavior::className(),
-                'attributes'=>[
-                    ActiveRecord::EVENT_BEFORE_INSERT=>'create_at',
+            'timestampcdate' => [
+                'class' => \yii\behaviors\AttributeBehavior::className(),
+                'attributes' => [
+                    ActiveRecord::EVENT_BEFORE_INSERT => 'create_at',
                 ],
-                'value'=> time(),
+                'value' => time(),
             ],
-            'timestampudate'=>[
-                'class'=> \yii\behaviors\AttributeBehavior::className(),
-                'attributes'=>[
-                    ActiveRecord::EVENT_BEFORE_INSERT=>'updated_at',
+            'timestampudate' => [
+                'class' => \yii\behaviors\AttributeBehavior::className(),
+                'attributes' => [
+                    ActiveRecord::EVENT_BEFORE_INSERT => 'updated_at',
                 ],
-                'value'=> time(),
+                'value' => time(),
             ],
             'timestampcby' => [
                 'class' => \yii\behaviors\AttributeBehavior::className(),
@@ -102,5 +105,10 @@ class Workqueue extends \common\models\WorkQueue
             $prefix = $pre . '-' . substr(date("Y"), 2, 2);
             return $prefix . '00001';
         }
+    }
+
+    public function getCustomer()
+    {
+        return $this->hasOne(Customer::className(), ['customer_id' => 'id']);
     }
 }

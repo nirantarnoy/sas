@@ -201,15 +201,24 @@ if (!$model->isNewRecord) {
     </div>
     <div class="row">
         <div class="col-lg-4">
-            <?= $form->field($model, 'labour_price')->textinput(['maxlength' => true, 'id' => 'labour-price', 'readonly' => 'readonly']) ?>
+            <?= $form->field($model, 'labour_price')->textinput(['maxlength' => true, 'id' => 'labour-price', ]) ?>
         </div>
         <div class="col-lg-4">
-            <?= $form->field($model, 'express_road_price')->textInput(['maxlength' => true, 'id' => 'express-road-price', 'readonly' => 'readonly']) ?>
+            <?= $form->field($model, 'express_road_price')->textInput(['maxlength' => true, 'id' => 'express-road-price', ]) ?>
         </div>
         <div class="col-lg-4">
-            <?= $form->field($model, 'other_price')->textInput(['maxlength' => true, 'id' => 'other-price', 'readonly' => 'readonly']) ?>
+            <?= $form->field($model, 'other_price')->textInput(['maxlength' => true, 'id' => 'other-price', ]) ?>
         </div>
     </div>
+    <div class="row">
+        <div class="col-lg-4"><?= $form->field($model, 'test_price')->textinput(['maxlength' => true, 'id' => 'test-price', ]) ?></div>
+        <div class="col-lg-4"><?= $form->field($model, 'damaged_price')->textinput(['maxlength' => true, 'id' => 'damaged-price', ]) ?></div>
+        <div class="col-lg-4"></div>
+    </div>
+
+    <br />
+
+    <h6>แนบเอกสาร</h6>
 
     <?php if ($model_line_doc == null): ?>
 

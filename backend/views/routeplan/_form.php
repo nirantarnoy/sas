@@ -205,9 +205,9 @@ $car_type_data = \common\models\CarType::find()->all();
                 <table class="table table-bordered table-striped" id="table-list2">
                     <thead>
                     <th>ประเภทรถ</th>
-                    <th>ค่าแรง</th>
+                    <th>ค่าเที่ยว</th>
                     <th>ค่าทางด่วน</th>
-                    <th>ค่าอื่นๆ</th>
+                    <th>ค่าอื่นๆ(คลุมผ้าใบ,ค้างคืน,บวกคลัง,พิเศษอื่นๆ)</th>
                     <th></th>
                     </thead>
                     <tbody>
