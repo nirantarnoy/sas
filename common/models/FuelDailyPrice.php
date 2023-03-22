@@ -35,7 +35,7 @@ class FuelDailyPrice extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['fuel_id', 'province_id', 'city_id', 'status', 'created_at', 'created_by', 'updated_at', 'updated_by'], 'integer'],
+            [['fuel_id', 'province_id', 'city_id', 'status', 'created_at', 'created_by', 'updated_at', 'updated_by','car_type_id'], 'integer'],
             [['price_date'], 'safe'],
             [['price','price_add','price_origin'], 'number'],
         ];

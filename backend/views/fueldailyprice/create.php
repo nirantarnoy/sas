@@ -11,7 +11,7 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="fueldailyprice-create">
 
-    <?= $this->render('_form', [
+    <?= $this->render('_form_new', [
         'model' => $model,
         'model_line' => null,
     ]) ?>

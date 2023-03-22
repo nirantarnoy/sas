@@ -39,9 +39,12 @@ class FueldailypriceController extends Controller
     public function actionIndex()
     {
         $pageSize = \Yii::$app->request->post("perpage");
+        $model_max_date = \backend\models\Fueldailyprice::find()->max('price_date');
 
         $searchModel = new FueldailypriceSearch();
         $dataProvider = $searchModel->search($this->request->queryParams);
+        $dataProvider->query->andFilterWhere(['date(price_date)'=>date('Y-m-d',strtotime($model_max_date))]);
+        $dataProvider->query->orderBy(['province_id'=>SORT_ASC,'price_date'=>SORT_DESC]);
 
         $dataProvider->pagination->pageSize = $pageSize;
 
@@ -82,6 +85,7 @@ class FueldailypriceController extends Controller
                 $line_fuel_price_add = \Yii::$app->request->post('line_fuel_price_add');
                 $line_fuel_price_total = \Yii::$app->request->post('line_fuel_price_total');
 
+                $car_type_id = \Yii::$app->request->post('car_type_id');
                 $province_id = \Yii::$app->request->post('province_id');
                 $city_id = \Yii::$app->request->post('city_id');
 
@@ -107,6 +111,7 @@ class FueldailypriceController extends Controller
                         $model_x->price_add = $line_fuel_price_add[$x];
                         $model_x->price = $line_fuel_price_total[$x];
                         $model_x->status = 1;
+                        $model_x->car_type_id = $car_type_id;
                         if($model_x->save(false)){
                             $res+=1;
                         }
@@ -153,6 +158,7 @@ class FueldailypriceController extends Controller
             $line_fuel_price_add = \Yii::$app->request->post('line_fuel_price_add');
             $line_fuel_price_total = \Yii::$app->request->post('line_fuel_price_total');
 
+            $car_type_id = \Yii::$app->request->post('car_type_id');
             $province_id = \Yii::$app->request->post('province_id');
             $city_id = \Yii::$app->request->post('city_id');
 
@@ -180,6 +186,7 @@ class FueldailypriceController extends Controller
                         $model_x_chk->price_add = $line_fuel_price_add[$x];
                         $model_x_chk->price = $line_fuel_price_total[$x];
                         $model_x_chk->status = 1;
+                        $model_x_chk->car_type_id = $car_type_id;
                         if ($model_x_chk->save(false)){
 
                         }
@@ -193,6 +200,7 @@ class FueldailypriceController extends Controller
                         $model_x->price_add = $line_fuel_price_add[$x];
                         $model_x->price = $line_fuel_price_total[$x];
                         $model_x->status = 1;
+                        $model_x_chk->car_type_id = $car_type_id;
                         if($model_x->save(false)){
                             $res+=1;
                         }
@@ -269,5 +277,44 @@ class FueldailypriceController extends Controller
         }
 
         echo $html;
+    }
+    public function actionUpdateall(){
+        $model_max_date = \backend\models\Fueldailyprice::find()->max('price_date');
+        if($model_max_date != null){
+            $model = \backend\models\Fueldailyprice::find()->where(['date(price_date)'=>date('Y-m-d',strtotime($model_max_date))])->orderBy(['province_id'=>SORT_ASC])->all();
+            if($model){
+                foreach ($model as $value){
+                    $model_check = \backend\models\Fueldailyprice::find()->where(['province_id'=>$value->province_id,'city_id'=>$value->city_id,'fuel_id'=>$value->fuel_id,'date(price_date)'=>date('Y-m-d')])->one();
+                    if($model_check){
+                        $model_check->car_type_id =  $value->car_type_id;
+                        $model_check->save(false);
+                    }else{
+                        $current_price = $this->getCurrentPrice($value->fuel_id,0,0);
+                        $model_new = new \backend\models\Fueldailyprice();
+                        $model_new->fuel_id = $value->fuel_id;
+                        $model_new->province_id = $value->province_id;
+                        $model_new->city_id = $value->city_id;
+                        $model_new->car_type_id = $value->car_type_id;
+                        $model_new->price_origin = $current_price;
+                        $model_new->price = ($current_price + 1);
+                        $model_new->price_date = date('Y-m-d');
+                        $model_new->status = 1;
+                        $model_new->save(false);
+                    }
+
+                }
+            }
+        }
+        \Yii::$app->session->setFlash('success',"ทำรายการเรียบร้อยแล้ว");
+        return $this->redirect(['fueldailyprice/index']);
+
+    }
+    public function getCurrentPrice($fuel_id,$province_id,$city_id){
+        $price = 0;
+        $model = \common\models\FuelPrice::find()->where(['fuel_id'=>$fuel_id])->orderBy(['price_date'=>SORT_DESC])->one();
+        if($model){
+            $price = ($model->price); // add 1 bath
+        }
+        return $price;
     }
 }

@@ -169,6 +169,9 @@ class FuelController extends Controller
 
             }
         }
+
+        \Yii::$app->session->setFlash('success',1);
+
         return $this->redirect(['site/index']);
     }
 }

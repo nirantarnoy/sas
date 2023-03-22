@@ -7,6 +7,7 @@ use yii\grid\ActionColumn;
 use yii\grid\GridView;
 use yii\widgets\Pjax;
 use yii\bootstrap4\LinkPager;
+
 /** @var yii\web\View $this */
 /** @var backend\models\FueldailypriceSearch $searchModel */
 /** @var yii\data\ActiveDataProvider $dataProvider */
@@ -15,12 +16,24 @@ $this->title = 'ราคาน้ำมันประจำวัน';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="fueldailyprice-index">
-
+    <div class="row">
+        <div class="col-lg-12">
+            <?php if(!empty(\Yii::$app->session->getFlash('success'))):?>
+                <input type="hidden" class="has-success" value="1">
+            <div class="alert alert-success alert-after-save" style="padding: 25px;">
+                <?php echo \Yii::$app->session->getFlash('success')?>
+            </div>
+            <?php endif;?>
+        </div>
+    </div>
     <div class="row">
         <div class="col-lg-10">
+<!--            <form action="--><?//=Url::to(['fueldailyprice/updateall'],true)?><!--" method="post">-->
             <p>
                 <?= Html::a(Yii::t('app', '<i class="fa fa-plus"></i> สร้างใหม่'), ['create'], ['class' => 'btn btn-success']) ?>
+                <?= Html::a(Yii::t('app', '<i class="fa fa-upload"></i> อัพเดทราคาน้ำมันวันนี้'), ['updateall'], ['class' => 'btn btn-warning']) ?>
             </p>
+<!--            </form>-->
         </div>
         <div class="col-lg-2" style="text-align: right">
             <form id="form-perpage" class="form-inline" action="<?= Url::to(['fueldailyprice/index'], true) ?>"
@@ -56,7 +69,7 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
-          //  'id',
+            //  'id',
 //            'fuel_id',
             [
                 'attribute' => 'fuel_id',
@@ -71,8 +84,21 @@ $this->params['breadcrumbs'][] = $this->title;
                     return \backend\models\Province::findProvinceName($data->province_id);
                 }
             ],
-           // 'city_id',
-            'price_date',
+            // 'city_id',
+            [
+                'attribute' => 'car_type_id',
+                'label' => 'ประเภทรถ',
+                'value' => function ($data) {
+                    return \backend\models\CarType::findName($data->car_type_id);
+                }
+            ],
+
+            [
+                'attribute' => 'price_date',
+                'value' => function ($data) {
+                    return date('d-m-Y', strtotime($data->price_date));
+                }
+            ],
             'price',
             //'status',
             //'created_at',
@@ -135,3 +161,15 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php Pjax::end(); ?>
 
 </div>
+<?php
+$js=<<<JS
+if($(".has-success").val() == 1){
+    setTimeout(function(){
+        $(".alert-after-save").hide();
+    },5000);
+    
+}
+
+JS;
+$this->registerJs($js,static::POS_END);
+?>

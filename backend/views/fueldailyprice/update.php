@@ -18,7 +18,7 @@ $this->params['breadcrumbs'][] = 'Update';
 ?>
 <div class="fueldailyprice-update">
 
-    <?= $this->render('_form', [
+    <?= $this->render('_form_new', [
         'model' => $model,
         'model_line' => $model_line,
     ]) ?>

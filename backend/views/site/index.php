@@ -24,6 +24,7 @@ $fuel_data = ['แก๊สโซฮอล์ 95', 'แก๊สโซฮอล�
 $current_loop = '';
 $is_start = 0;
 $completed_data = [];
+$check_pull_price = 0;
 foreach ($target->find('.gtoday table tbody tr td') as $el) {
     if (in_array(trim($el->plaintext), $fuel_data)) {
         $is_start = 1;
@@ -70,7 +71,12 @@ unset($target);
 <!--<p class="show-qr-code"></p>-->
 <div class="site-index">
     <div class="body-content">
-
+        <?php
+        if(!empty(\Yii::$app->session->getFlash('success'))){
+            $check_pull_price = \Yii::$app->session->getFlash('success');
+        }
+        ?>
+        <input type="hidden" class="check-pull-price" value="<?=$check_pull_price?>">
         <div class="row">
             <div class="col-lg-3 col-6">
                 <!-- small box -->
@@ -368,7 +374,7 @@ unset($target);
 
                                 <div class="row">
                                     <div class="col-lg-3">
-                                        <button class="btn btn-info">อัพเดทราคาน้ำมัน</button>
+                                        <button class="btn btn-info btn-pull-daily">อัพเดทราคาน้ำมัน</button>
                                     </div>
                                 </div>
 
@@ -413,6 +419,9 @@ $url_to_save_screenshort = \yii\helpers\Url::to(['site/createscreenshort'], true
 $js = <<<JS
 $(function(){
     //aleret();
+    if($(".check-pull-price").val() == 0){
+        $(".btn-pull-daily").trigger("click");
+    }
    
 });
 function takeshot() {
