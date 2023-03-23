@@ -44,7 +44,7 @@ class RouteplanSearch extends RoutePlan
      */
     public function search($params)
     {
-        $query = RoutePlan::find();
+        $query = RoutePlan::find()->join('inner join','customer','route_plan.customer_id = customer.id');
 
         // add conditions that should always apply here
 
@@ -71,8 +71,11 @@ class RouteplanSearch extends RoutePlan
 //            'updated_at' => $this->updated_at,
 //            'updated_by' => $this->updated_by,
 //        ]);
+         if($this->globalSearch != ''){
+             $query->orFilterWhere(['like', 'des_name', $this->globalSearch])
+             ->orFilterWhere(['like', 'customer.name', $this->globalSearch]);
+         }
 
-        $query->orFilterWhere(['like', 'des_name', $this->globalSearch]);
 
         return $dataProvider;
     }
