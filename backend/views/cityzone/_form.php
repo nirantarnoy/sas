@@ -71,7 +71,7 @@ $(function(){
 
 function getCity(e){
     $.post("$url_to_getcity"+"&id="+e.val(),function(data){
-        alert(data);
+       // alert(data);
         $("select#cityzone-city_id").html(data);
         $("select#cityzone-city_id").prop("disabled","");
     });
