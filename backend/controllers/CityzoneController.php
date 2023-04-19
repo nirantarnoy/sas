@@ -14,6 +14,7 @@ use yii\filters\VerbFilter;
  */
 class CityzoneController extends Controller
 {
+    public $enableCsrfValidation = false;
     /**
      * @inheritDoc
      */
@@ -25,7 +26,7 @@ class CityzoneController extends Controller
                 'verbs' => [
                     'class' => VerbFilter::className(),
                     'actions' => [
-                        'delete' => ['POST'],
+                        'delete' => ['POST','GET'],
                     ],
                 ],
             ]
@@ -144,6 +145,7 @@ class CityzoneController extends Controller
      */
     public function actionDelete($id)
     {
+        \common\models\CityzoneLine::deleteAll(['cityzone_id'=>$id]);
         $this->findModel($id)->delete();
 
         return $this->redirect(['index']);
