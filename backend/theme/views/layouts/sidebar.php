@@ -77,12 +77,20 @@
                     </a>
                     <ul class="nav nav-treeview">
                         <?php //if (\Yii::$app->user->can('warehouse/index')): ?>
-                            <li class="nav-item">
-                                <a href="index.php?r=fueltype/index" class="nav-link fueltype">
-                                    <i class="far fa-circlez nav-icon"></i>
-                                    <p>ประเภทน้ำมัน</p>
-                                </a>
-                            </li>
+                        <li class="nav-item">
+                            <a href="index.php?r=cityzone/index" class="nav-link cityzone">
+                                <i class="far fa-circlez nav-icon"></i>
+                                <p>โซนพื้นที่</p>
+                            </a>
+                        </li>
+                        <?php //endif; ?>
+                        <?php //if (\Yii::$app->user->can('warehouse/index')): ?>
+                        <li class="nav-item">
+                            <a href="index.php?r=fueltype/index" class="nav-link fueltype">
+                                <i class="far fa-circlez nav-icon"></i>
+                                <p>ประเภทน้ำมัน</p>
+                            </a>
+                        </li>
                         <?php //endif; ?>
                         <?php //if (\Yii::$app->user->can('location/index')): ?>
                         <li class="nav-item">

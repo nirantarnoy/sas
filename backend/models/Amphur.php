@@ -58,5 +58,18 @@ class Amphur extends \common\models\Amphur
         $model = Amphur::find()->where(['AMPHUR_ID' => $id])->one();
         return $model != null ? $model->AMPHUR_NAME : '';
     }
+
+    public static function findCityzone($cityzone_id)
+    {
+        $city_member = '';
+        $model = \common\models\CityzoneLine::find()->where(['cityzone_id' => $cityzone_id])->all();
+        if ($model) {
+            foreach ($model as $value) {
+                $city_name = \backend\models\Amphur::findAmphurName($value->city_id);
+                $city_member = $city_member . $city_name;
+            }
+        }
+        return $city_member;
+    }
 }
 
