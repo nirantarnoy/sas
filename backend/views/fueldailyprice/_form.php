@@ -10,6 +10,7 @@ use yii\widgets\ActiveForm;
 $province_data = \backend\models\Province::find()->all();
 //$province_chk = \backend\models\AddressInfo::findProvinceShowname($model->province_id);
 $city_data = \backend\models\Amphur::find()->all();
+$cityzone_data = \common\models\Cityzone::find()->all();
 //$city_chk = \backend\models\AddressInfo::findAmphurShowname($model->city_id);
 ?>
 
@@ -55,11 +56,25 @@ $city_data = \backend\models\Amphur::find()->all();
             </select>
         </div>
         <div class="col-lg-3">
+            <label for="">โซนพื้นที่</label>
+            <select name="cityzone_id" class="form-control cityzone-id" id="cityzone-id">
+                <option value="0">--เลือกโซนพื้นที่--</option>
+                <?php foreach ($cityzone_data as $val3): ?>
+                    <?php
+                    $selected = '';
+                    if ($val3->id == $model->cityzone_id)
+                        $selected = 'selected';
+//                    ?>
+                    <option value="<?= $val3->id ?>" <?= $selected ?>><?= $val3->name ?></option>
+                <?php endforeach; ?>
+            </select>
+        </div>
+        <div class="col-lg-3">
             <?= $form->field($model, 'price_date')->widget(\kartik\date\DatePicker::className(), [
                 'value' => date('m/d/Y')
             ]) ?>
         </div>
-        <div class="col-lg-3"></div>
+
     </div>
 
     <?php if($model->isNewRecord):?>

@@ -73,11 +73,34 @@ $city_data = \backend\models\Amphur::find()->all();
             ?>
         </div>
         <div class="col-lg-3">
+            <label for="">โซนพื้นที่</label>
+
+            <?php
+            echo \kartik\select2\Select2::widget([
+                'name' => 'cityzone_id',
+                'data' => \yii\helpers\ArrayHelper::map(\common\models\Cityzone::find()->all(), 'id', 'name'),
+                'value' => $model->province_id,
+                'options' => [
+                    'id' => 'cityzone-id',
+                    'placeholder' => '--เลือกโซนพื้นที่--',
+                ],
+                'pluginOptions' => [
+                    'allowClear' => true,
+                ]
+            ])
+            ?>
+        </div>
+
+
+
+    </div>
+    <br/>
+    <div class="row">
+        <div class="col-lg-3">
             <?= $form->field($model, 'price_date')->widget(\kartik\date\DatePicker::className(), [
                 'value' => date('m/d/Y')
             ]) ?>
         </div>
-        <div class="col-lg-3"></div>
     </div>
     <br/>
 
