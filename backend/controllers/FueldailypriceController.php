@@ -200,7 +200,7 @@ class FueldailypriceController extends Controller
                         $model_x->price_add = $line_fuel_price_add[$x];
                         $model_x->price = $line_fuel_price_total[$x];
                         $model_x->status = 1;
-                        $model_x_chk->car_type_id = $car_type_id;
+                        $model_x->car_type_id = $car_type_id;
                         if($model_x->save(false)){
                             $res+=1;
                         }

@@ -29,8 +29,9 @@ class Cityzone extends \yii\db\ActiveRecord
     {
         return [
             [['province_id'],'required'],
-            [['province_id', 'city_id'], 'integer'],
+            [['province_id',], 'integer'],
             [['name'], 'string', 'max' => 255],
+            [['city_id'],'safe']
         ];
     }
 
