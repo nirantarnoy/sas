@@ -14,7 +14,8 @@ class m230501_130625_create_quotation_rate_table extends Migration
     {
         $this->createTable('{{%quotation_rate}}', [
             'id' => $this->primaryKey(),
-            'zone_id' => $this->integer;province_id()->integer(),
+            'zone_id' => $this->integer(),
+            'province_id'=>$this->integer(),
             'route_code' => $this->string(),
             'car_type_id' => $this->integer(),
             'distance' => $this->float(),
@@ -23,8 +24,9 @@ class m230501_130625_create_quotation_rate_table extends Migration
             'created_at' => $this->integer(),
             'created_by' => $this->integer(),
             'updated_a' => $this->integer(),
-            'updated_by' => $this->integer(),
+            'updated_by' => $this->integer()
         ]);
+
     }
 
     /**
