@@ -114,6 +114,17 @@
                             </a>
                         </li>
                         <?php //endif; ?>
+                        <?php //if (\Yii::$app->user->can('location/index')): ?>
+                        <li class="nav-item">
+                            <a href="index.php?r=quotation" class="nav-link quotation">
+                                <i class="far fa-oil-can nav-icon"></i>
+                                <p>
+                                    เสนอราคา
+                                    <!--                                <span class="right badge badge-danger">New</span>-->
+                                </p>
+                            </a>
+                        </li>
+                        <?php //endif; ?>
 
 
 
