@@ -68,10 +68,10 @@ $this->params['breadcrumbs'][] = $this->title;
 //                }
 //            ],
             [
-                'attribute' => 'created_at',
+                'attribute' => 'create_at',
                 'label' => 'วันที่บันทึกข้อมูล',
                 'value' => function ($data) {
-                    return date('d-m-Y H:i:s', $data->created_at);
+                    return date('d-m-Y H:i:s', $data->create_at);
                 }
             ],
 //            'customer_id',
