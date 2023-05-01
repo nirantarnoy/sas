@@ -54,24 +54,24 @@ $city_data = \backend\models\Amphur::find()->all();
             ])
             ?>
         </div>
-        <div class="col-lg-3">
-            <label for="">อำเภอ/เขต</label>
-
-            <?php
-            echo \kartik\select2\Select2::widget([
-                'name' => 'city_id',
-                'data' => \yii\helpers\ArrayHelper::map(\backend\models\Amphur::find()->all(), 'AMPHUR_ID', 'AMPHUR_NAME'),
-                'value' => $model->province_id,
-                'options' => [
-                    'id' => 'city',
-                    'onchange' => '',
-                ],
-                'pluginOptions' => [
-                    'allowClear' => true,
-                ]
-            ])
-            ?>
-        </div>
+<!--        <div class="col-lg-3">-->
+<!--            <label for="">อำเภอ/เขต</label>-->
+<!---->
+<!--            --><?php
+//            echo \kartik\select2\Select2::widget([
+//                'name' => 'city_id',
+//                'data' => \yii\helpers\ArrayHelper::map(\backend\models\Amphur::find()->all(), 'AMPHUR_ID', 'AMPHUR_NAME'),
+//                'value' => $model->province_id,
+//                'options' => [
+//                    'id' => 'city',
+//                    'onchange' => '',
+//                ],
+//                'pluginOptions' => [
+//                    'allowClear' => true,
+//                ]
+//            ])
+//            ?>
+<!--        </div>-->
         <div class="col-lg-3">
             <label for="">โซนพื้นที่</label>
 

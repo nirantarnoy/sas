@@ -50,10 +50,16 @@ $this->params['breadcrumbs'][] = $this->title;
                 }
             ],
 //            'city_id',
+//            [
+//                'attribute' => 'city_id',
+//                'value' => function ($data) {
+//                    return \backend\models\Amphur::findAmphurName($data->city_id);
+//                }
+//            ],
             [
-                'attribute' => 'city_id',
+                'attribute' => 'cityzone_id',
                 'value' => function ($data) {
-                    return \backend\models\Amphur::findAmphurName($data->city_id);
+                    return \backend\models\Cityzone::findName($data->cityzone_id);
                 }
             ],
             'price_date',

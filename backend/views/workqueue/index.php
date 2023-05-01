@@ -61,10 +61,17 @@ $this->params['breadcrumbs'][] = $this->title;
 
 //            'id',
             'work_queue_no',
+//            [
+//                'attribute' => 'work_queue_date',
+//                'value' => function ($data) {
+//                    return date('d-m-Y H:i:s', strtotime($data->work_queue_date));
+//                }
+//            ],
             [
-                'attribute' => 'work_queue_date',
+                'attribute' => 'created_at',
+                'label' => 'วันที่บันทึกข้อมูล',
                 'value' => function ($data) {
-                    return date('d-m-Y H:i:s', strtotime($data->work_queue_date));
+                    return date('d-m-Y H:i:s', $data->created_at);
                 }
             ],
 //            'customer_id',
