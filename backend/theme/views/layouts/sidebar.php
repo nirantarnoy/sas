@@ -116,7 +116,7 @@
                         <?php //endif; ?>
                         <?php //if (\Yii::$app->user->can('location/index')): ?>
                         <li class="nav-item">
-                            <a href="index.php?r=quotation" class="nav-link quotation">
+                            <a href="index.php?r=quotationtitle" class="nav-link quotationtitle">
                                 <i class="far fa-oil-can nav-icon"></i>
                                 <p>
                                     เสนอราคา
