@@ -17,6 +17,7 @@ use Yii;
  */
 class QuotationTitle extends \yii\db\ActiveRecord
 {
+    public $created_at_display,$created_by_display;
     /**
      * {@inheritdoc}
      */
@@ -31,8 +32,9 @@ class QuotationTitle extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['created_at', 'created_by', 'updated_at', 'updated_by'], 'integer'],
+            [['created_at', 'created_by', 'updated_at', 'updated_by','status'], 'integer'],
             [['name', 'description'], 'string', 'max' => 255],
+            [['created_by_display','created_at_display'],'safe']
         ];
     }
 

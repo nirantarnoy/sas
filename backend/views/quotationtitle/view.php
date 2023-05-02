@@ -7,13 +7,11 @@ use yii\widgets\DetailView;
 /** @var backend\models\Quotationtitle $model */
 
 $this->title = $model->name;
-$this->params['breadcrumbs'][] = ['label' => 'Quotationtitles', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'เสนอราคา', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 \yii\web\YiiAsset::register($this);
 ?>
 <div class="quotationtitle-view">
-
-    <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
         <?= Html::a('Update', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>

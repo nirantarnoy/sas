@@ -2,6 +2,7 @@
 
 namespace backend\controllers;
 
+use backend\models\ItemSearch;
 use backend\models\Quotationtitle;
 use backend\models\QuotationtitleSearch;
 use yii\web\Controller;
@@ -38,12 +39,31 @@ class QuotationtitleController extends Controller
      */
     public function actionIndex()
     {
+        $viewstatus = 1;
+        $pageSize = \Yii::$app->request->post("perpage");
+
+        if(\Yii::$app->request->get('viewstatus')!=null){
+            $viewstatus = \Yii::$app->request->get('viewstatus');
+        }
+
+
         $searchModel = new QuotationtitleSearch();
         $dataProvider = $searchModel->search($this->request->queryParams);
+        if($viewstatus ==1){
+            $dataProvider->query->andFilterWhere(['status'=>$viewstatus]);
+        }
+        if($viewstatus == 2){
+            $dataProvider->query->andFilterWhere(['status'=>0]);
+        }
+
+        $dataProvider->pagination->pageSize = $pageSize;
+
 
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
+            'perpage'=>$pageSize,
+            'viewstatus'=>$viewstatus,
         ]);
     }
 
@@ -70,8 +90,12 @@ class QuotationtitleController extends Controller
         $model = new Quotationtitle();
 
         if ($this->request->isPost) {
-            if ($model->load($this->request->post()) && $model->save()) {
-                return $this->redirect(['view', 'id' => $model->id]);
+            if ($model->load($this->request->post())) {
+                $model->status = 1;
+                if($model->save()){
+                    return $this->redirect(['view', 'id' => $model->id]);
+                }
+
             }
         } else {
             $model->loadDefaultValues();

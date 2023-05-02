@@ -11,6 +11,7 @@ use backend\models\Quotationtitle;
  */
 class QuotationtitleSearch extends Quotationtitle
 {
+    public $globalSearch;
     /**
      * {@inheritdoc}
      */
@@ -19,6 +20,7 @@ class QuotationtitleSearch extends Quotationtitle
         return [
             [['id', 'created_at', 'created_by', 'updated_at', 'updated_by'], 'integer'],
             [['name', 'description'], 'safe'],
+            [['globalSearch'],'safe']
         ];
     }
 
@@ -65,8 +67,11 @@ class QuotationtitleSearch extends Quotationtitle
             'updated_by' => $this->updated_by,
         ]);
 
-        $query->andFilterWhere(['like', 'name', $this->name])
-            ->andFilterWhere(['like', 'description', $this->description]);
+        if($this->globalSearch != '' || $this->globalSearch !=null){
+            $query->orFilterWhere(['like', 'name', $this->globalSearch])
+                ->orFilterWhere(['like', 'description', $this->globalSearch]);
+
+        }
 
         return $dataProvider;
     }

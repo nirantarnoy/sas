@@ -18,25 +18,28 @@ use yii\widgets\ActiveForm;
         ],
     ]); ?>
 
-    <?= $form->field($model, 'id') ?>
+    <div class="row">
+        <div class="col-lg-3">
+            <!--         <span class="input-group-addon" id="basic-addon1"><i class="fa fa-search"></i></span>-->
+            <?= $form->field($model, 'globalSearch')->textInput(['placeholder' => 'ค้นหา', 'class' => 'form-control', 'aria-describedby' => 'basic-addon1'])->label(false) ?>
 
-    <?= $form->field($model, 'name') ?>
+        </div>
+        <div class="col-lg-3">
+            <?php
+            $check_role = \backend\models\User::checkhasrole(\Yii::$app->user->id, 'System Administrator');
+            if ($check_role) {
+                echo \kartik\select2\Select2::widget([
+                    'value' => $viewstatus,
+                    'name' => 'viewstatus',
+                    'data' => \yii\helpers\ArrayHelper::map(\backend\helpers\ViewstatusType::asArrayObject(), 'id', 'name'),
+                    'options' => [
+                        'onchange' => 'this.form.submit();',
+                    ],
+                ]);
+            }
 
-    <?= $form->field($model, 'description') ?>
-
-    <?= $form->field($model, 'created_at') ?>
-
-    <?= $form->field($model, 'created_by') ?>
-
-    <?php // echo $form->field($model, 'updated_at') ?>
-
-    <?php // echo $form->field($model, 'updated_by') ?>
-
-    <div class="form-group">
-        <?= Html::submitButton('Search', ['class' => 'btn btn-primary']) ?>
-        <?= Html::resetButton('Reset', ['class' => 'btn btn-outline-secondary']) ?>
+            ?>
+        </div>
     </div>
-
     <?php ActiveForm::end(); ?>
-
 </div>

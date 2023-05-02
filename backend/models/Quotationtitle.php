@@ -16,6 +16,7 @@ class Quotationtitle extends \common\models\QuotationTitle
 //        return [
 //            [['status', 'created_at', 'created_by', 'updated_at', 'updated_by'], 'integer'],
 //            [['name', 'description'], 'string', 'max' => 255],
+//            [['created_by_display','created_at_display'],'safe']
 //        ];
 //    }
 
