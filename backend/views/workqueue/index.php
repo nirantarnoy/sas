@@ -104,8 +104,10 @@ $this->params['breadcrumbs'][] = $this->title;
                 'attribute' => 'approve_status',
                 'format' => 'raw',
                 'value' => function ($data) {
-                    if ($data->approve_status == 1) {
+                    if ($data->approve_status == 1 && $data->status == 1 ) {
                         return '<div class="badge badge-success" >อนุมัติแล้ว</div>';
+                    } else if($data->status == 100){
+                        return '<div class="badge badge-info" >รับงานแล้ว</div>';
                     } else {
                         return '<div class="badge badge-secondary" >ยังไม่อนุมัติ</div>';
                     }
@@ -138,8 +140,9 @@ $this->params['breadcrumbs'][] = $this->title;
                             'aria-label' => Yii::t('yii', 'Update'),
                             'data-pjax' => '0',
                             'id' => 'modaledit',
+
                         ]);
-                        return Html::a(
+                        return $data->status != 100 ?  Html::a(
                             '<span class="fas fa-edit btn btn-xs btn-default"></span>', $url, [
                             'id' => 'activity-view-link',
                             //'data-toggle' => 'modal',
@@ -147,7 +150,7 @@ $this->params['breadcrumbs'][] = $this->title;
                             'data-id' => $index,
                             'data-pjax' => '0',
                             // 'style'=>['float'=>'rigth'],
-                        ]);
+                        ]):'';
                     },
                     'delete' => function ($url, $data, $index) {
                         $options = array_merge([
@@ -160,7 +163,7 @@ $this->params['breadcrumbs'][] = $this->title;
                             'data-var' => $data->id,
                             'onclick' => 'recDelete($(this));'
                         ]);
-                        return Html::a('<span class="fas fa-trash-alt btn btn-xs btn-default"></span>', 'javascript:void(0)', $options);
+                        return $data->status != 100 ? Html::a('<span class="fas fa-trash-alt btn btn-xs btn-default"></span>', 'javascript:void(0)', $options):'';
                     }
                 ]
             ],

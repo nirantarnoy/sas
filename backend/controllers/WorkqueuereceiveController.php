@@ -48,6 +48,7 @@ class WorkqueuereceiveController extends Controller
 
         $searchModel = new WorkqueueSearch();
         $dataProvider = $searchModel->search($this->request->queryParams);
+        $dataProvider->query->andFilterWhere(['work_queue.status'=>1]);
         if($emp_id){
            // $dataProvider->query->andFilterWhere(['emp_assign'=>$emp_id]);
         }
@@ -100,6 +101,18 @@ class WorkqueuereceiveController extends Controller
     public function actionUpdateprofile(){
         $emp_id = \Yii::$app->request->post('emp_id');
         $emp_phone = \Yii::$app->request->post('emp_phone');
+    }
+
+    public function actionConfirm(){
+        $work_id = \Yii::$app->request->post('work_queue_id');
+        if($work_id){
+           $model = \backend\models\Workqueue::find()->where(['id'=>$work_id])->one();
+           if($model){
+               $model->status = 100;
+               $model->save(false);
+           }
+        }
+        return $this->redirect(['workqueuereceive/index']);
     }
 
 

@@ -82,3 +82,48 @@ function recDelete(e){
     });
 }
 
+function workqueConfirm(e){
+    //e.preventDefault();
+    // var url = e.attr("data-url");
+    // var id = e.attr("data-var");
+    //alert(url);
+    swal({
+        title: "ต้องการยืนยันรายการนี้ใช่หรือไม่",
+        text: "",
+        type: "success",
+        showCancelButton: true,
+        closeOnConfirm: true,
+        showLoaderOnConfirm: true
+    }, function () {
+        // alert($("form#form-delete").attr('action'));
+
+      //  $("form#form-confirm").attr('action',url);
+        $("form#form-confirm").submit();
+        // $.ajax({
+        //     'type': 'get',
+        //     'dataType': 'html',
+        //     'url': url,
+        //     'data': {'id': id},
+        //     'success': function(data){
+        //         if(data ==1){
+        //             location.reload();
+        //            // alert(data);
+        //            // showAlert('success','ทำรายการสำเร็จ');//
+        //            // $("#btn-show-alert").trigger('click');
+        //         }else{
+        //            // alert(data);
+        //           //  showAlert('error','พบข้อผิดพลาด');
+        //         }
+        //         // setTimeout(function(){
+        //     location.reload();
+        //         // },3000);
+        //
+        //        // return;
+        //     },
+        //     'error': function(data){
+        //          alert(data);//return;
+        //     }
+        // });
+    });
+}
+

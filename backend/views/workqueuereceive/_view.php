@@ -98,16 +98,17 @@ $date_year = date('Y',strtotime($model->work_queue_date)) + 543;
 <div class="row">
     <div class="col-lg-4"></div>
     <div class="col-lg-4" style="text-align: center;">
-        <div class="btn btn-success"><h3>ยืนยันรับงานและปริ้นเอกสาร</h3></div>
+        <div class="btn btn-success" onclick="confirmwork($(this))"><h3>ยืนยันรับงานและปริ้นเอกสาร</h3></div>
     </div>
     <div class="col-lg-4"></div>
 </div>
 
-<form id="form-confirm" action="<?= \yii\helpers\Url::to(['site/index'], true) ?>" method="post">
-    <input type="hidden" name="work_queue_id" ="<?= $model->id ?>">
+<form id="form-confirm" action="<?= \yii\helpers\Url::to(['workqueuereceive/confirm'], true) ?>" method="post">
+    <input type="hidden" name="work_queue_id" value="<?= $model->id ?>">
 </form>
 
 <?php
+$this->registerJsFile(\Yii::$app->request->baseUrl . '/js/module_index_delete.js', ['depends' => [\yii\web\JqueryAsset::className()]]);
 $js = <<<JS
 function printContent(el)
       {
@@ -118,10 +119,11 @@ function printContent(el)
          document.body.innerHTML = restorepage;
      }
      
-function confirmwork(){
-    if(confirm("ยืนยันการทำรายการใช่หรือไม่ ?")){
-        $("form#form-confirm").submit();
-    }
+function confirmwork(e){
+    workqueConfirm(e)
+    // if(confirm("ยืนยันการทำรายการใช่หรือไม่ ?")){
+    //     $("form#form-confirm").submit();
+    // }
 }     
 JS;
 $this->registerJs($js, static::POS_END);

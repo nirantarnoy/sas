@@ -39,6 +39,7 @@ $cururl = Yii::$app->controller->id;
     <link rel="stylesheet" href="plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css">
     <!-- Google Font: Source Sans Pro -->
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="<?= "css/sweetalert.css" ?> ">
 
     <style>
         @font-face {
@@ -100,6 +101,8 @@ $cururl = Yii::$app->controller->id;
     <script src="dist/js/demo.js"></script>
     <!-- Bootstrap Switch -->
     <script src="plugins/bootstrap-switch/js/bootstrap-switch.min.js"></script>
+    <script src="js/module_index_delete.js"></script>
+    <script src="js/sweetalert.min.js"></script>
 
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
