@@ -296,7 +296,7 @@
                     <ul class="nav nav-treeview">
                         <?php //if (\Yii::$app->user->can('salecomreport/index')): ?>
                         <li class="nav-item">
-                            <a href="index.php?r=salecomreport" class="nav-link salecomreport">
+                            <a href="index.php?r=report/report1" class="nav-link report">
                                 <i class="far fa-circlez nav-icon"></i>
                                 <p>จำนวนน้ำมันใช้ต่อวัน</p>
                             </a>
@@ -305,7 +305,7 @@
 
                         <?php //if (\Yii::$app->user->can('salecomreport/index')): ?>
                         <li class="nav-item">
-                            <a href="index.php?r=salecomreport" class="nav-link salecomreport">
+                            <a href="index.php?r=report/report2" class="nav-link report">
                                 <i class="far fa-circlez nav-icon"></i>
                                 <p> สรุปน้ำมันแยกคัน </p>
                             </a>
