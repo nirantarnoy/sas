@@ -14,6 +14,7 @@ use yii\filters\VerbFilter;
  */
 class QuotationtitleController extends Controller
 {
+    public $enableCsrfValidation = false;
     /**
      * @inheritDoc
      */
@@ -147,9 +148,11 @@ class QuotationtitleController extends Controller
             $line_average = \Yii::$app->request->post('line_average');
             $line_quotation_price = \Yii::$app->request->post('line_quotation_price');
 
+            //echo count($line_warehouse_id);return;
+           // print_r(\Yii::$app->request->post());return;
             if($model->save(false)){
                 if($line_warehouse_id != null){
-                    \common\models\QuotationRate::deleteAll(['quotation_title_id'=>$id]);
+                   // \common\models\QuotationRate::deleteAll(['quotation_title_id'=>$id]);
                     for($i=0;$i<=count($line_warehouse_id)-1;$i++){
                         $model_line = new \common\models\QuotationRate();
                         $model_line->quotation_title_id = $model->id;
@@ -184,6 +187,19 @@ class QuotationtitleController extends Controller
         $this->findModel($id)->delete();
 
         return $this->redirect(['index']);
+    }
+
+    public function actionPrintquotationview(){
+        $quotatioin_id = \Yii::$app->request->post('quotation_id');
+        if($quotatioin_id){
+            $model = $this->findModel($quotatioin_id);
+            $model_line = \common\models\QuotationRate::find()->where(['quotation_title_id'=>$quotatioin_id])->all();
+
+            return $this->render('_printquotationview', [
+                'model' => $model,
+                'model_line'=>$model_line,
+            ]);
+        }
     }
 
     /**

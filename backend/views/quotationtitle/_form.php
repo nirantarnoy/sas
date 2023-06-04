@@ -38,11 +38,13 @@ $model_dropoff = \backend\models\DropoffPlace::find()->all();
             <div class="form-group">
                 <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
                 <?php if($model_line !=null):?>
-                <div class="btn btn-warning"><i class="fa fa-print"></i> พิมพ์</div>
+                <div class="btn btn-warning" onclick="printquotationview()"><i class="fa fa-print"></i> พิมพ์</div>
                 <?php endif;?>
             </div>
         </div>
     </div>
+
+
 
     <br/>
     <div class="row">
@@ -161,7 +163,7 @@ $model_dropoff = \backend\models\DropoffPlace::find()->all();
                                 </select>
                             </td>
                             <td>
-                                <input type="text" class="form-control line-route" name="line_route[]">
+                                <input type="text" class="form-control line-route" name="line_route[]" value="xx">
                             </td>
                             <td>
                                 <select name="line_zone_id[]" class="form-control line-zone-id" id="">
@@ -208,6 +210,9 @@ $model_dropoff = \backend\models\DropoffPlace::find()->all();
     <?php ActiveForm::end(); ?>
 
 </div>
+<form id="form-print" action="<?=\yii\helpers\Url::to(['quotationtitle/printquotationview'],true)?>" method="post">
+    <input type="hidden" value="<?=$model->id?>" name="quotation_id">
+</form>
 
 <?php
 $js = <<<JS
@@ -267,6 +272,9 @@ function removeline(e) {
         e.css("border-color","");
     }
  }   
+ function printquotationview(){
+    $("form#form-print").submit();
+ }
 JS;
 $this->registerJs($js, static::POS_END);
 ?>
