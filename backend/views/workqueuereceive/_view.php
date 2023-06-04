@@ -117,10 +117,14 @@ function printContent(el)
          document.body.innerHTML = printcontent;
          window.print();
          document.body.innerHTML = restorepage;
+         // workqueConfirm(e);
+         
      }
      
 function confirmwork(e){
-    workqueConfirm(e)
+   
+    workqueConfirm(e);
+    // printContent('print-area');
     // if(confirm("ยืนยันการทำรายการใช่หรือไม่ ?")){
     //     $("form#form-confirm").submit();
     // }
