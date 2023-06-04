@@ -7,6 +7,7 @@ use yii\grid\ActionColumn;
 use yii\grid\GridView;
 use yii\widgets\Pjax;
 use yii\widgets\LinkPager;
+
 /** @var yii\web\View $this */
 /** @var backend\models\QuotationtitleSearch $searchModel */
 /** @var yii\data\ActiveDataProvider $dataProvider */
@@ -38,7 +39,7 @@ $this->params['breadcrumbs'][] = $this->title;
             </form>
         </div>
     </div>
-    <?php echo $this->render('_search', ['model' => $searchModel,'viewstatus'=>$viewstatus]); ?>
+    <?php echo $this->render('_search', ['model' => $searchModel, 'viewstatus' => $viewstatus]); ?>
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         // 'filterModel' => $searchModel,
@@ -58,11 +59,21 @@ $this->params['breadcrumbs'][] = $this->title;
                 'headerOptions' => ['style' => 'text-align: center'],
                 'contentOptions' => ['style' => 'text-align: center'],
             ],
-            'id',
+           // 'id',
             'name',
             'description',
-            'created_at',
-            'created_by',
+            [
+                'attribute' => 'created_at',
+                'value' => function ($data) {
+                     return date('d-m-Y H:m:i',$data->created_at);
+                }
+            ],
+            [
+                'attribute' => 'created_by',
+                'value' => function ($data) {
+                    return \backend\models\User::findName($data->created_by);
+                }
+            ],
             //'updated_at',
             //'updated_by',
             [

@@ -13,6 +13,7 @@ $this->params['breadcrumbs'][] = 'Update';
 <div class="quotationtitle-update">
     <?= $this->render('_form', [
         'model' => $model,
+        'model_line'=>$model_line,
     ]) ?>
 
 </div>
