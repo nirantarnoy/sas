@@ -78,6 +78,7 @@ class WorkqueuereceiveController extends Controller
             return $this->render('_view', [
                 'model' => $model,
                 'modelline' => $modelline,
+                'after_save'=> 0
             ]);
         }
     }
@@ -112,7 +113,22 @@ class WorkqueuereceiveController extends Controller
                $model->save(false);
            }
         }
-        return $this->redirect(['workqueuereceive/index']);
+       // return $this->redirect(['workqueuereceive/index']);
+
+        $this->layout = 'main_login';
+//        return $this->render('_view',[
+//            'model' => null,
+//        ]);
+
+        if ($work_id) {
+            $model = \backend\models\Workqueue::find()->where(['id' => $work_id])->one();
+            $modelline = \common\models\WorkQueueLine::find()->where(['work_queue_id' => $work_id])->all();
+            return $this->render('_view', [
+                'model' => $model,
+                'modelline' => $modelline,
+                'after_save'=> 1
+            ]);
+        }
     }
 
 

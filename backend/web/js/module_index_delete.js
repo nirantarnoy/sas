@@ -82,7 +82,7 @@ function recDelete(e){
     });
 }
 
-function workqueConfirm(e){
+function workqueConfirm(){
     //e.preventDefault();
     // var url = e.attr("data-url");
     // var id = e.attr("data-var");

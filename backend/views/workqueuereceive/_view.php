@@ -6,6 +6,7 @@ $date_month = \backend\helpers\Thaimonth::getTypeById((int)(date('m', strtotime(
 $date_year = date('Y',strtotime($model->work_queue_date)) + 543;
 ?>
 <br />
+<input type="hidden" class="is-after-save" value="<?=$after_save?>">
 <div id="print-area">
     <table style="width: 100%;" border="0">
         <tr>
@@ -88,7 +89,7 @@ $date_year = date('Y',strtotime($model->work_queue_date)) + 543;
     </table>
 
 </div>
-<br/>
+<br />
 <div class="row">
     <div class="col-lg-12" style="text-align: center">
         <div class="btn btn-default btn-print" onclick="printContent('print-area')">พิมพ์</div>
@@ -98,7 +99,7 @@ $date_year = date('Y',strtotime($model->work_queue_date)) + 543;
 <div class="row">
     <div class="col-lg-4"></div>
     <div class="col-lg-4" style="text-align: center;">
-        <div class="btn btn-success" onclick="confirmwork($(this))"><h3>ยืนยันรับงานและปริ้นเอกสาร</h3></div>
+        <div class="btn btn-success" onclick="confirmwork()"><h3>ยืนยันรับงานและปริ้นเอกสาร</h3></div>
     </div>
     <div class="col-lg-4"></div>
 </div>
@@ -106,10 +107,18 @@ $date_year = date('Y',strtotime($model->work_queue_date)) + 543;
 <form id="form-confirm" action="<?= \yii\helpers\Url::to(['workqueuereceive/confirm'], true) ?>" method="post">
     <input type="hidden" name="work_queue_id" value="<?= $model->id ?>">
 </form>
+<form id="form-goto-index" action="<?= \yii\helpers\Url::to(['workqueuereceive/index'], true) ?>" method="post"></form>
 
 <?php
 $this->registerJsFile(\Yii::$app->request->baseUrl . '/js/module_index_delete.js', ['depends' => [\yii\web\JqueryAsset::className()]]);
 $js = <<<JS
+$(function(){
+    var after_save = $(".is-after-save").val();
+    if(after_save == 1){
+        printContent('print-area');
+        $("form#form-goto-index").submit();
+    }
+});
 function printContent(el)
       {
          var restorepage = document.body.innerHTML;
@@ -117,13 +126,14 @@ function printContent(el)
          document.body.innerHTML = printcontent;
          window.print();
          document.body.innerHTML = restorepage;
+         
          // workqueConfirm(e);
          
      }
      
-function confirmwork(e){
+function confirmwork(){
    
-    workqueConfirm(e);
+    workqueConfirm();
     // printContent('print-area');
     // if(confirm("ยืนยันการทำรายการใช่หรือไม่ ?")){
     //     $("form#form-confirm").submit();
