@@ -49,8 +49,8 @@ $emp_name = \backend\models\Employee::findFullName($emp_id);
                  <td style="text-align: center;vertical-align: middle;"><?=$x?></td>
                  <td style="vertical-align: middle;"><?=$value->work_queue_no?></td>
                  <td style="vertical-align: middle;"><?=date('d-m-Y H:i:s',strtotime($value->work_queue_date))?></td>
-                 <td style="vertical-align: middle;">SCG</td>
-                 <td style="vertical-align: middle;">ชุมพร</td>
+                 <td style="vertical-align: middle;"><?=\backend\models\Customer::findCusName($value->customer_id)?></td>
+                 <td style="vertical-align: middle;"><?=\backend\models\RoutePlan::findDes($value->route_plan_id)?></td>
                  <td style="text-align: center;">
                      <a href="<?=\yii\helpers\Url::to(['workqueuereceive/view','id'=>$value->id],true)?>" target="_parent" class="btn btn-success">ดูรายละเอียด</a>
                  </td>
