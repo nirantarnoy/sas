@@ -261,7 +261,7 @@ function addline(e){
                     
                 } else {
                     var clone = tr.clone();
-                     tr.closest("tr").find(".line-warehouse-id").val("-1").change();
+                    clone.closest("tr").find(".line-warehouse-id").val("-1").change();
                     clone.attr("data-var", "");
                     clone.find('.line-rec-id').val("");
                     
@@ -309,7 +309,7 @@ function removeline(e) {
        
         var province_id = e.val();
         if(province_id > 0){
-             alert();
+             //alert();
                      $.ajax({
                        type: "post",
                        dataType: "html",
@@ -319,7 +319,7 @@ function removeline(e) {
                        success: function(data){
                            //if(data != ''){
                                  // alert('created do');
-                            $(".line-zone-id").html(data);
+                            e.closest("tr").find(".line-zone-id").html(data);
                            
                            //}
                        }

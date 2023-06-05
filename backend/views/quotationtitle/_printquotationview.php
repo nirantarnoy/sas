@@ -15,14 +15,14 @@ $this->title = "รายละเอียด";
                     <th>จังหวัด</th>
                     <th>Route</th>
                     <th>โซนพื้นที่</th>
-                    <th>ระยะทาง</th>
-                    <th>ปริมาณเฉลี่ยตัน/ปี</th>
+                    <th style="text-align: right;">ระยะทาง</th>
+                    <th style="text-align: right;">ปริมาณเฉลี่ยตัน/ปี</th>
                     <th></th>
                     <th></th>
                     <th></th>
                     <th></th>
                     <th></th>
-                    <th style="text-align: center;">ราคาที่เสนอ</th>
+                    <th style="text-align: center;background-color: yellow;">ราคาที่เสนอ</th>
                     <th></th>
                     <th></th>
                     <th></th>
@@ -44,11 +44,11 @@ $this->title = "รายละเอียด";
                             <td>
                                 <?= getCityzonedetail($value->zone_id)?>
                             </td>
-                            <td>
-                                <?= $value->distance ?>
+                            <td style="text-align: right;">
+                                <?= number_format($value->distance) ?>
                             </td>
-                            <td>
-                                <?= $value->load_qty ?>
+                            <td style="text-align: right;">
+                                <?= number_format($value->load_qty) ?>
                             </td>
                             <td style="text-align: center;"><?= number_format(((((($value->price_current_rate * 0.99)*0.99)*0.99)*0.99)*0.99),0) ?></td>
                             <td style="text-align: center;"><?= number_format((((($value->price_current_rate * 0.99)*0.99)*0.99)*0.99),0) ?></td>
