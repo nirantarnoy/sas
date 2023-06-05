@@ -12,7 +12,7 @@ $this->title = "รายละเอียด";
             <table class="table table-bordered table-striped" id="table-list">
                 <thead>
                 <tr>
-                    <th>จากคลังสินค้า</th>
+                    <th>จังหวัด</th>
                     <th>Route</th>
                     <th>โซนพื้นที่</th>
                     <th>ระยะทาง</th>
@@ -22,7 +22,7 @@ $this->title = "รายละเอียด";
                     <th></th>
                     <th></th>
                     <th></th>
-                    <th style="text-align: right;">ราคาที่เสนอ</th>
+                    <th style="text-align: center;">ราคาที่เสนอ</th>
                     <th></th>
                     <th></th>
                     <th></th>
@@ -36,13 +36,13 @@ $this->title = "รายละเอียด";
                     <?php foreach ($model_line as $value): ?>
                         <tr>
                             <td>
-
+                                <?= \backend\models\Province::findProvinceName($value->province_id) ?>
                             </td>
                             <td>
                                 <?= $value->route_code ?>
                             </td>
                             <td>
-
+                                <?= getCityzonedetail($value->zone_id)?>
                             </td>
                             <td>
                                 <?= $value->distance ?>
@@ -50,19 +50,19 @@ $this->title = "รายละเอียด";
                             <td>
                                 <?= $value->load_qty ?>
                             </td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td style="text-align: right;">
+                            <td style="text-align: center;"><?= number_format(((((($value->price_current_rate * 0.99)*0.99)*0.99)*0.99)*0.99),0) ?></td>
+                            <td style="text-align: center;"><?= number_format((((($value->price_current_rate * 0.99)*0.99)*0.99)*0.99),0) ?></td>
+                            <td style="text-align: center;"><?= number_format(((($value->price_current_rate * 0.99)*0.99)*0.99),0) ?></td>
+                            <td style="text-align: center;"><?= number_format((($value->price_current_rate * 0.99)*0.99),0) ?></td>
+                            <td style="text-align: center;"><?= number_format(($value->price_current_rate * 0.99),0) ?></td>
+                            <td style="text-align: center;background-color: yellow;">
                                 <?= $value->price_current_rate ?>
                             </td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
+                            <td style="text-align: center;"><?= number_format(($value->price_current_rate * 1.01),0) ?></td>
+                            <td style="text-align: center;"><?= number_format((($value->price_current_rate * 1.01)*1.01),0) ?></td>
+                            <td style="text-align: center;"><?= number_format(((($value->price_current_rate * 1.01)*1.01)*1.01),0) ?></td>
+                            <td style="text-align: center;"><?= number_format((((($value->price_current_rate * 1.01)*1.01)*1.01)*1.01),0) ?></td>
+                            <td style="text-align: center;"><?= number_format(((((($value->price_current_rate * 1.01)*1.01)*1.01)*1.01)*1.01),0) ?></td>
                         </tr>
                     <?php endforeach; ?>
 
@@ -80,6 +80,23 @@ $this->title = "รายละเอียด";
         <div class="btn btn-success" onclick=""><i class="fa fa-file-download"></i> Export</div>
     </div>
 </div>
+<?php
+
+function getCityzonedetail($city_zone_id)
+{
+    $name = '';
+    if ($city_zone_id) {
+        $model = \common\models\CityzoneLine::find()->where(['cityzone_id' => $city_zone_id])->all();
+        if ($model) {
+            foreach ($model as $value) {
+                $name .= \backend\models\Amphur::findAmphurName($value->city_id) . ',';
+            }
+        }
+    }
+    return $name;
+}
+
+?>
 <?php
 $js = <<<JS
 $(function(){

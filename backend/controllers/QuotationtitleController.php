@@ -15,6 +15,7 @@ use yii\filters\VerbFilter;
 class QuotationtitleController extends Controller
 {
     public $enableCsrfValidation = false;
+
     /**
      * @inheritDoc
      */
@@ -43,18 +44,18 @@ class QuotationtitleController extends Controller
         $viewstatus = 1;
         $pageSize = \Yii::$app->request->post("perpage");
 
-        if(\Yii::$app->request->get('viewstatus')!=null){
+        if (\Yii::$app->request->get('viewstatus') != null) {
             $viewstatus = \Yii::$app->request->get('viewstatus');
         }
 
 
         $searchModel = new QuotationtitleSearch();
         $dataProvider = $searchModel->search($this->request->queryParams);
-        if($viewstatus ==1){
-            $dataProvider->query->andFilterWhere(['status'=>$viewstatus]);
+        if ($viewstatus == 1) {
+            $dataProvider->query->andFilterWhere(['status' => $viewstatus]);
         }
-        if($viewstatus == 2){
-            $dataProvider->query->andFilterWhere(['status'=>0]);
+        if ($viewstatus == 2) {
+            $dataProvider->query->andFilterWhere(['status' => 0]);
         }
 
         $dataProvider->pagination->pageSize = $pageSize;
@@ -63,8 +64,8 @@ class QuotationtitleController extends Controller
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
-            'perpage'=>$pageSize,
-            'viewstatus'=>$viewstatus,
+            'perpage' => $pageSize,
+            'viewstatus' => $viewstatus,
         ]);
     }
 
@@ -102,13 +103,15 @@ class QuotationtitleController extends Controller
 
 
                 $model->status = 1;
-                if($model->save(false)){
-                    if($line_warehouse_id != null){
-                        for($i=0;$i<=count($line_warehouse_id)-1;$i++){
+                if ($model->save(false)) {
+                    if ($line_warehouse_id != null) {
+                        for ($i = 0; $i <= count($line_warehouse_id) - 1; $i++) {
                             $model_line = new \common\models\QuotationRate();
                             $model_line->quotation_title_id = $model->id;
+                            $model_line->province_id = $line_warehouse_id[$i];
                             $model_line->car_type_id = 0;
                             $model_line->distance = $line_distance[$i];
+                            $model_line->route_code = $line_route[$i];
                             $model_line->price_current_rate = $line_quotation_price[$i];
                             $model_line->load_qty = $line_average[$i];
                             $model_line->zone_id = $line_zone_id[$i];
@@ -138,7 +141,7 @@ class QuotationtitleController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
-        $model_line = \common\models\QuotationRate::find()->where(['quotation_title_id'=>$id])->all();
+        $model_line = \common\models\QuotationRate::find()->where(['quotation_title_id' => $id])->all();
 
         if ($this->request->isPost && $model->load($this->request->post())) {
             $line_warehouse_id = \Yii::$app->request->post('line_warehouse_id');
@@ -149,17 +152,19 @@ class QuotationtitleController extends Controller
             $line_quotation_price = \Yii::$app->request->post('line_quotation_price');
 
             //echo count($line_warehouse_id);return;
-           // print_r(\Yii::$app->request->post());return;
-            if($model->save(false)){
-                if($line_warehouse_id != null){
-                   // \common\models\QuotationRate::deleteAll(['quotation_title_id'=>$id]);
-                    for($i=0;$i<=count($line_warehouse_id)-1;$i++){
+            // print_r(\Yii::$app->request->post());return;
+            if ($model->save(false)) {
+                if ($line_warehouse_id != null) {
+                     \common\models\QuotationRate::deleteAll(['quotation_title_id'=>$id]);
+                    for ($i = 0; $i <= count($line_warehouse_id) - 1; $i++) {
                         $model_line = new \common\models\QuotationRate();
                         $model_line->quotation_title_id = $model->id;
+                        $model_line->province_id = $line_warehouse_id[$i];
                         $model_line->car_type_id = 0;
                         $model_line->distance = $line_distance[$i];
                         $model_line->price_current_rate = $line_quotation_price[$i];
                         $model_line->load_qty = $line_average[$i];
+                        $model_line->route_code = $line_route[$i];
                         $model_line->zone_id = $line_zone_id[$i];
                         $model_line->save(false);
                     }
@@ -171,7 +176,7 @@ class QuotationtitleController extends Controller
 
         return $this->render('update', [
             'model' => $model,
-            'model_line'=>$model_line,
+            'model_line' => $model_line,
         ]);
     }
 
@@ -189,15 +194,16 @@ class QuotationtitleController extends Controller
         return $this->redirect(['index']);
     }
 
-    public function actionPrintquotationview(){
+    public function actionPrintquotationview()
+    {
         $quotatioin_id = \Yii::$app->request->post('quotation_id');
-        if($quotatioin_id){
+        if ($quotatioin_id) {
             $model = $this->findModel($quotatioin_id);
-            $model_line = \common\models\QuotationRate::find()->where(['quotation_title_id'=>$quotatioin_id])->all();
+            $model_line = \common\models\QuotationRate::find()->where(['quotation_title_id' => $quotatioin_id])->all();
 
             return $this->render('_printquotationview', [
                 'model' => $model,
-                'model_line'=>$model_line,
+                'model_line' => $model_line,
             ]);
         }
     }
@@ -216,5 +222,35 @@ class QuotationtitleController extends Controller
         }
 
         throw new NotFoundHttpException('The requested page does not exist.');
+    }
+
+    public function actionGetcityzone()
+    {
+        $province_id = \Yii::$app->request->post('province_id');
+        $html = '<option value="-1">--เลือกโซน--</option>';
+        if ($province_id > 0) {
+            $model = \backend\models\Cityzone::find()->where(['province_id' => $province_id])->one();
+            if ($model) {
+                $detail = $this->getCityzonedetail($model->id);
+                $html .= '<option value="' . $model->id . '">';
+                $html .= $detail;
+                $html .= '</option>';
+            }
+        }
+        echo $html;
+    }
+
+    public function getCityzonedetail($city_zone_id)
+    {
+        $name = '';
+        if ($city_zone_id) {
+            $model = \common\models\CityzoneLine::find()->where(['cityzone_id' => $city_zone_id])->all();
+            if ($model) {
+                foreach ($model as $value) {
+                    $name .= \backend\models\Amphur::findAmphurName($value->city_id) . ',';
+                }
+            }
+        }
+        return $name;
     }
 }

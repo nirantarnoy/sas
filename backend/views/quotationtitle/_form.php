@@ -4,7 +4,8 @@ use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
 
-$model_dropoff = \backend\models\DropoffPlace::find()->all();
+$model_province = \backend\models\Province::find()->all();
+$model_cityzone = \backend\models\Cityzone::find()->all();
 /** @var yii\web\View $this */
 /** @var backend\models\Quotationtitle $model */
 /** @var yii\widgets\ActiveForm $form */
@@ -31,19 +32,21 @@ $model_dropoff = \backend\models\DropoffPlace::find()->all();
             <?php $model->created_by_display = $model->created_by != null ? \backend\models\User::findName($model->created_by) : '' ?>
             <?= $form->field($model, 'created_by_display')->textInput(['readonly' => 'readonly']) ?>
         </div>
+        <div class="col-lg-3">
+            <?= $form->field($model, 'fuel_rate')->textInput() ?>
+        </div>
 
     </div>
     <div class="row">
         <div class="col-lg-3">
             <div class="form-group">
                 <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
-                <?php if($model_line !=null):?>
-                <div class="btn btn-warning" onclick="printquotationview()"><i class="fa fa-print"></i> พิมพ์</div>
-                <?php endif;?>
+                <?php if ($model_line != null): ?>
+                    <div class="btn btn-warning" onclick="printquotationview()"><i class="fa fa-print"></i> พิมพ์</div>
+                <?php endif; ?>
             </div>
         </div>
     </div>
-
 
 
     <br/>
@@ -58,7 +61,7 @@ $model_dropoff = \backend\models\DropoffPlace::find()->all();
             <table class="table table-bordered table-striped" id="table-list">
                 <thead>
                 <tr>
-                    <th>จากคลังสินค้า</th>
+                    <th>จังหวัด</th>
                     <th>Route</th>
                     <th>โซนพื้นที่</th>
                     <th>ระยะทาง</th>
@@ -71,16 +74,17 @@ $model_dropoff = \backend\models\DropoffPlace::find()->all();
                 <?php if ($model->isNewRecord): ?>
                     <tr data-var="">
                         <td>
-                            <select name="line_warehouse_id[]" class="form-control line-warehouse-id" id="" onchange="updatevalidate($(this))">
+                            <select name="line_warehouse_id[]" class="form-control line-warehouse-id" id=""
+                                    onchange="updatevalidate($(this))">
                                 <option value="-1">--เลือกคลัง--</option>
-                                <?php foreach ($model_dropoff as $value): ?>
+                                <?php foreach ($model_province as $valuex): ?>
                                     <?php
                                     $selected = '';
-                                    if ($value->id == 1) {
+                                    if ($valuex->PROVINCE_ID == 1) {
                                         $selected = 'selected';
                                     }
                                     ?>
-                                    <option value="<?= $value->id ?>" <?= $selected ?>><?= $value->name ?></option>
+                                    <option value="<?= $valuex->PROVINCE_ID ?>" <?= $selected ?>><?= $valuex->PROVINCE_NAME ?></option>
                                 <?php endforeach; ?>
                             </select>
                         </td>
@@ -107,58 +111,73 @@ $model_dropoff = \backend\models\DropoffPlace::find()->all();
                     </tr>
                 <?php else: ?>
                     <?php if ($model_line != null): ?>
-                    <?php foreach ($model_line as $value):?>
-                            <tr data-var="<?=$value->id?>">
+                        <?php foreach ($model_line as $value): ?>
+                            <tr data-var="<?= $value->id ?>">
                                 <td>
-                                    <input type="hidden" class="line-rec-id" value="<?=$value->id?>">
-                                    <select name="line_warehouse_id[]" class="form-control line-warehouse-id" id="" onchange="updatevalidate($(this))">
+                                    <input type="hidden" class="line-rec-id" value="<?= $value->id ?>">
+                                    <select name="line_warehouse_id[]" class="form-control line-warehouse-id" id=""
+                                            onchange="updatevalidate($(this))">
                                         <option value="-1">--เลือกคลัง--</option>
-                                        <?php foreach ($model_dropoff as $valuex): ?>
+                                        <?php foreach ($model_province as $valuex): ?>
                                             <?php
                                             $selected = '';
-                                            if ($valuex->id == $value->id) {
+                                            if ($valuex->PROVINCE_ID == $value->province_id) {
                                                 $selected = 'selected';
                                             }
                                             ?>
-                                            <option value="<?= $valuex->id ?>" <?= $selected ?>><?= $valuex->name ?></option>
+                                            <option value="<?= $valuex->PROVINCE_ID ?>" <?= $selected ?>><?= $valuex->PROVINCE_NAME ?></option>
                                         <?php endforeach; ?>
                                     </select>
                                 </td>
                                 <td>
-                                    <input type="text" class="form-control line-route" name="line_route[]" value="<?=$value->route_code?>">
+                                    <input type="text" class="form-control line-route" name="line_route[]"
+                                           value="<?= $value->route_code ?>">
                                 </td>
                                 <td>
                                     <select name="line_zone_id[]" class="form-control line-zone-id" id="">
                                         <option value="-1">--เลือกโซน--</option>
+                                        <?php foreach ($model_cityzone as $valuex): ?>
+                                            <?php
+                                            $selected = '';
+                                            if ($valuex->id == $value->zone_id) {
+                                                $selected = 'selected';
+                                            }
+                                            ?>
+                                            <option value="<?= $valuex->id ?>" <?= $selected ?>><?= getCityzonedetail($valuex->id) ?></option>
+                                        <?php endforeach; ?>
                                     </select>
                                 </td>
                                 <td>
-                                    <input type="number" class="form-control line-distance" name="line_distance[]" min="0"  value="<?=$value->distance?>">
+                                    <input type="number" class="form-control line-distance" name="line_distance[]"
+                                           min="0" value="<?= $value->distance ?>">
                                 </td>
                                 <td>
-                                    <input type="number" class="form-control line-average" name="line_average[]" min="0"  value="<?=$value->load_qty?>">
+                                    <input type="number" class="form-control line-average" name="line_average[]" min="0"
+                                           value="<?= $value->load_qty ?>">
                                 </td>
                                 <td>
-                                    <input type="text" class="form-control line-quotation-price" name="line_quotation_price[]"  value="<?=$value->price_current_rate?>">
+                                    <input type="text" class="form-control line-quotation-price"
+                                           name="line_quotation_price[]" value="<?= $value->price_current_rate ?>">
                                 </td>
                                 <td>
                                     <div class="btn btn-danger btn-sm" onclick="removeline($(this))">ลบ</div>
                                 </td>
                             </tr>
-                    <?php endforeach;?>
+                        <?php endforeach; ?>
                     <?php else: ?>
                         <tr data-var="">
                             <td>
-                                <select name="line_warehouse_id[]" class="form-control line-warehouse-id" id="" onchange="updatevalidate($(this))">
+                                <select name="line_warehouse_id[]" class="form-control line-warehouse-id" id=""
+                                        onchange="updatevalidate($(this))">
                                     <option value="-1">--เลือกคลัง--</option>
-                                    <?php foreach ($model_dropoff as $valuex): ?>
+                                    <?php foreach ($model_province as $valuex): ?>
                                         <?php
                                         $selected = '';
-                                        if ($valuex->id == 1) {
+                                        if ($valuex->PROVINCE_ID == 1) {
                                             $selected = 'selected';
                                         }
                                         ?>
-                                        <option value="<?= $valuex->id ?>" <?= $selected ?>><?= $valuex->name ?></option>
+                                        <option value="<?= $valuex->PROVINCE_ID ?>" <?= $selected ?>><?= $valuex->PROVINCE_NAME ?></option>
                                     <?php endforeach; ?>
                                 </select>
                             </td>
@@ -210,11 +229,28 @@ $model_dropoff = \backend\models\DropoffPlace::find()->all();
     <?php ActiveForm::end(); ?>
 
 </div>
-<form id="form-print" action="<?=\yii\helpers\Url::to(['quotationtitle/printquotationview'],true)?>" method="post">
-    <input type="hidden" value="<?=$model->id?>" name="quotation_id">
+<form id="form-print" action="<?= \yii\helpers\Url::to(['quotationtitle/printquotationview'], true) ?>" method="post">
+    <input type="hidden" value="<?= $model->id ?>" name="quotation_id">
 </form>
-
 <?php
+
+function getCityzonedetail($city_zone_id)
+{
+    $name = '';
+    if ($city_zone_id) {
+        $model = \common\models\CityzoneLine::find()->where(['cityzone_id' => $city_zone_id])->all();
+        if ($model) {
+            foreach ($model as $value) {
+                $name .= \backend\models\Amphur::findAmphurName($value->city_id) . ',';
+            }
+        }
+    }
+    return $name;
+}
+
+?>
+<?php
+$url_to_getzone = \yii\helpers\Url::to(['quotationtitle/getcityzone'], true);
 $js = <<<JS
 var removelist = [];
 function addline(e){
@@ -270,6 +306,26 @@ function removeline(e) {
  function updatevalidate(e){
     if(e.val() != "-1"){
         e.css("border-color","");
+       
+        var province_id = e.val();
+        if(province_id > 0){
+             alert();
+                     $.ajax({
+                       type: "post",
+                       dataType: "html",
+                       url: "$url_to_getzone",
+                       async: false,
+                       data: {'province_id': province_id},
+                       success: function(data){
+                           //if(data != ''){
+                                 // alert('created do');
+                            $(".line-zone-id").html(data);
+                           
+                           //}
+                       }
+                    }); 
+        }
+        
     }
  }   
  function printquotationview(){
