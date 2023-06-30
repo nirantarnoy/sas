@@ -59,7 +59,13 @@ $this->params['breadcrumbs'][] = $this->title;
             <?= DetailView::widget([
                 'model' => $model,
                 'attributes' => [
-                    'company_id'
+                    [
+                        'label' => 'บริษัท',
+                        'value' => function ($data) {
+                            return \backend\models\Company::findCompanyName($data->company_id);
+                        }
+                    ]
+
                 ],
             ]) ?>
         </div>
@@ -189,7 +195,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     <tbody>
                     <?php $i = 0; ?>
                     <?php foreach ($model_contact_data as $value): ?>
-                    <?php $i++; ?>
+                        <?php $i++; ?>
                         <tr>
                             <td style="text-align: center"><?= $i; ?></td>
                             <td><?= $value->contact_name ?></td>

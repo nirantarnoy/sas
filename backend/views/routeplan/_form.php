@@ -21,14 +21,7 @@ $car_type_data = \common\models\CarType::find()->all();
         <input type="hidden" class="remove-list" name="remove_list" value="">
         <input type="hidden" class="remove-list2" name="remove_list2" value="">
         <div class="row">
-            <div class="col-lg-4">
-                <?= $form->field($model, 'customer_id')->Widget(\kartik\select2\Select2::className(), [
-                    'data' => \yii\helpers\ArrayHelper::map(\backend\models\Customer::find()->all(), 'id', 'name'),
-                    'options' => [
-                        'placeholder' => '--ลูกค้า--'
-                    ]
-                ]) ?>
-            </div>
+
             <div class="col-lg-4">
                 <?= $form->field($model, 'des_province_id')->Widget(\kartik\select2\Select2::className(), [
                     'data' => \yii\helpers\ArrayHelper::map(\backend\models\Province::find()->all(), 'PROVINCE_ID', function ($data) {
@@ -36,6 +29,14 @@ $car_type_data = \common\models\CarType::find()->all();
                     }),
                     'options' => [
                         'placeholder' => '--ปลายทาง--'
+                    ]
+                ]) ?>
+            </div>
+            <div class="col-lg-4">
+                <?= $form->field($model, 'customer_id')->Widget(\kartik\select2\Select2::className(), [
+                    'data' => \yii\helpers\ArrayHelper::map(\backend\models\Customer::find()->all(), 'id', 'name'),
+                    'options' => [
+                        'placeholder' => '--ลูกค้า--'
                     ]
                 ]) ?>
             </div>
