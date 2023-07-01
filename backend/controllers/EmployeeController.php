@@ -130,6 +130,8 @@ class EmployeeController extends Controller
             $model->emp_start = date('Y-m-d',strtotime($model->emp_start));
             $model->card_issue_date = date('Y-m-d',strtotime($model->card_issue_date));
             $model->card_exp_date = date('Y-m-d',strtotime($model->card_exp_date));
+            $model->passport_issue_date = date('Y-m-d',strtotime($model->passport_issue_date));
+            $model->passport_exp_date = date('Y-m-d',strtotime($model->passport_exp_date));
 
             if($model->save(false)){
                 if (count($card_no)){
@@ -230,6 +232,8 @@ class EmployeeController extends Controller
             $model->emp_start = date('Y-m-d',strtotime($model->emp_start));
             $model->card_issue_date = date('Y-m-d',strtotime($model->card_issue_date));
             $model->card_exp_date = date('Y-m-d',strtotime($model->card_exp_date));
+            $model->passport_issue_date = date('Y-m-d',strtotime($model->passport_issue_date));
+            $model->passport_exp_date = date('Y-m-d',strtotime($model->passport_exp_date));
 
             if($model->save()){
 

@@ -59,11 +59,19 @@ $drivingcard_data = \backend\helpers\DrivingcardType::asArrayObject();
             ]) ?>
         </div>
     </div>
-
+    <br>
+    <h5 style="color: blue;"><b>ข้อมูลบัตรประชาชน</b></h5>
     <div class="row">
-        <div class="col-lg-4"><?= $form->field($model, 'id_card_no')->textinput(['maxlength' => true]) ?></div>
-        <div class="col-lg-4"><?= $form->field($model, 'card_issue_place')->textinput(['maxlength' => true]) ?></div>
-        <div class="col-lg-4"><?= $form->field($model, 'card_issue_date')->widget(\kartik\date\DatePicker::className(), [
+        <div class="col-lg-3"><?= $form->field($model, 'id_card_no')->textinput(['maxlength' => true]) ?></div>
+        <div class="col-lg-3"><?= $form->field($model, 'card_issue_place')->textinput(['maxlength' => true]) ?></div>
+        <div class="col-lg-3"><?= $form->field($model, 'card_issue_date')->widget(\kartik\date\DatePicker::className(), [
+                'value' => date('d/m/Y'),
+                'pluginOptions' => [
+                    'todayHighlight' => true,
+                    'todayBtn' => true,
+                ]
+            ]) ?></div>
+        <div class="col-lg-3"><?= $form->field($model, 'card_exp_date')->widget(\kartik\date\DatePicker::className(), [
                 'value' => date('d/m/Y'),
                 'pluginOptions' => [
                     'todayHighlight' => true,
@@ -71,15 +79,28 @@ $drivingcard_data = \backend\helpers\DrivingcardType::asArrayObject();
                 ]
             ]) ?></div>
     </div>
-
+    <br>
+    <h5 style="color: blue;"><b>ข้อมูลหนังสือเดินทาง</b></h5>
     <div class="row">
-        <div class="col-lg-4"><?= $form->field($model, 'card_exp_date')->widget(\kartik\date\DatePicker::className(), [
+        <div class="col-lg-3"><?= $form->field($model, 'passport')->textinput(['maxlength' => true]) ?></div>
+        <div class="col-lg-3"><?= $form->field($model, 'passport_issue_date')->widget(\kartik\date\DatePicker::className(), [
                 'value' => date('d/m/Y'),
-                 'pluginOptions' => [
+                'pluginOptions' => [
                     'todayHighlight' => true,
                     'todayBtn' => true,
                 ]
             ]) ?></div>
+        <div class="col-lg-3"><?= $form->field($model, 'passport_exp_date')->widget(\kartik\date\DatePicker::className(), [
+                'value' => date('d/m/Y'),
+                'pluginOptions' => [
+                    'todayHighlight' => true,
+                    'todayBtn' => true,
+                ]
+            ]) ?></div>
+    </div>
+    <br>
+    <div class="row">
+
         <div class="col-lg-4">
             <?= $form->field($model, 'emp_start')->widget(\kartik\date\DatePicker::className(), [
                 'value' => date('d/m/Y'),
@@ -92,12 +113,13 @@ $drivingcard_data = \backend\helpers\DrivingcardType::asArrayObject();
         <div class="col-lg-4">
             <?= $form->field($model, 'description')->textarea(['maxlength' => true]) ?>
         </div>
+
         <div class="col-lg-4">
             <?php echo $form->field($model, 'status')->widget(\toxor88\switchery\Switchery::className(), ['options' => ['label' => '', 'class' => 'form-control']])->label() ?>
 
         </div>
-
     </div>
+
 
     <div class="row">
         <div class="col-lg-6">
