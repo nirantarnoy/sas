@@ -7,6 +7,7 @@ use yii\widgets\ActiveForm;
 /** @var yii\web\View $this */
 /** @var backend\models\Car $model */
 /** @var yii\widgets\ActiveForm $form */
+$doc_type_data = \backend\helpers\CardocType::asArrayObject();
 ?>
 
     <div class="car-form">
@@ -101,7 +102,7 @@ use yii\widgets\ActiveForm;
             <div class="col-lg-4">
                 <?= $form->field($model, 'driver_id')->Widget(\kartik\select2\Select2::className(), [
                     'data' => \yii\helpers\ArrayHelper::map(\backend\models\Employee::find()->all(), 'id', function ($data) {
-                        return $data->fname.' '.$data->lname;
+                        return $data->fname . ' ' . $data->lname;
                     }),
                     'options' => [
                         'placeholder' => '--พนักงานขับรถ--',
@@ -121,41 +122,93 @@ use yii\widgets\ActiveForm;
                 </div>
             </div>
         <?php else: ?>
-        <div class="row">
-            <div class="col-lg-12">
-                <label for="">เอกสารรถ</label>
-                <table class="table table-striped table-bordered">
+            <div class="row">
+                <div class="col-lg-12">
+                    <label for="">เอกสารรถ</label>
+                    <table class="table table-striped table-bordered">
 
-                    <tbody>
-                    <tr>
-                        <td><?=$model->doc?></td>
-                        <td><a href="<?=\Yii::$app->getUrlManager()->getBaseUrl() . '/uploads/car_doc/'.$model->doc ?>" target="_blank">ดูเอกสาร</a></td>
-                        <td>
-                            <div data-var="<?=$model->doc ?>" class="btn btn-danger" onclick="removedoc($(this))" >ลบ</div>
-                        </td>
-                    </tr>
-                    </tbody>
+                        <tbody>
+                        <tr>
+                            <td><?= $model->doc ?></td>
+                            <td>
+                                <a href="<?= \Yii::$app->getUrlManager()->getBaseUrl() . '/uploads/car_doc/' . $model->doc ?>"
+                                   target="_blank">ดูเอกสาร</a></td>
+                            <td>
+                                <div data-var="<?= $model->doc ?>" class="btn btn-danger" onclick="removedoc($(this))">
+                                    ลบ
+                                </div>
+                            </td>
+                        </tr>
+                        </tbody>
 
-                </table>
+                    </table>
+                </div>
             </div>
-        </div>
 
         <?php endif; ?>
 
-        <!-- <?= $form->field($model, 'company_id')->textInput() ?> -->
+        <div class="row">
+            <div class="col-lg-12">
+                <h5>เอกสารแนบ</h5>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12">
+                <?php if ($model_doc == null): ?>
+                    <table class="table table-bordered">
+                        <thead>
+                        <tr>
+                            <th style="width: 20%">ประเภท</th>
+                            <th style="width: 55%">แนบเอกสาร</th>
+                            <th>-</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <?php for ($i = 0; $i <= count($doc_type_data) - 1; $i++): ?>
+                            <tr>
+                                <td><?= $doc_type_data[$i]['name'] ?></td>
+                                <td>
+                                    <input type="hidden" name="file_doc_type_id_<?= $i ?>"
+                                           value="<?= $doc_type_data[$i]['id'] ?>">
+                                    <input type="file" class="form-control" name="file_doc_<?= $i ?>">
+                                </td>
+                                <td></td>
+                            </tr>
+                        <?php endfor; ?>
+                        </tbody>
+                    </table>
+                <?php else: ?>
+                    <table class="table table-bordered">
+                        <thead>
+                        <tr>
+                            <th style="width: 20%">ประเภท</th>
+                            <th style="width: 55%">แนบเอกสาร</th>
+                            <th>-</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <?php for ($i = 0; $i <= count($doc_type_data) - 1; $i++): ?>
+                        <?php
+                             $doc_link = '';
+                            ?>
+                            <tr>
+                                <td><?= $doc_type_data[$i]['name'] ?></td>
+                                <td>
+                                    <input type="hidden" name="file_doc_type_id_<?= $i ?>"
+                                           value="<?= $doc_type_data[$i]['id'] ?>">
+                                    <input type="file" class="form-control" name="file_doc_<?= $i ?>">
+                                </td>
+                                <td>
+                                    <a href="#"></a>
+                                </td>
+                            </tr>
+                        <?php endfor; ?>
+                        </tbody>
+                    </table>
+                <?php endif; ?>
 
-
-        <!-- <?= $form->field($model, 'status')->textInput() ?> -->
-
-
-        <!-- <?= $form->field($model, 'created_at')->textInput() ?>
-
-    <?= $form->field($model, 'created_by')->textInput() ?>
-
-    <?= $form->field($model, 'updated_at')->textInput() ?>
-
-    <?= $form->field($model, 'updated_by')->textInput() ?> -->
-
+            </div>
+        </div>
 
         <div class="form-group">
             <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
@@ -164,8 +217,8 @@ use yii\widgets\ActiveForm;
         <?php ActiveForm::end(); ?>
     </div>
 
-    <form id="form-delete-doc" action="<?=\yii\helpers\Url::to(['car/removedoc'],true)?>" method="post">
-        <input type="hidden" name="car_id" value="<?=$model->id?>">
+    <form id="form-delete-doc" action="<?= \yii\helpers\Url::to(['car/removedoc'], true) ?>" method="post">
+        <input type="hidden" name="car_id" value="<?= $model->id ?>">
         <input type="hidden" class="car-doc-delete" name="doc_name" value="">
     </form>
 

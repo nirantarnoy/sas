@@ -2,7 +2,7 @@
 
 namespace backend\helpers;
 
-class CarcatType
+class CardocType
 {
     private static $data = [
         '1' => 'สำเนาหน้าเล่ม',

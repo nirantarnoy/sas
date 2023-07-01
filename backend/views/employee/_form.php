@@ -61,9 +61,32 @@ $drivingcard_data = \backend\helpers\DrivingcardType::asArrayObject();
     </div>
 
     <div class="row">
+        <div class="col-lg-4"><?= $form->field($model, 'id_card_no')->textinput(['maxlength' => true]) ?></div>
+        <div class="col-lg-4"><?= $form->field($model, 'card_issue_place')->textinput(['maxlength' => true]) ?></div>
+        <div class="col-lg-4"><?= $form->field($model, 'card_issue_date')->widget(\kartik\date\DatePicker::className(), [
+                'value' => date('d/m/Y'),
+                'pluginOptions' => [
+                    'todayHighlight' => true,
+                    'todayBtn' => true,
+                ]
+            ]) ?></div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-4"><?= $form->field($model, 'card_exp_date')->widget(\kartik\date\DatePicker::className(), [
+                'value' => date('d/m/Y'),
+                 'pluginOptions' => [
+                    'todayHighlight' => true,
+                    'todayBtn' => true,
+                ]
+            ]) ?></div>
         <div class="col-lg-4">
             <?= $form->field($model, 'emp_start')->widget(\kartik\date\DatePicker::className(), [
-                'value' => date('d/m/Y')
+                'value' => date('d/m/Y'),
+                'pluginOptions' => [
+                    'todayHighlight' => true,
+                    'todayBtn' => true,
+                ]
             ]) ?>
         </div>
         <div class="col-lg-4">

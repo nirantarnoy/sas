@@ -128,6 +128,8 @@ class EmployeeController extends Controller
             $expire_date = \Yii::$app->request->post('expire_date');
 //            print_r($start_date);return ;
             $model->emp_start = date('Y-m-d',strtotime($model->emp_start));
+            $model->card_issue_date = date('Y-m-d',strtotime($model->card_issue_date));
+            $model->card_exp_date = date('Y-m-d',strtotime($model->card_exp_date));
 
             if($model->save(false)){
                 if (count($card_no)){
@@ -226,6 +228,8 @@ class EmployeeController extends Controller
 //            print_r($removelist);return ;
 
             $model->emp_start = date('Y-m-d',strtotime($model->emp_start));
+            $model->card_issue_date = date('Y-m-d',strtotime($model->card_issue_date));
+            $model->card_exp_date = date('Y-m-d',strtotime($model->card_exp_date));
 
             if($model->save()){
 

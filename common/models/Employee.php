@@ -41,8 +41,8 @@ class Employee extends \yii\db\ActiveRecord
     {
         return [
             [['gender', 'position', 'salary_type', 'status', 'company_id', 'created_at', 'updated_at', 'created_by', 'updated_by'], 'integer'],
-            [['emp_start'], 'safe'],
-            [['code', 'fname', 'lname', 'description', 'photo'], 'string', 'max' => 255],
+            [['emp_start','card_issue_date','card_exp_date'], 'safe'],
+            [['code', 'fname', 'lname', 'description', 'photo','id_card_no','card_issue_place'], 'string', 'max' => 255],
         ];
     }
 
@@ -63,6 +63,10 @@ class Employee extends \yii\db\ActiveRecord
             'description' => 'รายละเอียด',
             'photo' => 'รูปภาพ',
             'status' => 'สถานะ',
+            'id_card_no' => 'เลขที่บัตรประชาชน',
+            'card_issue_place' => 'ออกให้โดย',
+            'card_issue_date' => 'วันที่ออก',
+            'card_exp_date' => 'วันหมดอายุ',
             'company_id' => 'Company ID',
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',

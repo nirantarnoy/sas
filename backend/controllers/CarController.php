@@ -80,6 +80,17 @@ class CarController extends Controller
         if ($this->request->isPost) {
             if ($model->load($this->request->post())) {
                 $uploaded = UploadedFile::getInstance($model, 'doc');
+
+                $file_doc_type_id_0 = \Yii::$app->request->post('file_doc_type_id_0');
+                $file_doc_type_id_1 = \Yii::$app->request->post('file_doc_type_id_1');
+                $file_doc_type_id_2 = \Yii::$app->request->post('file_doc_type_id_2');
+                $file_doc_type_id_3 = \Yii::$app->request->post('file_doc_type_id_3');
+
+                $file_doc_0 = UploadedFile::getInstanceByName('file_doc_0');
+                $file_doc_1 = UploadedFile::getInstanceByName('file_doc_1');
+                $file_doc_2 = UploadedFile::getInstanceByName('file_doc_2');
+                $file_doc_3 = UploadedFile::getInstanceByName('file_doc_3');
+
                 if (!empty($uploaded)) {
                     $upfiles = time() . "." . $uploaded->getExtension();
                     // if ($uploaded->saveAs(Yii::$app->request->baseUrl . '/uploads/files/' . $upfiles)) {
@@ -87,7 +98,52 @@ class CarController extends Controller
                         $model->doc = $upfiles;
                     }
                 }
-                if ($model->save()) {
+                if ($model->save(false)) {
+                    if (!empty($file_doc_0)) {
+                        $upfiles = time() + 1 . "." . $file_doc_0->getExtension();
+                        // if ($uploaded->saveAs(Yii::$app->request->baseUrl . '/uploads/files/' . $upfiles)) {
+                        if ($file_doc_0->saveAs('../web/uploads/car_doc/' . $upfiles)) {
+                            $model_car_doc = new \common\models\CarDoc();
+                            $model_car_doc->car_id = $model->id;
+                            $model_car_doc->doc_type_id = $file_doc_type_id_0;
+                            $model_car_doc->docname = $upfiles;
+                            $model_car_doc->save(false);
+                        }
+                    }
+                    if (!empty($file_doc_1)) {
+                        $upfiles1 = time() +2 . "." . $file_doc_1->getExtension();
+                        // if ($uploaded->saveAs(Yii::$app->request->baseUrl . '/uploads/files/' . $upfiles)) {
+                        if ($file_doc_1->saveAs('../web/uploads/car_doc/' . $upfiles1)) {
+                            $model_car_doc = new \common\models\CarDoc();
+                            $model_car_doc->car_id = $model->id;
+                            $model_car_doc->doc_type_id = $file_doc_type_id_1;
+                            $model_car_doc->docname = $upfiles1;
+                            $model_car_doc->save(false);
+                        }
+                    }
+                    if (!empty($file_doc_2)) {
+                        $upfiles2 = time() + 3 . "." . $file_doc_2->getExtension();
+                        // if ($uploaded->saveAs(Yii::$app->request->baseUrl . '/uploads/files/' . $upfiles)) {
+                        if ($file_doc_2->saveAs('../web/uploads/car_doc/' . $upfiles2)) {
+                            $model_car_doc = new \common\models\CarDoc();
+                            $model_car_doc->car_id = $model->id;
+                            $model_car_doc->doc_type_id = $file_doc_type_id_2;
+                            $model_car_doc->docname = $upfiles2;
+                            $model_car_doc->save(false);
+                        }
+                    }
+                    if (!empty($file_doc_3)) {
+                        $upfiles3 = time() + 4 . "." . $file_doc_3->getExtension();
+                        // if ($uploaded->saveAs(Yii::$app->request->baseUrl . '/uploads/files/' . $upfiles)) {
+                        if ($file_doc_3->saveAs('../web/uploads/car_doc/' . $upfiles3)) {
+                            $model_car_doc = new \common\models\CarDoc();
+                            $model_car_doc->car_id = $model->id;
+                            $model_car_doc->doc_type_id = $file_doc_type_id_3;
+                            $model_car_doc->docname = $upfiles3;
+                            $model_car_doc->save(false);
+                        }
+                    }
+
                     return $this->redirect(['view', 'id' => $model->id]);
                 }
 
@@ -98,6 +154,7 @@ class CarController extends Controller
 
         return $this->render('create', [
             'model' => $model,
+            'model_doc' => null,
         ]);
     }
 
@@ -111,26 +168,28 @@ class CarController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
+        $model_doc = \common\models\CarDoc::find()->where(['car_id'=>$id])->all();
 
         if ($this->request->isPost && $model->load($this->request->post())) {
 
-                $uploaded = UploadedFile::getInstance($model, 'doc');
-                if (!empty($uploaded)) {
-                    $upfiles = time() . "." . $uploaded->getExtension();
-                    // if ($uploaded->saveAs(Yii::$app->request->baseUrl . '/uploads/files/' . $upfiles)) {
-                    if ($uploaded->saveAs('../web/uploads/car_doc/' . $upfiles)) {
-                        $model->doc = $upfiles;
-                    }
+            $uploaded = UploadedFile::getInstance($model, 'doc');
+            if (!empty($uploaded)) {
+                $upfiles = time() . "." . $uploaded->getExtension();
+                // if ($uploaded->saveAs(Yii::$app->request->baseUrl . '/uploads/files/' . $upfiles)) {
+                if ($uploaded->saveAs('../web/uploads/car_doc/' . $upfiles)) {
+                    $model->doc = $upfiles;
                 }
-                if ($model->save()) {
-                    return $this->redirect(['view', 'id' => $model->id]);
-                }
+            }
+            if ($model->save()) {
+                return $this->redirect(['view', 'id' => $model->id]);
+            }
 
 
         }
 
         return $this->render('update', [
             'model' => $model,
+            'model_doc'=> $model_doc,
         ]);
     }
 
@@ -180,9 +239,9 @@ class CarController extends Controller
                 'plate_no' => $plate_no,
                 'hp' => $hp,
                 'car_type' => $car_type,
-                'driver_id'=>$driver_id,
-                'driver_name'=>$driver_name,
-                'car_type_id'=>$car_type_id,
+                'driver_id' => $driver_id,
+                'driver_name' => $driver_name,
+                'car_type_id' => $car_type_id,
             ]);
         }
         echo json_encode($data);
@@ -207,9 +266,9 @@ class CarController extends Controller
                 $total_rate_qty = $model->oil_rate_qty;
 
             }
-            $model_plan_price = \common\models\RoutePlanPrice::find()->where(['route_plan_id'=>$id,'car_type_id'=>$car_type_id])->all();
-            if($model_plan_price){
-                foreach ($model_plan_price as $value){
+            $model_plan_price = \common\models\RoutePlanPrice::find()->where(['route_plan_id' => $id, 'car_type_id' => $car_type_id])->all();
+            if ($model_plan_price) {
+                foreach ($model_plan_price as $value) {
                     $labour_price = $value->labour_price;
                     $express_road_price = $value->express_road_price;
                     $other_price = $value->other_price;
@@ -232,25 +291,27 @@ class CarController extends Controller
         echo json_encode($data);
     }
 
-    public function actionRemovedoc(){
+    public function actionRemovedoc()
+    {
         $car_id = \Yii::$app->request->post('car_id');
         $doc_name = \Yii::$app->request->post('doc_name');
 
-        echo $car_id.' = '.$doc_name;
+        echo $car_id . ' = ' . $doc_name;
 
-        if($car_id && $doc_name != ''){
-            if(file_exists(\Yii::getAlias('@backend') . '/web/uploads/car_doc/'.$doc_name)){
-                if(unlink(\Yii::getAlias('@backend') . '/web/uploads/car_doc/'.$doc_name)){
-                    $model = \backend\models\Car::find()->where(['id'=>$car_id])->one();
-                    if($model){
+        if ($car_id && $doc_name != '') {
+            if (file_exists(\Yii::getAlias('@backend') . '/web/uploads/car_doc/' . $doc_name)) {
+                if (unlink(\Yii::getAlias('@backend') . '/web/uploads/car_doc/' . $doc_name)) {
+                    $model = \backend\models\Car::find()->where(['id' => $car_id])->one();
+                    if ($model) {
                         $model->doc = '';
                         $model->save(false);
                     }
                 }
             }
-        }else{
-            echo "no";return;
+        } else {
+            echo "no";
+            return;
         }
-        return $this->redirect(['car/update','id'=>$car_id]);
+        return $this->redirect(['car/update', 'id' => $car_id]);
     }
 }
