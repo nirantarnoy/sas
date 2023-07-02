@@ -121,18 +121,21 @@ $doc_type_data = \backend\helpers\CardocType::asArrayObject();
                 <thead>
                 <tr>
                     <th style="width: 20%">ประเภท</th>
-                    <th style="width: 55%">แนบเอกสาร</th>
                     <th>-</th>
                 </tr>
                 </thead>
                 <tbody>
-                <?php for ($i=0;$i<=count($doc_type_data)-1;$i++): ?>
+                <?php for ($i = 0; $i <= count($doc_type_data) - 1; $i++): ?>
+                    <?php
+                    $doc_link = '';
+                    $doc_name = checkdocfile($model_doc, $doc_type_data[$i]['id']);
+                    ?>
+
                     <tr>
-                        <td><?=$doc_type_data[$i]['name']?></td>
+                        <td><?= $doc_type_data[$i]['name'] ?></td>
                         <td>
-                            <input type="file" class="form-control" name="file_doc_<?=$i?>">
+                            <a href="<?=\Yii::$app->getUrlManager()->baseUrl.'/uploads/car_doc/'.$doc_name?>" target="_blank"><?=$doc_name?></a>
                         </td>
-                        <td></td>
                     </tr>
                 <?php endfor; ?>
                 </tbody>
@@ -141,3 +144,16 @@ $doc_type_data = \backend\helpers\CardocType::asArrayObject();
     </div>
 
 </div>
+<?php
+function checkdocfile($model_doc ,$line_id){
+    $name = '';
+    if($model_doc != null){
+        foreach($model_doc as $value){
+            if($value->doc_type_id == $line_id){
+                $name = $value->docname;
+            }
+        }
+    }
+    return $name;
+}
+?>

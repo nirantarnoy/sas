@@ -190,7 +190,9 @@ $doc_type_data = \backend\helpers\CardocType::asArrayObject();
                         <?php for ($i = 0; $i <= count($doc_type_data) - 1; $i++): ?>
                         <?php
                              $doc_link = '';
+                             $doc_name = checkdocfile($model_doc, $doc_type_data[$i]['id']);
                             ?>
+
                             <tr>
                                 <td><?= $doc_type_data[$i]['name'] ?></td>
                                 <td>
@@ -199,7 +201,7 @@ $doc_type_data = \backend\helpers\CardocType::asArrayObject();
                                     <input type="file" class="form-control" name="file_doc_<?= $i ?>">
                                 </td>
                                 <td>
-                                    <a href="#"></a>
+                                    <a href="<?=\Yii::$app->getUrlManager()->baseUrl.'/uploads/car_doc/'.$doc_name?>" target="_blank"><?=$doc_name?></a>
                                 </td>
                             </tr>
                         <?php endfor; ?>
@@ -221,6 +223,20 @@ $doc_type_data = \backend\helpers\CardocType::asArrayObject();
         <input type="hidden" name="car_id" value="<?= $model->id ?>">
         <input type="hidden" class="car-doc-delete" name="doc_name" value="">
     </form>
+
+<?php
+ function checkdocfile($model_doc ,$line_id){
+     $name = '';
+     if($model_doc != null){
+         foreach($model_doc as $value){
+             if($value->doc_type_id == $line_id){
+                 $name = $value->docname;
+             }
+         }
+     }
+     return $name;
+ }
+?>
 
 <?php
 $js = <<<JS

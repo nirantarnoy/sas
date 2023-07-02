@@ -63,8 +63,10 @@ class CarController extends Controller
      */
     public function actionView($id)
     {
+        $model_doc = \common\models\CarDoc::find()->where(['car_id'=>$id])->all();
         return $this->render('view', [
             'model' => $this->findModel($id),
+            'model_doc' => $model_doc,
         ]);
     }
 
@@ -173,6 +175,17 @@ class CarController extends Controller
         if ($this->request->isPost && $model->load($this->request->post())) {
 
             $uploaded = UploadedFile::getInstance($model, 'doc');
+
+            $file_doc_type_id_0 = \Yii::$app->request->post('file_doc_type_id_0');
+            $file_doc_type_id_1 = \Yii::$app->request->post('file_doc_type_id_1');
+            $file_doc_type_id_2 = \Yii::$app->request->post('file_doc_type_id_2');
+            $file_doc_type_id_3 = \Yii::$app->request->post('file_doc_type_id_3');
+
+            $file_doc_0 = UploadedFile::getInstanceByName('file_doc_0');
+            $file_doc_1 = UploadedFile::getInstanceByName('file_doc_1');
+            $file_doc_2 = UploadedFile::getInstanceByName('file_doc_2');
+            $file_doc_3 = UploadedFile::getInstanceByName('file_doc_3');
+
             if (!empty($uploaded)) {
                 $upfiles = time() . "." . $uploaded->getExtension();
                 // if ($uploaded->saveAs(Yii::$app->request->baseUrl . '/uploads/files/' . $upfiles)) {
@@ -181,6 +194,75 @@ class CarController extends Controller
                 }
             }
             if ($model->save()) {
+                if (!empty($file_doc_0)) {
+                    $upfiles = time() + 1 . "." . $file_doc_0->getExtension();
+                    // if ($uploaded->saveAs(Yii::$app->request->baseUrl . '/uploads/files/' . $upfiles)) {
+                    if ($file_doc_0->saveAs('../web/uploads/car_doc/' . $upfiles)) {
+                        $check_old = \common\models\CarDoc::find()->where(['car_id'=>$model->id,'doc_type_id'=>1])->one();
+                        if($check_old){
+                            $check_old->docname = $upfiles;
+                            $check_old->save(false);
+                        }else{
+                            $model_car_doc = new \common\models\CarDoc();
+                            $model_car_doc->car_id = $model->id;
+                            $model_car_doc->doc_type_id = $file_doc_type_id_0;
+                            $model_car_doc->docname = $upfiles;
+                            $model_car_doc->save(false);
+                        }
+
+                    }
+                }
+                if (!empty($file_doc_1)) {
+                    $upfiles1 = time() +2 . "." . $file_doc_1->getExtension();
+                    // if ($uploaded->saveAs(Yii::$app->request->baseUrl . '/uploads/files/' . $upfiles)) {
+                    if ($file_doc_1->saveAs('../web/uploads/car_doc/' . $upfiles1)) {
+                        $check_old = \common\models\CarDoc::find()->where(['car_id'=>$model->id,'doc_type_id'=>2])->one();
+                        if($check_old){
+                            $check_old->docname = $upfiles1;
+                            $check_old->save(false);
+                        }else {
+                            $model_car_doc = new \common\models\CarDoc();
+                            $model_car_doc->car_id = $model->id;
+                            $model_car_doc->doc_type_id = $file_doc_type_id_1;
+                            $model_car_doc->docname = $upfiles1;
+                            $model_car_doc->save(false);
+                        }
+                    }
+                }
+                if (!empty($file_doc_2)) {
+                    $upfiles2 = time() + 3 . "." . $file_doc_2->getExtension();
+                    // if ($uploaded->saveAs(Yii::$app->request->baseUrl . '/uploads/files/' . $upfiles)) {
+                    if ($file_doc_2->saveAs('../web/uploads/car_doc/' . $upfiles2)) {
+                        $check_old = \common\models\CarDoc::find()->where(['car_id'=>$model->id,'doc_type_id'=>3])->one();
+                        if($check_old){
+                            $check_old->docname = $upfiles2;
+                            $check_old->save(false);
+                        }else {
+                            $model_car_doc = new \common\models\CarDoc();
+                            $model_car_doc->car_id = $model->id;
+                            $model_car_doc->doc_type_id = $file_doc_type_id_2;
+                            $model_car_doc->docname = $upfiles2;
+                            $model_car_doc->save(false);
+                        }
+                    }
+                }
+                if (!empty($file_doc_3)) {
+                    $upfiles3 = time() + 4 . "." . $file_doc_3->getExtension();
+                    // if ($uploaded->saveAs(Yii::$app->request->baseUrl . '/uploads/files/' . $upfiles)) {
+                    if ($file_doc_3->saveAs('../web/uploads/car_doc/' . $upfiles3)) {
+                        $check_old = \common\models\CarDoc::find()->where(['car_id'=>$model->id,'doc_type_id'=>4])->one();
+                        if($check_old){
+                            $check_old->docname = $upfiles3;
+                            $check_old->save(false);
+                        }else {
+                            $model_car_doc = new \common\models\CarDoc();
+                            $model_car_doc->car_id = $model->id;
+                            $model_car_doc->doc_type_id = $file_doc_type_id_3;
+                            $model_car_doc->docname = $upfiles3;
+                            $model_car_doc->save(false);
+                        }
+                    }
+                }
                 return $this->redirect(['view', 'id' => $model->id]);
             }
 
