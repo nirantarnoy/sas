@@ -42,8 +42,8 @@ if (!$model->isNewRecord) {
         </div>
         <div class="col-lg-4">
             <?= $form->field($model, 'route_plan_id')->Widget(\kartik\select2\Select2::className(), [
-                'data' => \yii\helpers\ArrayHelper::map(\backend\models\RoutePlan::find()->all(), 'id', function ($data) {
-                    return $data->des_name;
+                'data' => \yii\helpers\ArrayHelper::map(\backend\models\DropoffPlace::find()->all(), 'id', function ($data) {
+                    return $data->name;
                 }),
                 'options' => [
                     'placeholder' => '--จุดขึ้นสินค้า--',
