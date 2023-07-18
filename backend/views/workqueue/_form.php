@@ -62,6 +62,7 @@ if (!$model->isNewRecord) {
                     return $data->name;
                 }),
                 'options' => [
+                    'id'=>'customer-selected-id',
                     'placeholder' => '--ลูกค้า--'
                 ]
             ]) ?>
@@ -529,16 +530,17 @@ function getCarinfo(e){
 }
 
 function getRouteplan(){
-    var route_plan_id = $("#route-plan-id").val();
+    //var route_plan_id = $("#route-plan-id").val();
+    var customer_id = $("#customer-selected-id").val();
     //alert(route_plan_id);
-    if(route_plan_id > 0){
+    if(customer_id > 0){
         var car_type_id = $("#car-type-selected").val();
        // alert(car_type_id);
         $.ajax({
             'type': 'post',
             'dataType': 'json',
             'url': '$url_to_routeplan',
-            'data': {'route_plan_id': route_plan_id,'car_type_id': car_type_id},
+            'data': {'route_plan_id': 0,'car_type_id': car_type_id,'customer_id': customer_id},
             'success': function(data){
                 // alert(data);
                 if(data != null){
