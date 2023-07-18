@@ -253,4 +253,14 @@ class QuotationtitleController extends Controller
         }
         return $name;
     }
+    public function actionGetprovince(){
+        $html = '<option value="-1">----เลือกจังหวัด---</option>';
+        $model_province = \backend\models\Province::find()->all();
+        if($model_province){
+            foreach ($model_province as $value){
+                $html.='<option value="'.$value->PROVINCE_ID.'">'.$value->PROVINCE_NAME.'</option>';
+            }
+        }
+        echo $html;
+    }
 }

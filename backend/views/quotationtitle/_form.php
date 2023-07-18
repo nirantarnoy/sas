@@ -35,6 +35,13 @@ $model_cityzone = \backend\models\Cityzone::find()->all();
         <div class="col-lg-3">
             <?= $form->field($model, 'fuel_rate')->textInput() ?>
         </div>
+        <div class="col-lg-3">
+<!--            <select name="xx" class="form-control input-lg" data-live-search="true" id="provice-selected">-->
+<!--                <option>Mustard</option>-->
+<!--                <option>Ketchup</option>-->
+<!--                <option>Barbecue</option>-->
+<!--            </select>-->
+        </div>
 
     </div>
     <div class="row">
@@ -74,9 +81,10 @@ $model_cityzone = \backend\models\Cityzone::find()->all();
                 <?php if ($model->isNewRecord): ?>
                     <tr data-var="">
                         <td>
-                            <select name="line_warehouse_id[]" class="form-control line-warehouse-id" id=""
+                            <div class="form-group">
+                            <select name="line_warehouse_id[]" class="form-control line-warehouse-id input-lg" data-live-search="true" id="provice-selected"
                                     onchange="updatevalidate($(this))">
-                                <option value="-1">--เลือกคลัง--</option>
+                                <option value="-1">--เลือกจังหวัด--</option>
                                 <?php foreach ($model_province as $valuex): ?>
                                     <?php
                                     $selected = '';
@@ -84,9 +92,10 @@ $model_cityzone = \backend\models\Cityzone::find()->all();
                                         $selected = 'selected';
                                     }
                                     ?>
-                                    <option value="<?= $valuex->PROVINCE_ID ?>" <?= $selected ?>><?= $valuex->PROVINCE_NAME ?></option>
+                                    <option value="<?php echo $valuex->PROVINCE_ID ?>" <?php echo $selected ?>><?php echo $valuex->PROVINCE_NAME ?></option>
                                 <?php endforeach; ?>
                             </select>
+                            </div>
                         </td>
                         <td>
                             <input type="text" class="form-control line-route" name="line_route[]">
@@ -117,7 +126,7 @@ $model_cityzone = \backend\models\Cityzone::find()->all();
                                     <input type="hidden" class="line-rec-id" value="<?= $value->id ?>">
                                     <select name="line_warehouse_id[]" class="form-control line-warehouse-id" id=""
                                             onchange="updatevalidate($(this))">
-                                        <option value="-1">--เลือกคลัง--</option>
+                                        <option value="-1">--เลือกจังหวัด--</option>
                                         <?php foreach ($model_province as $valuex): ?>
                                             <?php
                                             $selected = '';
@@ -169,7 +178,7 @@ $model_cityzone = \backend\models\Cityzone::find()->all();
                             <td>
                                 <select name="line_warehouse_id[]" class="form-control line-warehouse-id" id=""
                                         onchange="updatevalidate($(this))">
-                                    <option value="-1">--เลือกคลัง--</option>
+                                    <option value="-1">--เลือกจังหวัด--</option>
                                     <?php foreach ($model_province as $valuex): ?>
                                         <?php
                                         $selected = '';
@@ -251,8 +260,40 @@ function getCityzonedetail($city_zone_id)
 ?>
 <?php
 $url_to_getzone = \yii\helpers\Url::to(['quotationtitle/getcityzone'], true);
+$url_to_getprovince = \yii\helpers\Url::to(['quotationtitle/getprovince'], true);
 $js = <<<JS
 var removelist = [];
+$(function(){
+    
+   // $('#provice-selected').selectpicker();
+   //loadselectdata();
+});
+function loadselectdata(){
+    $.ajax({
+      type: "post",
+      dataType: "html",
+      url: "$url_to_getprovince",
+      // async: false,
+      success: function(data){
+         // alert(data);
+              $('#provice-selected').html(data);   
+              $('#provice-selected').selectpicker('refresh');
+         }
+      }); 
+}
+function loadselectdata2(line_id){
+    $.ajax({
+      type: "post",
+      dataType: "html",
+      url: "$url_to_getprovince",
+      // async: false,
+      success: function(data){
+         // alert(data);
+              $('#'+line_id).html(data);   
+              $('#'+line_id).selectpicker('refresh');
+         }
+      }); 
+}
 function addline(e){
     var tr = $("#table-list tbody tr:last");
 
@@ -267,6 +308,9 @@ function addline(e){
                     
                     clone.find(":text").val("");
                     clone.find(':input[type="number"]').val("");
+                    clone.closest("tr").find(".line-warehouse-id").attr("id","id2");
+                   
+                    
 
                     clone.find(".line-quotation-price").on("keypress", function (event) {
                         $(this).val($(this).val().replace(/[^0-9\.]/g, ""));
@@ -276,7 +320,7 @@ function addline(e){
                     });
 
                     tr.after(clone);
-
+                    // loadselectdata2("id2")
                     //cal_num();
                 }
 }
@@ -309,7 +353,7 @@ function removeline(e) {
        
         var province_id = e.val();
         if(province_id > 0){
-             //alert();
+            // alert(province_id);
                      $.ajax({
                        type: "post",
                        dataType: "html",
