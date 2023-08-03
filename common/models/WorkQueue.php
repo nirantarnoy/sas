@@ -35,7 +35,7 @@ class WorkQueue extends \yii\db\ActiveRecord
     {
         return [
             [['work_queue_date'], 'safe'],
-            [['customer_id', 'emp_assign', 'status', 'create_at', 'created_by', 'updated_at', 'updated_by','route_plan_id','tail_id','car_id','tail_back_id','approve_status','approve_by','is_labur','is_express_road','is_other'], 'integer'],
+            [['customer_id', 'emp_assign', 'status', 'create_at', 'created_by', 'updated_at', 'updated_by','route_plan_id','tail_id','car_id','tail_back_id','approve_status','approve_by','is_labur','is_express_road','is_other','work_option_type_id'], 'integer'],
             [['work_queue_no','go_deduct_reason','back_reason','dp_no'], 'string', 'max' => 255],
             [['weight_on_go','weight_on_back','weight_go_deduct','back_deduct','labour_price','express_road_price','other_price','test_price','damaged_price'], 'double'],
             [['oil_daily_price'],'safe'],
@@ -76,6 +76,7 @@ class WorkQueue extends \yii\db\ActiveRecord
             'other_price' => 'ค่าอื่นๆ(คลุมผ้าใบ,ค้างคืน,บวกคลัง,พิเศษอื่นๆ)',
             'test_price' => 'ค่าเงินยืมทดรอง',
             'damaged_price' => 'ค่าความเสียหาย',
+            'work_option_type_id'=>'Work Type',
             'create_at' => 'Create At',
             'created_by' => 'Created By',
             'updated_at' => 'Updated At',

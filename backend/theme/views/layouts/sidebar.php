@@ -298,7 +298,7 @@
                         <li class="nav-item">
                             <a href="index.php?r=report/report1" class="nav-link report">
                                 <i class="far fa-circlez nav-icon"></i>
-                                <p>จำนวนน้ำมันใช้ต่อวัน</p>
+                                <p>จำนวนเที่ยววิ่ง</p>
                             </a>
                         </li>
                         <?php //endif;?>

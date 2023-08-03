@@ -309,9 +309,7 @@ function addline(e){
                     clone.find(":text").val("");
                     clone.find(':input[type="number"]').val("");
                     clone.closest("tr").find(".line-warehouse-id").attr("id","id2");
-                   
                     
-
                     clone.find(".line-quotation-price").on("keypress", function (event) {
                         $(this).val($(this).val().replace(/[^0-9\.]/g, ""));
                         if ((event.which != 46 || $(this).val().indexOf(".") != -1) && (event.which < 48 || event.which > 57)) {
