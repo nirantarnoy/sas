@@ -12,8 +12,39 @@ use yii\filters\VerbFilter;
 */
 class ReportController extends Controller
 {
+    public $enableCsrfValidation = false;
     public function actionReport1(){
-      return $this->render('_report1');
+        $from_date = \Yii::$app->request->post('from_date');
+        $to_date = \Yii::$app->request->post('to_date');
+        $viewday_amt = \Yii::$app->request->post('viewday_amt');
+
+        if($viewday_amt == null){
+            $viewday_amt = 0;
+        }
+
+//        echo $from_date;
+//        echo $to_date;
+//        return;
+
+        $x1 = explode('/',$from_date);
+        $x2 = explode('/',$to_date);
+
+        $from_date_new = date("Y-m-d");
+        $to_date_new = date("Y-m-d");
+
+        if($x1!=null && count($x1)>1){
+            //echo count($x1);
+            $from_date_new = $x1[2].'-'.$x1[1].'-'.$x1[0];
+        }
+        if($x2!=null && count($x2)>1){
+            $to_date_new = $x2[2].'-'.$x2[1].'-'.$x2[0];
+        }
+         //echo $from_date_new;
+        return $this->render('_report1',[
+          'from_date'=>$from_date_new,
+          'to_date'=>$to_date_new,
+          'viewday_amt' => $viewday_amt,
+      ]);
     }
     public function actionReport2(){
         return $this->render('_report2');

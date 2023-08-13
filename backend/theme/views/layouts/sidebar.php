@@ -42,7 +42,7 @@
                         <?php //endif; ?>
                     </ul>
                 </li>
-                <?php if (\Yii::$app->user->can('mainconfig/index')): ?>
+                <?php if (1>0): ?>
                     <li class="nav-item has-treeview has-sub">
                         <a href="#" class="nav-link">
                             <i class="nav-icon fas fa-cog"></i>
@@ -53,15 +53,15 @@
                         </a>
                         <ul class="nav nav-treeview">
                             <li class="nav-item">
-                                <a href="index.php?r=mainconfig" class="nav-link mainconfig">
+                                <a href="index.php?r=workoptiontype" class="nav-link workoptiontype">
                                     <i class="far fa-file-import nav-icon"></i>
-                                    <p>Import Master</p>
+                                    <p>ประเภทงาน</p>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="index.php?r=sequence" class="nav-link sequence">
+                                <a href="index.php?r=costtitle" class="nav-link costtitle">
                                     <i class="far fa-file-import nav-icon"></i>
-                                    <p>เลขที่เอกสาร</p>
+                                    <p>รายการค่าใช้จ่าย</p>
                                 </a>
                             </li>
                         </ul>
