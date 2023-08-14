@@ -91,9 +91,14 @@ class CustomerController extends Controller
                 $line_type_id = \Yii::$app->request->post('line_type_id');
                 $line_contact_no = \Yii::$app->request->post('line_contact_no');
 
+
+                $customer_payment_tax_id = \Yii::$app->request->post('customer_tax_id');
+                $customer_payment_tax_branch = \Yii::$app->request->post('customer_tax_branch');
+                $customer_payment_tax_email = \Yii::$app->request->post('customer_tax_email');
+
 //                print_r($line_contact_name);return ;
 
-                if ($model->save()) {
+                if ($model->save(false)) {
                     if ($party_type) {
 //                        echo $address;
 //                        echo $zipcode; return ;
@@ -157,6 +162,14 @@ class CustomerController extends Controller
                         }
 
                     }
+
+                    $model_tax = new \common\models\CustomerInvoiceInfo();
+                    $model_tax->customer_id = $model->id;
+                    $model_tax->tax_id = $customer_payment_tax_id;
+                    $model_tax->branch = $customer_payment_tax_branch;
+                    $model_tax->email = $customer_payment_tax_email;
+                    $model_tax->status = 1;
+                    $model_tax->save(false);
                 }
                 return $this->redirect(['view', 'id' => $model->id]);
             }
@@ -184,6 +197,8 @@ class CustomerController extends Controller
 
         $model_contact_line = \common\models\ContactInfo::find()->where(['party_id' => $id])->all();
 
+        $model_customer_tax_info = \common\models\CustomerInvoiceInfo::find()->where(['customer_id'=>$id])->one();
+
         if ($this->request->isPost && $model->load($this->request->post())) {
             $party_type = 2;
             $address = \Yii::$app->request->post('cus_address');
@@ -200,8 +215,13 @@ class CustomerController extends Controller
             $removelist = \Yii::$app->request->post('remove_list');
             $rec_id = \Yii::$app->request->post('rec_id');
 
+            $customer_payment_tax_id = \Yii::$app->request->post('customer_tax_id');
+            $customer_payment_tax_branch = \Yii::$app->request->post('customer_tax_branch');
+            $customer_payment_tax_email = \Yii::$app->request->post('customer_tax_email');
+
+
 //            print_r($removelist); return;
-            if ($model->save()) {
+            if ($model->save(false)) {
                 if ($party_type) {
 //                    echo 'dd'; return
                     $address_chk = \common\models\AddressInfo::find()->where(['party_id' => $model->id, 'party_type' => $party_type])->one();
@@ -269,6 +289,22 @@ class CustomerController extends Controller
 
                     }
                 }
+                $model_tax_check = \common\models\CustomerInvoiceInfo::find()->where(['customer_id'=>$model->id])->one();
+                if($model_tax_check){
+                    $model_tax_check->tax_id = $customer_payment_tax_id;
+                    $model_tax_check->branch = $customer_payment_tax_branch;
+                    $model_tax_check->email = $customer_payment_tax_email;
+                    $model_tax_check->save(false);
+                }else{
+                    $model_tax = new \common\models\CustomerInvoiceInfo();
+                    $model_tax->customer_id = $model->id;
+                    $model_tax->tax_id = $customer_payment_tax_id;
+                    $model_tax->branch = $customer_payment_tax_branch;
+                    $model_tax->email = $customer_payment_tax_email;
+                    $model_tax->status = 1;
+                    $model_tax->save(false);
+                }
+
             }
             return $this->redirect(['view', 'id' => $model->id]);
         }
@@ -277,6 +313,7 @@ class CustomerController extends Controller
             'model' => $model,
             'model_line' => $model_line,
             'model_contact_line' => $model_contact_line,
+            'model_customer_tax_info' => $model_customer_tax_info
         ]);
     }
 

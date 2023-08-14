@@ -18,6 +18,7 @@ $this->params['breadcrumbs'][] = 'แก้ไข';
         'model' => $model,
         'model_line'=>$model_line,
         'model_contact_line'=>$model_contact_line,
+        'model_customer_tax_info' => $model_customer_tax_info,
     ]) ?>
 
 </div>

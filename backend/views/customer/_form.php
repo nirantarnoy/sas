@@ -143,6 +143,34 @@ $x_zipcode = $address_chk==null?'':$address_chk->zipcode;
         </div>
     </div>
     <br/>
+    <div class="row">
+        <div class="col-lg-3">
+
+                <?= $form->field($model, 'payment_term_id')->Widget(\kartik\select2\Select2::className(), [
+                    'data' => \yii\helpers\ArrayHelper::map(\backend\models\Paymentterm::find()->all(), 'id', function ($data) {
+                        return $data->name;
+                    }),
+                    'options' => [
+                        'placeholder' => '--เลือกเงื่อนไขชำระเงิน--'
+                    ]
+                ]) ?>
+
+        </div>
+        <div class="col-lg-3">
+
+                <?= $form->field($model, 'payment_method_id')->Widget(\kartik\select2\Select2::className(), [
+                    'data' => \yii\helpers\ArrayHelper::map(\backend\models\Paymentmethod::find()->all(), 'id', function ($data) {
+                        return $data->name;
+                    }),
+                    'options' => [
+                        'placeholder' => '--เลือกวิธีชำระเงิน--'
+                    ]
+                ]) ?>
+
+        </div>
+        <div class="col-lg-3"></div>
+        <div class="col-lg-3"></div>
+    </div>
 
     <!--    <? //= $form->field($model, 'status')->textInput() ?>-->
     <?php echo $form->field($model, 'status')->widget(\toxor88\switchery\Switchery::className(), ['options' => ['label' => '', 'class' => 'form-control']])->label() ?>
@@ -258,7 +286,22 @@ $x_zipcode = $address_chk==null?'':$address_chk->zipcode;
         </div>
     </div>
     <br/>
-
+    <h4>ข้อมูลการวางบิล</h4>
+    <div class="row">
+        <div class="col-lg-4">
+            <div class="label">เลขผู้เสียภาษี</div>
+            <input type="text" class="form-control" name="customer_tax_id" value="<?=$model_customer_tax_info !=null?$model_customer_tax_info->tax_id:'';?>">
+        </div>
+        <div class="col-lg-4">
+            <div class="label">สาขา</div>
+            <input type="text" class="form-control" name="customer_tax_branch" value="<?=$model_customer_tax_info !=null?$model_customer_tax_info->branch:'';?>">
+        </div>
+        <div class="col-lg-4">
+            <div class="label">อีเมล</div>
+            <input type="text" class="form-control" name="customer_tax_email" value="<?=$model_customer_tax_info !=null?$model_customer_tax_info->email:'';?>">
+        </div>
+    </div>
+    <br/>
     <div class="form-group">
         <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
     </div>
