@@ -64,6 +64,18 @@
                                     <p>รายการค่าใช้จ่าย</p>
                                 </a>
                             </li>
+                            <li class="nav-item">
+                                <a href="index.php?r=paymentmethod" class="nav-link paymentmethod">
+                                    <i class="far fa-file-import nav-icon"></i>
+                                    <p>วิธีชำระเงิน</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="index.php?r=paymentterm" class="nav-link paymentterm">
+                                    <i class="far fa-file-import nav-icon"></i>
+                                    <p>เงื่อนไขชำระเงิน</p>
+                                </a>
+                            </li>
                         </ul>
                     </li>
                 <?php endif; ?>
