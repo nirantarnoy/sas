@@ -315,7 +315,6 @@ $x_zipcode = $address_chk==null?'':$address_chk->zipcode;
 $url_to_getcity = \yii\helpers\Url::to(['customer/showcity'], true);
 $url_to_getdistrict = \yii\helpers\Url::to(['customer/showdistrict'], true);
 $url_to_getzipcode = \yii\helpers\Url::to(['customer/showzipcode'], true);
-
 $url_to_getAddress = \yii\helpers\Url::to(['customer/showaddress'], true);
 
 $js = <<<JS
