@@ -81,6 +81,9 @@ class WorkoptiontypeController extends Controller
                 $worktype_payment_tax_phone = \Yii::$app->request->post('customer_tax_phone');
                 $worktype_payment_tax_address = \Yii::$app->request->post('customer_tax_address');
 
+                $worktype_payment_tax_paymentterm = \Yii::$app->request->post('customer_payment_term_id');
+                $worktype_payment_tax_paymentmethod = \Yii::$app->request->post('customer_payment_method_id');
+
                 if($model->save()){
                     if($worktype_payment_tax_id != ''){
                         $model_tax = new \common\models\WorkTypeInvoiceInfo();
@@ -91,6 +94,8 @@ class WorkoptiontypeController extends Controller
                         $model_tax->contact_name = $worktype_payment_tax_contact_name;
                         $model_tax->phone = $worktype_payment_tax_phone;
                         $model_tax->address = $worktype_payment_tax_address;
+                        $model_tax->payment_term_id = $worktype_payment_tax_paymentterm;
+                        $model_tax->payment_method_id = $worktype_payment_tax_paymentmethod;
                         $model_tax->status = 1;
                         $model_tax->save(false);
                     }
@@ -127,6 +132,8 @@ class WorkoptiontypeController extends Controller
             $worktype_payment_tax_contact_name = \Yii::$app->request->post('customer_tax_contact_name');
             $worktype_payment_tax_phone = \Yii::$app->request->post('customer_tax_phone');
             $worktype_payment_tax_address = \Yii::$app->request->post('customer_tax_address');
+            $worktype_payment_tax_paymentterm = \Yii::$app->request->post('customer_payment_term_id');
+            $worktype_payment_tax_paymentmethod = \Yii::$app->request->post('customer_payment_method_id');
             if($model->save()) {
                 if ($worktype_payment_tax_id != '') {
                     $model_tax_check = \common\models\WorkTypeInvoiceInfo::find()->where(['work_type_id' => $model->id])->one();
@@ -137,6 +144,8 @@ class WorkoptiontypeController extends Controller
                         $model_tax_check->contact_name = $worktype_payment_tax_contact_name;
                         $model_tax_check->phone = $worktype_payment_tax_phone;
                         $model_tax_check->address = $worktype_payment_tax_address;
+                        $model_tax_check->payment_term_id = $worktype_payment_tax_paymentterm;
+                        $model_tax_check->payment_method_id = $worktype_payment_tax_paymentmethod;
                         $model_tax_check->save(false);
                     } else {
                         $model_tax = new \common\models\WorkTypeInvoiceInfo();
@@ -147,6 +156,8 @@ class WorkoptiontypeController extends Controller
                         $model_tax->contact_name = $worktype_payment_tax_contact_name;
                         $model_tax->phone = $worktype_payment_tax_phone;
                         $model_tax->address = $worktype_payment_tax_address;
+                        $model_tax->payment_term_id = $worktype_payment_tax_paymentterm;
+                        $model_tax->payment_method_id = $worktype_payment_tax_paymentmethod;
                         $model_tax->status = 1;
                         $model_tax->save(false);
                     }

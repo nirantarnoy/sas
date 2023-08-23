@@ -21,6 +21,29 @@ use yii\widgets\ActiveForm;
     <h4>ข้อมูลการวางบิล</h4>
     <div class="row">
         <div class="col-lg-4">
+            <div class="label">เงื่อนไขการชำระเงิน</div>
+            <?php
+              echo \kartik\select2\Select2::widget([
+                      'data'=>\yii\helpers\ArrayHelper::map(\backend\models\Paymentterm::find()->all(),'id','name'),
+                      'name'=>'customer_payment_term_id',
+                      'value' => $model_work_type_tax_info->payment_term_id,
+              ])
+            ?>
+        </div>
+        <div class="col-lg-4">
+            <div class="label">วิธีชำระเงิน</div>
+            <?php
+            echo \kartik\select2\Select2::widget([
+                'data'=>\yii\helpers\ArrayHelper::map(\backend\models\Paymentmethod::find()->all(),'id','name'),
+                'name'=>'customer_payment_method_id',
+                'value' => $model_work_type_tax_info->payment_method_id,
+            ])
+            ?>
+        </div>
+    </div>
+    <br />
+    <div class="row">
+        <div class="col-lg-4">
             <div class="label">เลขผู้เสียภาษี</div>
             <input type="text" class="form-control" name="customer_tax_id" value="<?=$model_work_type_tax_info !=null?$model_work_type_tax_info->tax_id:'';?>">
         </div>
@@ -33,6 +56,7 @@ use yii\widgets\ActiveForm;
             <input type="text" class="form-control" name="customer_tax_contact_name" value="<?=$model_work_type_tax_info !=null?$model_work_type_tax_info->contact_name:'';?>">
         </div>
     </div>
+    <br />
     <div class="row">
         <div class="col-lg-4">
             <div class="label">เบอร์โทร</div>
