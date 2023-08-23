@@ -73,7 +73,29 @@ class WorkoptiontypeController extends Controller
         $model = new WorkOptionType();
 
         if ($this->request->isPost) {
-            if ($model->load($this->request->post()) && $model->save()) {
+            if ($model->load($this->request->post())) {
+                $worktype_payment_tax_id = \Yii::$app->request->post('customer_tax_id');
+                $worktype_payment_tax_branch = \Yii::$app->request->post('customer_tax_branch');
+                $worktype_payment_tax_email = \Yii::$app->request->post('customer_tax_email');
+                $worktype_payment_tax_contact_name = \Yii::$app->request->post('customer_tax_contact_name');
+                $worktype_payment_tax_phone = \Yii::$app->request->post('customer_tax_phone');
+                $worktype_payment_tax_address = \Yii::$app->request->post('customer_tax_address');
+
+                if($model->save()){
+                    if($worktype_payment_tax_id != ''){
+                        $model_tax = new \common\models\WorkTypeInvoiceInfo();
+                        $model_tax->work_type_id = $model->id;
+                        $model_tax->tax_id = $worktype_payment_tax_id;
+                        $model_tax->branch = $worktype_payment_tax_branch;
+                        $model_tax->email = $worktype_payment_tax_email;
+                        $model_tax->contact_name = $worktype_payment_tax_contact_name;
+                        $model_tax->phone = $worktype_payment_tax_phone;
+                        $model_tax->address = $worktype_payment_tax_address;
+                        $model_tax->status = 1;
+                        $model_tax->save(false);
+                    }
+
+                }
                 return $this->redirect(['view', 'id' => $model->id]);
             }
         } else {
@@ -96,12 +118,46 @@ class WorkoptiontypeController extends Controller
     {
         $model = $this->findModel($id);
 
-        if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
+        $model_worktype_tax_info = \common\models\WorkTypeInvoiceInfo::find()->where(['work_type_id'=>$id])->one();
+
+        if ($this->request->isPost && $model->load($this->request->post())) {
+            $worktype_payment_tax_id = \Yii::$app->request->post('customer_tax_id');
+            $worktype_payment_tax_branch = \Yii::$app->request->post('customer_tax_branch');
+            $worktype_payment_tax_email = \Yii::$app->request->post('customer_tax_email');
+            $worktype_payment_tax_contact_name = \Yii::$app->request->post('customer_tax_contact_name');
+            $worktype_payment_tax_phone = \Yii::$app->request->post('customer_tax_phone');
+            $worktype_payment_tax_address = \Yii::$app->request->post('customer_tax_address');
+            if($model->save()) {
+                if ($worktype_payment_tax_id != '') {
+                    $model_tax_check = \common\models\WorkTypeInvoiceInfo::find()->where(['work_type_id' => $model->id])->one();
+                    if ($model_tax_check) {
+                        $model_tax_check->tax_id = $worktype_payment_tax_id;
+                        $model_tax_check->branch = $worktype_payment_tax_branch;
+                        $model_tax_check->email = $worktype_payment_tax_email;
+                        $model_tax_check->contact_name = $worktype_payment_tax_contact_name;
+                        $model_tax_check->phone = $worktype_payment_tax_phone;
+                        $model_tax_check->address = $worktype_payment_tax_address;
+                        $model_tax_check->save(false);
+                    } else {
+                        $model_tax = new \common\models\WorkTypeInvoiceInfo();
+                        $model_tax->work_type_id = $model->id;
+                        $model_tax->tax_id = $worktype_payment_tax_id;
+                        $model_tax->branch = $worktype_payment_tax_branch;
+                        $model_tax->email = $worktype_payment_tax_email;
+                        $model_tax->contact_name = $worktype_payment_tax_contact_name;
+                        $model_tax->phone = $worktype_payment_tax_phone;
+                        $model_tax->address = $worktype_payment_tax_address;
+                        $model_tax->status = 1;
+                        $model_tax->save(false);
+                    }
+                }
+            }
             return $this->redirect(['view', 'id' => $model->id]);
         }
 
         return $this->render('update', [
             'model' => $model,
+            'model_work_type_tax_info'=>$model_worktype_tax_info,
         ]);
     }
 

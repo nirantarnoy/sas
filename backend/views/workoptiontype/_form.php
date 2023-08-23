@@ -17,7 +17,37 @@ use yii\widgets\ActiveForm;
     <?= $form->field($model, 'description')->textInput(['maxlength' => true]) ?>
 
     <?php echo $form->field($model, 'status')->widget(\toxor88\switchery\Switchery::className(), ['options' => ['label' => '', 'class' => 'form-control']])->label() ?>
-
+    <br/>
+    <h4>ข้อมูลการวางบิล</h4>
+    <div class="row">
+        <div class="col-lg-4">
+            <div class="label">เลขผู้เสียภาษี</div>
+            <input type="text" class="form-control" name="customer_tax_id" value="<?=$model_work_type_tax_info !=null?$model_work_type_tax_info->tax_id:'';?>">
+        </div>
+        <div class="col-lg-4">
+            <div class="label">สาขา</div>
+            <input type="text" class="form-control" name="customer_tax_branch" value="<?=$model_work_type_tax_info !=null?$model_work_type_tax_info->branch:'';?>">
+        </div>
+        <div class="col-lg-4">
+            <div class="label">ชื่อผู้ติดต่อ</div>
+            <input type="text" class="form-control" name="customer_tax_contact_name" value="<?=$model_work_type_tax_info !=null?$model_work_type_tax_info->contact_name:'';?>">
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-4">
+            <div class="label">เบอร์โทร</div>
+            <input type="text" class="form-control" name="customer_tax_phone" value="<?=$model_work_type_tax_info !=null?$model_work_type_tax_info->phone:'';?>">
+        </div>
+        <div class="col-lg-4">
+            <div class="label">อีเมล</div>
+            <input type="text" class="form-control" name="customer_tax_email" value="<?=$model_work_type_tax_info !=null?$model_work_type_tax_info->email:'';?>">
+        </div>
+        <div class="col-lg-4">
+            <div class="label">ที่อยู่</div>
+            <input type="text" class="form-control" name="customer_tax_address" value="<?=$model_work_type_tax_info !=null?$model_work_type_tax_info->address:'';?>">
+        </div>
+    </div>
+    <br/>
     <div class="form-group">
         <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
     </div>

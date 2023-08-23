@@ -58,13 +58,23 @@ $x_zipcode = $address_chk==null?'':$address_chk->zipcode;
         </div>
     </div>
     <div class="row">
-        <div class="col-lg-4">
+        <div class="col-lg-3">
+            <?= $form->field($model, 'work_type_id')->Widget(\kartik\select2\Select2::className(), [
+                'data' => \yii\helpers\ArrayHelper::map(\backend\models\WorkOptionType::find()->all(), 'id', function ($data) {
+                    return $data->name;
+                }),
+                'options' => [
+                    'placeholder' => '--ประเภทงาน--'
+                ]
+            ]) ?>
+        </div>
+        <div class="col-lg-3">
             <?= $form->field($model, 'phone')->textInput(['maxlength' => true]) ?>
         </div>
-        <div class="col-lg-4">
+        <div class="col-lg-3">
             <?= $form->field($model, 'email')->textInput(['maxlength' => true]) ?>
         </div>
-        <div class="col-lg-4">
+        <div class="col-lg-3">
             <?= $form->field($model, 'company_id')->Widget(\kartik\select2\Select2::className(), [
                 'data' => \yii\helpers\ArrayHelper::map(\backend\models\Company::find()->all(), 'id', function ($data) {
                     return $data->name;
@@ -285,23 +295,7 @@ $x_zipcode = $address_chk==null?'':$address_chk->zipcode;
             </table>
         </div>
     </div>
-    <br/>
-    <h4>ข้อมูลการวางบิล</h4>
-    <div class="row">
-        <div class="col-lg-4">
-            <div class="label">เลขผู้เสียภาษี</div>
-            <input type="text" class="form-control" name="customer_tax_id" value="<?=$model_customer_tax_info !=null?$model_customer_tax_info->tax_id:'';?>">
-        </div>
-        <div class="col-lg-4">
-            <div class="label">สาขา</div>
-            <input type="text" class="form-control" name="customer_tax_branch" value="<?=$model_customer_tax_info !=null?$model_customer_tax_info->branch:'';?>">
-        </div>
-        <div class="col-lg-4">
-            <div class="label">อีเมล</div>
-            <input type="text" class="form-control" name="customer_tax_email" value="<?=$model_customer_tax_info !=null?$model_customer_tax_info->email:'';?>">
-        </div>
-    </div>
-    <br/>
+
     <div class="form-group">
         <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
     </div>

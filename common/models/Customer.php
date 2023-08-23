@@ -33,7 +33,7 @@ class Customer extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['business_type', 'status', 'crated_at', 'created_by', 'updated_at', 'udpated_by','payment_term_id','payment_method_id'], 'integer'],
+            [['business_type', 'status', 'crated_at', 'created_by', 'updated_at', 'udpated_by','payment_term_id','payment_method_id','work_type_id'], 'integer'],
             [['code', 'name'], 'string', 'max' => 255],
         ];
     }
@@ -52,6 +52,7 @@ class Customer extends \yii\db\ActiveRecord
             'crated_at' => 'Crated At',
             'payment_term_id'=>'เงื่อนไขชำระเงิน',
             'payment_method_id'=>'วิธีชำระเงิน',
+            'work_type_id'=>'ประเภทงาน',
             'created_by' => 'Created By',
             'updated_at' => 'Updated At',
             'udpated_by' => 'Udpated By',

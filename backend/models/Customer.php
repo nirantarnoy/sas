@@ -33,7 +33,7 @@ class Customer extends \common\models\Customer
     public function rules()
     {
         return [
-            [['business_type', 'status', 'crated_at', 'created_by', 'updated_at', 'udpated_by','customer_group_id','company_id','payment_term_id','payment_method_id'], 'integer'],
+            [['business_type', 'status', 'crated_at', 'created_by', 'updated_at', 'udpated_by','customer_group_id','company_id','payment_term_id','payment_method_id','work_type_id'], 'integer'],
             [['code', 'name','phone','email'], 'string', 'max' => 255],
         ];
     }
@@ -55,6 +55,7 @@ class Customer extends \common\models\Customer
             'status' => 'สถานะ',
             'payment_term_id'=>'เงื่อนไขชำระเงิน',
             'payment_method_id'=>'วิธีชำระเงิน',
+            'work_type_id'=>'ประเภทงาน',
             'crated_at' => 'สร้างเมื่อ',
             'created_by' => 'สร้างโดย',
             'updated_at' => 'แก้ไขเมื่อ',

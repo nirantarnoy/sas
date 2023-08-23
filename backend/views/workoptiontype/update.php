@@ -14,6 +14,7 @@ $this->params['breadcrumbs'][] = 'Update';
 
     <?= $this->render('_form', [
         'model' => $model,
+        'model_work_type_tax_info'=>$model_work_type_tax_info,
     ]) ?>
 
 </div>
