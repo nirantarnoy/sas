@@ -26,7 +26,7 @@ use yii\widgets\ActiveForm;
               echo \kartik\select2\Select2::widget([
                       'data'=>\yii\helpers\ArrayHelper::map(\backend\models\Paymentterm::find()->all(),'id','name'),
                       'name'=>'customer_payment_term_id',
-                      'value' => $model_work_type_tax_info->payment_term_id,
+                      'value' => $model_work_type_tax_info !=null ?$model_work_type_tax_info->payment_term_id: 0,
               ])
             ?>
         </div>
@@ -36,7 +36,7 @@ use yii\widgets\ActiveForm;
             echo \kartik\select2\Select2::widget([
                 'data'=>\yii\helpers\ArrayHelper::map(\backend\models\Paymentmethod::find()->all(),'id','name'),
                 'name'=>'customer_payment_method_id',
-                'value' => $model_work_type_tax_info->payment_method_id,
+                'value' => $model_work_type_tax_info !=null ? $model_work_type_tax_info->payment_method_id: 0,
             ])
             ?>
         </div>
