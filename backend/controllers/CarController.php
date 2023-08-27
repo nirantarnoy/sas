@@ -88,6 +88,9 @@ class CarController extends Controller
                 $file_doc_type_id_2 = \Yii::$app->request->post('file_doc_type_id_2');
                 $file_doc_type_id_3 = \Yii::$app->request->post('file_doc_type_id_3');
 
+                $car_loan_period_total = \Yii::$app->request->post('car_loan_period_total');
+                $car_loan_period_amount = \Yii::$app->request->post('car_loan_period_amount');
+
                 $file_doc_0 = UploadedFile::getInstanceByName('file_doc_0');
                 $file_doc_1 = UploadedFile::getInstanceByName('file_doc_1');
                 $file_doc_2 = UploadedFile::getInstanceByName('file_doc_2');
@@ -146,6 +149,15 @@ class CarController extends Controller
                         }
                     }
 
+
+                    // save car loan data
+
+                    $model_loan = new \common\models\CarLoan();
+                    $model_loan->car_id = $model->id;
+                    $model_loan->period_amount = $car_loan_period_amount;
+                    $model_loan->total_period = $car_loan_period_total;
+                    $model_loan->save(false);
+
                     return $this->redirect(['view', 'id' => $model->id]);
                 }
 
@@ -171,6 +183,7 @@ class CarController extends Controller
     {
         $model = $this->findModel($id);
         $model_doc = \common\models\CarDoc::find()->where(['car_id'=>$id])->all();
+        $model_car_loan = \common\models\CarLoan::find()->where(['car_id'=>$id])->one();
 
         if ($this->request->isPost && $model->load($this->request->post())) {
 
@@ -180,6 +193,9 @@ class CarController extends Controller
             $file_doc_type_id_1 = \Yii::$app->request->post('file_doc_type_id_1');
             $file_doc_type_id_2 = \Yii::$app->request->post('file_doc_type_id_2');
             $file_doc_type_id_3 = \Yii::$app->request->post('file_doc_type_id_3');
+
+            $car_loan_period_total = \Yii::$app->request->post('car_loan_period_total');
+            $car_loan_period_amount = \Yii::$app->request->post('car_loan_period_amount');
 
             $file_doc_0 = UploadedFile::getInstanceByName('file_doc_0');
             $file_doc_1 = UploadedFile::getInstanceByName('file_doc_1');
@@ -263,6 +279,21 @@ class CarController extends Controller
                         }
                     }
                 }
+
+                // save car loan data
+                $model_loan_check = \common\models\CarLoan::find()->where(['car_id'=>$id])->one();
+                if($model_loan_check){
+                    $model_loan_check->period_amount = $car_loan_period_amount;
+                    $model_loan_check->total_period = $car_loan_period_total;
+                    $model_loan_check->save(false);
+                }else{
+                    $model_loan = new \common\models\CarLoan();
+                    $model_loan->car_id = $model->id;
+                    $model_loan->period_amount = $car_loan_period_amount;
+                    $model_loan->total_period = $car_loan_period_total;
+                    $model_loan->save(false);
+                }
+
                 return $this->redirect(['view', 'id' => $model->id]);
             }
 
@@ -272,6 +303,7 @@ class CarController extends Controller
         return $this->render('update', [
             'model' => $model,
             'model_doc'=> $model_doc,
+            'model_car_loan' =>$model_car_loan,
         ]);
     }
 

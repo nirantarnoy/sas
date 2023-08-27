@@ -211,7 +211,26 @@ $doc_type_data = \backend\helpers\CardocType::asArrayObject();
 
             </div>
         </div>
+        <br />
+        <div class="row">
+            <div class="col-lg-12">
+                <h5>ข้อมูลผ่อนรถ</h5>
+            </div>
+        </div>
 
+        <div class="row">
+            <div class="col-lg-3">
+                <label for="">จำนวนงวดทั้งหมด</label>
+                <input type="text" name="car_loan_period_total" class="form-control car-loan-period-total" value="<?=$model_car_loan!=null?$model_car_loan->total_period:0?>">
+            </div>
+            <div class="col-lg-3">
+                <label for="">จำนวนเงินต่องวด</label>
+                <input type="text" name="car_loan_period_amount" class="form-control car-loan-period-amount" value="<?=$model_car_loan!=null?$model_car_loan->period_amount:0?>">
+            </div>
+            <div class="col-lg-3"></div>
+            <div class="col-lg-3"></div>
+        </div>
+        <br />
         <div class="form-group">
             <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
         </div>
