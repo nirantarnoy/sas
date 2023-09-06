@@ -70,15 +70,15 @@ if (!$model->isNewRecord) {
         <div class="col-lg-3">
             <?= $form->field($model, 'dp_no')->textInput(['maxlength' => true]) ?>
         </div>
-        <div class="col-lg-3">
-            <?= $form->field($model, 'work_option_type_id')->Widget(\kartik\select2\Select2::className(), [
-                'data' => \yii\helpers\ArrayHelper::map(\common\models\WorkOptionType::find()->all(), 'id', 'name'),
-                'options' => [
-                    'id'=>'work-option-selected-id',
-                    'placeholder' => '--เลือก--'
-                ]
-            ]) ?>
-        </div>
+<!--        <div class="col-lg-3">-->
+<!--            --><?php //echo $form->field($model, 'work_option_type_id')->Widget(\kartik\select2\Select2::className(), [
+//                'data' => \yii\helpers\ArrayHelper::map(\common\models\WorkOptionType::find()->all(), 'id', 'name'),
+//                'options' => [
+//                    'id'=>'work-option-selected-id',
+//                    'placeholder' => '--เลือก--'
+//                ]
+//            ]) ?>
+<!--        </div>-->
         <div class="col-lg-3">
             <?= $form->field($model, 'car_id')->Widget(\kartik\select2\Select2::className(), [
                 'data' => \yii\helpers\ArrayHelper::map(\backend\models\Car::find()->where(['type_id' => '1'])->all(), 'id', function ($data) {
