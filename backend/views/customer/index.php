@@ -7,6 +7,7 @@ use yii\grid\ActionColumn;
 use yii\grid\GridView;
 use yii\widgets\Pjax;
 use yii\bootstrap4\LinkPager;
+
 /** @var yii\web\View $this */
 /** @var backend\models\CustomerSearch $searchModel */
 /** @var yii\data\ActiveDataProvider $dataProvider */
@@ -15,7 +16,6 @@ $this->title = 'ลูกค้า';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="customer-index">
-
 
 
     <div class="row">
@@ -63,7 +63,13 @@ $this->params['breadcrumbs'][] = $this->title;
 //            'id',
             'code',
             'name',
-            'business_type',
+            [
+                'attribute' => 'company_id',
+                'value' => function ($data) {
+                    return \backend\models\Company::findCompanyName($data->company_id);
+                }
+            ],
+            'taxid',
 //            'status',
             [
                 'attribute' => 'status',

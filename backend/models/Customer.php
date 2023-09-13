@@ -35,6 +35,7 @@ class Customer extends \common\models\Customer
         return [
             [['business_type', 'status', 'crated_at', 'created_by', 'updated_at', 'udpated_by','customer_group_id','company_id','payment_term_id','payment_method_id','work_type_id'], 'integer'],
             [['code', 'name','phone','email'], 'string', 'max' => 255],
+            [['address','taxid','branch_code','branch_name'], 'string', 'max' => 255],
         ];
     }
 
@@ -56,6 +57,10 @@ class Customer extends \common\models\Customer
             'payment_term_id'=>'เงื่อนไขชำระเงิน',
             'payment_method_id'=>'วิธีชำระเงิน',
             'work_type_id'=>'ประเภทงาน',
+            'address'=>'ที่อยู่วางบิล',
+            'taxid'=>'เลขที่ผู้เสียภาษี',
+            'branch_code'=>'รหัสสาขา',
+            'branch_name'=>'ชื่อสาขา',
             'crated_at' => 'สร้างเมื่อ',
             'created_by' => 'สร้างโดย',
             'updated_at' => 'แก้ไขเมื่อ',

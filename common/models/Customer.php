@@ -34,7 +34,7 @@ class Customer extends \yii\db\ActiveRecord
     {
         return [
             [['business_type', 'status', 'crated_at', 'created_by', 'updated_at', 'udpated_by','payment_term_id','payment_method_id','work_type_id'], 'integer'],
-            [['code', 'name'], 'string', 'max' => 255],
+            [['code', 'name','address','taxid','branch_code','branch_name'], 'string', 'max' => 255],
         ];
     }
 
@@ -52,6 +52,10 @@ class Customer extends \yii\db\ActiveRecord
             'crated_at' => 'Crated At',
             'payment_term_id'=>'เงื่อนไขชำระเงิน',
             'payment_method_id'=>'วิธีชำระเงิน',
+            'address'=>'ที่อยู่วางบิล',
+            'taxid'=>'เลขที่ผู้เสียภาษี',
+            'branch_code'=>'รหัสสาขา',
+            'branch_name'=>'ชื่อสาขา',
             'work_type_id'=>'ประเภทงาน',
             'created_by' => 'Created By',
             'updated_at' => 'Updated At',

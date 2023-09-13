@@ -2,7 +2,7 @@
 $this->title = 'Import Master Data';
 ?>
 <div class="row">
-    <form action="index.php?r=mainconfig/importcustomer" method="post" enctype="multipart/form-data">
+    <form action="index.php?r=mainconfig/importcustomer2" method="post" enctype="multipart/form-data">
         <div class="col-lg-10">
             <label for="">นำเข้าข้อมูลลูกค้า</label><br/>
             <input type="file" class="file-customer" name="file_customer" accept=".csv">

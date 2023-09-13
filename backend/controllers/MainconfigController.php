@@ -263,6 +263,165 @@ class MainconfigController extends Controller
         }
     }
 
+
+    public function actionImportcustomer2()
+    {
+        $uploaded = UploadedFile::getInstanceByName('file_customer');
+        if (!empty($uploaded)) {
+            //echo "ok";return;
+            $upfiles = time() . "." . $uploaded->getExtension();
+            // if ($uploaded->saveAs(Yii::$app->request->baseUrl . '/uploads/files/' . $upfiles)) {
+            if ($uploaded->saveAs('../web/uploads/files/customers/' . $upfiles)) {
+                //  echo "okk";return;
+                // $myfile = Yii::$app->request->baseUrl . '/uploads/files/' . $upfiles;
+                $myfile = '../web/uploads/files/customers/' . $upfiles;
+                $file = fopen($myfile, "r+");
+                fwrite($file, "\xEF\xBB\xBF");
+
+                setlocale(LC_ALL, 'th_TH.TIS-620');
+                $i = -1;
+                $res = 0;
+                $data = [];
+                $loop = 0;
+                while (($rowData = fgetcsv($file, 10000, ",")) !== FALSE) {
+                    $i += 1;
+                    $catid = 0;
+                    $qty = 0;
+                    $price = 0;
+                    $cost = 0;
+
+
+                    if ($i == 0) {
+                        continue;
+                    }
+
+                    $model_dup = \backend\models\Customer::find()->where(['name' => trim($rowData[3]), 'company_id' => 1])->one();
+                    if ($model_dup != null) {
+                        $loop++;
+                        continue;
+                    }
+
+//                    $route_id = $this->checkRoute($rowData[3]);
+               //     $group_id = $this->checkCustomergroup($rowData[2]);
+//                    $type_id = $this->checkCustomertype($rowData[6]);
+//                    $payment_method = $this->checkPaymethod($rowData[14]);
+//                    $payment_term = $this->checkPayterm($rowData[15]);
+
+                    $customer_name = $rowData[3];
+                    $address = $rowData[4];
+                    $phone = $rowData[13];
+                    $email = $rowData[12];
+                    $taxid = $rowData[8];
+                    $branch_code = $rowData[9];
+                    $branch_name = $rowData[10];
+
+                    $modelx = new \backend\models\Customer();
+                    // $modelx->code = $rowData[0];
+                    $modelx->code = '';//$rowData[0];//$modelx->getLastNo(1, 2);
+                    $modelx->name = $customer_name;
+                  //  $modelx->customer_group_id = $group_id;
+                    $modelx->phone = $phone;// $rowData[10];
+                    $modelx->email = $email;// $rowData[10];
+                    $modelx->status = 1;
+                    $modelx->address = $address;
+                    $modelx->taxid = $taxid;
+                    $modelx->company_id = 1;
+                    $modelx->branch_code = $branch_code;
+                    $modelx->branch_name = $branch_name;
+
+
+                    if ($modelx->save(false)) {
+
+//                        //update address
+//                        $district_id = $this->getDistrictId($rowData[6]);
+//                        $amphur_id = $this->getAmphurId($rowData[7]);
+//                        $province_id = $this->getProvinceId($rowData[8]);
+//
+//                        $model_address_dup = \common\models\AddressInfo::find()->where(['party_type' => 2,'party_id' => $modelx->id])->one();
+//                        if($model_address_dup){
+//                            $model_address_dup->address = $rowData[4];
+//                            $model_address_dup->street = $rowData[5];
+//                            $model_address_dup->district_id = $district_id;
+//                            $model_address_dup->city_id = $amphur_id;
+//                            $model_address_dup->province_id = $province_id;
+//                            $model_address_dup->zipcode = $rowData[9];
+//                            $model_address_dup->status = 1;
+//
+//                            if($model_address_dup->save(false)){
+//
+//                            }
+//
+//                        }else{
+//                            $model_address = new \common\models\Addressinfo();
+//                            $model_address->party_type = 2;
+//                            $model_address->party_id = $modelx->id;
+//                            $model_address->address = $rowData[4];
+//                            $model_address->street = $rowData[5];
+//                            $model_address->district_id = $district_id;
+//                            $model_address->city_id = $amphur_id;
+//                            $model_address->province_id = $province_id;
+//                            $model_address->zipcode = $rowData[9];
+//                            $model_address->status = 1;
+//
+//                            if($model_address->save(false)){
+//
+//                            }
+//                        }
+//                        //end update address
+//
+//                        //update customer contact
+////                        $district_id = $this->getDistrictId($rowData[6]);
+////                        $amphur_id = $this->getAmphurId($rowData[7]);
+////                        $province_id = $this->getProvinceId($rowData[8]);
+//
+//                        $model_cus_contact_dup = \common\models\ContactInfo::find()->where(['contact_name' => $customer_contact_name,'party_id' => $modelx->id])->one();
+//                        if($model_cus_contact_dup){
+//                            $model_cus_contact_dup->contact_no = $phone;
+//                            $model_cus_contact_dup->contact_name = $customer_contact_name;
+//                            $model_cus_contact_dup->type_id = 1;
+////                            $model_cus_contact_dup->status = 1;
+//
+//                            if($model_cus_contact_dup->save(false)){
+//
+//                            }
+//
+//                        }else{
+//                            $model_cus_contact = new \common\models\ContactInfo();
+//                            $model_cus_contact->party_type = 1;
+//                            $model_cus_contact->party_id = $modelx->id;
+//                            $model_cus_contact->type_id = 1;
+//                            $model_cus_contact->contact_name = $customer_contact_name;
+//                            $model_cus_contact->contact_no = $phone;
+////                            $model_cus_contact->status = 1;
+//
+//                            if($model_cus_contact->save(false)){
+//
+//                            }
+//                        }
+//                        //end update customer contact
+
+                        $res += 1;
+                    }
+                }
+                //    print_r($qty_text);return;
+
+                if ($res > 0) {
+                    $session = Yii::$app->session;
+                    $session->setFlash('msg', 'นำเข้าข้อมูลเรียบร้อย');
+                    return $this->redirect(['index']);
+                } else {
+                    $session = Yii::$app->session;
+                    $session->setFlash('msg-error', 'พบข้อมผิดพลาดนะ');
+                    return $this->redirect(['index']);
+                }
+                // }
+                fclose($file);
+//            }
+//        }
+            }
+        }
+    }
+
     public function actionImportemployee()
     {
         $uploaded = UploadedFile::getInstanceByName('file_employee');

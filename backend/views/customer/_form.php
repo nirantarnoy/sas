@@ -181,6 +181,21 @@ $x_zipcode = $address_chk==null?'':$address_chk->zipcode;
         <div class="col-lg-3"></div>
         <div class="col-lg-3"></div>
     </div>
+    <br />
+    <div class="row">
+        <div class="col-lg-3">
+            <?= $form->field($model, 'taxid')->textInput(['maxlength' => true]) ?>
+        </div>
+        <div class="col-lg-3">
+            <?= $form->field($model, 'address')->textarea(['maxlength' => true]) ?>
+        </div>
+        <div class="col-lg-3">
+            <?= $form->field($model, 'branch_code')->textInput(['maxlength' => true]) ?>
+        </div>
+        <div class="col-lg-3">
+            <?= $form->field($model, 'branch_name')->textInput(['maxlength' => true]) ?>
+        </div>
+    </div>
 
     <!--    <? //= $form->field($model, 'status')->textInput() ?>-->
     <?php echo $form->field($model, 'status')->widget(\toxor88\switchery\Switchery::className(), ['options' => ['label' => '', 'class' => 'form-control']])->label() ?>
