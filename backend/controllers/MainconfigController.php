@@ -295,7 +295,7 @@ class MainconfigController extends Controller
                         continue;
                     }
 
-                    $model_dup = \backend\models\Customer::find()->where(['name' => trim($rowData[3]), 'company_id' => 1])->one();
+                    $model_dup = \backend\models\Customer::find()->where(['name' => trim($rowData[3]), 'company_id' => 2])->one();
                     if ($model_dup != null) {
                         $loop++;
                         continue;
@@ -325,7 +325,7 @@ class MainconfigController extends Controller
                     $modelx->status = 1;
                     $modelx->address = $address;
                     $modelx->taxid = $taxid;
-                    $modelx->company_id = 1;
+                    $modelx->company_id = 2;
                     $modelx->branch_code = $branch_code;
                     $modelx->branch_name = $branch_name;
 
