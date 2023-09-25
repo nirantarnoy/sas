@@ -13,6 +13,11 @@ use Yii;
  * @property int|null $period_no
  * @property float|null $loan_pay_amt
  * @property int|null $status
+ * @property string|null $doc
+ * @property int|null $created_at
+ * @property int|null $created_by
+ * @property int|null $updated_at
+ * @property int|null $updated_by
  */
 class CarLoanTrans extends \yii\db\ActiveRecord
 {
@@ -30,9 +35,11 @@ class CarLoanTrans extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['car_loan_id', 'period_no', 'status'], 'integer'],
-            [['trans_date','doc'], 'safe'],
+            [['car_loan_id','loan_pay_amt','trans_date'],'required'],
+            [['car_loan_id', 'period_no', 'status', 'created_at', 'created_by', 'updated_at', 'updated_by'], 'integer'],
+            [['trans_date'], 'safe'],
             [['loan_pay_amt'], 'number'],
+            [['doc'], 'string', 'max' => 255],
         ];
     }
 
@@ -43,12 +50,16 @@ class CarLoanTrans extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'car_loan_id' => 'Car Loan ID',
-            'trans_date' => 'Trans Date',
-            'period_no' => 'Period No',
-            'loan_pay_amt' => 'Loan Pay Amt',
-            'doc' => 'Doc',
-            'status' => 'Status',
+            'car_loan_id' => 'รถ/พ่วง',
+            'trans_date' => 'วันที่ชำระ',
+            'period_no' => 'งวดที่',
+            'loan_pay_amt' => 'ยอดชำระ',
+            'status' => 'สถานะ',
+            'doc' => 'เอกสารแนบ',
+            'created_at' => 'วันที่ทำรายการ',
+            'created_by' => 'ทำรายการโดย',
+            'updated_at' => 'แก้ไขเมื่อ',
+            'updated_by' => 'แก้ไขโดย',
         ];
     }
 }

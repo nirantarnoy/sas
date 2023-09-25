@@ -142,6 +142,37 @@ $doc_type_data = \backend\helpers\CardocType::asArrayObject();
             </table>
         </div>
     </div>
+    <br/>
+    <div class="row">
+        <div class="col-lg-12">
+            <h5>ประวัติการชำระค่างวด</h5>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <table class="table table-bordered">
+                <thead>
+                <tr>
+                    <th style="width: 10%;text-align: center;">งวดที่</th>
+                    <th style="width: 15%;text-align: center;">วันที่ชำระ</th>
+                    <th style="width: 15%;text-align: right;">ยอดที่ชำระ</th>
+                    <th>หลักฐาน</th>
+                </tr>
+                </thead>
+                <tbody>
+                <?php foreach ($model_loan as $value):?>
+                  <tr>
+                      <td style="text-align: center;"><?=$value->period_no;?></td>
+                      <td style="text-align: center;"><?=$value->trans_date;?></td>
+                      <td style="text-align: right;"><?=number_format($value->loan_pay_amt,2);?></td>
+                      <td><a href="<?=\Yii::$app->getUrlManager()->baseUrl.'/uploads/files/carloan/'.$value->doc?>" target="_blank"><?=$value->doc;?></a></td>
+                  </tr>
+                <?php endforeach;?>
+
+                </tbody>
+            </table>
+        </div>
+    </div>
 
 </div>
 <?php

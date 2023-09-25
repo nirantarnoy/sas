@@ -180,6 +180,15 @@
                                 </p>
                             </a>
                         </li>
+                        <li class="nav-item">
+                            <a href="index.php?r=carloantrans" class="nav-link carloantrans">
+                                <i class="far fa-circlez nav-icon"></i>
+                                <p>
+                                    บันทึกชำระค่างวด
+                                    <!--                                <span class="right badge badge-danger">New</span>-->
+                                </p>
+                            </a>
+                        </li>
                         <?php //endif; ?>
 
                     </ul>

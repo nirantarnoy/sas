@@ -214,10 +214,28 @@ $doc_type_data = \backend\helpers\CardocType::asArrayObject();
         <br />
         <div class="row">
             <div class="col-lg-12">
-                <h5>ข้อมูลผ่อนรถ</h5>
+                <h5>ข้อมูลผ่อนชำระ(ค่างวด)</h5>
             </div>
         </div>
-
+        <div class="row">
+            <div class="col-lg-3">
+                <label for="">ยอดเงินทั้งหมด</label>
+                <input type="text" name="car_loan_period_amount" class="form-control car-loan-period-amount" value="<?=0?>">
+            </div>
+            <div class="col-lg-3">
+                <label for="">ยอดเงินชำระแล้ว</label>
+                <input type="text" name="car_loan_period_amount" class="form-control car-loan-period-amount" readonly value="<?=0?>">
+            </div>
+            <div class="col-lg-3">
+                <label for="">ยอดคงค้าง</label>
+                <input type="text" name="car_loan_period_amount" class="form-control car-loan-period-amount" readonly value="<?=0?>">
+            </div>
+            <div class="col-lg-3">
+                <label for="">วันที่ชำระล่าสุด</label>
+                <input type="text" name="car_loan_period_amount" class="form-control car-loan-period-amount" readonly value="<?=''?>">
+            </div>
+        </div>
+        <br />
         <div class="row">
             <div class="col-lg-3">
                 <label for="">จำนวนงวดทั้งหมด</label>
@@ -227,10 +245,19 @@ $doc_type_data = \backend\helpers\CardocType::asArrayObject();
                 <label for="">จำนวนเงินต่องวด</label>
                 <input type="text" name="car_loan_period_amount" class="form-control car-loan-period-amount" value="<?=$model_car_loan!=null?$model_car_loan->period_amount:0?>">
             </div>
-            <div class="col-lg-3"></div>
-            <div class="col-lg-3"></div>
+            <div class="col-lg-3">
+                <label for="">ชำระแล้ว(งวด)</label>
+                <input type="text" name="car_loan_period_amount" class="form-control car-loan-period-amount" readonly value="<?=0?>">
+
+            </div>
+            <div class="col-lg-3">
+                <label for="">คงเหลือ(งวด)</label>
+                <input type="text" name="car_loan_period_amount" class="form-control car-loan-period-amount" readonly value="<?=0?>">
+
+            </div>
         </div>
         <br />
+
         <div class="form-group">
             <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
         </div>

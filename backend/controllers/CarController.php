@@ -64,9 +64,11 @@ class CarController extends Controller
     public function actionView($id)
     {
         $model_doc = \common\models\CarDoc::find()->where(['car_id'=>$id])->all();
+        $model_loan = \backend\models\Carloantrans::find()->where(['car_loan_id'=>$id])->all();
         return $this->render('view', [
             'model' => $this->findModel($id),
             'model_doc' => $model_doc,
+            'model_loan' => $model_loan,
         ]);
     }
 
@@ -428,5 +430,8 @@ class CarController extends Controller
             return;
         }
         return $this->redirect(['car/update', 'id' => $car_id]);
+    }
+    public function actionPaymentloan(){
+
     }
 }
