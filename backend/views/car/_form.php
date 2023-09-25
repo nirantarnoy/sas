@@ -217,22 +217,30 @@ $doc_type_data = \backend\helpers\CardocType::asArrayObject();
                 <h5>ข้อมูลผ่อนชำระ(ค่างวด)</h5>
             </div>
         </div>
+        <?php
+        $loan_all_amount = $model_car_loan!=null?$model_car_loan->loan_amount:0;
+        $paymented_amount = checkpaymentamount($model->id);
+        $paymented_period_cnt = checkpaymentcnt($model->id);
+        $paymented_lasted = getpaymentlasted($model->id);
+        $period_payment_count = checkpaymentcnt($model->id);
+        $period_all_count = checkperiodcnt($model->id);
+        ?>
         <div class="row">
             <div class="col-lg-3">
                 <label for="">ยอดเงินทั้งหมด</label>
-                <input type="text" name="car_loan_period_amount" class="form-control car-loan-period-amount" value="<?=0?>">
+                <input type="text" name="car_loan_all_amount" class="form-control car-loan-all-amount" value="<?=number_format($loan_all_amount,0)?>">
             </div>
             <div class="col-lg-3">
                 <label for="">ยอดเงินชำระแล้ว</label>
-                <input type="text" name="car_loan_period_amount" class="form-control car-loan-period-amount" readonly value="<?=0?>">
+                <input type="text" name="car_loan_payment_amount" class="form-control car-loan-payment-amount" readonly value="<?=number_format($paymented_amount,0)?>">
             </div>
             <div class="col-lg-3">
                 <label for="">ยอดคงค้าง</label>
-                <input type="text" name="car_loan_period_amount" class="form-control car-loan-period-amount" readonly value="<?=0?>">
+                <input type="text" name="car_loan_remain_amount" class="form-control car-loan-remain-amount" readonly value="<?=number_format(($loan_all_amount - $paymented_amount),0)?>">
             </div>
             <div class="col-lg-3">
                 <label for="">วันที่ชำระล่าสุด</label>
-                <input type="text" name="car_loan_period_amount" class="form-control car-loan-period-amount" readonly value="<?=''?>">
+                <input type="text" name="car_loan_last_payment" class="form-control car-loan-last-payment" readonly value="<?=$paymented_lasted?>">
             </div>
         </div>
         <br />
@@ -247,12 +255,12 @@ $doc_type_data = \backend\helpers\CardocType::asArrayObject();
             </div>
             <div class="col-lg-3">
                 <label for="">ชำระแล้ว(งวด)</label>
-                <input type="text" name="car_loan_period_amount" class="form-control car-loan-period-amount" readonly value="<?=0?>">
+                <input type="text" name="car_loan_period_amount" class="form-control car-loan-period-amount" readonly value="<?=$period_payment_count?>">
 
             </div>
             <div class="col-lg-3">
                 <label for="">คงเหลือ(งวด)</label>
-                <input type="text" name="car_loan_period_amount" class="form-control car-loan-period-amount" readonly value="<?=0?>">
+                <input type="text" name="car_loan_period_amount" class="form-control car-loan-period-amount" readonly value="<?=($period_all_count - $period_payment_count)?>">
 
             </div>
         </div>
@@ -281,6 +289,48 @@ $doc_type_data = \backend\helpers\CardocType::asArrayObject();
          }
      }
      return $name;
+ }
+
+function checkpaymentamount($car_id){
+    $amount = 0;
+    if($car_id){
+        $model = \common\models\CarLoanTrans::find()->where(['car_loan_id'=>$car_id])->sum('loan_pay_amt');
+        if($model){
+            $amount = $model;
+        }
+    }
+    return $amount;
+}
+function checkpaymentcnt($car_id){
+    $amount = 0;
+    if($car_id){
+        $model = \common\models\CarLoanTrans::find()->where(['car_loan_id'=>$car_id])->count();
+        if($model){
+            $amount = $model;
+        }
+    }
+    return $amount;
+}
+function checkperiodcnt($car_id){
+    $amount = 0;
+    if($car_id){
+        $model = \common\models\CarLoan::find()->where(['car_id'=>$car_id])->one();
+        if($model){
+            $amount = $model->total_period;
+        }
+    }
+    return $amount;
+}
+
+function getpaymentlasted($car_id){
+     $date_data = null;
+     if($car_id){
+         $model = \common\models\CarLoanTrans::find()->where(['car_loan_id'=>$car_id])->max('trans_date');
+         if($model != null){
+             $date_data = $model;
+         }
+     }
+     return $date_data;
  }
 ?>
 

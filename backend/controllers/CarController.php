@@ -92,6 +92,7 @@ class CarController extends Controller
 
                 $car_loan_period_total = \Yii::$app->request->post('car_loan_period_total');
                 $car_loan_period_amount = \Yii::$app->request->post('car_loan_period_amount');
+                $car_loan_all_amount = \Yii::$app->request->post('car_loan_all_amount');
 
                 $file_doc_0 = UploadedFile::getInstanceByName('file_doc_0');
                 $file_doc_1 = UploadedFile::getInstanceByName('file_doc_1');
@@ -155,6 +156,7 @@ class CarController extends Controller
                     // save car loan data
 
                     $model_loan = new \common\models\CarLoan();
+                    $model_loan->loan_amount = $car_loan_all_amount;
                     $model_loan->car_id = $model->id;
                     $model_loan->period_amount = $car_loan_period_amount;
                     $model_loan->total_period = $car_loan_period_total;
@@ -198,6 +200,7 @@ class CarController extends Controller
 
             $car_loan_period_total = \Yii::$app->request->post('car_loan_period_total');
             $car_loan_period_amount = \Yii::$app->request->post('car_loan_period_amount');
+            $car_loan_all_amount = \Yii::$app->request->post('car_loan_all_amount');
 
             $file_doc_0 = UploadedFile::getInstanceByName('file_doc_0');
             $file_doc_1 = UploadedFile::getInstanceByName('file_doc_1');
@@ -285,12 +288,14 @@ class CarController extends Controller
                 // save car loan data
                 $model_loan_check = \common\models\CarLoan::find()->where(['car_id'=>$id])->one();
                 if($model_loan_check){
+                    $model_loan_check->loan_amount = $car_loan_all_amount;
                     $model_loan_check->period_amount = $car_loan_period_amount;
                     $model_loan_check->total_period = $car_loan_period_total;
                     $model_loan_check->save(false);
                 }else{
                     $model_loan = new \common\models\CarLoan();
                     $model_loan->car_id = $model->id;
+                    $model_loan->loan_amount = $car_loan_all_amount;
                     $model_loan->period_amount = $car_loan_period_amount;
                     $model_loan->total_period = $car_loan_period_total;
                     $model_loan->save(false);
