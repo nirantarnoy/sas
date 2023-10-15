@@ -31,6 +31,7 @@ class CarLoan extends \yii\db\ActiveRecord
         return [
             [['car_id', 'total_period', 'status'], 'integer'],
             [['period_amount','loan_amount'], 'number'],
+            [['doc_no'],'string'],
         ];
     }
 
@@ -45,6 +46,7 @@ class CarLoan extends \yii\db\ActiveRecord
             'total_period' => 'Total Period',
             'period_amount' => 'Period Amount',
             'loan_amount'=> 'Loan Amount',
+            'doc_no'=>'เลขที่สัญญา',
             'status' => 'Status',
         ];
     }

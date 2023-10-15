@@ -227,6 +227,13 @@ $doc_type_data = \backend\helpers\CardocType::asArrayObject();
         ?>
         <div class="row">
             <div class="col-lg-3">
+                <label for="">เลขที่สัญญา</label>
+                <input type="text" name="car_loan_doc_no" class="form-control car-loan-doc-no" value="<?=$model_car_loan!=null?$model_car_loan->doc_no:''?>">
+            </div>
+        </div>
+        <br />
+        <div class="row">
+            <div class="col-lg-3">
                 <label for="">ยอดเงินทั้งหมด</label>
                 <input type="text" name="car_loan_all_amount" class="form-control car-loan-all-amount" value="<?=number_format($loan_all_amount,0)?>">
             </div>
@@ -255,12 +262,12 @@ $doc_type_data = \backend\helpers\CardocType::asArrayObject();
             </div>
             <div class="col-lg-3">
                 <label for="">ชำระแล้ว(งวด)</label>
-                <input type="text" name="car_loan_period_amount" class="form-control car-loan-period-amount" readonly value="<?=$period_payment_count?>">
+                <input type="text" name="car_loan_period_payment_count" class="form-control car-loan-period-payment-count" readonly value="<?=$period_payment_count?>">
 
             </div>
             <div class="col-lg-3">
                 <label for="">คงเหลือ(งวด)</label>
-                <input type="text" name="car_loan_period_amount" class="form-control car-loan-period-amount" readonly value="<?=($period_all_count - $period_payment_count)?>">
+                <input type="text" name="car_loan_period_remain" class="form-control car-loan-period-remain" readonly value="<?=($period_all_count - $period_payment_count)?>">
 
             </div>
         </div>

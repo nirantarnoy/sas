@@ -15,6 +15,7 @@ use yii\web\UploadedFile;
  */
 class CarloantransController extends Controller
 {
+    public $enableCsrfValidation = false;
     /**
      * @inheritDoc
      */
@@ -172,7 +173,7 @@ class CarloantransController extends Controller
                   if($model_trans){
                       $period_no = ($model_trans + 1);
                   }
-                  array_push($data,['payment_std_amt'=>$model->period_amount,'period_count'=>$model->total_period,'period_no'=>$period_no,]);
+                  array_push($data,['payment_std_amt'=>$model->period_amount,'period_count'=>$model->total_period,'period_no'=>$period_no,'loan_doc_no'=>$model->doc_no]);
               }
         }
         echo json_encode($data);

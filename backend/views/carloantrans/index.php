@@ -20,7 +20,7 @@ $this->params['breadcrumbs'][] = $this->title;
             </p>
         </div>
         <div class="col-lg-2" style="text-align: right">
-            <form id="form-perpage" class="form-inline" action="<?= Url::to(['cartype/index'], true) ?>"
+            <form id="form-perpage" class="form-inline" action="<?= Url::to(['carloantrans/index'], true) ?>"
                   method="post">
                 <div class="form-group">
                     <label>แสดง </label>
@@ -62,11 +62,16 @@ $this->params['breadcrumbs'][] = $this->title;
             [
                 'attribute' => 'trans_date',
                 'value' => function ($data) {
-                    return date('d-m-Y',strtotime($data->trans_date));
+                    return date('d-m-Y', strtotime($data->trans_date));
                 }
             ],
             'period_no',
-            'loan_pay_amt',
+            [
+                'attribute' => 'loan_pay_amt',
+                'value' => function ($data) {
+                    return number_format($data->loan_pay_amt, 0);
+                }
+            ],
             //'status',
             //'doc',
             //'created_at',

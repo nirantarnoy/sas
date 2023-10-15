@@ -39,12 +39,17 @@ use yii\widgets\ActiveForm;
                 <?= $form->field($model, 'period_no')->textInput(['readonly' => 'readonly', 'id' => 'period-no']) ?>
             </div>
             <div class="col-lg-3">
-                <label for="">ยอดชำระรายเดือน</label>
-                <input type="text" class="form-control payment-standard-amt" value="" name="" readonly>
+                <label for="">เลขที่สัญญา</label>
+                <input type="text" class="form-control loan-doc-no" value="" name="" readonly>
             </div>
+
         </div>
         <br/>
         <div class="row">
+            <div class="col-lg-3">
+                <label for="">ยอดชำระรายเดือน</label>
+                <input type="text" class="form-control payment-standard-amt" value="" name="" readonly>
+            </div>
             <div class="col-lg-3">
                 <label for="">จำนวนงวดที่ต้องชำระ</label>
                 <input type="text" class="form-control period-count" value="" name="" readonly>
@@ -87,12 +92,14 @@ function pullcarloandata(e){
                          $(".payment-standard-amt").val(data[0]['payment_std_amt']);
                          $(".period-count").val(data[0]['period_count']);
                          $("#period-no").val(data[0]['period_no']);
+                         $(".loan-doc-no").val(data[0]['loan_doc_no']);
                          
                          if(parseInt(data[0]['period_no']) > parseInt(data[0]['period_count'])){
                              $(".btn-submit-click").hide();
                          }
                      }else{
                          $(".payment-standard-amt").val(0);
+                         $(".loan-doc-no").val('');
                          $(".period-count").val(0);
                          $("#period-no").val(0);
                      }
