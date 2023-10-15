@@ -43,7 +43,7 @@ class CarloantransSearch extends Carloantrans
      */
     public function search($params)
     {
-        $query = Carloantrans::find();
+        $query = Carloantrans::find()->join('inner join','car','car_loan_trans.car_loan_id = car.id');
 
         // add conditions that should always apply here
 
@@ -74,7 +74,7 @@ class CarloantransSearch extends Carloantrans
         ]);
 
         if($this->globalSearch != null){
-            $query->orFilterWhere(['like', 'doc', $this->globalSearch]);
+            $query->orFilterWhere(['like', 'car.name', $this->globalSearch]);
         }
 
 
