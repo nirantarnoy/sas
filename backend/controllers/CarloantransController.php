@@ -92,12 +92,13 @@ class CarloantransController extends Controller
                 $xdate = explode('/', trim($model->trans_date));
                 $t_date = date('Y-m-d');
                 if (count($xdate) > 1) {
-                  //  $t_date = $xdate[2] . '-' . $xdate[1] . '-' . $xdate[0];
-                    //echo date('Y-m-d',strtotime($model->trans_date));
+                    $t_date = $xdate[2] . '-' . $xdate[1] . '-' . $xdate[0];
+                  //  echo date('Y-m-d',strtotime($t_date));
                 }
+              //  return;
 
                 $model->doc = $filename;
-                $model->trans_date = date('Y-m-d',strtotime($model->trans_date));
+                $model->trans_date = date('Y-m-d',strtotime($t_date));
                 $model->status = 1;
                 if($model->save(false)){
                     return $this->redirect(['carloantrans/index']);
@@ -123,8 +124,18 @@ class CarloantransController extends Controller
     {
         $model = $this->findModel($id);
 
-        if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+        if ($this->request->isPost && $model->load($this->request->post())) {
+            $xdate = explode('/', trim($model->trans_date));
+            $t_date = date('Y-m-d');
+            if (count($xdate) > 1) {
+                  $t_date = $xdate[2] . '-' . $xdate[1] . '-' . $xdate[0];
+                //echo date('Y-m-d',strtotime($model->trans_date));
+            }
+            $model->trans_date = date('Y-m-d',strtotime($t_date));
+            $model->status = 1;
+            if($model->save()){
+                return $this->redirect(['view', 'id' => $model->id]);
+            }
         }
 
         return $this->render('update', [

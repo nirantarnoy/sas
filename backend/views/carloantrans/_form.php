@@ -6,6 +6,13 @@ use yii\widgets\ActiveForm;
 /** @var yii\web\View $this */
 /** @var backend\models\Carloantrans $model */
 /** @var yii\widgets\ActiveForm $form */
+
+
+$loan_data = null;
+if(!$model->isNewRecord){
+    $loan_data = getLoandata($model->car_loan_id);
+}
+
 ?>
 
     <div class="carloantrans-form">
@@ -26,12 +33,13 @@ use yii\widgets\ActiveForm;
                 ]) ?>
             </div>
             <div class="col-lg-3">
-
+                <?php $model->trans_date = !$model->isNewRecord?date('d/m/Y',strtotime($model->trans_date)):date('d/m/Y');?>
                 <?= $form->field($model, 'trans_date')->widget(\kartik\date\DatePicker::className(), [
                     'value' => date('d/m/Y'),
                     'pluginOptions' => [
                         'todayHighlight' => true,
                         'todayBtn' => true,
+                        'format'=>'dd/mm/yyyy'
                     ]
                 ]) ?>
             </div>
@@ -40,7 +48,7 @@ use yii\widgets\ActiveForm;
             </div>
             <div class="col-lg-3">
                 <label for="">เลขที่สัญญา</label>
-                <input type="text" class="form-control loan-doc-no" value="" name="" readonly>
+                <input type="text" class="form-control loan-doc-no" value="<?=$loan_data!=null?$loan_data[0]['loan_doc_no']:''?>" name="" readonly>
             </div>
 
         </div>
@@ -48,11 +56,11 @@ use yii\widgets\ActiveForm;
         <div class="row">
             <div class="col-lg-3">
                 <label for="">ยอดชำระรายเดือน</label>
-                <input type="text" class="form-control payment-standard-amt" value="" name="" readonly>
+                <input type="text" class="form-control payment-standard-amt" value="<?=$loan_data!=null?$loan_data[0]['payment_std_amt']:''?>" name="" readonly>
             </div>
             <div class="col-lg-3">
                 <label for="">จำนวนงวดที่ต้องชำระ</label>
-                <input type="text" class="form-control period-count" value="" name="" readonly>
+                <input type="text" class="form-control period-count" value="<?=$loan_data!=null?$loan_data[0]['period_count']:''?>" name="" readonly>
             </div>
             <div class="col-lg-3">
                 <?= $form->field($model, 'loan_pay_amt')->textInput() ?>
@@ -71,6 +79,29 @@ use yii\widgets\ActiveForm;
     </div>
 
 <?php
+
+function getLoandata($id){
+    $data = [];
+    if($id){
+        $model = \common\models\CarLoan::find()->where(['car_id'=>$id])->one();
+        if($model){
+            $period_no = 1;
+            $model_trans = \common\models\CarLoanTrans::find()->where(['car_loan_id'=>$id])->count();
+            if($model_trans){
+                $period_no = ($model_trans + 1);
+            }
+            array_push($data,[
+                    'payment_std_amt'=>$model->period_amount,
+                    'period_count'=>$model->total_period,
+                    'loan_doc_no'=>$model->doc_no
+            ]);
+        }
+    }
+    return $data;
+}
+
+
+
 $url_to_find_customer_data = \yii\helpers\Url::to(['carloantrans/findcustomerdata'], true);
 $js = <<<JS
 $(function(){
