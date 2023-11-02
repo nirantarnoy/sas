@@ -47,7 +47,7 @@ class CustomerInvoice extends \yii\db\ActiveRecord
         return [
             [['invoice_date', 'invoice_target_date'], 'safe'],
             [['sale_id', 'customer_id', 'create_at', 'created_by', 'updated_at', 'updated_by', 'status'], 'integer'],
-            [['total_amount', 'vat_amount', 'vat_per', 'total_all_amount'], 'number'],
+            [['total_amount', 'vat_amount', 'vat_per', 'total_all_amount','final_amount'], 'number'],
             [['invoice_no', 'work_name', 'total_text', 'remark', 'remark2', 'customer_extend_remark', 'company_extend_remark'], 'string', 'max' => 255],
         ];
     }
@@ -59,26 +59,27 @@ class CustomerInvoice extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'invoice_no' => 'Invoice No',
-            'invoice_date' => 'Invoice Date',
-            'invoice_target_date' => 'Invoice Target Date',
-            'sale_id' => 'Sale ID',
+            'invoice_no' => 'เลขที่',
+            'invoice_date' => 'วันที่',
+            'invoice_target_date' => 'วันที่ครบกำหนด',
+            'sale_id' => 'พนักงานขาย',
             'work_name' => 'Work Name',
-            'customer_id' => 'Customer ID',
-            'total_amount' => 'Total Amount',
-            'vat_amount' => 'Vat Amount',
+            'customer_id' => 'ลูกค้า',
+            'total_amount' => 'ยอดรวม',
+            'vat_amount' => 'Vat',
             'vat_per' => 'Vat Per',
-            'total_all_amount' => 'Total All Amount',
-            'total_text' => 'Total Text',
-            'remark' => 'Remark',
-            'remark2' => 'Remark2',
+            'total_all_amount' => 'ยอดรวมทั้งสิ้น',
+            'total_text' => 'ยอดรวมตัวหนังสือ',
+            'final_amount'=> 'ยอดชำระ',
+            'remark' => 'หมายเหตุ',
+            'remark2' => 'หมายเหตุ2',
             'create_at' => 'Create At',
             'created_by' => 'Created By',
             'updated_at' => 'Updated At',
             'updated_by' => 'Updated By',
-            'status' => 'Status',
-            'customer_extend_remark' => 'Customer Extend Remark',
-            'company_extend_remark' => 'Company Extend Remark',
+            'status' => 'สถานะ',
+            'customer_extend_remark' => 'หมายเหตุลูกค้า',
+            'company_extend_remark' => 'หมายเหตุบริษัท',
         ];
     }
 }

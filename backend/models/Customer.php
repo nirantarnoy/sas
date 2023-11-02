@@ -73,4 +73,14 @@ class Customer extends \common\models\Customer
         $model = Customer::find()->where(['id' => $id])->one();
         return $model != null ? $model->name : '';
     }
+    public static function findAddress($id)
+    {
+        $model = Customer::find()->where(['id' => $id])->one();
+        return $model != null ? $model->address : '';
+    }
+    public static function findTaxId($id)
+    {
+        $model = Customer::find()->where(['id' => $id])->one();
+        return $model != null ? $model->taxid : '';
+    }
 }

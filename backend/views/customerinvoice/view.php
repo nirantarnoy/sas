@@ -6,7 +6,7 @@ use yii\widgets\DetailView;
 /** @var yii\web\View $this */
 /** @var backend\models\Customerinvoice $model */
 
-$this->title = $model->id;
+$this->title = $model->invoice_no;
 $this->params['breadcrumbs'][] = ['label' => 'วางบิล', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 \yii\web\YiiAsset::register($this);
@@ -31,14 +31,25 @@ $this->params['breadcrumbs'][] = $this->title;
             'invoice_no',
             'invoice_date',
             'invoice_target_date',
-            'sale_id',
+            [
+                'attribute' => 'sale_id',
+                'value' => function ($data) {
+                    return \backend\models\Employee::findFullName($data->sale_id);
+                }
+            ],
             'work_name',
-            'customer_id',
+            [
+                'attribute' => 'customer_id',
+                'value' => function ($data) {
+                    return \backend\models\Customer::findCusName($data->customer_id);
+                }
+            ],
             'total_amount',
             'vat_amount',
             'vat_per',
             'total_all_amount',
             'total_text',
+            'final_amount',
             'remark',
             'remark2',
             'create_at',

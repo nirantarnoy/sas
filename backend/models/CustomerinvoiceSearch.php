@@ -11,6 +11,7 @@ use backend\models\Customerinvoice;
  */
 class CustomerinvoiceSearch extends Customerinvoice
 {
+    public $globalSearch;
     /**
      * {@inheritdoc}
      */
@@ -20,6 +21,7 @@ class CustomerinvoiceSearch extends Customerinvoice
             [['id', 'sale_id', 'customer_id', 'create_at', 'created_by', 'updated_at', 'updated_by', 'status'], 'integer'],
             [['invoice_no', 'invoice_date', 'invoice_target_date', 'work_name', 'total_text', 'remark', 'remark2', 'customer_extend_remark', 'company_extend_remark'], 'safe'],
             [['total_amount', 'vat_amount', 'vat_per', 'total_all_amount'], 'number'],
+            [['globalSearch'],'string']
         ];
     }
 
@@ -75,13 +77,17 @@ class CustomerinvoiceSearch extends Customerinvoice
             'status' => $this->status,
         ]);
 
-        $query->andFilterWhere(['like', 'invoice_no', $this->invoice_no])
-            ->andFilterWhere(['like', 'work_name', $this->work_name])
-            ->andFilterWhere(['like', 'total_text', $this->total_text])
-            ->andFilterWhere(['like', 'remark', $this->remark])
-            ->andFilterWhere(['like', 'remark2', $this->remark2])
-            ->andFilterWhere(['like', 'customer_extend_remark', $this->customer_extend_remark])
-            ->andFilterWhere(['like', 'company_extend_remark', $this->company_extend_remark]);
+//        $query->andFilterWhere(['like', 'invoice_no', $this->invoice_no])
+//            ->andFilterWhere(['like', 'work_name', $this->work_name])
+//            ->andFilterWhere(['like', 'total_text', $this->total_text])
+//            ->andFilterWhere(['like', 'remark', $this->remark])
+//            ->andFilterWhere(['like', 'remark2', $this->remark2])
+//            ->andFilterWhere(['like', 'customer_extend_remark', $this->customer_extend_remark])
+//            ->andFilterWhere(['like', 'company_extend_remark', $this->company_extend_remark]);
+
+        if($this->globalSearch != null){
+            $query->orFilterWhere(['like','invoice_no',$this->globalSearch]);
+        }
 
         return $dataProvider;
     }
