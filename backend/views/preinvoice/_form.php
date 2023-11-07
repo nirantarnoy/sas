@@ -72,7 +72,7 @@ use yii\widgets\ActiveForm;
                             </td>
                             <td>
                                 <input type="number" class="form-control line-work-queue-amount"
-                                       name="line_work_queue_amount[]" min="0">
+                                       name="line_work_queue_amount[]" min="0" onchange="calinvoiceall();">
                             </td>
                             <td style="text-align: center;">
                                 <div class="btn btn-danger" onclick="removeline($(this))">ลบ</div>
@@ -95,7 +95,7 @@ use yii\widgets\ActiveForm;
                                     </td>
                                     <td>
                                         <input type="number" class="form-control line-work-queue-amount"
-                                               name="line_work_queue_amount[]" min="0" value="<?=$value->total_amount?>">
+                                               name="line_work_queue_amount[]" min="0" value="<?=$value->total_amount?>" onchange="calinvoiceall();">
                                     </td>
                                     <td style="text-align: center;">
                                         <div class="btn btn-danger" onclick="removeline($(this))">ลบ</div>
@@ -115,7 +115,7 @@ use yii\widgets\ActiveForm;
                                 </td>
                                 <td>
                                     <input type="number" class="form-control line-work-queue-amount"
-                                           name="line_work_queue_amount[]" min="0">
+                                           name="line_work_queue_amount[]" min="0" onchange="calinvoiceall();">
                                 </td>
                                 <td style="text-align: center;">
                                     <div class="btn btn-danger" onclick="removeline($(this))">ลบ</div>
@@ -433,6 +433,7 @@ function calinvoiceall(){
   
       $("#table-list tbody tr").each(function () {
            var line_amt = $(this).find('.line-work-queue-amount').val();
+           alert(line_amt);
            if(line_amt != null){
                total_amt = parseFloat(total_amt) + parseFloat(line_amt);
               
