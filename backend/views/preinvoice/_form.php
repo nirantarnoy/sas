@@ -433,7 +433,7 @@ function calinvoiceall(){
   
       $("#table-list tbody tr").each(function () {
            var line_amt = $(this).find('.line-work-queue-amount').val();
-           alert(line_amt);
+         //  alert(line_amt);
            if(line_amt != null){
                total_amt = parseFloat(total_amt) + parseFloat(line_amt);
               
