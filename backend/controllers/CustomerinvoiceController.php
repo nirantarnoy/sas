@@ -4,6 +4,7 @@ namespace backend\controllers;
 
 use backend\models\Customerinvoice;
 use backend\models\CustomerinvoiceSearch;
+use common\models\PreinvoiceLine;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -108,7 +109,14 @@ class CustomerinvoiceController extends Controller
                             $modelline->qty = $line_qty[$i];
                             $modelline->line_total = ($line_price[$i] * $line_qty[$i]);
                             if($modelline->save(false)){
-                                \backend\models\Workqueue::updateAll(['is_invoice'=>1],['id'=>$line_order_id[$i]]);
+                                $model_preinvoiceline = \common\models\PreinvoiceLine::find()->where(['preinvoice_id'=>$line_order_id[$i]])->all();
+                                if($model_preinvoiceline){
+                                    foreach($model_preinvoiceline as $valuex){
+                                        \backend\models\Workqueue::updateAll(['is_invoice'=>1],['id'=>$valuex->work_queue_id]);
+                                    }
+                                }
+                                \backend\models\Preinvoice::updateAll(['status'=>2],['id'=>$line_order_id[$i]]);
+
                             }
                         }
                     }
