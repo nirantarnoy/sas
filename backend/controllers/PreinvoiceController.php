@@ -222,8 +222,8 @@ class PreinvoiceController extends Controller
         $customer_id = \Yii::$app->request->post('customer_id');
         $html = '';
         if ($customer_id > 0) {
-            $model = \backend\models\Workqueue::find()->where(['is_invoice' => 0])->all();
-            // $model = \backend\models\Workqueue::find()->where(['is_invoice' => 0,'customer_id'=>$customer_id])->all();
+            //$model = \backend\models\Workqueue::find()->where(['is_invoice' => 0])->all();
+            $model = \backend\models\Workqueue::find()->where(['is_invoice' => 0,'customer_id'=>$customer_id])->all();
             if ($model) {
                 foreach ($model as $value) {
                     $work_type_name = \backend\models\WorkOptionType::findName($value->work_option_type_id);
