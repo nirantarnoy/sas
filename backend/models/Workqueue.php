@@ -64,10 +64,10 @@ class Workqueue extends \common\models\WorkQueue
         ];
     }
 
-//    public function findUnitname($id){
-//        $model = Unit::find()->where(['id'=>$id])->one();
-//        return count($model)>0?$model->name:'';
-//    }
+    public function findNo($id){
+        $model = Workqueue::find()->where(['id'=>$id])->one();
+        return $model != null ?$model->work_queue_no:'';
+    }
 //    public static function findName($id){
 //        $model = \common\models\RoutePlan::find()->where(['id'=>$id])->one();
 //        return $model!= null?$model->name:'';

@@ -61,6 +61,18 @@ use yii\widgets\ActiveForm;
                     ]
                 ]) ?>
             </div>
+            <div class="col-lg-3">
+                <?= $form->field($model, 'vat_per')->widget(\kartik\select2\Select2::className(), [
+                    'data' => \yii\helpers\ArrayHelper::map(\backend\helpers\VatperType::asArrayObject(), 'id', 'name'),
+                    'options' => [
+                    //    'placeholder' => 'เลือก % Vat',
+                        'onchange' => 'calinvoiceall()'
+                    ],
+                    'pluginOptions' => [
+                        'allowClear' => true,
+                    ]
+                ]) ?>
+            </div>
         </div>
         <div class="row">
             <div class="col-lg-12">
@@ -94,6 +106,9 @@ use yii\widgets\ActiveForm;
                                        name="line_price[]" value="" min="0" onchange="calinvoice($(this))">
                             </td>
                             <td>
+                                <input type="hidden" style="text-align: right;"
+                                       class="form-control line-total-cal"
+                                       name="" value="">
                                 <input type="text" style="text-align: right;" class="form-control line-total"
                                        name="line_total[]" value="" readonly>
                             </td>
@@ -158,6 +173,9 @@ use yii\widgets\ActiveForm;
                                            name="line_price[]" value="" min="0" onchange="calinvoice($(this))">
                                 </td>
                                 <td>
+                                    <input type="hidden" style="text-align: right;"
+                                           class="form-control line-total-cal"
+                                           name="" value="<?= $value->qty * $value->price ?>">
                                     <input type="text" style="text-align: right;" class="form-control line-total"
                                            name="line_total[]" value="" readonly>
                                 </td>
@@ -191,7 +209,7 @@ use yii\widgets\ActiveForm;
                         </td>
                     </tr>
                     <tr>
-                        <td colspan="4" style="text-align: right;font-size: 18px;">หักภาษี ณ ที่จ่าย 1%</td>
+                        <td colspan="4" style="text-align: right;font-size: 18px;">หักภาษี ณ ที่จ่าย <span class="vat-per-display"></span> %</td>
                         <td>
                             <?= $form->field($model, 'vat_amount')->textInput(['readonly' => 'readonly', 'style' => 'text-align: right'])->label(false) ?>
                         </td>
@@ -460,7 +478,7 @@ use yii\widgets\ActiveForm;
     </div>
 
 <?php
-$url_to_find_workqueue = \yii\helpers\Url::to(['customerinvoice/findworkqueue'], true);
+$url_to_find_workqueue = \yii\helpers\Url::to(['customerinvoice/findpreinvioce'], true);
 $js = <<<JS
 var selecteditem = [];
 var selectedorderlineid = [];
@@ -509,6 +527,7 @@ function addline(e){
                    clone.find(".line-qty").val("0");
                    clone.find(".line-price").val("0");
                    clone.find(".line-total").val("0");
+                   clone.find(".line-total-cal").val("0");
                    
                     clone.attr("data-var", "");
                     clone.find('.rec-id').val("0");
@@ -634,6 +653,7 @@ $(".btn-emp-selected").click(function () {
                     tr.closest("tr").find(".line-qty").val(selecteditem[i]['qty']);
                     tr.closest("tr").find(".line-price").val(selecteditem[i]['price']);
                     tr.closest("tr").find(".line-total").val(selecteditem[i]['total']);
+                    tr.closest("tr").find(".line-total-cal").val(selecteditem[i]['total']);
                     //console.log(line_prod_code);
                     } else {
                        
@@ -643,6 +663,7 @@ $(".btn-emp-selected").click(function () {
                         clone.closest("tr").find(".line-qty").val(selecteditem[i]['qty']);
                         clone.closest("tr").find(".line-price").val(selecteditem[i]['price']);
                         clone.closest("tr").find(".line-total").val(selecteditem[i]['total']);
+                        clone.closest("tr").find(".line-total-cal").val(selecteditem[i]['total']);
                         tr.after(clone);
                     } 
              }
@@ -668,6 +689,8 @@ $(".btn-emp-selected").click(function () {
         $(".btn-emp-selected").removeClass('btn-success');
         $(".btn-emp-selected").addClass('btn-outline-success');
         $("#findModal").modal('hide');
+        
+        calinvoiceall();
 });
 
 function calinvoice(e){
@@ -675,6 +698,7 @@ function calinvoice(e){
     var line_price = e.closest('tr').find(".line-price").val();
     var line_total = parseFloat(line_qty) * parseFloat(line_price);
     e.closest('tr').find('.line-total').val(parseFloat(line_total).toFixed(2));
+    e.closest('tr').find('.line-total-cal').val(parseFloat(line_total).toFixed(2));
     
     
     var total_amt = 0;
@@ -703,6 +727,10 @@ function calinvoiceall(){
     var final_amt = 0;
     var vat_amt = 0;
     
+    var vat_per_cal = $("#customerinvoice-vat_per").val();
+    $(".vat-per-display").html(vat_per_cal)
+    //alert(vat_per_cal);
+    
       $("#table-list tbody tr").each(function () {
            var line_amt = $(this).find('.line-total-cal').val();
            if(line_amt != null){
@@ -710,7 +738,7 @@ function calinvoiceall(){
               
            }
       });
-    vat_amt = (total_amt * 1) / 100;
+    vat_amt = (total_amt * vat_per_cal) / 100;
     final_amt = parseFloat(total_amt) - vat_amt;
     $("#customerinvoice-total_amount").val(parseFloat(total_amt).toFixed(2));
     $("#customerinvoice-total_all_amount").val(parseFloat(total_amt).toFixed(2));

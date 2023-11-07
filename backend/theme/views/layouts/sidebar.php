@@ -297,6 +297,12 @@
                             </a>
                         </li>
                         <li class="nav-item">
+                            <a href="index.php?r=preinvoice/index" class="nav-link preinvoice">
+                                <i class="far fa-circlez nav-icon"></i>
+                                <p>รวมบิล</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
                             <a href="index.php?r=customerinvoice/index" class="nav-link customerinvoice">
                                 <i class="far fa-circlez nav-icon"></i>
                                 <p>วางบิล</p>

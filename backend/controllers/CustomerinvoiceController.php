@@ -231,7 +231,8 @@ class CustomerinvoiceController extends Controller
         $customer_id = \Yii::$app->request->post('customer_id');
         $html = '';
         if ($customer_id > 0) {
-            $model = \backend\models\Workqueue::find()->where(['is_invoice' => 0,'customer_id'=>$customer_id])->all();
+            $model = \backend\models\Workqueue::find()->where(['is_invoice' => 0])->all();
+            // $model = \backend\models\Workqueue::find()->where(['is_invoice' => 0,'customer_id'=>$customer_id])->all();
             if ($model) {
                 foreach ($model as $value) {
                     $work_type_name = \backend\models\WorkOptionType::findName($value->work_option_type_id);
@@ -246,6 +247,34 @@ class CustomerinvoiceController extends Controller
                            </td>';
                     $html .= '<td style="text-align: left">' . $value->work_queue_no . '</td>';
                     $html .= '<td style="text-align: left">' . date('d-m-Y', strtotime($value->work_queue_date)) . '</td>';
+                    $html .= '<td style="text-align: left">' . $work_type_name . '</td>';
+                    $html .= '</tr>';
+                }
+            }
+        }
+        echo $html;
+    }
+    public function actionFindpreinvioce()
+    {
+        $customer_id = \Yii::$app->request->post('customer_id');
+        $html = '';
+        if ($customer_id > 0) {
+            $model = \backend\models\Preinvoice::find()->where(['status' => 1])->all();
+            // $model = \backend\models\Workqueue::find()->where(['is_invoice' => 0,'customer_id'=>$customer_id])->all();
+            if ($model) {
+                foreach ($model as $value) {
+                    $work_type_name = $value->name;
+                    $html .= '<tr>';
+                    $html .= '<td style="text-align: center">
+                            <div class="btn btn-outline-success btn-sm" onclick="addselecteditem($(this))" data-var="' . $value->id . '">เลือก</div>
+                            <input type="hidden" class="line-find-order-id" value="' . $value->id . '">
+                            <input type="hidden" class="line-find-qty" value="' . 1 . '">
+                            <input type="hidden" class="line-find-price" value="' . $value->total_amount . '">
+                            <input type="hidden" class="line-find-work-type-name" value="' . $work_type_name . '">
+                           <input type="hidden" class="line-find-order-no" value="' . $value->journal_no . '">
+                           </td>';
+                    $html .= '<td style="text-align: left">' . $value->journal_no . '</td>';
+                    $html .= '<td style="text-align: left">' . date('d-m-Y', strtotime($value->journal_date)) . '</td>';
                     $html .= '<td style="text-align: left">' . $work_type_name . '</td>';
                     $html .= '</tr>';
                 }
