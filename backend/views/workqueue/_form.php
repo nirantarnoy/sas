@@ -11,12 +11,19 @@ $hp = "";
 $car_type = "";
 $driver_id = "";
 $driver_name = "";
+
+$t_back_plate = '';
+$t_plate = '';
+
 if (!$model->isNewRecord) {
     $plate_no = \backend\models\Car::getPlateno($model->car_id);
     $hp = \backend\models\Car::getHp($model->car_id);
     $car_type = \backend\models\Car::getCartype($model->car_id);
     $driver_id = \backend\models\Car::getDriver($model->car_id);
     $driver_name = \backend\models\Employee::findFullName($driver_id);
+
+    $t_plate = \backend\models\Car::getPlateno($model->tail_id);
+    $t_back_plate = \backend\models\Car::getPlateno($model->tail_back_id);
 }
 
 ?>
@@ -138,7 +145,7 @@ if (!$model->isNewRecord) {
         </div>
         <div class="col-lg-4">
             <label for="">ทะเบียน</label>
-            <input type="text" class="form-control tail-plate-no" readonly>
+            <input type="text" class="form-control tail-plate-no" value="<?= $t_plate ?>" readonly>
         </div>
         <div class="col-lg-4"></div>
     </div>
@@ -167,6 +174,7 @@ if (!$model->isNewRecord) {
         </div>
     </div>
 
+
     <div class="row">
         <div class="col-lg-4">
             <?= $form->field($model, 'tail_back_id')->Widget(\kartik\select2\Select2::className(), [
@@ -181,7 +189,7 @@ if (!$model->isNewRecord) {
         </div>
         <div class="col-lg-4">
             <label for="">ทะเบียน</label>
-            <input type="text" class="form-control tail-back-plate-no" readonly>
+            <input type="text" class="form-control tail-back-plate-no" value="<?= $t_back_plate ?>" readonly>
         </div>
         <div class="col-lg-4">
             <label for="">ราคาน้ำมัน</label>
@@ -391,6 +399,7 @@ function enableLabour(e){
            }else{
                 $("#labour-price").val(0);
            }
+         
        return false;
    }
  
@@ -402,6 +411,7 @@ function enableLabour(e){
        }
         loop +=1;
        if($("#labour-price-checked").val() == 1){
+           getRouteplan();
            var labour = $('#labour-price-plan').val();
            $("#labour-price").val(labour);
            }else{
@@ -427,6 +437,7 @@ function enableExpressroad(e){
        }
          loop2 +=1;
          if($("#express-road-price-checked").val() == 1){
+          
            var labour = $('#express-road-price-plan').val();
            $("#express-road-price").val(labour);
            }else{
@@ -443,6 +454,7 @@ function enableExpressroad(e){
        }
         loop2 +=1;
        if($("#express-road-price-checked").val() == 1){
+           getRouteplan();
            var labour = $('#express-road-price-plan').val();
            $("#express-road-price").val(labour);
            }else{
@@ -488,6 +500,7 @@ function enableOther(e){
        }
         loop3 +=1;
        if($("#other-price-checked").val() == 1){
+           getRouteplan();
            var labour = $('#other-price-plan').val();
            $("#other-price").val(labour);
            }else{
@@ -512,12 +525,14 @@ function getCarinfo(e){
                 // alert(data);
                 if(data != null){
                     // alert(data[0]['plate_no']);
+                    // alert(data[0]['fuel_price']);
                     var plat_no = data[0]['plate_no'];
                     var hp = data[0]['hp'];
                     var car_type = data[0]['car_type'];
                     var car_type_id = data[0]['car_type_id'];
                     var driver_id = data[0]['driver_id'];
                     var driver_name  = data[0]['driver_name'];
+                    var price  = data[0]['fuel_price'];
                     
                   //  alert(car_type_id);
                     $('.car-plate-no').val(plat_no);
@@ -526,6 +541,8 @@ function getCarinfo(e){
                     $("#emp-assign").val(driver_id);
                     $(".emp-assign-driver-id").val(driver_name);
                     $("#car-type-selected").val(car_type_id);
+                    $(".oil-daily-price").val(price);
+                    
                     
                     getRouteplan();
                 }

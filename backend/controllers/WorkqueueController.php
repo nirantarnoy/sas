@@ -80,6 +80,7 @@ class WorkqueueController extends Controller
         if ($this->request->isPost) {
             if ($model->load($this->request->post())) {
                 $new_date = $model->work_queue_date . ' ' . date('H:i:s');
+
                 $model->work_queue_date = date('Y-m-d H:i:s', strtotime($new_date));
                 $model->work_queue_no = $model->getLastNo();
 

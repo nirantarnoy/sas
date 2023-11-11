@@ -308,6 +308,12 @@
                                 <p>วางบิล</p>
                             </a>
                         </li>
+                        <li class="nav-item">
+                            <a href="index.php?r=costtitle/index" class="nav-link costtitle">
+                                <i class="far fa-circlez nav-icon"></i>
+                                <p>รายการค่าใช้จ่าย</p>
+                            </a>
+                        </li>
                         <?php //endif; ?>
 
                     </ul>

@@ -40,7 +40,7 @@ use yii\widgets\ActiveForm;
                         return $data->fname . ' ' . $data->lname;
                     }),
                     'options' => [
-                        'placeholder' => 'เลือกลูกค้า',
+                        'placeholder' => 'เลือกพนักงาน',
                     ],
                     'pluginOptions' => [
                         'allowClear' => true,

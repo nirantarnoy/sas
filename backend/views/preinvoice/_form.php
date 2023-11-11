@@ -14,7 +14,7 @@ use yii\widgets\ActiveForm;
         <input type="hidden" class="remove-list" name="removelist" value="">
         <div class="row">
             <div class="col-lg-4">
-                <?= $form->field($model, 'journal_no')->textInput(['maxlength' => true]) ?>
+                <?= $form->field($model, 'journal_no')->textInput(['maxlength' => true, 'readonly' => 'readonly'])  ?>
             </div>
             <div class="col-lg-4">
                 <?php $model->journal_date = $model->isNewRecord ? date('d-m-Y') : date('d-m-Y', strtotime($model->journal_date)); ?>
@@ -26,7 +26,7 @@ use yii\widgets\ActiveForm;
                 ]) ?>
             </div>
             <div class="col-lg-4">
-                <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
+                <?= $form->field($model, 'name')->textarea(['maxlength' => true]) ?>
             </div>
         </div>
         <div class="row">

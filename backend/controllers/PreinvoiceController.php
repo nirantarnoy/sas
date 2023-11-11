@@ -100,6 +100,7 @@ class PreinvoiceController extends Controller
                     $invoice_date = $x[2] . '/' . $x[1] . '/' . $x[0];
                 }
                 $model->journal_date = date('Y-m-d',strtotime($invoice_date));
+                $model->journal_no = Preinvoice::getLastNo();
                 $model->status = 1;
                 $model->total_amount= $all_total;
                 if($model->save()){

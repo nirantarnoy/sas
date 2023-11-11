@@ -42,12 +42,13 @@ use yii\helpers\ArrayHelper;
                 //     'theme' => Select2::THEME_CLASSIC,
                 'options' => [
                         'placeholder' => 'Select ...',
-                        'multiple' => true
+                        'multiple' => true,
                 ],
                 'pluginOptions' => [
                     'tags' => true,
                     'tokenSeparators' => [',', ' '],
-                    'maximumInputLength' => 100
+                    'maximumInputLength' => 100,
+                    'width' => 400,
                 ],
             ]) ?>
 

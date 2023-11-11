@@ -62,7 +62,7 @@ class CustomerInvoice extends \yii\db\ActiveRecord
             'invoice_no' => 'เลขที่',
             'invoice_date' => 'วันที่',
             'invoice_target_date' => 'วันที่ครบกำหนด',
-            'sale_id' => 'พนักงานขาย',
+            'sale_id' => 'พนักงานวางบิล',
             'work_name' => 'Work Name',
             'customer_id' => 'ลูกค้า',
             'total_amount' => 'ยอดรวม',

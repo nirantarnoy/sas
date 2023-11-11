@@ -4,6 +4,7 @@ namespace backend\controllers;
 
 use backend\models\Car;
 use backend\models\CarSearch;
+use backend\models\Fueldailyprice;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -361,6 +362,8 @@ class CarController extends Controller
             $driver_id = \backend\models\Car::getDriver($id);
             $driver_name = \backend\models\Employee::findFullName($driver_id);
 
+            $fuel_price = \backend\models\Fueldailyprice::findPrice($id);
+
             array_push($data, [
                 'plate_no' => $plate_no,
                 'hp' => $hp,
@@ -368,6 +371,7 @@ class CarController extends Controller
                 'driver_id' => $driver_id,
                 'driver_name' => $driver_name,
                 'car_type_id' => $car_type_id,
+                'fuel_price' => $fuel_price,
             ]);
         }
         echo json_encode($data);
