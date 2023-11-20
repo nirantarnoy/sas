@@ -74,7 +74,7 @@ class Preinvoice extends \common\models\Preinvoice
 //            $len = strlen($cnum);
 //            $clen = strlen($cnum + 1);
 //            $loop = $len - $clen;
-            $prefix = $pre . '-' . substr(date("Y"), 2, 2) . substr(date("m"),0,2);
+            $prefix = $pre . '-' . substr(date("Y"), 2, 2);
             $cnum = substr((string)$model, 5, strlen($model));
             $len = strlen($cnum);
             $clen = strlen($cnum + 1);

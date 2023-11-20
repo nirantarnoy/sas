@@ -65,6 +65,11 @@ class Item extends \common\models\Item
         $model = Item::find()->where(['id' => $id])->one();
         return $model != null ? $model->name : '';
     }
+    public static function findDescription($id)
+    {
+        $model = Item::find()->where(['id' => $id])->one();
+        return $model != null ? $model->description : '';
+    }
 
 
 

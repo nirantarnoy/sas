@@ -14,11 +14,13 @@ class CashrecordSearch extends Cashrecord
     /**
      * {@inheritdoc}
      */
+    public $globalSearch;
+
     public function rules()
     {
         return [
             [['id', 'car_id', 'car_tail_id', 'status', 'created_at', 'create_by', 'updated_at', 'updated_by'], 'integer'],
-            [['journal_no', 'trans_date'], 'safe'],
+            [['journal_no', 'trans_date','globalSearch'], 'safe'],
         ];
     }
 
@@ -57,19 +59,19 @@ class CashrecordSearch extends Cashrecord
         }
 
         // grid filtering conditions
-        $query->andFilterWhere([
-            'id' => $this->id,
-            'trans_date' => $this->trans_date,
-            'car_id' => $this->car_id,
-            'car_tail_id' => $this->car_tail_id,
-            'status' => $this->status,
-            'created_at' => $this->created_at,
-            'create_by' => $this->create_by,
-            'updated_at' => $this->updated_at,
-            'updated_by' => $this->updated_by,
-        ]);
+//        $query->andFilterWhere([
+//            'id' => $this->id,
+//            'trans_date' => $this->trans_date,
+//            'car_id' => $this->car_id,
+//            'car_tail_id' => $this->car_tail_id,
+//            'status' => $this->status,
+//            'created_at' => $this->created_at,
+//            'create_by' => $this->create_by,
+//            'updated_at' => $this->updated_at,
+//            'updated_by' => $this->updated_by,
+//        ]);
 
-        $query->andFilterWhere(['like', 'journal_no', $this->journal_no]);
+        $query->andFilterWhere(['like', 'journal_no', $this->globalSearch]);
 
         return $dataProvider;
     }

@@ -46,6 +46,7 @@ if($itemback_list!=null){
     <?php $form = ActiveForm::begin(['options' => ['enctype' => 'multipart/form-data']]); ?>
 
     <input type="hidden" class="remove-list" name="remove_list" value="">
+    <input type="hidden" class="remove-list1" name="remove_list1" value="">
     <div class="row">
         <div class="col-lg-4">
             <?= $form->field($model, 'work_queue_no')->textInput(['maxlength' => true, 'readonly' => 'readonly', 'value' => $model->isNewRecord ? 'Draft' : $model->work_queue_no]) ?>
@@ -273,6 +274,7 @@ if($itemback_list!=null){
 
     <br/>
 
+
     <h6>แนบเอกสาร</h6>
 
     <?php if ($model_line_doc == null): ?>
@@ -356,6 +358,9 @@ if($itemback_list!=null){
     <?php endif; ?>
 
 
+
+
+
     <div class="row">
         <div class="col-lg-6">
             <div class="form-group">
@@ -382,7 +387,10 @@ if($itemback_list!=null){
 
     <?php ActiveForm::end(); ?>
 
+
+
 </div>
+
 <form id="form-delete-doc" action="<?= \yii\helpers\Url::to(['workqueue/removedoc'], true) ?>" method="post">
     <input type="hidden" name="work_queue_id" value="<?= $model->id ?>">
     <input type="hidden" class="work-queue-doc-delete" name="doc_name" value="">
@@ -400,11 +408,14 @@ if($itemback_list!=null){
 $url_to_getCardata = \yii\helpers\Url::to(['car/getcarinfo'], true);
 $url_to_routeplan = \yii\helpers\Url::to(['car/getrouteplan'], true);
 
+$url_to_find_item = \yii\helpers\Url::to(['item/finditem'], true);
+
 $js = <<<JS
 var removelist = [];
 var loop = 0;
 var loop2 = 0;
 var loop3 = 0;
+
 $(function(){
     // alert();
    

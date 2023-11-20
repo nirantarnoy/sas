@@ -5,17 +5,17 @@ use yii\helpers\Html;
 /** @var yii\web\View $this */
 /** @var backend\models\Cashrecord $model */
 
-$this->title = 'Update Cashrecord: ' . $model->id;
-$this->params['breadcrumbs'][] = ['label' => 'Cashrecords', 'url' => ['index']];
-$this->params['breadcrumbs'][] = ['label' => $model->id, 'url' => ['view', 'id' => $model->id]];
-$this->params['breadcrumbs'][] = 'Update';
+$this->title = 'แก้ไขบันทึกเงินสด: ' . $model->journal_no;
+$this->params['breadcrumbs'][] = ['label' => 'บันทึกเงินสด', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => $model->journal_no, 'url' => ['view', 'id' => $model->id]];
+$this->params['breadcrumbs'][] = 'แก้ไข';
 ?>
 <div class="cashrecord-update">
 
-    <h1><?= Html::encode($this->title) ?></h1>
 
     <?= $this->render('_form', [
         'model' => $model,
+        'model_line' => $model_line,
     ]) ?>
 
 </div>

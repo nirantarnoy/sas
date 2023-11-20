@@ -47,13 +47,13 @@ class CashRecord extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'journal_no' => 'Journal No',
-            'trans_date' => 'Trans Date',
-            'car_id' => 'Car ID',
-            'car_tail_id' => 'Car Tail ID',
-            'status' => 'Status',
+            'journal_no' => 'เลขที่',
+            'trans_date' => 'วันที่',
+            'car_id' => 'รถ',
+            'car_tail_id' => 'ส่วนพ่วง',
+            'status' => 'สถานะ',
             'created_at' => 'Created At',
-            'create_by' => 'Create By',
+            'create_by' =>'พนักงาน',
             'updated_at' => 'Updated At',
             'updated_by' => 'Updated By',
         ];

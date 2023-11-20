@@ -88,6 +88,9 @@ class WorkqueueController extends Controller
                 // $line_file_name = \Yii::$app->request->post('line_file_name');
                 $uploaded = UploadedFile::getInstancesByName('line_file_name');
 
+                $item_id = \Yii::$app->request->post('line_work_queue_item_id');
+                $description = \Yii::$app->request->post('line_work_queue_description');
+
 //                print_r(count($uploaded)); return ;
 
                 if ($model->save(false)) {
@@ -164,6 +167,7 @@ class WorkqueueController extends Controller
         $w_dropoff = \common\models\WorkQueueDropoff::find()->where(['work_queue_id'=>$id])->all();
         $w_itemback = \common\models\WorkQueueItemback::find()->where(['work_queue_id'=>$id])->all();
 
+
         if ($this->request->isPost && $model->load($this->request->post())) {
             $model->work_queue_date = date('Y-m-d', strtotime($model->work_queue_date));
             $removelist = \Yii::$app->request->post('remove_list');
@@ -171,6 +175,7 @@ class WorkqueueController extends Controller
             // $line_file_name = \Yii::$app->request->post('line_file_name');
             $uploaded = UploadedFile::getInstancesByName('line_file_name');
             $line_id = \Yii::$app->request->post('rec_id');
+
 
             // print_r($line_id);return;
             if ($model->save()) {

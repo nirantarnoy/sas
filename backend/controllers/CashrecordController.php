@@ -13,6 +13,9 @@ use yii\filters\VerbFilter;
  */
 class CashrecordController extends Controller
 {
+
+    public $enableCsrfValidation = false;
+
     /**
      * @inheritDoc
      */
@@ -24,7 +27,7 @@ class CashrecordController extends Controller
                 'verbs' => [
                     'class' => VerbFilter::className(),
                     'actions' => [
-                        'delete' => ['POST'],
+                        'delete' => ['POST', 'GET'],
                     ],
                 ],
             ]
@@ -38,12 +41,17 @@ class CashrecordController extends Controller
      */
     public function actionIndex()
     {
+        $pageSize = \Yii::$app->request->post("perpage");
+
         $searchModel = new CashrecordSearch();
         $dataProvider = $searchModel->search($this->request->queryParams);
+
+        $dataProvider->pagination->pageSize = $pageSize;
 
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
+            'perpage' => $pageSize,
         ]);
     }
 
@@ -70,7 +78,31 @@ class CashrecordController extends Controller
         $model = new Cashrecord();
 
         if ($this->request->isPost) {
-            if ($model->load($this->request->post()) && $model->save()) {
+            if ($model->load($this->request->post())) {
+                $new_date = $model->trans_date . ' ' . date('H:i:s');
+
+                $model->trans_date = date('Y-m-d H:i:s', strtotime($new_date));
+                $model->journal_no = $model->getLastNo();
+
+
+                $cost_title_id = \Yii::$app->request->post('cost_title_id');
+                $amount = \Yii::$app->request->post('price_line');
+                $remark = \Yii::$app->request->post('remark_line');
+
+                if ($model->save(false)) {
+                    if ($cost_title_id != null) {
+                        for ($i = 0; $i <= count($cost_title_id) - 1; $i++) {
+                            $model_line = new \common\models\CashRecordLine();
+                            $model_line->car_record_id = $model->id;
+                            $model_line->cost_title_id = $cost_title_id[$i];
+                            $model_line->amount = $amount[$i];
+                            $model_line->remark = $remark[$i];
+                            $model_line->status = 1;
+                            $model_line->save(false);
+                        }
+                    }
+                }
+
                 return $this->redirect(['view', 'id' => $model->id]);
             }
         } else {
@@ -93,12 +125,48 @@ class CashrecordController extends Controller
     {
         $model = $this->findModel($id);
 
-        if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
+        $model_line = \common\models\CashRecordLine::find()->where(['car_record_id' => $id])->all();
+
+        if ($this->request->isPost && $model->load($this->request->post())) {
+
+            $cost_title_id = \Yii::$app->request->post('cost_title_id');
+            $amount = \Yii::$app->request->post('price_line');
+            $remark = \Yii::$app->request->post('remark_line');
+            $line_id = \Yii::$app->request->post('rec_id');
+
+            $removelist = \Yii::$app->request->post('remove_list2');
+
+            if ($model->save(false)) {
+                if ($line_id != null) {
+                    for ($i = 0; $i <= count($line_id) - 1; $i++) {
+                        $model_chk = \common\models\CashRecordLine::find()->where(['id' => $line_id[$i]])->one();
+                        if ($model_chk){
+                            $model_chk->cost_title_id = $cost_title_id[$i];
+                            $model_chk->amount = $amount[$i];
+                            $model_chk->remark = $remark[$i];
+                            $model_chk->save(false);
+                        } else {
+                            $model_rec = new \common\models\CashRecordLine();
+                            $model_rec->car_record_id = $model->id;
+                            $model_rec->cost_title_id = $cost_title_id[$i];
+                            $model_rec->amount = $amount[$i];
+                            $model_rec->remark = $remark[$i];
+                            $model_rec->status = 1;
+                            $model_rec->save(false);
+                        }
+                    }
+                }
+                $delete_rec = explode(",", $removelist);
+                if (count($delete_rec)) {
+                    \common\models\CashRecordLine::deleteAll(['id' => $delete_rec]);
+                }
+            }
             return $this->redirect(['view', 'id' => $model->id]);
         }
 
         return $this->render('update', [
             'model' => $model,
+            'model_line' => $model_line,
         ]);
     }
 
