@@ -291,6 +291,12 @@
                             </a>
                         </li>
                         <li class="nav-item">
+                            <a href="index.php?r=cashrecord/index" class="nav-link cashrecord">
+                                <i class="far fa-circlez nav-icon"></i>
+                                <p>บันทึกเงินสดย่อย</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
                             <a href="index.php?r=workqueue/index" class="nav-link workqueue">
                                 <i class="far fa-circlez nav-icon"></i>
                                 <p>จัดคิวงาน</p>
