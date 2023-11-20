@@ -88,6 +88,9 @@ class WorkqueueController extends Controller
                 // $line_file_name = \Yii::$app->request->post('line_file_name');
                 $uploaded = UploadedFile::getInstancesByName('line_file_name');
 
+                $item_id = \Yii::$app->request->post('line_work_queue_item_id');
+                $description = \Yii::$app->request->post('line_work_queue_description');
+
 //                print_r(count($uploaded)); return ;
 
                 if ($model->save()) {
@@ -116,6 +119,17 @@ class WorkqueueController extends Controller
 
                         }
                     }
+                    if ($item_id != null){
+//                        print_r($item_id);return ;
+                        for ($l = 0;$l <= count($item_id) - 1; $l++){
+                            $model_line = new \common\models\WorkQueueItemLine();
+                            $model_line->work_queue_id = $model->id;
+                            $model_line->item_id = $item_id[$l];
+                            $model_line->description = $description[$l];
+                            $model_line->status = 1;
+                            $model_line->save(false);
+                        }
+                    }
                 }
                 return $this->redirect(['view', 'id' => $model->id]);
             }
@@ -141,6 +155,8 @@ class WorkqueueController extends Controller
 
         $model_line_doc = \common\models\WorkQueueLine::find()->where(['work_queue_id' => $id])->all();
 
+        $model_line_item = \common\models\WorkQueueItemLine::find()->where(['work_queue_id' => $id])->all();
+
         if ($this->request->isPost && $model->load($this->request->post())) {
             $model->work_queue_date = date('Y-m-d', strtotime($model->work_queue_date));
             $removelist = \Yii::$app->request->post('remove_list');
@@ -148,6 +164,10 @@ class WorkqueueController extends Controller
             // $line_file_name = \Yii::$app->request->post('line_file_name');
             $uploaded = UploadedFile::getInstancesByName('line_file_name');
             $line_id = \Yii::$app->request->post('rec_id');
+
+            $removelist1 = \Yii::$app->request->post('remove_list1');
+            $item_id = \Yii::$app->request->post('line_work_queue_item_id');
+            $description = \Yii::$app->request->post('line_work_queue_description');
 
             // print_r($line_id);return;
             if ($model->save()) {
@@ -177,6 +197,28 @@ class WorkqueueController extends Controller
                     }
                 }
 
+
+                if($item_id != null ){
+//                    print_r(count($item_id)); return ;
+                    for($j = 0; $j <= count($item_id) - 1; $j++ ) {
+                        $model_chk = \common\models\WorkQueueItemLine::find()->where(['work_queue_id' => $model->id,'item_id' => $item_id[$j]])->one();
+                        if($model_chk){
+                            $model_chk->item_id = $item_id[$j];
+                            $model_chk->description = $description[$j];
+                            $model_chk->save(false);
+                        } else {
+//                            print_r($item_id); return ;
+                            $model_item = new \common\models\WorkQueueItemLine();
+                            $model_item->work_queue_id = $model->id;
+                            $model_item->item_id = $item_id[$j];
+                            $model_item->description = $description[$j];
+                            $model_item->status = 1;
+                            $model_item->save(false);
+                        }
+                    }
+                }
+
+
                 $delete_rec = explode(",", $removelist);
                 if (count($delete_rec)) {
                     $model_find_doc_delete = \common\models\WorkQueueLine::find()->where(['id' => $delete_rec])->one();
@@ -189,6 +231,12 @@ class WorkqueueController extends Controller
                     }
 
                 }
+
+                $delete_line = explode(",", $removelist1);
+                if(count($delete_line)){
+                    \common\models\WorkQueueItemLine::deleteAll(['id' => $delete_line]);
+                }
+
                 return $this->redirect(['view', 'id' => $model->id]);
             }
         }
@@ -196,6 +244,7 @@ class WorkqueueController extends Controller
         return $this->render('update', [
             'model' => $model,
             'model_line_doc' => $model_line_doc,
+            'model_line_item' => $model_line_item,
         ]);
     }
 

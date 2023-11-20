@@ -137,4 +137,35 @@ class ItemController extends Controller
 
         throw new NotFoundHttpException('The requested page does not exist.');
     }
+
+    public function actionFinditem()
+    {
+        $txt = \Yii::$app->request->post('txt');
+
+        $html = '';
+        $model = null;
+        if ($txt == '' || $txt == null) {
+            $model = \backend\models\Item::find()->all();
+        } else {
+            $model = \backend\models\Item::find()->where(['OR', ['LIKE', 'code', $txt], ['LIKE', 'name', $txt]])->all();
+        }
+
+
+
+        if ($model) {
+            foreach ($model as $value) {
+                $html .= '<tr>';
+                $html .= '<td style="text-align: center">
+                        <div class="btn btn-outline-success btn-sm" onclick="addselecteditem($(this))" data-var1="' . $value->id . '">เลือก</div>
+                        <input type="hidden" class="line-find-name" value="' . $value->name . '">
+                        <input type="hidden" class="line-find-description" value="' . $value->description . '">
+                       </td>';
+                $html .= '<td>' . $value->name . '</td>';
+                $html .= '<td>' . $value->description . '</td>';
+                $html .= '</tr>';
+            }
+        }
+        echo $html;
+    }
+
 }
