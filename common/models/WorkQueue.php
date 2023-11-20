@@ -20,6 +20,7 @@ use Yii;
  */
 class WorkQueue extends \yii\db\ActiveRecord
 {
+    public $item_back_id;
     /**
      * {@inheritdoc}
      */
@@ -39,6 +40,7 @@ class WorkQueue extends \yii\db\ActiveRecord
             [['work_queue_no','go_deduct_reason','back_reason','dp_no'], 'string', 'max' => 255],
             [['weight_on_go','weight_on_back','weight_go_deduct','back_deduct','labour_price','express_road_price','other_price','test_price','damaged_price'], 'double'],
             [['oil_daily_price'],'safe'],
+            [['item_back_id'],'safe'],
         ];
     }
 

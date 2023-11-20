@@ -31,6 +31,12 @@ if($w_dropoff!=null){
         array_push($dropoff_list,$v->dropoff_id);
     }
 }
+$itemback_list = [];
+if($itemback_list!=null){
+    foreach($itemback_list as $v){
+        array_push($itemback_list,$v->item_back_id);
+    }
+}
 //print_r($dropoff_list);
 
 ?>
@@ -110,7 +116,21 @@ if($w_dropoff!=null){
                 ]
             ]) ?>
         </div>
+        <div class="col-lg-3">
+            <?php $model->item_back_id = !$model->isNewRecord ?  $itemback_list :null?>
+            <?= $form->field($model, 'item_back_id')->Widget(\kartik\select2\Select2::className(), [
+                'data' => \yii\helpers\ArrayHelper::map(\backend\models\Item::find()->all(), 'id', function ($data) {
+                    return $data->name;
+                }),
+                'options' => [
+                    'placeholder' => '--ของนำกลับ--',
+                ],
+                'pluginOptions'=>[
+                    'multiple'=>true,
+                ]
 
+            ])->label('ของนำกลับ') ?>
+        </div>
     </div>
 
     <div class="row">
