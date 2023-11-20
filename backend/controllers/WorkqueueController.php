@@ -288,6 +288,17 @@ class WorkqueueController extends Controller
         }
 
     }
+    public function actionExportdoc($id)
+    {
+        if ($id) {
+            $model = \backend\models\Workqueue::find()->where(['id' => $id])->one();
+            $modelline = \common\models\WorkQueueLine::find()->where(['work_queue_id' => $id])->all();
+            return $this->render('_printdocx', [
+                'model' => $model,
+                'modelline' => $modelline,
+            ]);
+        }
+    }
 
     public function actionApprovejob($id, $approve_id)
     {

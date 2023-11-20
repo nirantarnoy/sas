@@ -76,12 +76,12 @@ class Car extends \common\models\Car
     public static function getPlateno($id)
     {
         $model = Car::find()->where(['id' => $id])->one();
-        return $model != null ? $model->plate_no : '';
+        return $model != null ? $model->plate_no : '-';
     }
     public static function getHp($id)
     {
         $model = Car::find()->where(['id' => $id])->one();
-        return $model != null ? $model->horse_power : '';
+        return $model != null ? $model->horse_power : '-';
     }
     public static function getCartype($id)
     {

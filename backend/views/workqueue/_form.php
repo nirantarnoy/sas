@@ -368,8 +368,13 @@ if($itemback_list!=null){
         </div>
         <div class="col-lg-6" style="text-align: right">
             <?php if (!$model->isNewRecord): ?>
-                <a href="<?= \yii\helpers\Url::to(['workqueue/printdocx', 'id' => $model->id], true) ?>"
-                   class="btn btn-warning">พิมพ์</a>
+               <div class="btn-group">
+                   <a href="<?= \yii\helpers\Url::to(['workqueue/exportdoc', 'id' => $model->id], true) ?>"
+                      class="btn btn-default">Export</a>
+                   <a href="<?= \yii\helpers\Url::to(['workqueue/printdocx', 'id' => $model->id], true) ?>"
+                      class="btn btn-warning">พิมพ์</a>
+               </div>
+
             <?php endif; ?>
         </div>
     </div>

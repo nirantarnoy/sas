@@ -1,7 +1,9 @@
 <?php
-$date_day = date('d');
-$date_month = \backend\helpers\Thaimonth::getTypeById((int)(date('m')));
-$date_year = date('Y') + 543;
+
+
+$date_day = date('d',strtotime($model->work_queue_date));
+$date_month = \backend\helpers\Thaimonth::getTypeById((int)(date('m',strtotime($model->work_queue_date))));
+$date_year = date('Y',strtotime($model->work_queue_date)) + 543;
 ?>
 <style>
     /*body {*/
@@ -101,16 +103,17 @@ $date_year = date('Y') + 543;
 <div id="print-area">
     <table style="width: 100%">
         <tr>
-            <td style="text-align: right"></td>
-            <td style="text-align: center"><h4><b>บริษัท ลานเหล็กลำเลียง จำกัด</b></h4></td>
+            <td style="text-align: right;width: 33%"></td>
+            <td style="text-align: center;width: 33%"><h4><b><?=\backend\models\Company::findCompanyName($model->company_id)?></b></h4></td>
+            <td style="text-align: right;width: 33%"></td>
         </tr>
     </table>
     <br>
     <table style="width: 100%">
         <tr>
-            <td>เล่มที่</td>
-            <td style="text-align: right"><h5><b>ใบสั่งจ่ายน้ำมัน</b></h5></td>
-            <td style="text-align: right">เลขที่ <b><?= $model->work_queue_no ?></b></td>
+            <td style="padding: 5px;width: 33%">เล่มที่</td>
+            <td style="text-align: center;width: 33%"><h5><b>ใบสั่งจ่ายน้ำมัน</b></h5></td>
+            <td style="text-align: right;width: 33%">เลขที่ <b><?= $model->work_queue_no ?></b></td>
         </tr>
     </table>
     <br>
@@ -123,28 +126,31 @@ $date_year = date('Y') + 543;
     <br>
     <table style="width: 100%">
         <tr>
-            <td>ทะเบียนหัว <b><?= \backend\models\Car::getPlateno($model->car_id) ?></b></td>
+            <td style="width:15%;padding: 5px;">ทะเบียนหัว <b><?= \backend\models\Car::getPlateno($model->car_id) ?></b></td>
             <!--            <td><input type="text" class="form-control"></td>-->
-            <td> ทะเบียนหาง <b><?= \backend\models\Car::getPlateno($model->tail_id) ?></b></td>
+            <td style="width:15%;padding: 5px;"> ทะเบียนหาง <b><?= \backend\models\Car::getPlateno($model->tail_id) ?></b></td>
             <!--            <td><input type="text" class="form-control"></td>-->
-            <td> ประเภทรถ <b><?= \backend\models\Car::getCartype($model->car_id) ?></b></td>
+            <td style="width:15%;padding: 5px;"> ประเภทรถ <b><?= \backend\models\Car::getCartype($model->car_id) ?></b></td>
             <!--            <td><input type="text" class="form-control"></td>-->
-            <td> แรงรถ <b><?= \backend\models\Car::getHp($model->car_id) ?></b></td>
+            <td style="width:15%;padding: 5px;"> แรงรถ <b><?= \backend\models\Car::getHp($model->car_id) ?></b></td>
             <!--            <td><input type="text" class="form-control"></td>-->
         </tr>
     </table>
     <br>
     <table style="width: 100%">
         <tr>
-            <td>
+            <td style="width:15%;padding: 5px;">
                 พนักงาน <b><?= \backend\models\Employee::findFullName($model->emp_assign) ?></b>
+            </td>
+            <td style="width:15%;padding: 5px;">
+                DP_NO <b><?= $model->dp_no ?></b>
             </td>
         </tr>
     </table>
     <br>
     <table style="width: 100%">
         <tr>
-            <td>
+            <td style="width:15%;padding: 5px;">
                 ต้นทาง-ปลายทาง <b><?= \backend\models\RoutePlan::findDes($model->route_plan_id) ?></b>
             </td>
         </tr>
@@ -153,34 +159,45 @@ $date_year = date('Y') + 543;
     <br>
     <table style="width: 100%">
         <tr>
-            <td>น้ำหนักเที่ยวไป</td>
-            <td>หัก</td>
-            <td>เหตุผล</td>
+            <td style="width:15%;padding: 5px;"><b>เที่ยวไป</b></td>
         </tr>
     </table>
     <br>
     <table style="width: 100%">
         <tr>
-            <td>เที่ยวกลับ</td>
+            <td style="width:15%;padding: 5px;">น้ำหนักเที่ยวไป</td>
+            <td style="width:15%;padding: 5px;"><b><?= number_format($model->weight_on_go, 2) ?></b></td>
+            <td style="width:15%;padding: 5px;">หัก</td>
+            <td style="width:15%;padding: 5px;"><b><?= number_format($model->weight_go_deduct, 2) ?></b></td>
+            <td style="width:15%;padding: 5px;">เหตุผล</td>
+            <td style="width:15%;padding: 5px;"><b><?=$model->go_deduct_reason?></b></td>
         </tr>
     </table>
     <br>
     <table style="width: 100%">
         <tr>
-            <td>น้ำหนักเที่ยวกลับ</td>
-            <td>เรทน้ำมันกลับ</td>
-            <td>หัก</td>
-            <td>เหตุผล</td>
-            <td>หางกลับ</td>
+            <td style="width:15%;padding: 5px;"><b>เที่ยวกลับ</b></td>
         </tr>
     </table>
+    <br>
+    <table style="width: 100%">
+        <tr>
+            <td style="width:15%;padding: 5px;">น้ำหนักเที่ยวกลับ</td>
+            <td style="width:15%;padding: 5px;"><b><?= number_format($model->weight_on_back, 2) ?></b></td>
+            <td style="width:15%;padding: 5px;">เรทน้ำมันกลับ</td>
+            <td style="width:15%;padding: 5px;"><b><?= number_format($model->oil_daily_price, 2) ?></b></td>
+            <td style="width:15%;padding: 5px;">หัก</td>
+            <td style="width:15%;padding: 5px;"><b><?= number_format($model->back_deduct, 2) ?></b></td>
+        </tr>
+        <tr>
+            <td style="width:15%;padding: 5px;">เหตุผล</td>
+            <td style="width:15%;padding: 5px;"><b><?=$model->back_reason?></b></td>
+            <td style="width:15%;padding: 5px;">หางกลับ</td>
+            <td style="width:15%;padding: 5px;"><b><?= \backend\models\Car::getPlateno($model->tail_back_id) ?></b></td>
+        </tr>
+    </table>
+    <br>
 
-    <br>
-    <table style="width: 100%">
-        <tr>
-            <td>น้ำมัน</td>
-        </tr>
-    </table>
 
 </div>
 

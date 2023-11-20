@@ -146,6 +146,7 @@ $is_pos_user = 0;
 <script src="dist/js/demo.js"></script>
 <script src="dist/js/pages/dashboard3.js"></script>
 <script src="js/module_index_delete.js"></script>
+<script src="js/jspdf.js"></script>
 <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.2/js/bootstrap-select.min.js"></script>-->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/js/bootstrap-select.min.js"></script>
 
