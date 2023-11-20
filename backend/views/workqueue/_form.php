@@ -42,7 +42,7 @@ if (!$model->isNewRecord) {
             <?= $form->field($model, 'work_queue_date')->widget(\kartik\date\DatePicker::className(), [
                 'value' => date('d/m/Y'),
                 'pluginOptions' => [
-                    'format' => 'dd/mm/YYYY',
+                    'format' => 'dd-mm-yyyy',
                     'todayHighlight' => true,
                     'todayBtn' => true,
                 ]
