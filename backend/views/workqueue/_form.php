@@ -42,6 +42,7 @@ if (!$model->isNewRecord) {
             <?= $form->field($model, 'work_queue_date')->widget(\kartik\date\DatePicker::className(), [
                 'value' => date('d/m/Y'),
                 'pluginOptions' => [
+                    'format' => 'dd/mm/yyyy',
                     'todayHighlight' => true,
                     'todayBtn' => true,
                 ]
@@ -54,8 +55,8 @@ if (!$model->isNewRecord) {
                 }),
                 'options' => [
                     'placeholder' => '--จุดขึ้นสินค้า--',
-                     'onchange'=> '$("#route-plan-id").val($(this).val())'
-                  //  'onchange' => 'getRouteplan($(this))'
+                    'onchange' => '$("#route-plan-id").val($(this).val())'
+                    //  'onchange' => 'getRouteplan($(this))'
                 ]
             ])->label('จุดขึ้นสินค้า') ?>
         </div>
@@ -69,7 +70,7 @@ if (!$model->isNewRecord) {
                     return $data->name;
                 }),
                 'options' => [
-                    'id'=>'customer-selected-id',
+                    'id' => 'customer-selected-id',
                     'placeholder' => '--ลูกค้า--'
                 ]
             ]) ?>
@@ -77,15 +78,15 @@ if (!$model->isNewRecord) {
         <div class="col-lg-3">
             <?= $form->field($model, 'dp_no')->textInput(['maxlength' => true]) ?>
         </div>
-<!--        <div class="col-lg-3">-->
-<!--            --><?php //echo $form->field($model, 'work_option_type_id')->Widget(\kartik\select2\Select2::className(), [
-//                'data' => \yii\helpers\ArrayHelper::map(\common\models\WorkOptionType::find()->all(), 'id', 'name'),
-//                'options' => [
-//                    'id'=>'work-option-selected-id',
-//                    'placeholder' => '--เลือก--'
-//                ]
-//            ]) ?>
-<!--        </div>-->
+        <!--        <div class="col-lg-3">-->
+        <!--            --><?php //echo $form->field($model, 'work_option_type_id')->Widget(\kartik\select2\Select2::className(), [
+        //                'data' => \yii\helpers\ArrayHelper::map(\common\models\WorkOptionType::find()->all(), 'id', 'name'),
+        //                'options' => [
+        //                    'id'=>'work-option-selected-id',
+        //                    'placeholder' => '--เลือก--'
+        //                ]
+        //            ]) ?>
+        <!--        </div>-->
         <div class="col-lg-3">
             <?= $form->field($model, 'car_id')->Widget(\kartik\select2\Select2::className(), [
                 'data' => \yii\helpers\ArrayHelper::map(\backend\models\Car::find()->where(['type_id' => '1'])->all(), 'id', function ($data) {
@@ -218,27 +219,27 @@ if (!$model->isNewRecord) {
         <div class="col-lg-3">
             <?php echo $form->field($model, 'is_labur')->widget(\toxor88\switchery\Switchery::className(), ['options' => ['label' => '', 'class' => 'form-control', 'onchange' => 'enableLabour($(this))']])->label() ?>
         </div>
-        <div class="col-lg-3"> <?php echo $form->field($model, 'is_express_road')->widget(\toxor88\switchery\Switchery::className(), ['options' => ['label' => '', 'class' => 'form-control','onchange'=>'enableExpressroad($(this))']])->label() ?></div>
-        <div class="col-lg-3"> <?php echo $form->field($model, 'is_other')->widget(\toxor88\switchery\Switchery::className(), ['options' => ['label' => '', 'class' => 'form-control','onchange'=>'enableOther($(this))']])->label() ?></div>
+        <div class="col-lg-3"> <?php echo $form->field($model, 'is_express_road')->widget(\toxor88\switchery\Switchery::className(), ['options' => ['label' => '', 'class' => 'form-control', 'onchange' => 'enableExpressroad($(this))']])->label() ?></div>
+        <div class="col-lg-3"> <?php echo $form->field($model, 'is_other')->widget(\toxor88\switchery\Switchery::className(), ['options' => ['label' => '', 'class' => 'form-control', 'onchange' => 'enableOther($(this))']])->label() ?></div>
     </div>
     <div class="row">
         <div class="col-lg-4">
-            <?= $form->field($model, 'labour_price')->textinput(['maxlength' => true, 'id' => 'labour-price', ]) ?>
+            <?= $form->field($model, 'labour_price')->textinput(['maxlength' => true, 'id' => 'labour-price',]) ?>
         </div>
         <div class="col-lg-4">
-            <?= $form->field($model, 'express_road_price')->textInput(['maxlength' => true, 'id' => 'express-road-price', ]) ?>
+            <?= $form->field($model, 'express_road_price')->textInput(['maxlength' => true, 'id' => 'express-road-price',]) ?>
         </div>
         <div class="col-lg-4">
-            <?= $form->field($model, 'other_price')->textInput(['maxlength' => true, 'id' => 'other-price', ]) ?>
+            <?= $form->field($model, 'other_price')->textInput(['maxlength' => true, 'id' => 'other-price',]) ?>
         </div>
     </div>
     <div class="row">
-        <div class="col-lg-4"><?= $form->field($model, 'test_price')->textinput(['maxlength' => true, 'id' => 'test-price', ]) ?></div>
-        <div class="col-lg-4"><?= $form->field($model, 'damaged_price')->textinput(['maxlength' => true, 'id' => 'damaged-price', ]) ?></div>
+        <div class="col-lg-4"><?= $form->field($model, 'test_price')->textinput(['maxlength' => true, 'id' => 'test-price',]) ?></div>
+        <div class="col-lg-4"><?= $form->field($model, 'damaged_price')->textinput(['maxlength' => true, 'id' => 'damaged-price',]) ?></div>
         <div class="col-lg-4"></div>
     </div>
 
-    <br />
+    <br/>
 
     <h6>แนบเอกสาร</h6>
 
@@ -349,15 +350,15 @@ if (!$model->isNewRecord) {
     <input type="hidden" name="work_queue_id" value="<?= $model->id ?>">
     <input type="hidden" class="work-queue-doc-delete" name="doc_name" value="">
 </form>
-<input type="hidden" id="is-page-new" value="<?=$model->isNewRecord?1:0?>">
+<input type="hidden" id="is-page-new" value="<?= $model->isNewRecord ? 1 : 0 ?>">
 <input type="hidden" id="route-plan-id" value="">
 <input type="hidden" id="car-type-selected" value="">
 <input type="hidden" id="labour-price-checked" value="0">
-<input type="hidden" id="labour-price-plan" value="<?=$model->labour_price?>">
+<input type="hidden" id="labour-price-plan" value="<?= $model->labour_price ?>">
 <input type="hidden" id="express-road-price-checked" value="0">
-<input type="hidden" id="express-road-price-plan" value="<?=$model->express_road_price?>">
+<input type="hidden" id="express-road-price-plan" value="<?= $model->express_road_price ?>">
 <input type="hidden" id="other-price-checked" value="0">
-<input type="hidden" id="other-price-plan" value="<?=$model->other_price?>">
+<input type="hidden" id="other-price-plan" value="<?= $model->other_price ?>">
 <?php
 $url_to_getCardata = \yii\helpers\Url::to(['car/getcarinfo'], true);
 $url_to_routeplan = \yii\helpers\Url::to(['car/getrouteplan'], true);
