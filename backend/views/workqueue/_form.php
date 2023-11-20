@@ -25,6 +25,19 @@ if (!$model->isNewRecord) {
     $t_plate = \backend\models\Car::getPlateno($model->tail_id);
     $t_back_plate = \backend\models\Car::getPlateno($model->tail_back_id);
 }
+$dropoff_list = [];
+if($w_dropoff!=null){
+    foreach($w_dropoff as $v){
+        array_push($dropoff_list,$v->dropoff_id);
+    }
+}
+$itemback_list = [];
+if($itemback_list!=null){
+    foreach($itemback_list as $v){
+        array_push($itemback_list,$v->item_back_id);
+    }
+}
+//print_r($dropoff_list);
 
 ?>
 
@@ -39,25 +52,31 @@ if (!$model->isNewRecord) {
             <?= $form->field($model, 'work_queue_no')->textInput(['maxlength' => true, 'readonly' => 'readonly', 'value' => $model->isNewRecord ? 'Draft' : $model->work_queue_no]) ?>
         </div>
         <div class="col-lg-4">
-            <?php $model->work_queue_date = $model->isNewRecord ? date('Y-m-d') : date('Y-m-d', strtotime($model->work_queue_date)) ?>
+            <?php $model->work_queue_date = $model->isNewRecord ? date('d-m-Y') : date('d-m-Y', strtotime($model->work_queue_date)) ?>
             <?= $form->field($model, 'work_queue_date')->widget(\kartik\date\DatePicker::className(), [
                 'value' => date('d/m/Y'),
                 'pluginOptions' => [
+                    'format' => 'dd-mm-yyyy',
                     'todayHighlight' => true,
                     'todayBtn' => true,
                 ]
             ]) ?>
         </div>
         <div class="col-lg-4">
+            <?php $model->route_plan_id = !$model->isNewRecord ?  $dropoff_list :null?>
             <?= $form->field($model, 'route_plan_id')->Widget(\kartik\select2\Select2::className(), [
                 'data' => \yii\helpers\ArrayHelper::map(\backend\models\DropoffPlace::find()->all(), 'id', function ($data) {
                     return $data->name;
                 }),
                 'options' => [
                     'placeholder' => '--จุดขึ้นสินค้า--',
-                     'onchange'=> '$("#route-plan-id").val($(this).val())'
-                  //  'onchange' => 'getRouteplan($(this))'
+                    'onchange' => '$("#route-plan-id").val($(this).val())'
+                    //  'onchange' => 'getRouteplan($(this))'
+                ],
+                'pluginOptions'=>[
+                        'multiple'=>true,
                 ]
+
             ])->label('จุดขึ้นสินค้า') ?>
         </div>
     </div>
@@ -70,7 +89,7 @@ if (!$model->isNewRecord) {
                     return $data->name;
                 }),
                 'options' => [
-                    'id'=>'customer-selected-id',
+                    'id' => 'customer-selected-id',
                     'placeholder' => '--ลูกค้า--'
                 ]
             ]) ?>
@@ -78,15 +97,15 @@ if (!$model->isNewRecord) {
         <div class="col-lg-3">
             <?= $form->field($model, 'dp_no')->textInput(['maxlength' => true]) ?>
         </div>
-<!--        <div class="col-lg-3">-->
-<!--            --><?php //echo $form->field($model, 'work_option_type_id')->Widget(\kartik\select2\Select2::className(), [
-//                'data' => \yii\helpers\ArrayHelper::map(\common\models\WorkOptionType::find()->all(), 'id', 'name'),
-//                'options' => [
-//                    'id'=>'work-option-selected-id',
-//                    'placeholder' => '--เลือก--'
-//                ]
-//            ]) ?>
-<!--        </div>-->
+        <!--        <div class="col-lg-3">-->
+        <!--            --><?php //echo $form->field($model, 'work_option_type_id')->Widget(\kartik\select2\Select2::className(), [
+        //                'data' => \yii\helpers\ArrayHelper::map(\common\models\WorkOptionType::find()->all(), 'id', 'name'),
+        //                'options' => [
+        //                    'id'=>'work-option-selected-id',
+        //                    'placeholder' => '--เลือก--'
+        //                ]
+        //            ]) ?>
+        <!--        </div>-->
         <div class="col-lg-3">
             <?= $form->field($model, 'car_id')->Widget(\kartik\select2\Select2::className(), [
                 'data' => \yii\helpers\ArrayHelper::map(\backend\models\Car::find()->where(['type_id' => '1'])->all(), 'id', function ($data) {
@@ -98,7 +117,21 @@ if (!$model->isNewRecord) {
                 ]
             ]) ?>
         </div>
+        <div class="col-lg-3">
+            <?php $model->item_back_id = !$model->isNewRecord ?  $itemback_list :null?>
+            <?= $form->field($model, 'item_back_id')->Widget(\kartik\select2\Select2::className(), [
+                'data' => \yii\helpers\ArrayHelper::map(\backend\models\Item::find()->all(), 'id', function ($data) {
+                    return $data->name;
+                }),
+                'options' => [
+                    'placeholder' => '--ของนำกลับ--',
+                ],
+                'pluginOptions'=>[
+                    'multiple'=>true,
+                ]
 
+            ])->label('ของนำกลับ') ?>
+        </div>
     </div>
 
     <div class="row">
@@ -219,117 +252,27 @@ if (!$model->isNewRecord) {
         <div class="col-lg-3">
             <?php echo $form->field($model, 'is_labur')->widget(\toxor88\switchery\Switchery::className(), ['options' => ['label' => '', 'class' => 'form-control', 'onchange' => 'enableLabour($(this))']])->label() ?>
         </div>
-        <div class="col-lg-3"> <?php echo $form->field($model, 'is_express_road')->widget(\toxor88\switchery\Switchery::className(), ['options' => ['label' => '', 'class' => 'form-control','onchange'=>'enableExpressroad($(this))']])->label() ?></div>
-        <div class="col-lg-3"> <?php echo $form->field($model, 'is_other')->widget(\toxor88\switchery\Switchery::className(), ['options' => ['label' => '', 'class' => 'form-control','onchange'=>'enableOther($(this))']])->label() ?></div>
+        <div class="col-lg-3"> <?php echo $form->field($model, 'is_express_road')->widget(\toxor88\switchery\Switchery::className(), ['options' => ['label' => '', 'class' => 'form-control', 'onchange' => 'enableExpressroad($(this))']])->label() ?></div>
+        <div class="col-lg-3"> <?php echo $form->field($model, 'is_other')->widget(\toxor88\switchery\Switchery::className(), ['options' => ['label' => '', 'class' => 'form-control', 'onchange' => 'enableOther($(this))']])->label() ?></div>
     </div>
     <div class="row">
         <div class="col-lg-4">
-            <?= $form->field($model, 'labour_price')->textinput(['maxlength' => true, 'id' => 'labour-price', ]) ?>
+            <?= $form->field($model, 'labour_price')->textinput(['maxlength' => true, 'id' => 'labour-price',]) ?>
         </div>
         <div class="col-lg-4">
-            <?= $form->field($model, 'express_road_price')->textInput(['maxlength' => true, 'id' => 'express-road-price', ]) ?>
+            <?= $form->field($model, 'express_road_price')->textInput(['maxlength' => true, 'id' => 'express-road-price',]) ?>
         </div>
         <div class="col-lg-4">
-            <?= $form->field($model, 'other_price')->textInput(['maxlength' => true, 'id' => 'other-price', ]) ?>
+            <?= $form->field($model, 'other_price')->textInput(['maxlength' => true, 'id' => 'other-price',]) ?>
         </div>
     </div>
     <div class="row">
-        <div class="col-lg-4"><?= $form->field($model, 'test_price')->textinput(['maxlength' => true, 'id' => 'test-price', ]) ?></div>
-        <div class="col-lg-4"><?= $form->field($model, 'damaged_price')->textinput(['maxlength' => true, 'id' => 'damaged-price', ]) ?></div>
+        <div class="col-lg-4"><?= $form->field($model, 'test_price')->textinput(['maxlength' => true, 'id' => 'test-price',]) ?></div>
+        <div class="col-lg-4"><?= $form->field($model, 'damaged_price')->textinput(['maxlength' => true, 'id' => 'damaged-price',]) ?></div>
         <div class="col-lg-4"></div>
     </div>
 
-    <br />
-
     <br/>
-    <div class="row">
-        <div class="col-lg-12">
-            <table class="table table-bordered" id="table-list1">
-                <thead>
-                <tr>
-                    <th style="width: 5%;text-align: center;">#</th>
-                    <th style="text-align: center;">ของนำกลับ</th>
-                    <th style="width: 15%;text-align: center;">หมายเหตุ</th>
-                    <th style="width: 5%;text-align: center;">-</th>
-                </tr>
-                </thead>
-                <tbody>
-                <?php if ($model->isNewRecord): ?>
-                    <tr>
-                        <td style="text-align: center;"></td>
-                        <td>
-                            <input type="hidden" class="line-rec-id" name="line_rec_id[]" value="0">
-                            <input type="hidden" class="form-control line-work-queue-item-id"
-                                   name="line_work_queue_item_id[]">
-                            <input type="text" class="form-control line-work-queue-item" name="line_work_queue_item[]"
-                                   readonly>
-                        </td>
-                        <td>
-                            <input type="text" class="form-control line-work-queue-description"
-                                   name="line_work_queue_description[]" >
-                        </td>
-                        <td style="text-align: center;">
-                            <div class="btn btn-danger" onclick="removeline1($(this))">ลบ</div>
-                        </td>
-                    </tr>
-                <?php else: ?>
-                    <?php $line_num =0;?>
-                    <?php if ($model_line_item != null): ?>
-                        <?php foreach ($model_line_item as $value): ?>
-                            <?php $line_num +=1;?>
-                            <tr data-var1="<?=$value->id;?>">
-                                <td style="text-align: center;"><?=$line_num?></td>
-                                <td>
-                                    <input type="hidden" class="line-rec-id" name="line_rec_id[]" value="<?=$value->id?>">
-                                    <input type="hidden" class="form-control line-work-queue-item-id"
-                                           name="line_work_queue_item_id[]" value="<?=$value->item_id?>">
-                                    <input type="text" class="form-control line-work-queue-item"
-                                           name="line_work_queue_item[]" value="<?=\backend\models\Item::findName($value->item_id)?>"
-                                           readonly>
-                                </td>
-                                <td>
-                                    <input type="text" class="form-control line-work-queue-description"
-                                           name="line_work_queue_description[]" value="<?=$value->description?>" >
-                                </td>
-                                <td style="text-align: center;">
-                                    <div class="btn btn-danger" onclick="removeline1($(this))">ลบ</div>
-                                </td>
-                            </tr>
-                        <?php endforeach; ?>
-                    <?php else: ?>
-                        <tr data-var1="">
-                            <td style="text-align: center;"></td>
-                            <td>
-                                <input type="hidden" class="line-rec-id" name="line_rec_id[]" value="0">
-                                <input type="hidden" class="form-control line-work-queue-item-id"
-                                       name="line_work_queue_item_id[]">
-                                <input type="text" class="form-control line-work-queue-item"
-                                       name="line_work_queue_item[]"
-                                       readonly>
-                            </td>
-                            <td>
-                                <input type="text" class="form-control line-work-queue-description"
-                                       name="line_work_queue_description[]" >
-                            </td>
-                            <td style="text-align: center;">
-                                <div class="btn btn-danger" onclick="removeline1($(this))">ลบ</div>
-                            </td>
-                        </tr>
-                    <?php endif; ?>
-                <?php endif; ?>
-
-                </tbody>
-                <tfoot>
-                <tr>
-                    <td style="text-align: center;">
-                        <div class="btn btn-primary btn-sm btn-addline" onclick="finditem($(this))"><i
-                                    class="fa fa-plus"></i></div>
-                    </td>
-                </tr>
-                </tfoot>
-            </table>
-        </div>
-    </div>
 
 
     <h6>แนบเอกสาร</h6>
@@ -443,62 +386,19 @@ if (!$model->isNewRecord) {
 
 </div>
 
-
-
-<div id="findModal" class="modal fade" role="dialog">
-    <div class="modal-dialog modal-xl">
-        <!-- Modal content-->
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3>ของนำกลับ</h3>
-            </div>
-            <!--            <div class="modal-body" style="white-space:nowrap;overflow-y: auto">-->
-            <!--            <div class="modal-body" style="white-space:nowrap;overflow-y: auto;scrollbar-x-position: top">-->
-
-            <div class="modal-body">
-                <input type="hidden" name="line_qc_product" class="line_qc_product" value="">
-                <table class="table table-bordered table-striped table-find-list" width="100%">
-                    <thead>
-                    <tr>
-                        <th style="width:10%;text-align: center">เลือก</th>
-                        <th style="width: 20%;text-align: center">รายการ</th>
-                        <th style="width: 20%;text-align: center">รายละเอียด</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    </tbody>
-                </table>
-
-            </div>
-
-            <div class="modal-footer">
-                <button class="btn btn-outline-success btn-product-selected" data-dismiss="modalx" disabled><i
-                            class="fa fa-check"></i> ตกลง
-                </button>
-                <button type="button" class="btn btn-default" data-dismiss="modal"><i
-                            class="fa fa-close text-danger"></i> ปิดหน้าต่าง
-                </button>
-            </div>
-        </div>
-
-    </div>
-</div>
-
-
-
 <form id="form-delete-doc" action="<?= \yii\helpers\Url::to(['workqueue/removedoc'], true) ?>" method="post">
     <input type="hidden" name="work_queue_id" value="<?= $model->id ?>">
     <input type="hidden" class="work-queue-doc-delete" name="doc_name" value="">
 </form>
-<input type="hidden" id="is-page-new" value="<?=$model->isNewRecord?1:0?>">
+<input type="hidden" id="is-page-new" value="<?= $model->isNewRecord ? 1 : 0 ?>">
 <input type="hidden" id="route-plan-id" value="">
 <input type="hidden" id="car-type-selected" value="">
 <input type="hidden" id="labour-price-checked" value="0">
-<input type="hidden" id="labour-price-plan" value="<?=$model->labour_price?>">
+<input type="hidden" id="labour-price-plan" value="<?= $model->labour_price ?>">
 <input type="hidden" id="express-road-price-checked" value="0">
-<input type="hidden" id="express-road-price-plan" value="<?=$model->express_road_price?>">
+<input type="hidden" id="express-road-price-plan" value="<?= $model->express_road_price ?>">
 <input type="hidden" id="other-price-checked" value="0">
-<input type="hidden" id="other-price-plan" value="<?=$model->other_price?>">
+<input type="hidden" id="other-price-plan" value="<?= $model->other_price ?>">
 <?php
 $url_to_getCardata = \yii\helpers\Url::to(['car/getcarinfo'], true);
 $url_to_routeplan = \yii\helpers\Url::to(['car/getrouteplan'], true);
@@ -510,9 +410,6 @@ var removelist = [];
 var loop = 0;
 var loop2 = 0;
 var loop3 = 0;
-
-var selecteditem = [];
-var removelist1 = [];
 
 $(function(){
     // alert();
@@ -826,180 +723,6 @@ function removedoc(e){
         $("form#form-delete-doc").submit();
     }
 }
-
-function finditem(e){
-   
-      $.ajax({
-              'type':'post',
-              'dataType': 'html',
-              'async': false,
-              'url': "$url_to_find_item",
-              'data': {'txt':''},
-              'success': function(data) {
-                  // alert(data);
-                   $(".table-find-list tbody").html(data);
-                   $("#findModal").modal("show");
-                 }
-              });
-      
-  }
-  
-  
-  function addselecteditem(e) {
-        var id = e.attr('data-var1');
-        var name = e.closest('tr').find('.line-find-name').val();
-        var description = e.closest('tr').find('.line-find-description').val();
-        
-        
-        if (id) {
-          // alert(id);
-            if (e.hasClass('btn-outline-success')) {
-                //alert('has');
-                var obj = {};
-                obj['id'] = id;
-                obj['name'] = name;
-                obj['description'] = description;
-                selecteditem.push(obj);
-                
-                e.removeClass('btn-outline-success');
-                e.addClass('btn-success');
-                disableselectitem();
-                console.log(selecteditem);
-            } else {
-                //selecteditem.pop(id);
-                $.each(selecteditem, function (i, el) {
-                    if (this.id == id) {
-                        selecteditem.splice(i, 1);
-                    }
-                });
-                e.removeClass('btn-success');
-                e.addClass('btn-outline-success');
-                disableselectitem();
-                console.log(selecteditem);
-            }
-        }
-    }
-     function disableselectitem() {
-        if (selecteditem.length > 0) {
-            $(".btn-product-selected").prop("disabled", "");
-            $(".btn-product-selected").removeClass('btn-outline-success');
-            $(".btn-product-selected").addClass('btn-success');
-        } else {
-            $(".btn-product-selected").prop("disabled", "disabled");
-            $(".btn-product-selected").removeClass('btn-success');
-            $(".btn-product-selected").addClass('btn-outline-success');
-        }
-    }
-    $(".btn-product-selected").click(function () {
-        var linenum = 0;
-        if (selecteditem.length > 0) {
-            for (var i = 0; i <= selecteditem.length - 1; i++) {
-                var line_prod_id = selecteditem[i]['id'];
-                var line_prod_name = selecteditem[i]['name'];
-                var line_prod_description = selecteditem[i]['description'];
-                
-                 if(check_dup(line_prod_id) == 1){
-                        alert("รายการของนำกลับ " +line_prod_name+ " มีในรายการแล้ว");
-                        return false;
-                 }
-                
-              //  alert(line_prod_id);
-                var tr = $("#table-list1 tbody tr:last");
-                
-                if (tr.closest("tr").find(".line-work-queue-item-id").val() == "") {
-                    tr.closest("tr").find(".line-work-queue-item-id").val(line_prod_id);
-                    tr.closest("tr").find(".line-work-queue-item").val(line_prod_name);
-                    tr.closest("tr").find(".line-work-queue-description").val(line_prod_description);
-                   
-
-                    //cal_num();
-                    console.log(line_prod_name);
-                } else {
-                   // alert("dd");
-                    console.log(line_prod_name);
-                    //tr.closest("tr").find(".line_code").css({'border-color': ''});
-
-                    var clone = tr.clone();
-                    //clone.find(":text").val("");
-                    // clone.find("td:eq(1)").text("");
-                    clone.find(".line-work-queue-item-id").val(line_prod_id);
-                    clone.find(".line-work-queue-item").val(line_prod_name);
-                    clone.find(".line-work-queue-description").val(line_prod_description);
-                   
-                    clone.attr("data-var", "");
-                    clone.find('.line-rec-id').val("");
-                    // clone.find('.line-expired').datepicker({'format': 'dd-mm-yyyy'});
-//                    clone.find(".line-price").on("keypress", function (event) {
-//                        $(this).val($(this).val().replace(/[^0-9\.]/g, ""));
-//                        if ((event.which != 46 || $(this).val().indexOf(".") != -1) && (event.which < 48 || event.which > 57)) {
-//                            event.preventDefault();
-//                        }
-//                    });
-
-                    tr.after(clone);
-                    //cal_num();
-                }
-            }
-        
-        }
-        $("#table-list1 tbody tr").each(function () {
-            linenum += 1;
-            $(this).closest("tr").find("td:eq(0)").text(linenum);
-            // $(this).closest("tr").find(".line-prod-code").val(line_prod_code);
-        });
-        selecteditem.length = 0;
-
-        $("#table-find-list tbody tr").each(function () {
-            $(this).closest("tr").find(".btn-line-select").removeClass('btn-success');
-            $(this).closest("tr").find(".btn-line-select").addClass('btn-outline-success');
-        });
-        $(".btn-product-selected").removeClass('btn-success');
-        $(".btn-product-selected").addClass('btn-outline-success');
-        $("#findModal").modal('hide');
-    });
-
-function check_dup(prod_id){
-      var _has = 0;
-      $("#table-list1 tbody tr").each(function(){
-          var p_id = $(this).closest('tr').find('.line-work-queue-item-id').val();
-         // alert(p_id + " = " + prod_id);
-          if(p_id == prod_id){
-              _has = 1;
-          }
-      });
-      return _has;
-    }
-    
-    function cal_linenum() {
-        var xline = 0;
-        $("#table-list tbody tr").each(function () {
-            xline += 1;
-            $(this).closest("tr").find("td:eq(0)").text(xline);
-        });
-    }
-    function removeline1(e) {
-        if (confirm("ต้องการลบรายการนี้ใช่หรือไม่?")) {
-            if (e.parent().parent().attr("data-var1") != '') {
-                removelist1.push(e.parent().parent().attr("data-var1"));
-                $(".remove-list1").val(removelist1);
-            }
-            // alert(removelist);
-
-            if ($("#table-list1 tbody tr").length == 1) {
-                $("#table-list1 tbody tr").each(function () {
-                    $(this).find(":text").val("");
-                   // $(this).find(".line-prod-photo").attr('src', '');
-                   //  $(this).find(".line-price").val(0);
-                   // cal_num();
-                });
-            } else {
-                e.parent().parent().remove();
-            }
-            cal_linenum();
-            
-        }
-    }
-
 
 JS;
 $this->registerJs($js, static::POS_END);

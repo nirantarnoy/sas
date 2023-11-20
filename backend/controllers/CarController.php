@@ -396,18 +396,21 @@ class CarController extends Controller
                 $distance = $model->total_distanct;
                 $total_rate_qty = $model->oil_rate_qty;
 
-            }
-            $model_plan_price = \common\models\RoutePlanPrice::find()->where(['route_plan_id' => $model->id, 'car_type_id' => $car_type_id])->all();
-            if ($model_plan_price) {
-                foreach ($model_plan_price as $value) {
-                    $labour_price = $value->labour_price;
-                    $express_road_price = $value->express_road_price;
-                    $other_price = $value->other_price;
+
+                $model_plan_price = \common\models\RoutePlanPrice::find()->where(['route_plan_id' => $model->id, 'car_type_id' => $car_type_id])->all();
+                if ($model_plan_price) {
+                    foreach ($model_plan_price as $value) {
+                        $labour_price = $value->labour_price;
+                        $express_road_price = $value->express_road_price;
+                        $other_price = $value->other_price;
+                    }
                 }
-            }
-            $model_line_qty = \common\models\RoutePlanLine::find()->where(['route_plan_id' => $model->id])->sum('dropoff_qty');
-            if ($model_line_qty) {
-                $total_dropoff_qty = $model_line_qty;
+                $model_line_qty = \common\models\RoutePlanLine::find()->where(['route_plan_id' => $model->id])->sum('dropoff_qty');
+                if ($model_line_qty) {
+                    $total_dropoff_qty = $model_line_qty;
+                }
+
+
             }
 
             array_push($data, [

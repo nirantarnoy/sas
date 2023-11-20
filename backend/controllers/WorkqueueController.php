@@ -93,7 +93,7 @@ class WorkqueueController extends Controller
 
 //                print_r(count($uploaded)); return ;
 
-                if ($model->save()) {
+                if ($model->save(false)) {
 
 //                    echo '123'; return ;
                     if ($line_doc_name != null) {
@@ -119,19 +119,29 @@ class WorkqueueController extends Controller
 
                         }
                     }
-                    if ($item_id != null){
-//                        print_r($item_id);return ;
-                        for ($l = 0;$l <= count($item_id) - 1; $l++){
-                            $model_line = new \common\models\WorkQueueItemLine();
-                            $model_line->work_queue_id = $model->id;
-                            $model_line->item_id = $item_id[$l];
-                            $model_line->description = $description[$l];
-                            $model_line->status = 1;
-                            $model_line->save(false);
+                    if($model->route_plan_id != null){
+                        if(count($model->route_plan_id) >0){
+                            for($x=0;$x<=count($model->route_plan_id)-1;$x++){
+                                $w_dropoff = new \common\models\WorkQueueDropoff();
+                                $w_dropoff->work_queue_id = $model->id;
+                                $w_dropoff->dropoff_id = $model->route_plan_id[$x];
+                                $w_dropoff->save(false);
+                            }
                         }
                     }
+                    if($model->item_back_id != null){
+                        if(count($model->item_back_id) >0){
+                            for($x=0;$x<=count($model->item_back_id)-1;$x++){
+                                $w_itemback = new \common\models\WorkQueueItemback();
+                                $w_itemback->work_queue_id = $model->id;
+                                $w_itemback->item_back_id = $model->item_back_id[$x];
+                                $w_itemback->save(false);
+                            }
+                        }
+                    }
+                    return $this->redirect(['view', 'id' => $model->id]);
                 }
-                return $this->redirect(['view', 'id' => $model->id]);
+
             }
         } else {
             $model->loadDefaultValues();
@@ -154,8 +164,9 @@ class WorkqueueController extends Controller
         $model = $this->findModel($id);
 
         $model_line_doc = \common\models\WorkQueueLine::find()->where(['work_queue_id' => $id])->all();
+        $w_dropoff = \common\models\WorkQueueDropoff::find()->where(['work_queue_id'=>$id])->all();
+        $w_itemback = \common\models\WorkQueueItemback::find()->where(['work_queue_id'=>$id])->all();
 
-        $model_line_item = \common\models\WorkQueueItemLine::find()->where(['work_queue_id' => $id])->all();
 
         if ($this->request->isPost && $model->load($this->request->post())) {
             $model->work_queue_date = date('Y-m-d', strtotime($model->work_queue_date));
@@ -165,9 +176,6 @@ class WorkqueueController extends Controller
             $uploaded = UploadedFile::getInstancesByName('line_file_name');
             $line_id = \Yii::$app->request->post('rec_id');
 
-            $removelist1 = \Yii::$app->request->post('remove_list1');
-            $item_id = \Yii::$app->request->post('line_work_queue_item_id');
-            $description = \Yii::$app->request->post('line_work_queue_description');
 
             // print_r($line_id);return;
             if ($model->save()) {
@@ -197,28 +205,6 @@ class WorkqueueController extends Controller
                     }
                 }
 
-
-                if($item_id != null ){
-//                    print_r(count($item_id)); return ;
-                    for($j = 0; $j <= count($item_id) - 1; $j++ ) {
-                        $model_chk = \common\models\WorkQueueItemLine::find()->where(['work_queue_id' => $model->id,'item_id' => $item_id[$j]])->one();
-                        if($model_chk){
-                            $model_chk->item_id = $item_id[$j];
-                            $model_chk->description = $description[$j];
-                            $model_chk->save(false);
-                        } else {
-//                            print_r($item_id); return ;
-                            $model_item = new \common\models\WorkQueueItemLine();
-                            $model_item->work_queue_id = $model->id;
-                            $model_item->item_id = $item_id[$j];
-                            $model_item->description = $description[$j];
-                            $model_item->status = 1;
-                            $model_item->save(false);
-                        }
-                    }
-                }
-
-
                 $delete_rec = explode(",", $removelist);
                 if (count($delete_rec)) {
                     $model_find_doc_delete = \common\models\WorkQueueLine::find()->where(['id' => $delete_rec])->one();
@@ -231,12 +217,28 @@ class WorkqueueController extends Controller
                     }
 
                 }
-
-                $delete_line = explode(",", $removelist1);
-                if(count($delete_line)){
-                    \common\models\WorkQueueItemLine::deleteAll(['id' => $delete_line]);
+                if($model->route_plan_id != null){
+                    if(count($model->route_plan_id) >0){
+                        \common\models\WorkQueueDropoff::deleteAll(['work_queue_id'=>$model->id]);
+                        for($x=0;$x<=count($model->route_plan_id)-1;$x++){
+                            $w_dropoff_new = new \common\models\WorkQueueDropoff();
+                            $w_dropoff_new->work_queue_id = $model->id;
+                            $w_dropoff_new->dropoff_id = $model->route_plan_id[$x];
+                            $w_dropoff_new->save(false);
+                        }
+                    }
                 }
-
+                if($model->item_back_id != null){
+                    if(count($model->item_back_id) >0){
+                        \common\models\WorkQueueItemback::deleteAll(['work_queue_id'=>$model->id]);
+                        for($x=0;$x<=count($model->item_back_id)-1;$x++){
+                            $w_itemback_new = new \common\models\WorkQueueItemback();
+                            $w_itemback_new->work_queue_id = $model->id;
+                            $w_itemback_new->item_back_id = $model->item_back_id[$x];
+                            $w_itemback_new->save(false);
+                        }
+                    }
+                }
                 return $this->redirect(['view', 'id' => $model->id]);
             }
         }
@@ -244,7 +246,8 @@ class WorkqueueController extends Controller
         return $this->render('update', [
             'model' => $model,
             'model_line_doc' => $model_line_doc,
-            'model_line_item' => $model_line_item,
+            'w_dropoff' => $w_dropoff,
+            'w_itemback' => $w_itemback,
         ]);
     }
 
