@@ -25,6 +25,13 @@ if (!$model->isNewRecord) {
     $t_plate = \backend\models\Car::getPlateno($model->tail_id);
     $t_back_plate = \backend\models\Car::getPlateno($model->tail_back_id);
 }
+$dropoff_list = [];
+if($w_dropoff!=null){
+    foreach($w_dropoff as $v){
+        array_push($dropoff_list,$v->dropoff_id);
+    }
+}
+//print_r($dropoff_list);
 
 ?>
 
@@ -49,6 +56,7 @@ if (!$model->isNewRecord) {
             ]) ?>
         </div>
         <div class="col-lg-4">
+            <?php $model->route_plan_id = !$model->isNewRecord ?  $dropoff_list :null?>
             <?= $form->field($model, 'route_plan_id')->Widget(\kartik\select2\Select2::className(), [
                 'data' => \yii\helpers\ArrayHelper::map(\backend\models\DropoffPlace::find()->all(), 'id', function ($data) {
                     return $data->name;
@@ -57,7 +65,11 @@ if (!$model->isNewRecord) {
                     'placeholder' => '--จุดขึ้นสินค้า--',
                     'onchange' => '$("#route-plan-id").val($(this).val())'
                     //  'onchange' => 'getRouteplan($(this))'
+                ],
+                'pluginOptions'=>[
+                        'multiple'=>true,
                 ]
+
             ])->label('จุดขึ้นสินค้า') ?>
         </div>
     </div>

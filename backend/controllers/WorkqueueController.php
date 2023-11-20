@@ -90,7 +90,7 @@ class WorkqueueController extends Controller
 
 //                print_r(count($uploaded)); return ;
 
-                if ($model->save()) {
+                if ($model->save(false)) {
 
 //                    echo '123'; return ;
                     if ($line_doc_name != null) {
@@ -116,8 +116,19 @@ class WorkqueueController extends Controller
 
                         }
                     }
+                    if($model->route_plan_id != null){
+                        if(count($model->route_plan_id) >0){
+                            for($x=0;$x<=count($model->route_plan_id)-1;$x++){
+                                $w_dropoff = new \common\models\WorkQueueDropoff();
+                                $w_dropoff->work_queue_id = $model->id;
+                                $w_dropoff->dropoff_id = $model->route_plan_id[$x];
+                                $w_dropoff->save(false);
+                            }
+                        }
+                    }
+                    return $this->redirect(['view', 'id' => $model->id]);
                 }
-                return $this->redirect(['view', 'id' => $model->id]);
+
             }
         } else {
             $model->loadDefaultValues();
@@ -140,6 +151,7 @@ class WorkqueueController extends Controller
         $model = $this->findModel($id);
 
         $model_line_doc = \common\models\WorkQueueLine::find()->where(['work_queue_id' => $id])->all();
+        $w_dropoff = \common\models\WorkQueueDropoff::find()->where(['work_queue_id'=>$id])->all();
 
         if ($this->request->isPost && $model->load($this->request->post())) {
             $model->work_queue_date = date('Y-m-d', strtotime($model->work_queue_date));
@@ -196,6 +208,7 @@ class WorkqueueController extends Controller
         return $this->render('update', [
             'model' => $model,
             'model_line_doc' => $model_line_doc,
+            'w_dropoff' => $w_dropoff,
         ]);
     }
 
