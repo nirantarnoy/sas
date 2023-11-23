@@ -201,4 +201,13 @@ class CashrecordController extends Controller
 
         throw new NotFoundHttpException('The requested page does not exist.');
     }
+
+    public function actionApprove($id)
+    {
+        if($id !=null){
+            \backend\models\Cashrecord::updateAll(['status'=>2],['id'=>$id]);
+
+        }
+        return $this->redirect(['index']);
+    }
 }
