@@ -62,6 +62,13 @@ $this->params['breadcrumbs'][] = $this->title;
             'name',
             'description',
             [
+                'attribute' => 'type_id',
+                'format' => 'html',
+                'value' => function ($data) {
+                  return  \backend\helpers\FixcostType::getTypeById($data->type_id);
+                }
+            ],
+            [
                 'attribute' => 'status',
                 'format' => 'raw',
                 'value' => function ($data) {
@@ -72,7 +79,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     }
                 }
             ],
-          //  'created_at',
+            //  'created_at',
             //'created_by',
             [
 

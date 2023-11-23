@@ -6,6 +6,8 @@ use yii\widgets\ActiveForm;
 /** @var yii\web\View $this */
 /** @var backend\models\Recieptrecord $model */
 /** @var yii\widgets\ActiveForm $form */
+
+$cost_title_data = \common\models\FixcostTitle::find()->where(['type_id'=>2])->all();
 ?>
 
     <div class="recieptrecord-form">
@@ -66,8 +68,12 @@ use yii\widgets\ActiveForm;
                     <?php if ($model->isNewRecord): ?>
                         <tr>
                             <td>
-                                <input type="text" name="reciept_title_id[]" class="form-control reciept-title-id"
-                                >
+                                <select name="reciept_title_id[]" class="form-control reciept-title-id" id="">
+                                    <option value="0">--รายการ--</option>
+                                    <?php for ($i = 0; $i <= count($cost_title_data) - 1; $i++) : ?>
+                                        <option value="<?= $cost_title_data[$i]['id'] ?>"><?= $cost_title_data[$i]['name'] ?></option>
+                                    <?php endfor; ?>
+                                </select>
                             </td>
                             <td>
                                 <input type="number" name="price_line[]"
@@ -96,11 +102,18 @@ use yii\widgets\ActiveForm;
                                 <tr data-var="<?= $key->id ?>">
                                     <td>
                                         <input type="hidden" class="rec-id" name="rec_id[]" value="<?= $key->id ?>">
-
-                                        <input type="text" name="reciept_title_id[]"
-                                               class="form-control reciept-title-id"
-                                               value="<?= $key->receipt_title_id ?>"
-                                        >
+                                        <select name="reciept_title_id[]" class="form-control reciept-title-id" id="">
+                                            <option value="0">--ค่าใช้จ่าย--</option>
+                                            <?php for ($i = 0; $i <= count($cost_title_data) - 1; $i++) : ?>
+                                                <?php
+                                                $selected = "";
+                                                if ($cost_title_data[$i]['id'] == $key->receipt_title_id) {
+                                                    $selected = 'selected';
+                                                }
+                                                ?>
+                                                <option value="<?= $cost_title_data[$i]['id'] ?>" <?= $selected ?>><?= $cost_title_data[$i]['name'] ?></option>
+                                            <?php endfor; ?>
+                                        </select>
 
                                     </td>
                                     <td>
@@ -132,8 +145,12 @@ use yii\widgets\ActiveForm;
                         <?php else: ?>
                             <tr>
                                 <td>
-                                    <input type="text" name="reciept_title_id[]" class="form-control reciept-title-id"
-                                    >
+                                    <select name="reciept_title_id[]" class="form-control reciept-title-id" id="">
+                                        <option value="0">--รายการ--</option>
+                                        <?php for ($i = 0; $i <= count($cost_title_data) - 1; $i++) : ?>
+                                            <option value="<?= $cost_title_data[$i]['id'] ?>"><?= $cost_title_data[$i]['name'] ?></option>
+                                        <?php endfor; ?>
+                                    </select>
                                 </td>
                                 <td>
                                     <input type="number" name="price_line[]"

@@ -16,6 +16,13 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'description')->textInput(['maxlength' => true]) ?>
 
+    <?= $form->field($model, 'type_id')->widget(\kartik\select2\Select2::className(),[
+            'data'=>\yii\helpers\ArrayHelper::map(\backend\helpers\FixcostType::asArrayObject(),'id','name'),
+            'pluginOptions' => [
+                  'allowClear'=> true,
+            ]
+    ]) ?>
+
     <?php echo $form->field($model, 'status')->widget(\toxor88\switchery\Switchery::className(), ['options' => ['label' => '', 'class' => 'form-control']])->label() ?>
 
     <div class="form-group">

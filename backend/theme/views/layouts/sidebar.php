@@ -297,6 +297,12 @@
                             </a>
                         </li>
                         <li class="nav-item">
+                            <a href="index.php?r=recieptrecord/index" class="nav-link recieptrecord">
+                                <i class="far fa-circlez nav-icon"></i>
+                                <p>บันทึกรับเงิน</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
                             <a href="index.php?r=workqueue/index" class="nav-link workqueue">
                                 <i class="far fa-circlez nav-icon"></i>
                                 <p>จัดคิวงาน</p>

@@ -7,7 +7,7 @@ use yii\widgets\ActiveForm;
 /** @var backend\models\Cashrecord $model */
 /** @var yii\widgets\ActiveForm $form */
 
-$cost_title_data = \common\models\FixcostTitle::find()->all();
+$cost_title_data = \common\models\FixcostTitle::find()->where(['type_id'=>1])->all();
 
 ?>
 
