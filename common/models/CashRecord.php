@@ -34,8 +34,8 @@ class CashRecord extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['trans_date'], 'safe'],
-            [['car_id', 'car_tail_id', 'status', 'created_at', 'create_by', 'updated_at', 'updated_by','trans_ref_id'], 'integer'],
+            [['trans_date','approve_date','recieve_date'], 'safe'],
+            [['car_id', 'car_tail_id', 'status', 'created_at', 'create_by', 'updated_at', 'updated_by','trans_ref_id','payment_method_id','approve_by','cashier_by','recieve_by'], 'integer'],
             [['journal_no'], 'string', 'max' => 255],
         ];
     }
@@ -55,6 +55,13 @@ class CashRecord extends \yii\db\ActiveRecord
             'created_at' => 'Created At',
             'trans_ref_id' =>'เลขที่อ้างอิง',
             'create_by' =>'พนักงาน',
+            'payment_method_id' =>'วิธีจ่ายเงิน',
+            'approve_by' =>'ผู้อนุมัติ',
+            'cashier_by' =>'ผู้จ่ายเงิน',
+            'approve_date' =>'วันที่อนุมัติ',
+            'cashier_date' =>'วันที่จ่ายเงิน',
+            'recieve_by' =>'ผู้รับเงิน',
+            'recieve_date' =>'วันที่รับเงิน',
             'updated_at' => 'Updated At',
             'updated_by' => 'Updated By',
         ];

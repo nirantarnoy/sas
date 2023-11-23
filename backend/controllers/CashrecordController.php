@@ -88,7 +88,9 @@ class CashrecordController extends Controller
                 $cost_title_id = \Yii::$app->request->post('cost_title_id');
                 $amount = \Yii::$app->request->post('price_line');
                 $remark = \Yii::$app->request->post('remark_line');
+                $status = \Yii::$app->request->post('status');
 
+                $model->status = $status;
                 if ($model->save(false)) {
                     if ($cost_title_id != null) {
                         for ($i = 0; $i <= count($cost_title_id) - 1; $i++) {

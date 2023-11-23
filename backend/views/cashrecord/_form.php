@@ -7,7 +7,7 @@ use yii\widgets\ActiveForm;
 /** @var backend\models\Cashrecord $model */
 /** @var yii\widgets\ActiveForm $form */
 
-$cost_title_data = \common\models\FixcostTitle::find()->where(['type_id'=>1])->all();
+$cost_title_data = \common\models\FixcostTitle::find()->where(['type_id' => 1])->all();
 
 ?>
 
@@ -16,6 +16,7 @@ $cost_title_data = \common\models\FixcostTitle::find()->where(['type_id'=>1])->a
         <?php $form = ActiveForm::begin(); ?>
 
         <input type="hidden" class="remove-list2" name="remove_list2" value="">
+        <input type="hidden" name="status" value="<?=$model->isNewRecord ? 1: $model->status?>">
 
         <div class="row">
             <div class="col-lg-4">
@@ -85,8 +86,29 @@ $cost_title_data = \common\models\FixcostTitle::find()->where(['type_id'=>1])->a
             </div>
 
             <div class="col-lg-3">
-                <?php echo $form->field($model, 'status')->widget(\toxor88\switchery\Switchery::className(), ['options' => ['label' => '', 'class' => 'form-control']])->label() ?>
+                <?= $form->field($model, 'cashier_by')->Widget(\kartik\select2\Select2::className(), [
+                    'data' => \yii\helpers\ArrayHelper::map(\backend\models\Employee::find()->where(['status' => 1])->all(), 'id', 'name'),
+                    'options' => [
+                        'placeholder' => '--เลือก--',
+                    ]
+                ]) ?>
+                <?php //echo $form->field($model, 'status')->widget(\toxor88\switchery\Switchery::className(), ['options' => ['label' => '', 'class' => 'form-control']])->label() ?>
             </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-3">
+                <?= $form->field($model, 'payment_method_id')->Widget(\kartik\select2\Select2::className(), [
+                    'data' => \yii\helpers\ArrayHelper::map(\backend\helpers\PayType::asArrayObject(), 'id', 'name'),
+                    'options' => [
+                        'placeholder' => '--เลือก--',
+                    ]
+                ]) ?>
+            </div>
+            <div class="col-lg-3">
+                <label for="">สถานะ</label>
+                <input type="text" class="form-control" readonly value="<?=$model->isNewRecord?'Open':\backend\helpers\CashrecordStatus::getTypeById($model->status)?>" />
+            </div>
+
         </div>
 
         <br/>
@@ -203,9 +225,22 @@ $cost_title_data = \common\models\FixcostTitle::find()->where(['type_id'=>1])->a
         </div>
 
 
-        <div class="form-group">
-            <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="form-group">
+                    <?= Html::submitButton('บันทึก', ['class' => 'btn btn-success']) ?>
+                    <?php if ($model->status == 1): ?>
+                        <a href="<?= \yii\helpers\Url::to(['cashrecord/approve', 'id' => $model->id], true) ?>"
+                           class="btn btn-info">อนุมัติ</a>
+                    <?php endif; ?>
+                </div>
+            </div>
+            <div class="col-lg-6" style="text-align: right;">
+                <a href="<?= \yii\helpers\Url::to(['workqueue/printdocx', 'id' => $model->id], true) ?>"
+                   class="btn btn-warning">พิมพ์</a>
+            </div>
         </div>
+
 
         <?php ActiveForm::end(); ?>
 
