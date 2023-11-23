@@ -43,11 +43,11 @@ class RecieptRecord extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'journal_no' => 'Journal No',
-            'trans_date' => 'Trans Date',
-            'status' => 'Status',
+            'journal_no' => 'เลขที่',
+            'trans_date' => 'วันที่',
+            'status' => 'สถานะ',
             'create_at' => 'Create At',
-            'created_by' => 'Created By',
+            'created_by' => 'พนักงาน',
         ];
     }
 }

@@ -12,31 +12,31 @@ class Recieptrecord extends \common\models\RecieptRecord
             'timestampcdate'=>[
                 'class'=> \yii\behaviors\AttributeBehavior::className(),
                 'attributes'=>[
-                    ActiveRecord::EVENT_BEFORE_INSERT=>'created_at',
+                    ActiveRecord::EVENT_BEFORE_INSERT=>'create_at',
                 ],
                 'value'=> time(),
             ],
-            'timestampudate'=>[
-                'class'=> \yii\behaviors\AttributeBehavior::className(),
-                'attributes'=>[
-                    ActiveRecord::EVENT_BEFORE_INSERT=>'updated_at',
-                ],
-                'value'=> time(),
-            ],
+//            'timestampudate'=>[
+//                'class'=> \yii\behaviors\AttributeBehavior::className(),
+//                'attributes'=>[
+//                    ActiveRecord::EVENT_BEFORE_INSERT=>'updated_at',
+//                ],
+//                'value'=> time(),
+//            ],
             'timestampcby' => [
                 'class' => \yii\behaviors\AttributeBehavior::className(),
                 'attributes' => [
-                    ActiveRecord::EVENT_BEFORE_INSERT => 'create_by',
+                    ActiveRecord::EVENT_BEFORE_INSERT => 'created_by',
                 ],
                 'value' => Yii::$app->user->id,
             ],
-            'timestamuby' => [
-                'class' => \yii\behaviors\AttributeBehavior::className(),
-                'attributes' => [
-                    ActiveRecord::EVENT_BEFORE_UPDATE => 'updated_by',
-                ],
-                'value' => Yii::$app->user->id,
-            ],
+//            'timestamuby' => [
+//                'class' => \yii\behaviors\AttributeBehavior::className(),
+//                'attributes' => [
+//                    ActiveRecord::EVENT_BEFORE_UPDATE => 'updated_by',
+//                ],
+//                'value' => Yii::$app->user->id,
+//            ],
 //            'timestampcompany' => [
 //                'class' => \yii\behaviors\AttributeBehavior::className(),
 //                'attributes' => [
@@ -51,13 +51,13 @@ class Recieptrecord extends \common\models\RecieptRecord
 //                ],
 //                'value' => isset($_SESSION['user_branch_id']) ? $_SESSION['user_branch_id'] : 1,
 //            ],
-            'timestampupdate' => [
-                'class' => \yii\behaviors\AttributeBehavior::className(),
-                'attributes' => [
-                    ActiveRecord::EVENT_BEFORE_UPDATE => 'updated_at',
-                ],
-                'value' => time(),
-            ],
+//            'timestampupdate' => [
+//                'class' => \yii\behaviors\AttributeBehavior::className(),
+//                'attributes' => [
+//                    ActiveRecord::EVENT_BEFORE_UPDATE => 'updated_at',
+//                ],
+//                'value' => time(),
+//            ],
         ];
     }
 

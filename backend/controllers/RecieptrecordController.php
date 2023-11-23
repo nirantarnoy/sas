@@ -13,6 +13,9 @@ use yii\filters\VerbFilter;
  */
 class RecieptrecordController extends Controller
 {
+
+    public $enableCsrfValidation = false;
+
     /**
      * @inheritDoc
      */
@@ -24,7 +27,7 @@ class RecieptrecordController extends Controller
                 'verbs' => [
                     'class' => VerbFilter::className(),
                     'actions' => [
-                        'delete' => ['POST'],
+                        'delete' => ['POST', 'GET'],
                     ],
                 ],
             ]
@@ -38,12 +41,17 @@ class RecieptrecordController extends Controller
      */
     public function actionIndex()
     {
+        $pageSize = \Yii::$app->request->post("perpage");
+
         $searchModel = new RecieptrecordSearch();
         $dataProvider = $searchModel->search($this->request->queryParams);
+
+        $dataProvider->pagination->pageSize = $pageSize;
 
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
+            'perpage' => $pageSize,
         ]);
     }
 
@@ -70,7 +78,37 @@ class RecieptrecordController extends Controller
         $model = new Recieptrecord();
 
         if ($this->request->isPost) {
-            if ($model->load($this->request->post()) && $model->save()) {
+            if ($model->load($this->request->post())) {
+
+                $new_date = $model->trans_date . ' ' . date('H:i:s');
+
+                $model->trans_date = date('Y-m-d H:i:s', strtotime($new_date));
+                $model->journal_no = $model->getLastNo();
+
+
+                $reciept_title_id = \Yii::$app->request->post('reciept_title_id');
+                $amount = \Yii::$app->request->post('price_line');
+                $ref_id = \Yii::$app->request->post('ref_id');
+                $ref_no = \Yii::$app->request->post('ref_no');
+                $remark = \Yii::$app->request->post('remark_line');
+
+
+                if ($model->save(false)) {
+                    if ($reciept_title_id != null) {
+                        for ($i = 0; $i <= count($reciept_title_id) - 1; $i++) {
+                            $model_line = new \common\models\RecieptRecordLine();
+                            $model_line->reciept_record_id = $model->id;
+                            $model_line->receipt_title_id = $reciept_title_id[$i];
+                            $model_line->amount = $amount[$i];
+                            $model_line->ref_id = $ref_id[$i];
+                            $model_line->ref_no = $ref_no[$i];
+                            $model_line->remark = $remark[$i];
+                            $model_line->status = 1;
+                            $model_line->save(false);
+                        }
+                    }
+
+                }
                 return $this->redirect(['view', 'id' => $model->id]);
             }
         } else {
@@ -93,12 +131,63 @@ class RecieptrecordController extends Controller
     {
         $model = $this->findModel($id);
 
-        if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
+        $model_line = \common\models\RecieptRecordLine::find()->where(['reciept_record_id' => $id])->all();
+
+        if ($this->request->isPost && $model->load($this->request->post())) {
+
+            $new_date = $model->trans_date . ' ' . date('H:i:s');
+
+            $model->trans_date = date('Y-m-d H:i:s', strtotime($new_date));
+//                $model->journal_no = $model->getLastNo();
+
+
+            $reciept_title_id = \Yii::$app->request->post('reciept_title_id');
+            $amount = \Yii::$app->request->post('price_line');
+            $ref_id = \Yii::$app->request->post('ref_id');
+            $ref_no = \Yii::$app->request->post('ref_no');
+            $remark = \Yii::$app->request->post('remark_line');
+            $line_id = \Yii::$app->request->post('rec_id');
+
+            $removelist = \Yii::$app->request->post('remove_list2');
+
+            if ($model->save(false)) {
+
+                if ($line_id != null) {
+                    for ($i = 0; $i <= count($line_id) - 1; $i++) {
+                        $model_chk = \common\models\RecieptRecordLine::find()->where(['id' => $line_id[$i]])->one();
+                        if ($model_chk) {
+                            $model_chk->receipt_title_id = $reciept_title_id[$i];
+                            $model_chk->amount = $amount[$i];
+                            $model_chk->ref_id = $ref_id[$i];
+                            $model_chk->ref_no = $ref_no[$i];
+                            $model_chk->remark = $remark[$i];
+                            $model_chk->save(false);
+                        } else {
+                            $model_rec = new \common\models\RecieptRecordLine();
+                            $model_rec->reciept_record_id = $model->id;
+                            $model_rec->receipt_title_id = $reciept_title_id[$i];
+                            $model_rec->amount = $amount[$i];
+                            $model_rec->ref_id = $ref_id[$i];
+                            $model_rec->ref_no = $ref_no[$i];
+                            $model_rec->remark = $remark[$i];
+                            $model_rec->status = 1;
+                            $model_rec->save(false);
+                        }
+                    }
+                }
+
+                $delete_rec = explode(",", $removelist);
+                if (count($delete_rec)) {
+                    \common\models\RecieptRecordLine::deleteAll(['id' => $delete_rec]);
+
+                }
+            }
             return $this->redirect(['view', 'id' => $model->id]);
         }
 
         return $this->render('update', [
             'model' => $model,
+            'model_line' => $model_line,
         ]);
     }
 
@@ -109,7 +198,8 @@ class RecieptrecordController extends Controller
      * @return \yii\web\Response
      * @throws NotFoundHttpException if the model cannot be found
      */
-    public function actionDelete($id)
+    public
+    function actionDelete($id)
     {
         $this->findModel($id)->delete();
 
@@ -123,7 +213,8 @@ class RecieptrecordController extends Controller
      * @return Recieptrecord the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
-    protected function findModel($id)
+    protected
+    function findModel($id)
     {
         if (($model = Recieptrecord::findOne(['id' => $id])) !== null) {
             return $model;

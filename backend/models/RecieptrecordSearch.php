@@ -14,11 +14,14 @@ class RecieptrecordSearch extends Recieptrecord
     /**
      * {@inheritdoc}
      */
+
+    public $globalSearch;
+
     public function rules()
     {
         return [
             [['id', 'status', 'create_at', 'created_by'], 'integer'],
-            [['journal_no', 'trans_date'], 'safe'],
+            [['journal_no', 'trans_date','globalSearch'], 'safe'],
         ];
     }
 
@@ -57,15 +60,15 @@ class RecieptrecordSearch extends Recieptrecord
         }
 
         // grid filtering conditions
-        $query->andFilterWhere([
-            'id' => $this->id,
-            'trans_date' => $this->trans_date,
-            'status' => $this->status,
-            'create_at' => $this->create_at,
-            'created_by' => $this->created_by,
-        ]);
+//        $query->andFilterWhere([
+//            'id' => $this->id,
+//            'trans_date' => $this->trans_date,
+//            'status' => $this->status,
+//            'create_at' => $this->create_at,
+//            'created_by' => $this->created_by,
+//        ]);
 
-        $query->andFilterWhere(['like', 'journal_no', $this->journal_no]);
+        $query->andFilterWhere(['like', 'journal_no', $this->globalSearch]);
 
         return $dataProvider;
     }
