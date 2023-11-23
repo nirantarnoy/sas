@@ -35,7 +35,7 @@ class CashRecord extends \yii\db\ActiveRecord
     {
         return [
             [['trans_date'], 'safe'],
-            [['car_id', 'car_tail_id', 'status', 'created_at', 'create_by', 'updated_at', 'updated_by'], 'integer'],
+            [['car_id', 'car_tail_id', 'status', 'created_at', 'create_by', 'updated_at', 'updated_by','trans_ref_id'], 'integer'],
             [['journal_no'], 'string', 'max' => 255],
         ];
     }
@@ -53,6 +53,7 @@ class CashRecord extends \yii\db\ActiveRecord
             'car_tail_id' => 'ส่วนพ่วง',
             'status' => 'สถานะ',
             'created_at' => 'Created At',
+            'trans_ref_id' =>'เลขที่อ้างอิง',
             'create_by' =>'พนักงาน',
             'updated_at' => 'Updated At',
             'updated_by' => 'Updated By',
