@@ -59,4 +59,9 @@ class Company extends \common\models\Company
         $model = Company::find()->where(['id' => $id])->one();
         return $model != null ? $model->name : '';
     }
+    public static function findAddress($id)
+    {
+        $model = Company::find()->where(['id' => $id])->one();
+        return $model != null ? $model->address : '';
+    }
 }

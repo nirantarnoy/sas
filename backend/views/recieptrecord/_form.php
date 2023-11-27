@@ -32,21 +32,17 @@ $cost_title_data = \common\models\FixcostTitle::find()->where(['type_id'=>2])->a
                 ]) ?>
             </div>
             <div class="col-lg-4">
-                <?= $form->field($model, 'created_by')->widget(\kartik\select2\Select2::className(), [
+                <?= $form->field($model, 'emp_id')->widget(\kartik\select2\Select2::className(), [
                     'data' => \yii\helpers\ArrayHelper::map(\backend\models\Employee::find()->all(), 'id', function ($data) {
                         return $data->fname . ' ' . $data->lname;
                     }),
                     'options' => [
-                        'placeholder' => 'เลือกพนักงาน',
+                        'placeholder' => '--เลือก--',
                     ],
                     'pluginOptions' => [
                         'allowClear' => true,
                     ]
                 ]) ?>
-            </div>
-            <div class="col-lg-4">
-                <?php echo $form->field($model, 'status')->widget(\toxor88\switchery\Switchery::className(), ['options' => ['label' => '', 'class' => 'form-control']])->label() ?>
-
             </div>
 
         </div>
@@ -60,7 +56,7 @@ $cost_title_data = \common\models\FixcostTitle::find()->where(['type_id'=>2])->a
                     <th>รายการรับ</th>
                     <th>จำนวนเงิน</th>
                     <th>ref id</th>
-                    <th>ref no</th>
+                    <th>เลขที่อ้างอิง</th>
                     <th>หมายเหตุ</th>
                     <th></th>
                     </thead>
@@ -192,9 +188,18 @@ $cost_title_data = \common\models\FixcostTitle::find()->where(['type_id'=>2])->a
         </div>
 
 
-        <div class="form-group">
-            <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="form-group">
+                    <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
+                </div>
+            </div>
+            <div class="col-lg-6" style="text-align: right;">
+                <a href="<?= \yii\helpers\Url::to(['recieptrecord/print', 'id' => $model->id], true) ?>"
+                   class="btn btn-warning">พิมพ์</a>
+            </div>
         </div>
+
 
         <?php ActiveForm::end(); ?>
 

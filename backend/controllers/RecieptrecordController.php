@@ -92,7 +92,7 @@ class RecieptrecordController extends Controller
                 $ref_no = \Yii::$app->request->post('ref_no');
                 $remark = \Yii::$app->request->post('remark_line');
 
-
+                $model->status = 1;
                 if ($model->save(false)) {
                     if ($reciept_title_id != null) {
                         for ($i = 0; $i <= count($reciept_title_id) - 1; $i++) {
@@ -221,5 +221,14 @@ class RecieptrecordController extends Controller
         }
 
         throw new NotFoundHttpException('The requested page does not exist.');
+    }
+
+    function actionPrint($id){
+        $model = \backend\models\Recieptrecord::find()->where(['id'=>$id])->one();
+        $model_line = \common\models\RecieptRecordLine::find()->where(['reciept_record_id'=>$id])->all();
+        return $this->render('_print', [
+            'model' => $model,
+            'model_line' => $model_line,
+        ]);
     }
 }

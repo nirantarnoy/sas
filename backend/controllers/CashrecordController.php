@@ -210,4 +210,13 @@ class CashrecordController extends Controller
         }
         return $this->redirect(['index']);
     }
+
+    function actionPrint($id){
+       $model = \backend\models\Cashrecord::find()->where(['id'=>$id])->one();
+       $model_line = \common\models\CashRecordLine::find()->where(['car_record_id'=>$id])->all();
+        return $this->render('_print', [
+            'model' => $model,
+            'model_line' => $model_line,
+        ]);
+    }
 }
