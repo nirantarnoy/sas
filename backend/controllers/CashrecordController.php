@@ -79,9 +79,14 @@ class CashrecordController extends Controller
 
         if ($this->request->isPost) {
             if ($model->load($this->request->post())) {
-                $new_date = $model->trans_date . ' ' . date('H:i:s');
 
-                $model->trans_date = date('Y-m-d H:i:s', strtotime($new_date));
+                $trans_date = date('Y-m-d');
+                $x = explode('-', $model->trans_date);
+                if (count($x) > 1) {
+                    $trans_date = $x[2] . '/' . $x[1] . '/' . $x[0];
+                }
+
+                $model->trans_date =date('Y-m-d',strtotime($trans_date));
                 $model->journal_no = $model->getLastNo();
 
 
@@ -137,6 +142,14 @@ class CashrecordController extends Controller
             $line_id = \Yii::$app->request->post('rec_id');
 
             $removelist = \Yii::$app->request->post('remove_list2');
+
+            $trans_date = date('Y-m-d');
+            $x = explode('-', $model->trans_date);
+            if (count($x) > 1) {
+                $trans_date = $x[2] . '/' . $x[1] . '/' . $x[0];
+            }
+
+            $model->trans_date =date('Y-m-d',strtotime($trans_date));
 
             if ($model->save(false)) {
                 if ($line_id != null) {

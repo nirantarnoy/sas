@@ -7,6 +7,7 @@ use yii\grid\ActionColumn;
 use yii\grid\GridView;
 use yii\widgets\Pjax;
 use yii\bootstrap4\LinkPager;
+
 /** @var yii\web\View $this */
 /** @var backend\models\CashrecordSearch $searchModel */
 /** @var yii\data\ActiveDataProvider $dataProvider */
@@ -42,7 +43,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
 
     <?php Pjax::begin(); ?>
-    <?php  echo $this->render('_search', ['model' => $searchModel]); ?>
+    <?php echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
@@ -63,7 +64,12 @@ $this->params['breadcrumbs'][] = $this->title;
 
 //            'id',
             'journal_no',
-            'trans_date',
+            [
+                'attribute' => 'trans_date',
+                'value' => function ($data) {
+                    return date('d-m-Y', strtotime($data->trans_date));
+                }
+            ],
 //            'car_id',
             ['attribute' => 'car_id',
                 'value' => function ($data) {

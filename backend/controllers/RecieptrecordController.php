@@ -80,9 +80,9 @@ class RecieptrecordController extends Controller
         if ($this->request->isPost) {
             if ($model->load($this->request->post())) {
 
-                $new_date = $model->trans_date . ' ' . date('H:i:s');
-
-                $model->trans_date = date('Y-m-d H:i:s', strtotime($new_date));
+//                $new_date = $model->trans_date . ' ' . date('H:i:s');
+//
+//                $model->trans_date = date('Y-m-d H:i:s', strtotime($new_date));
                 $model->journal_no = $model->getLastNo();
 
 
@@ -91,6 +91,14 @@ class RecieptrecordController extends Controller
                 $ref_id = \Yii::$app->request->post('ref_id');
                 $ref_no = \Yii::$app->request->post('ref_no');
                 $remark = \Yii::$app->request->post('remark_line');
+
+                $trans_date = date('Y-m-d');
+                $x = explode('-', $model->trans_date);
+                if (count($x) > 1) {
+                    $trans_date = $x[2] . '/' . $x[1] . '/' . $x[0];
+                }
+
+                $model->trans_date =date('Y-m-d',strtotime($trans_date));
 
                 $model->status = 1;
                 if ($model->save(false)) {
@@ -135,9 +143,9 @@ class RecieptrecordController extends Controller
 
         if ($this->request->isPost && $model->load($this->request->post())) {
 
-            $new_date = $model->trans_date . ' ' . date('H:i:s');
-
-            $model->trans_date = date('Y-m-d H:i:s', strtotime($new_date));
+//            $new_date = $model->trans_date . ' ' . date('H:i:s');
+//
+//            $model->trans_date = date('Y-m-d H:i:s', strtotime($new_date));
 //                $model->journal_no = $model->getLastNo();
 
 
@@ -149,6 +157,13 @@ class RecieptrecordController extends Controller
             $line_id = \Yii::$app->request->post('rec_id');
 
             $removelist = \Yii::$app->request->post('remove_list2');
+            $trans_date = date('Y-m-d');
+            $x = explode('-', $model->trans_date);
+            if (count($x) > 1) {
+                $trans_date = $x[2] . '/' . $x[1] . '/' . $x[0];
+            }
+
+            $model->trans_date =date('Y-m-d',strtotime($trans_date));
 
             if ($model->save(false)) {
 
