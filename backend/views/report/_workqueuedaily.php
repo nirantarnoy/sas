@@ -82,7 +82,7 @@ $model = \backend\models\Workqueue::find()->where(['date(work_queue_date)' => $f
             </tbody>
             <tfoot>
             <tr>
-                <td colspan="7" style="width: 8%;text-align: right;"><b>รวม</b></td>
+                <td colspan="8" style="width: 8%;text-align: right;"><b>รวม</b></td>
                 <td style="width: 10%;text-align: right;"><b><?= number_format($total_weight, 2) ?></b></td>
             </tr>
             </tfoot>
