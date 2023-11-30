@@ -9,7 +9,8 @@ if($search_date != null){
     $display_date = date('d-m-Y',strtotime($search_date));
 }
 
-$model = \backend\models\Workqueue::find()->where(['date(work_queue_date)' => $find_date,'work_option_type_id'=>[1,2]])->all();
+//$model = \backend\models\Workqueue::find()->where(['date(work_queue_date)' => $find_date,'work_option_type_id'=>[1,2]])->all();
+$model = \backend\models\Workqueue::find()->where(['date(work_queue_date)' => $find_date])->all();
 ?>
 <form action="<?=\yii\helpers\Url::to(['report/workqueuedaily'],true)?>" method="post">
 <div class="row">
