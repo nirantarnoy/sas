@@ -92,7 +92,7 @@ $model = \backend\models\Workqueue::find()->where(['date(work_queue_date)' => $f
 
     <div class="row">
         <div class="col-lg-4">
-            <div class="btn btn-default btn-print" onclick="printContent('print-area')">พิมพ์</div>
+            <div class="btn btn-warning btn-print" onclick="printContent('print-area')">พิมพ์</div>
         </div>
     </div>
 <?php
