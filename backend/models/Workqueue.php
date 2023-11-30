@@ -68,6 +68,16 @@ class Workqueue extends \common\models\WorkQueue
         $model = Workqueue::find()->where(['id'=>$id])->one();
         return $model != null ?$model->work_queue_no:'';
     }
+    public function findWorkType($id){
+        $model = Workqueue::find()->where(['id'=>$id])->one();
+        if($model){
+            $model_type = \common\models\WorkOptionType::find()->where(['id'=>$model->work_option_type_id])->one();
+            if($model_type){
+                return  $model_type->name;
+            }
+        }
+        return '';
+    }
 //    public static function findName($id){
 //        $model = \common\models\RoutePlan::find()->where(['id'=>$id])->one();
 //        return $model!= null?$model->name:'';

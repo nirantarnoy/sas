@@ -49,4 +49,10 @@ class ReportController extends Controller
     public function actionReport2(){
         return $this->render('_report2');
     }
+    public function actionWorkqueuedaily(){
+        $search_date = \Yii::$app->request->post('search_date');
+        return $this->render('_workqueuedaily',[
+            'search_date' => $search_date,
+        ]);
+    }
 }
