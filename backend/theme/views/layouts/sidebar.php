@@ -326,6 +326,7 @@
                                 <p>รายการค่าใช้จ่าย</p>
                             </a>
                         </li>
+
                         <?php //endif; ?>
 
                     </ul>
@@ -344,6 +345,14 @@
                             <a href="index.php?r=report/workqueuedaily" class="nav-link workqueuedaily">
                                 <i class="far fa-circlez nav-icon"></i>
                                 <p>รายงานประจำวัน</p>
+                            </a>
+                        </li>
+                        <?php //endif;?>
+                        <?php //if (\Yii::$app->user->can('salecomreport/index')): ?>
+                        <li class="nav-item">
+                            <a href="index.php?r=cashrecordreport" class="nav-link cashrecordreport">
+                                <i class="far fa-circlez nav-icon"></i>
+                                <p>รายงานสรุปรับเงิน</p>
                             </a>
                         </li>
                         <?php //endif;?>
