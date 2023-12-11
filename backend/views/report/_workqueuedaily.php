@@ -75,7 +75,7 @@ $model = \backend\models\Workqueue::find()->where(['date(work_queue_date)' => $f
                         <td style="width: 10%;text-align: center;"><?= \backend\models\Workqueue::findWorkType($value->id) ?></td>
                         <td style="width: 10%;text-align: center;"><?= \backend\models\Customer::findCusName($value->customer_id) ?></td>
                         <td style="width: 10%;text-align: center;"><?= \backend\models\Car::getCartype($value->car_id) ?></td>
-                        <td style="width: 10%;text-align: right;"><?= number_format($value->weight_on_go, 2) ?></td>
+                        <td style="width: 10%;text-align: right;"><?= number_format($value->weight_on_go, 3) ?></td>
                     </tr>
                 <?php endforeach; ?>
             <?php endif; ?>
@@ -83,7 +83,7 @@ $model = \backend\models\Workqueue::find()->where(['date(work_queue_date)' => $f
             <tfoot>
             <tr>
                 <td colspan="8" style="width: 8%;text-align: right;"><b>รวม</b></td>
-                <td style="width: 10%;text-align: right;"><b><?= number_format($total_weight, 2) ?></b></td>
+                <td style="width: 10%;text-align: right;"><b><?= number_format($total_weight, 3) ?></b></td>
             </tr>
             </tfoot>
 
