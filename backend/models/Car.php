@@ -78,6 +78,11 @@ class Car extends \common\models\Car
         $model = Car::find()->where(['id' => $id])->one();
         return $model != null ? $model->plate_no : '-';
     }
+    public static function findDrivername($id)
+    {
+        $model = Car::find()->where(['id' => $id])->one();
+        return $model != null ? \backend\models\Employee::findFullName($model->driver_id) : '';
+    }
     public static function getHp($id)
     {
         $model = Car::find()->where(['id' => $id])->one();

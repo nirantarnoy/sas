@@ -126,7 +126,7 @@ $date_year = date('Y', strtotime($model->trans_date)) + 543;
     <br>
     <table style="width: 100%">
         <tr>
-            <td style="width:50%;padding: 5px;">จ่ายให้ <b><?= \backend\models\Car::getPlateno($model->car_id) ?></b>
+            <td style="width:50%;padding: 5px;">จ่ายให้ <b><?= \backend\models\Car::findDrivername($model->car_id) ?> , <?= \backend\models\Car::getPlateno($model->car_id) ?></b>
             </td>
             <!--            <td><input type="text" class="form-control"></td>-->
             <td style="width:50%;padding: 5px;"> วันที่ <b><?= date('d-m-Y', strtotime($model->trans_date)) ?></b></td>
@@ -211,7 +211,7 @@ $date_year = date('Y', strtotime($model->trans_date)) + 543;
         <td style="border-left: 1px solid grey;">
             <table style="width: 100%;">
                 <tr>
-                    <td style="padding: 20px;">ผู้อนุมัติการจ่ายเงิน
+                    <td style="padding: 20px;font-size: 10px;">ผู้อนุมัติการจ่ายเงิน
                         ...........................................................
                     </td>
                 </tr>
