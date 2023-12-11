@@ -51,8 +51,10 @@ class ReportController extends Controller
     }
     public function actionWorkqueuedaily(){
         $search_date = \Yii::$app->request->post('search_date');
+        $search_car_type = \Yii::$app->request->post('search_car_type');
         return $this->render('_workqueuedaily',[
             'search_date' => $search_date,
+            'search_car_type' => $search_car_type,
         ]);
     }
 }

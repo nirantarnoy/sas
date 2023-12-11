@@ -8,13 +8,27 @@ if ($search_date != null) {
     $find_date = date('Y-m-d', strtotime($search_date));
     $display_date = date('d-m-Y', strtotime($search_date));
 }
+$model = null;
 
 //$model = \backend\models\Workqueue::find()->where(['date(work_queue_date)' => $find_date,'work_option_type_id'=>[1,2]])->all();
-$model = \backend\models\Workqueue::find()->where(['date(work_queue_date)' => $find_date])->all();
+if ($search_car_type != null) {
+    $model_car = \backend\models\Car::find()->select(['id'])->where(['car_type_id' => $search_car_type])->all();
+    $car_list = [];
+    if ($model_car) {
+        foreach ($model_car as $value) {
+            array_push($car_list, $value->id);
+        }
+        $model = \backend\models\Workqueue::find()->where(['date(work_queue_date)' => $find_date, 'car_id' => $car_list])->all();
+    }
+
+} else {
+    $model = \backend\models\Workqueue::find()->where(['date(work_queue_date)' => $find_date])->all();
+}
+
 ?>
     <form action="<?= \yii\helpers\Url::to(['report/workqueuedaily'], true) ?>" method="post">
         <div class="row">
-            <div class="col-lg-3">
+            <div class="col-lg-6">
                 <label class="form-label">เลือกวันที่</label>
                 <div class="input-group">
                     <?php
@@ -25,6 +39,19 @@ $model = \backend\models\Workqueue::find()->where(['date(work_queue_date)' => $f
                         'pluginOptions' => [
                             'autoclose' => true,
                             'format' => 'dd-mm-yyyy'
+                        ]
+                    ]);
+                    ?>
+                    <?php
+                    echo \kartik\select2\Select2::widget([
+                        'name' => 'search_car_type',
+                        'data' => \yii\helpers\ArrayHelper::map(\backend\models\CarType::find()->all(), 'id', 'name'),
+                        'value' => $search_car_type,
+                        'options' => [
+                          'placeholder'=>'---เลือกประเภทรถ---'
+                        ],
+                        'pluginOptions' => [
+                            'allowClear' => true,
                         ]
                     ]);
                     ?>
