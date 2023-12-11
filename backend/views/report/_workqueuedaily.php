@@ -72,7 +72,7 @@ $model = \backend\models\Workqueue::find()->where(['date(work_queue_date)' => $f
                         <td style="width: 10%;text-align: center;"><?= \backend\models\Car::findName($value->car_id) ?></td>
                         <td style="width: 10%;text-align: center;"><?= \backend\models\Car::findName($value->tail_id) ?></td>
                         <td style="width: 10%;text-align: center;"><?= \backend\models\Employee::findFullName($value->emp_assign) ?></td>
-                        <td style="width: 10%;text-align: center;"><?= \backend\models\Workqueue::findWorkType($value->id) ?></td>
+                        <td style="width: 10%;text-align: center;"><?= \backend\models\Customer::findWorkTypeByCustomerid($value->customer_id) ?></td>
                         <td style="width: 10%;text-align: center;"><?= \backend\models\Customer::findCusName($value->customer_id) ?></td>
                         <td style="width: 10%;text-align: center;"><?= \backend\models\Car::getCartype($value->car_id) ?></td>
                         <td style="width: 10%;text-align: right;"><?= number_format($value->weight_on_go, 3) ?></td>

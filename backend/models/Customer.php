@@ -83,4 +83,15 @@ class Customer extends \common\models\Customer
         $model = Customer::find()->where(['id' => $id])->one();
         return $model != null ? $model->taxid : '';
     }
+    public static function findWorkTypeByCustomerid($id)
+    {
+        $model = Customer::find()->where(['id' => $id])->one();
+        if($model){
+            $model_type = \common\models\WorkOptionType::find()->where(['id'=>$model->work_type_id])->one();
+            if($model_type){
+                return  $model_type->name;
+            }
+        }
+        return '';
+    }
 }
