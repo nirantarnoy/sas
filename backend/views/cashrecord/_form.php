@@ -34,24 +34,6 @@ $cost_title_data = \common\models\FixcostTitle::find()->where(['type_id' => 1])-
                 ]) ?>
             </div>
             <div class="col-lg-4">
-                <?= $form->field($model, 'create_by')->widget(\kartik\select2\Select2::className(), [
-                    'data' => \yii\helpers\ArrayHelper::map(\backend\models\Employee::find()->all(), 'id', function ($data) {
-                        return $data->fname . ' ' . $data->lname;
-                    }),
-                    'options' => [
-                        'placeholder' => 'เลือกพนักงาน',
-                    ],
-                    'pluginOptions' => [
-                        'allowClear' => true,
-                    ]
-                ]) ?>
-            </div>
-
-        </div>
-        <div class="row">
-            <div class="col-lg-3">
-
-                <?php // echo$form->field($model, 'car_id')->textInput() ?>
                 <?= $form->field($model, 'car_id')->Widget(\kartik\select2\Select2::className(), [
                     'data' => \yii\helpers\ArrayHelper::map(\backend\models\Car::find()->where(['type_id' => '1'])->all(), 'id', function ($data) {
                         return $data->name;
@@ -61,6 +43,10 @@ $cost_title_data = \common\models\FixcostTitle::find()->where(['type_id' => 1])-
                     ]
                 ]) ?>
             </div>
+
+        </div>
+        <div class="row">
+
             <div class="col-lg-3">
                 <?php //echo $form->field($model, 'car_tail_id')->textInput() ?>
                 <?= $form->field($model, 'car_tail_id')->Widget(\kartik\select2\Select2::className(), [
@@ -94,8 +80,6 @@ $cost_title_data = \common\models\FixcostTitle::find()->where(['type_id' => 1])-
                 ]) ?>
                 <?php //echo $form->field($model, 'status')->widget(\toxor88\switchery\Switchery::className(), ['options' => ['label' => '', 'class' => 'form-control']])->label() ?>
             </div>
-        </div>
-        <div class="row">
             <div class="col-lg-3">
                 <?= $form->field($model, 'payment_method_id')->Widget(\kartik\select2\Select2::className(), [
                     'data' => \yii\helpers\ArrayHelper::map(\backend\models\Paymentmethod::find()->all(), 'id', 'name'),
@@ -104,6 +88,9 @@ $cost_title_data = \common\models\FixcostTitle::find()->where(['type_id' => 1])-
                     ]
                 ]) ?>
             </div>
+        </div>
+        <div class="row">
+
             <div class="col-lg-3">
                 <label for="">สถานะ</label>
                 <input type="text" class="form-control" readonly value="<?=$model->isNewRecord?'Open':\backend\helpers\CashrecordStatus::getTypeById($model->status)?>" />

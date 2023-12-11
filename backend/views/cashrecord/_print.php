@@ -272,6 +272,7 @@ $date_year = date('Y', strtotime($model->trans_date)) + 543;
             <td style="border: 1px solid grey;text-align: center;"></td>
             <td style="border: 1px solid grey;width: 5%"></td>
         </tr>
+
     </table>
     <table style="width: 100%;border: 1px solid grey;">
         <tr>

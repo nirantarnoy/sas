@@ -84,9 +84,10 @@ $this->params['breadcrumbs'][] = $this->title;
 
             //'created_at',
 //            'create_by',
-            ['attribute' => 'create_by',
+            [
+                'label' => 'จ่ายให้',
                 'value' => function ($data) {
-                    return \backend\models\Employee::findFullName($data->create_by);
+                    return \backend\models\car::findDrivername($data->car_id);
                 }],
             [
                 'attribute' => 'status',
