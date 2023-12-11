@@ -126,7 +126,8 @@ $date_year = date('Y', strtotime($model->trans_date)) + 543;
     <br>
     <table style="width: 100%">
         <tr>
-            <td style="width:50%;padding: 5px;">จ่ายให้ <b><?= \backend\models\Car::findDrivername($model->car_id) ?> , <?= \backend\models\Car::getPlateno($model->car_id) ?></b>
+            <td style="width:50%;padding: 5px;">จ่ายให้ <b><?= \backend\models\Car::findDrivername($model->car_id) ?>
+                    , <?= \backend\models\Car::getPlateno($model->car_id) ?></b>
             </td>
             <!--            <td><input type="text" class="form-control"></td>-->
             <td style="width:50%;padding: 5px;"> วันที่ <b><?= date('d-m-Y', strtotime($model->trans_date)) ?></b></td>
@@ -157,17 +158,18 @@ $date_year = date('Y', strtotime($model->trans_date)) + 543;
                     $all_total = 0;
                     ?>
                     <?php foreach ($model_line as $value): ?>
-                    <?php $all_total = ($all_total + $value->amount);?>
+                        <?php $all_total = ($all_total + $value->amount); ?>
                         <tr>
-                            <td style="width: 30%;border: 1px solid grey;text-align: left;padding: 6px;"><?=\backend\models\CostTitle::findName($value->cost_title_id)?></td>
-                            <td style="width: 30%;border: 1px solid grey;text-align: right;padding: 5px;"><?=number_format($value->amount,2)?></td>
+                            <td style="width: 30%;border: 1px solid grey;text-align: left;padding: 6px;"><?= \backend\models\CostTitle::findName($value->cost_title_id) ?></td>
+                            <td style="width: 30%;border: 1px solid grey;text-align: right;padding: 5px;"><?= number_format($value->amount, 2) ?></td>
                         </tr>
                     <?php endforeach; ?>
                     <?php if ($line_diff > 0): ?>
                         <?php for ($x = 0; $x <= $line_diff - 1; $x++): ?>
                             <tr>
-                                <td style="width: 30%;border: 1px solid grey;text-align: left;padding: 6px;color: transparent;"><?=$x?></td>
-                                <td style="width: 30%;border: 1px solid grey;text-align: right;padding: 5px;"><b><?=$x == ($line_diff - 1) ?number_format($all_total,2): ''?></b></td>
+                                <td style="width: 30%;border: 1px solid grey;text-align: left;padding: 6px;color: transparent;"><?= $x ?></td>
+                                <td style="width: 30%;border: 1px solid grey;text-align: right;padding: 5px;">
+                                    <b><?= $x == ($line_diff - 1) ? number_format($all_total, 2) : '' ?></b></td>
                             </tr>
                         <?php endfor; ?>
                     <?php endif; ?>
@@ -211,7 +213,7 @@ $date_year = date('Y', strtotime($model->trans_date)) + 543;
         <td style="border-left: 1px solid grey;">
             <table style="width: 100%;">
                 <tr>
-                    <td style="padding: 20px;font-size: 10px;">ผู้อนุมัติการจ่ายเงิน
+                    <td style="padding: 20px;font-size: 12px;">ผู้อนุมัติการจ่ายเงิน
                         ...........................................................
                     </td>
                 </tr>
@@ -219,7 +221,7 @@ $date_year = date('Y', strtotime($model->trans_date)) + 543;
                     <td style="padding: 10px;text-align: center;">............/................/...............</td>
                 </tr>
                 <tr>
-                    <td style="padding: 20px;border-top: 1px solid grey;">ผู้จ่ายเงิน
+                    <td style="padding: 20px;border-top: 1px solid grey;font-size: 12px;">ผู้จ่ายเงิน
                         ..................................................................
                     </td>
                 </tr>
@@ -227,7 +229,7 @@ $date_year = date('Y', strtotime($model->trans_date)) + 543;
                     <td style="padding: 10px;text-align: center;">............/................/...............</td>
                 </tr>
                 <tr>
-                    <td style="padding: 20px;border-top: 1px solid grey;">ผู้รับเงิน
+                    <td style="padding: 20px;border-top: 1px solid grey;font-size: 12px;">ผู้รับเงิน
                         ...................................................................
                     </td>
                 </tr>
@@ -237,6 +239,78 @@ $date_year = date('Y', strtotime($model->trans_date)) + 543;
             </table>
         </td>
     </table>
+    <table style="width: 100%;border: 1px solid grey;">
+        <tr>
+            <td colspan="6" style="text-align: center;"><b>สำหรับฝ่ายบัญชี</b></td>
+        </tr>
+        <tr>
+            <td rowspan="2" style="width: 50%;border: 1px solid grey;text-align: center;">ชื่อบัญชี</td>
+            <td rowspan="2" style="width: 10%;border: 1px solid grey;text-align: center;">รหัสบัญชีแยกประเภท</td>
+            <td colspan="4" style="width: 40%;border: 1px solid grey;text-align: center;">จำนวนเงิน</td>
+        </tr>
+        <tr>
+
+            <td colspan="2" style="border: 1px solid grey;text-align: center;">เดบิต</td>
+
+            <td colspan="2" style="border: 1px solid grey;text-align: center;">เครดิต</td>
+
+        </tr>
+        <?php for($xx=0;$xx<=4;$xx++):?>
+        <tr>
+            <td style="border: 1px solid grey;padding: 15px;"></td>
+            <td style="border: 1px solid grey;text-align: center;"></td>
+            <td style="border: 1px solid grey;text-align: center;"></td>
+            <td style="border: 1px solid grey;width: 5%"></td>
+            <td style="border: 1px solid grey;text-align: center;"></td>
+            <td style="border: 1px solid grey;width: 5%"></td>
+        </tr>
+        <?php endfor;?>
+        <tr>
+            <td colspan="2" style="padding: 15px;"></td>
+            <td style="border: 1px solid grey;text-align: center;"></td>
+            <td style="border: 1px solid grey;width: 5%"></td>
+            <td style="border: 1px solid grey;text-align: center;"></td>
+            <td style="border: 1px solid grey;width: 5%"></td>
+        </tr>
+    </table>
+    <table style="width: 100%;border: 1px solid grey;">
+        <tr>
+            <td rowspan="2" style="width: 25%;border: 1px solid grey;text-align: center;padding: 5px;"><b>ผู้จัดทำ</b>
+            </td>
+            <td rowspan="2" style="width: 25%;border: 1px solid grey;text-align: center;padding: 5px;"><b>ผู้ตรวจสอบและอนุมัติ</b>
+            </td>
+            </td>
+            <td colspan="2" style="width: 50%;border: 1px solid grey;text-align: center;padding: 5px;"><b>ผู้ผ่านรายการ</b>
+            </td>
+        </tr>
+        <tr>
+            <td style="border: 1px solid grey;text-align: center;padding: 5px;"><b>สมุดรายวันจ่ายเงิน</b></td>
+            <td style="border: 1px solid grey;text-align: center;padding: 5px;"><b>บัญชีแยกประเภทย่อย</b></td>
+        </tr>
+        <tr>
+            <td style="width: 25%;border: 1px solid grey;text-align: center;padding: 25px 20px 5px 20px;">__________________________________
+            </td>
+            <td style="width: 25%;border: 1px solid grey;text-align: center;padding: 25px 20px 5px 20px;">__________________________________
+            </td>
+            </td>
+            <td style="width: 25%;border: 1px solid grey;text-align: center;padding: 25px 20px 5px 20px;">__________________________________
+            </td>
+            <td style="width: 25%;border: 1px solid grey;text-align: center;padding: 25px 20px 5px 20px;">__________________________________
+            </td>
+        </tr>
+        <tr>
+            <td style="width: 25%;border: 1px solid grey;text-align: center;padding: 25px 20px 5px 20px;">_________/____________/_____________
+            </td>
+            <td style="width: 25%;border: 1px solid grey;text-align: center;padding: 25px 20px 5px 20px;">_________/____________/_____________
+            </td>
+            </td>
+            <td style="width: 25%;border: 1px solid grey;text-align: center;padding: 25px 20px 5px 20px;">_________/____________/_____________
+            </td>
+            <td style="width: 25%;border: 1px solid grey;text-align: center;padding: 25px 20px 5px 20px;">_________/____________/_____________
+            </td>
+        </tr>
+    </table>
+
     <br>
 
 
