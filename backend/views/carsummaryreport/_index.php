@@ -115,7 +115,7 @@ if ($from_date != '' && $to_date != '') {
 
 </style>
 <div class="row">
-    <div class="col-lg-12">
+    <div class="col-lg-12" style="text-align: right;">
         <div class="btn btn-default btn-print" onclick="printContent('print-area')">พิมพ์</div>
     </div>
 </div>
