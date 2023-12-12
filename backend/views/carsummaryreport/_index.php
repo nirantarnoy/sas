@@ -250,6 +250,8 @@ if ($from_date != '' && $to_date != '') {
         $sum_col_8 = 0;
         $sum_col_9 = 0;
         $sum_col_10 = 0;
+
+        $deduct_total = 0;
         ?>
         <?php if ($model_line != null): ?>
             <?php foreach ($model_line as $value): ?>
@@ -377,7 +379,7 @@ if ($from_date != '' && $to_date != '') {
             <td style="text-align: right;padding: 5px;"><b><u><?=number_format($sum_col_10,2)?></u></b></td>
             <td style="text-align: center;padding: 5px;">บาท</td>
             <td><b>คงเหลือ</b></td>
-            <td style="text-align: right;padding: 5px;"><b><u>0</u></b></td>
+            <td style="text-align: right;padding: 5px;"><b><u><?=number_format($sum_col_10 - $deduct_total,2)?></u></b></td>
             <td style="text-align: center;padding: 5px;">บาท</td>
         </tr>
     </table>
