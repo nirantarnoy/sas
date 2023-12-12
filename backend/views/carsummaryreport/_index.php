@@ -205,10 +205,17 @@ if ($from_date != '' && $to_date != '') {
             <td style="text-align: right;width: 33%"><b></b></td>
         </tr>
     </table>
+    <table style="width: 100%">
+        <tr>
+            <td style="padding: 5px;width: 33%"></td>
+            <td style="text-align: center;width: 33%"><h5><b>เดือน <?=$date_month.' '.$date_year?></b></h5></td>
+            <td style="text-align: right;width: 33%"><b></b></td>
+        </tr>
+    </table>
     <br>
     <table style="width: 100%">
         <tr>
-            <td style="width:50%;padding: 5px;">ชื่อพนักงานขับรถ
+            <td style="width:30%;padding: 5px;">ชื่อพนักงานขับรถ
                 <b><?= \backend\models\Car::findDrivername($search_car_id) ?>
                 </b>
             </td>
@@ -292,50 +299,50 @@ if ($from_date != '' && $to_date != '') {
     <table style="width: 100%;border: 1px solid grey">
         <tr>
             <td></td>
-            <td><b>รายได้</b></td>
+            <td style="padding-top:20px;"><b>รายได้</b></td>
             <td></td>
             <td></td>
             <td></td>
-            <td><b>หัก</b></td>
+            <td style="padding-top:20px;"><b>หัก</b></td>
             <td></td>
             <td></td>
         </tr>
         <tr>
             <td></td>
 
-            <td>ค่าครองชีพ</td>
+            <td style="padding-left: 10px;">ค่าครองชีพ</td>
             <td></td>
             <td style="text-align: right;padding: 5px;"><?=number_format(0,2)?></td>
             <td style="text-align: center;padding: 5px;">บาท</td>
-            <td>ค่าประกันสังคม</td>
+            <td style="padding-left: 10px;">ค่าประกันสังคม</td>
             <td style="text-align: right;padding: 5px;">0</td>
             <td style="text-align: center;padding: 5px;">บาท</td>
         </tr>
         <tr>
             <td></td>
 
-            <td>ค่าเที่ยว</td>
+            <td style="padding-left: 10px;">ค่าเที่ยว</td>
             <td></td>
             <td style="text-align: right;padding: 5px;"><?=number_format($sum_col_4,2)?></td>
             <td style="text-align: center;padding: 5px;">บาท</td>
-            <td>เงินยืมทดลอง</td>
+            <td style="padding-left: 10px;">เงินยืมทดลอง</td>
             <td style="text-align: right;padding: 5px;">0</td>
             <td style="text-align: center;padding: 5px;">บาท</td>
         </tr>
         <tr>
             <td></td>
 
-            <td>ค่าคลุมผ้าใบ</td>
+            <td style="padding-left: 10px;">ค่าคลุมผ้าใบ</td>
             <td></td>
             <td style="text-align: right;padding: 5px;"><?=number_format($sum_col_6,2)?></td>
             <td style="text-align: center;padding: 5px;">บาท</td>
-            <td>ค่าประกันสินค้า</td>
+            <td style="padding-left: 10px;">ค่าประกันสินค้า</td>
             <td style="text-align: right;padding: 5px;">0</td>
             <td style="text-align: center;padding: 5px;">บาท</td>
         </tr>
         <tr>
             <td></td>
-            <td>ค่าค้างคืน</td>
+            <td style="padding-left: 10px;">ค่าค้างคืน</td>
             <td></td>
             <td style="text-align: right;padding: 5px;"><?=number_format($sum_col_7,2)?></td>
             <td style="text-align: center;padding: 5px;">บาท</td>
@@ -345,7 +352,7 @@ if ($from_date != '' && $to_date != '') {
         </tr>
         <tr>
             <td></td>
-            <td>ค่าบวกคลัง</td>
+            <td style="padding-left: 10px;">ค่าบวกคลัง</td>
             <td></td>
             <td style="text-align: right;padding: 5px;"><?=number_format($sum_col_8,2)?></td>
             <td style="text-align: center;padding: 5px;">บาท</td>
@@ -355,7 +362,7 @@ if ($from_date != '' && $to_date != '') {
         </tr>
         <tr>
             <td></td>
-            <td>ค่าพิเศษอื่นๆ</td>
+            <td style="padding-left: 10px;">ค่าพิเศษอื่นๆ</td>
             <td></td>
             <td style="text-align: right;padding: 5px;"><?=number_format($sum_col_9,2)?></td>
             <td style="text-align: center;padding: 5px;">บาท</td>
