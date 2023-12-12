@@ -236,8 +236,26 @@ if ($from_date != '' && $to_date != '') {
         </tr>
         </thead>
         <tbody>
+        <?php
+        $sum_col_4 = 0;
+        $sum_col_5 = 0;
+        $sum_col_6 = 0;
+        $sum_col_7 = 0;
+        $sum_col_8 = 0;
+        $sum_col_9 = 0;
+        $sum_col_10 = 0;
+        ?>
         <?php if ($model_line != null): ?>
             <?php foreach ($model_line as $value): ?>
+                <?php
+                $sum_col_4 += ($value->work_labour_price);
+                $sum_col_5 += ($value->work_express_road_price);
+                $sum_col_6 += ($value->work_other_price);
+                $sum_col_7 += ($value->work_other_price);
+                $sum_col_8 += ($value->work_other_price);
+                $sum_col_9 += ($value->work_other_price);
+                $sum_col_10 += ($value->work_labour_price + $value->work_express_road_price + $value->work_labour_price);
+                ?>
                 <tr>
                     <td style="border: 1px solid grey;padding: 5px;"><?= $value->dropoff_place_name ?></td>
                     <td style="border: 1px solid grey;padding: 5px;text-align: center;"><?= date('d-m-Y', strtotime($value->work_queue_date)) ?></td>
@@ -255,7 +273,24 @@ if ($from_date != '' && $to_date != '') {
         <?php endif; ?>
         </tbody>
         <tfoot>
+        <tr>
+            <td colspan="3" style="border: 1px solid grey;padding: 5px;text-align: right;"><b>รวม</b></td>
+            <td style="border: 1px solid grey;padding: 5px;text-align: right;">
+                <b><?= number_format($sum_col_4, 2) ?></b></td>
+            <td style="border: 1px solid grey;padding: 5px;text-align: right;">
+                <b><?= number_format($sum_col_5, 2) ?></b></td>
+            <td style="border: 1px solid grey;padding: 5px;text-align: right;">
+                <b><?= number_format($sum_col_6, 2) ?></b></td>
+            <td style="border: 1px solid grey;padding: 5px;text-align: right;">
+                <b><?= number_format($sum_col_7, 2) ?></b></td>
+            <td style="border: 1px solid grey;padding: 5px;text-align: right;">
+                <b><?= number_format($sum_col_8, 2) ?></b></td>
+            <td style="border: 1px solid grey;padding: 5px;text-align: right;">
+                <b><?= number_format($sum_col_9, 2) ?></b></td>
+            <td style="border: 1px solid grey;padding: 5px;text-align: right;">
+                <b><?= number_format($sum_col_10, 2) ?></b></td>
 
+        </tr>
         </tfoot>
     </table>
     <br>
@@ -275,7 +310,7 @@ if ($from_date != '' && $to_date != '') {
 
             <td>ค่าครองชีพ</td>
             <td></td>
-            <td>0</td>
+            <td><?=number_format($sum_col_4,0)?></td>
             <td>บาท</td>
             <td>ค่าประกันสังคม</td>
             <td>0</td>
@@ -286,7 +321,7 @@ if ($from_date != '' && $to_date != '') {
 
             <td>ค่าเที่ยว</td>
             <td></td>
-            <td>0</td>
+            <td><?=number_format($sum_col_5,0)?></td>
             <td>บาท</td>
             <td>เงินยืมทดลอง</td>
             <td>0</td>
@@ -297,7 +332,7 @@ if ($from_date != '' && $to_date != '') {
 
             <td>ค่าทางด่วน</td>
             <td></td>
-            <td>0</td>
+            <td><?=number_format($sum_col_6,0)?></td>
             <td>บาท</td>
             <td>ค่าประกันสินค้า</td>
             <td>0</td>
