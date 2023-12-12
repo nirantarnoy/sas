@@ -373,6 +373,14 @@
                             </a>
                         </li>
                         <?php //endif;?>
+                        <?php //if (\Yii::$app->user->can('salecomreport/index')): ?>
+                        <li class="nav-item">
+                            <a href="index.php?r=carsummaryreport/index" class="nav-link carsummaryreport">
+                                <i class="far fa-circlez nav-icon"></i>
+                                <p> รายงานค่าเที่ยว </p>
+                            </a>
+                        </li>
+                        <?php //endif;?>
 
                     </ul>
                 </li>
