@@ -262,7 +262,7 @@ if ($from_date != '' && $to_date != '') {
                 $sum_col_7 += ($value->overnight_price);
                 $sum_col_8 += ($value->warehouse_plus_price);
                 $sum_col_9 += ($value->work_other_price);
-                $sum_col_10 += ($value->work_labour_price + $value->work_express_road_price + $value->cover_sheet_price  + $value->overnight_price + $value->warehouse_plus_price);
+                $sum_col_10 += ($value->work_labour_price + $value->work_express_road_price + $value->cover_sheet_price  + $value->overnight_price + $value->warehouse_plus_price + $value->work_other_price);
                 ?>
                 <tr>
                     <td style="border: 1px solid grey;padding: 5px;text-align: center;"><?= date('d-m-Y', strtotime($value->work_queue_date)) ?></td>
@@ -273,7 +273,7 @@ if ($from_date != '' && $to_date != '') {
                     <td style="border: 1px solid grey;padding: 5px;text-align: right;"><?= number_format($value->overnight_price, 2) ?></td>
                     <td style="border: 1px solid grey;padding: 5px;text-align: right;"><?= number_format($value->warehouse_plus_price, 2) ?></td>
                     <td style="border: 1px solid grey;padding: 5px;text-align: right;"><?= number_format($value->work_other_price, 2) ?></td>
-                    <td style="border: 1px solid grey;padding: 5px;text-align: right;"><?= number_format($value->work_labour_price + $value->work_express_road_price + $value->cover_sheet_price  + $value->overnight_price + $value->warehouse_plus_price, 2) ?></td>
+                    <td style="border: 1px solid grey;padding: 5px;text-align: right;"><?= number_format($value->work_labour_price + $value->work_express_road_price + $value->cover_sheet_price  + $value->overnight_price + $value->warehouse_plus_price + $value->work_other_price, 2) ?></td>
                 </tr>
             <?php endforeach; ?>
         <?php endif; ?>
