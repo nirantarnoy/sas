@@ -250,9 +250,9 @@ if ($from_date != '' && $to_date != '') {
                 <?php
                 $sum_col_4 += ($value->work_labour_price);
                 $sum_col_5 += ($value->work_express_road_price);
-                $sum_col_6 += ($value->work_other_price);
-                $sum_col_7 += ($value->work_other_price);
-                $sum_col_8 += ($value->work_other_price);
+                $sum_col_6 += (0);
+                $sum_col_7 += (0);
+                $sum_col_8 += (0);
                 $sum_col_9 += ($value->work_other_price);
                 $sum_col_10 += ($value->work_labour_price + $value->work_express_road_price + $value->work_labour_price);
                 ?>
@@ -262,12 +262,11 @@ if ($from_date != '' && $to_date != '') {
                     <td style="border: 1px solid grey;padding: 5px;text-align: center;"><?= \backend\models\Customer::findWorkTypeByCustomerid($value->customer_id) ?></td>
                     <td style="border: 1px solid grey;padding: 5px;text-align: right;"><?= number_format($value->work_labour_price, 2) ?></td>
                     <td style="border: 1px solid grey;padding: 5px;text-align: right;"><?= number_format($value->work_express_road_price, 2) ?></td>
+                    <td style="border: 1px solid grey;padding: 5px;text-align: right;"><?= number_format(0, 2) ?></td>
+                    <td style="border: 1px solid grey;padding: 5px;text-align: right;"><?= number_format(0, 2) ?></td>
+                    <td style="border: 1px solid grey;padding: 5px;text-align: right;"><?= number_format(0, 2) ?></td>
                     <td style="border: 1px solid grey;padding: 5px;text-align: right;"><?= number_format($value->work_other_price, 2) ?></td>
-                    <td style="border: 1px solid grey;padding: 5px;text-align: right;"><?= number_format($value->work_other_price, 2) ?></td>
-                    <td style="border: 1px solid grey;padding: 5px;text-align: right;"><?= number_format($value->work_other_price, 2) ?></td>
-                    <td style="border: 1px solid grey;padding: 5px;text-align: right;"><?= number_format($value->work_other_price, 2) ?></td>
-                    <td style="border: 1px solid grey;padding: 5px;text-align: right;"><?= number_format($value->work_other_price, 2) ?></td>
-
+                    <td style="border: 1px solid grey;padding: 5px;text-align: right;"><?= number_format($value->work_labour_price + $value->work_express_road_price + $value->work_labour_price, 2) ?></td>
                 </tr>
             <?php endforeach; ?>
         <?php endif; ?>
@@ -383,7 +382,7 @@ if ($from_date != '' && $to_date != '') {
             <td></td>
             <td><b>รวม</b></td>
             <td></td>
-            <td><b><u><?=number_format($sum_col_9,2)?></u></b></td>
+            <td><b><u><?=number_format($sum_col_10,2)?></u></b></td>
             <td>บาท</td>
             <td><b>คงเหลือ</b></td>
             <td><b><u>0</u></b></td>
