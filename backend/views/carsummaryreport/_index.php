@@ -223,11 +223,10 @@ if ($from_date != '' && $to_date != '') {
     <table style="width: 100%;border: 1px solid grey;">
         <thead>
         <tr>
-            <th style="text-align: center;padding: 10px;border: 1px solid grey;"><b>สถานที่</b></th>
             <th style="text-align: center;padding: 10px;border: 1px solid grey;"><b>วันที่ขึ้นสินค้า</b></th>
+            <th style="text-align: center;padding: 10px;border: 1px solid grey;"><b>สถานที่</b></th>
             <th style="text-align: center;padding: 10px;border: 1px solid grey;"><b>รายการ</b></th>
             <th style="text-align: right;padding: 10px;border: 1px solid grey;"><b>ค่าเที่ยว</b></th>
-            <th style="text-align: right;padding: 10px;border: 1px solid grey;"><b>ค่าทางด่วน</b></th>
             <th style="text-align: right;padding: 10px;border: 1px solid grey;"><b>ค่าคลุมผ้าใบ</b></th>
             <th style="text-align: right;padding: 10px;border: 1px solid grey;"><b>ค่าค้างคืน</b></th>
             <th style="text-align: right;padding: 10px;border: 1px solid grey;"><b>ค่าบวกคลัง</b></th>
@@ -250,23 +249,22 @@ if ($from_date != '' && $to_date != '') {
                 <?php
                 $sum_col_4 += ($value->work_labour_price);
                 $sum_col_5 += ($value->work_express_road_price);
-                $sum_col_6 += (0);
-                $sum_col_7 += (0);
-                $sum_col_8 += (0);
+                $sum_col_6 += ($value->cover_sheet_price);
+                $sum_col_7 += ($value->overnight_price);
+                $sum_col_8 += ($value->warehouse_plus_price);
                 $sum_col_9 += ($value->work_other_price);
-                $sum_col_10 += ($value->work_labour_price + $value->work_express_road_price + $value->work_labour_price);
+                $sum_col_10 += ($value->work_labour_price + $value->work_express_road_price + $value->cover_sheet_price  + $value->overnight_price + $value->warehouse_plus_price);
                 ?>
                 <tr>
-                    <td style="border: 1px solid grey;padding: 5px;"><?= $value->dropoff_place_name ?></td>
                     <td style="border: 1px solid grey;padding: 5px;text-align: center;"><?= date('d-m-Y', strtotime($value->work_queue_date)) ?></td>
+                    <td style="border: 1px solid grey;padding: 5px;"><?= $value->dropoff_place_name ?></td>
                     <td style="border: 1px solid grey;padding: 5px;text-align: center;"><?= \backend\models\Customer::findWorkTypeByCustomerid($value->customer_id) ?></td>
                     <td style="border: 1px solid grey;padding: 5px;text-align: right;"><?= number_format($value->work_labour_price, 2) ?></td>
-                    <td style="border: 1px solid grey;padding: 5px;text-align: right;"><?= number_format($value->work_express_road_price, 2) ?></td>
-                    <td style="border: 1px solid grey;padding: 5px;text-align: right;"><?= number_format(0, 2) ?></td>
-                    <td style="border: 1px solid grey;padding: 5px;text-align: right;"><?= number_format(0, 2) ?></td>
-                    <td style="border: 1px solid grey;padding: 5px;text-align: right;"><?= number_format(0, 2) ?></td>
+                    <td style="border: 1px solid grey;padding: 5px;text-align: right;"><?= number_format($value->cover_sheet_price, 2) ?></td>
+                    <td style="border: 1px solid grey;padding: 5px;text-align: right;"><?= number_format($value->overnight_price, 2) ?></td>
+                    <td style="border: 1px solid grey;padding: 5px;text-align: right;"><?= number_format($value->warehouse_plus_price, 2) ?></td>
                     <td style="border: 1px solid grey;padding: 5px;text-align: right;"><?= number_format($value->work_other_price, 2) ?></td>
-                    <td style="border: 1px solid grey;padding: 5px;text-align: right;"><?= number_format($value->work_labour_price + $value->work_express_road_price + $value->work_labour_price, 2) ?></td>
+                    <td style="border: 1px solid grey;padding: 5px;text-align: right;"><?= number_format($value->work_labour_price + $value->work_express_road_price + $value->cover_sheet_price  + $value->overnight_price + $value->warehouse_plus_price, 2) ?></td>
                 </tr>
             <?php endforeach; ?>
         <?php endif; ?>
@@ -276,8 +274,6 @@ if ($from_date != '' && $to_date != '') {
             <td colspan="3" style="border: 1px solid grey;padding: 5px;text-align: right;"><b>รวม</b></td>
             <td style="border: 1px solid grey;padding: 5px;text-align: right;">
                 <b><?= number_format($sum_col_4, 2) ?></b></td>
-            <td style="border: 1px solid grey;padding: 5px;text-align: right;">
-                <b><?= number_format($sum_col_5, 2) ?></b></td>
             <td style="border: 1px solid grey;padding: 5px;text-align: right;">
                 <b><?= number_format($sum_col_6, 2) ?></b></td>
             <td style="border: 1px solid grey;padding: 5px;text-align: right;">
@@ -329,24 +325,13 @@ if ($from_date != '' && $to_date != '') {
         <tr>
             <td></td>
 
-            <td>ค่าทางด่วน</td>
-            <td></td>
-            <td style="text-align: right;padding: 5px;"><?=number_format($sum_col_5,2)?></td>
-            <td style="text-align: center;padding: 5px;">บาท</td>
-            <td>ค่าประกันสินค้า</td>
-            <td style="text-align: right;padding: 5px;">0</td>
-            <td style="text-align: center;padding: 5px;">บาท</td>
-        </tr>
-        <tr>
-            <td></td>
-
             <td>ค่าคลุมผ้าใบ</td>
             <td></td>
             <td style="text-align: right;padding: 5px;"><?=number_format($sum_col_6,2)?></td>
             <td style="text-align: center;padding: 5px;">บาท</td>
-            <td></td>
+            <td>ค่าประกันสินค้า</td>
             <td style="text-align: right;padding: 5px;">0</td>
-            <td></td>
+            <td style="text-align: center;padding: 5px;">บาท</td>
         </tr>
         <tr>
             <td></td>
