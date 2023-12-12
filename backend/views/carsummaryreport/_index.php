@@ -309,84 +309,84 @@ if ($from_date != '' && $to_date != '') {
 
             <td>ค่าครองชีพ</td>
             <td></td>
-            <td style="text-align: right;"><?=number_format(0,2)?></td>
-            <td>บาท</td>
+            <td style="text-align: right;padding: 5px;"><?=number_format(0,2)?></td>
+            <td style="text-align: center;padding: 5px;">บาท</td>
             <td>ค่าประกันสังคม</td>
-            <td style="text-align: right;">0</td>
-            <td>บาท</td>
+            <td style="text-align: right;padding: 5px;">0</td>
+            <td style="text-align: center;padding: 5px;">บาท</td>
         </tr>
         <tr>
             <td></td>
 
             <td>ค่าเที่ยว</td>
             <td></td>
-            <td style="text-align: right;"><?=number_format($sum_col_4,2)?></td>
-            <td>บาท</td>
+            <td style="text-align: right;padding: 5px;"><?=number_format($sum_col_4,2)?></td>
+            <td style="text-align: center;padding: 5px;">บาท</td>
             <td>เงินยืมทดลอง</td>
-            <td style="text-align: right;">0</td>
-            <td>บาท</td>
+            <td style="text-align: right;padding: 5px;">0</td>
+            <td style="text-align: center;padding: 5px;">บาท</td>
         </tr>
         <tr>
             <td></td>
 
             <td>ค่าทางด่วน</td>
             <td></td>
-            <td style="text-align: right;"><?=number_format($sum_col_5,2)?></td>
-            <td>บาท</td>
+            <td style="text-align: right;padding: 5px;"><?=number_format($sum_col_5,2)?></td>
+            <td style="text-align: center;padding: 5px;">บาท</td>
             <td>ค่าประกันสินค้า</td>
-            <td style="text-align: right;">0</td>
-            <td>บาท</td>
+            <td style="text-align: right;padding: 5px;">0</td>
+            <td style="text-align: center;padding: 5px;">บาท</td>
         </tr>
         <tr>
             <td></td>
 
             <td>ค่าคลุมผ้าใบ</td>
             <td></td>
-            <td><?=number_format($sum_col_6,2)?></td>
-            <td>บาท</td>
+            <td style="text-align: right;padding: 5px;"><?=number_format($sum_col_6,2)?></td>
+            <td style="text-align: center;padding: 5px;">บาท</td>
             <td></td>
-            <td style="text-align: right;">0</td>
+            <td style="text-align: right;padding: 5px;">0</td>
             <td></td>
         </tr>
         <tr>
             <td></td>
             <td>ค่าค้างคืน</td>
             <td></td>
-            <td style="text-align: right;"><?=number_format($sum_col_7,2)?></td>
-            <td>บาท</td>
+            <td style="text-align: right;padding: 5px;"><?=number_format($sum_col_7,2)?></td>
+            <td style="text-align: center;padding: 5px;">บาท</td>
             <td></td>
-            <td style="text-align: right;"></td>
+            <td style="text-align: right;padding: 5px;"></td>
             <td></td>
         </tr>
         <tr>
             <td></td>
             <td>ค่าบวกคลัง</td>
             <td></td>
-            <td style="text-align: right;"><?=number_format($sum_col_8,2)?></td>
-            <td>บาท</td>
+            <td style="text-align: right;padding: 5px;"><?=number_format($sum_col_8,2)?></td>
+            <td style="text-align: center;padding: 5px;">บาท</td>
             <td></td>
-            <td style="text-align: right;"></td>
+            <td style="text-align: right;padding: 5px;"></td>
             <td></td>
         </tr>
         <tr>
             <td></td>
             <td>ค่าพิเศษอื่นๆ</td>
             <td></td>
-            <td style="text-align: right;"><?=number_format($sum_col_9,2)?></td>
-            <td>บาท</td>
+            <td style="text-align: right;padding: 5px;"><?=number_format($sum_col_9,2)?></td>
+            <td style="text-align: center;padding: 5px;">บาท</td>
             <td></td>
-            <td style="text-align: right;"></td>
+            <td style="text-align: right;padding: 5px;"></td>
             <td></td>
         </tr>
         <tr>
             <td></td>
             <td><b>รวม</b></td>
             <td></td>
-            <td style="text-align: right;"><b><u><?=number_format($sum_col_10,2)?></u></b></td>
-            <td>บาท</td>
+            <td style="text-align: right;padding: 5px;"><b><u><?=number_format($sum_col_10,2)?></u></b></td>
+            <td style="text-align: center;padding: 5px;">บาท</td>
             <td><b>คงเหลือ</b></td>
-            <td style="text-align: right;"><b><u>0</u></b></td>
-            <td>บาท</td>
+            <td style="text-align: right;padding: 5px;"><b><u>0</u></b></td>
+            <td style="text-align: center;padding: 5px;">บาท</td>
         </tr>
     </table>
 
