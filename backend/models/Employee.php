@@ -187,7 +187,7 @@ class Employee extends \common\models\Employee
         if ($model_x) {
             $model_emp = Employee::find()->where(['id' => $model_x->driver_id])->one();
             if ($model_emp) {
-              $price = $model_emp->socail_price." %";
+              $price = $model_emp->social_price." %";
             }
         }
 
