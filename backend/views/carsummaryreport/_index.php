@@ -254,7 +254,7 @@ if ($from_date != '' && $to_date != '') {
         $cost_living_price = \backend\models\Employee::findCostLivingPrice($search_car_id);
         $social_price = \backend\models\Employee::findSocialPrice($search_car_id); // percent
 
-        $deduct_total = (($sum_col_4 * $social_price) /100);
+        $deduct_total = 0;
         ?>
         <?php if ($model_line != null): ?>
             <?php foreach ($model_line as $value): ?>
@@ -268,6 +268,8 @@ if ($from_date != '' && $to_date != '') {
 
                 $line_total = ($value->work_labour_price + $value->work_express_road_price + $value->cover_sheet_price  + $value->overnight_price + $value->warehouse_plus_price + $value->work_other_price);
                 $sum_col_10 += ($line_total);
+
+                $deduct_total += (($sum_col_4 * $social_price) /100);
                 ?>
                 <tr>
                     <td style="border: 1px solid grey;padding: 5px;text-align: center;"><?= date('d-m-Y', strtotime($value->work_queue_date)) ?></td>
