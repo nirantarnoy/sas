@@ -251,7 +251,10 @@ if ($from_date != '' && $to_date != '') {
         $sum_col_9 = 0;
         $sum_col_10 = 0;
 
-        $deduct_total = 0;
+        $cost_living_price = \backend\models\Employee::findCostLivingPrice($search_car_id);
+        $social_price = \backend\models\Employee::findSocialPrice($search_car_id); // percent
+
+        $deduct_total = (($sum_col_4 * $social_price) /100);
         ?>
         <?php if ($model_line != null): ?>
             <?php foreach ($model_line as $value): ?>
@@ -316,10 +319,10 @@ if ($from_date != '' && $to_date != '') {
 
             <td style="padding-left: 10px;">ค่าครองชีพ</td>
             <td></td>
-            <td style="text-align: right;padding: 5px;"><?=number_format(0,2)?></td>
+            <td style="text-align: right;padding: 5px;"><?=number_format($cost_living_price,2)?></td>
             <td style="text-align: center;padding: 5px;">บาท</td>
             <td style="padding-left: 10px;">ค่าประกันสังคม</td>
-            <td style="text-align: right;padding: 5px;">0</td>
+            <td style="text-align: right;padding: 5px;"><?=(($sum_col_4 * $social_price) /100)?></td>
             <td style="text-align: center;padding: 5px;">บาท</td>
         </tr>
         <tr>

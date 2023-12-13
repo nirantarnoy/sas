@@ -71,7 +71,7 @@ class Employee extends \yii\db\ActiveRecord
             'passport_issue_date' => 'วันที่ทำ',
             'passport_exp_date' => 'วันหมดอายุ',
             'cost_living_price' => 'ค่าครองชีพ',
-            'social_price' => 'ค่าประกันสังคม',
+            'social_price' => 'ค่าประกันสังคม(%)',
             'company_id' => 'Company ID',
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',

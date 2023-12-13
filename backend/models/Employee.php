@@ -140,6 +140,33 @@ class Employee extends \common\models\Employee
         }
 
     }
+
+    public static function findCostLivingPrice($id)
+    {
+        $price = 0;
+        $model_x = Car::find()->where(['id' => $id])->one();
+        if ($model_x) {
+            $model_emp = Employee::find()->where(['id' => $model_x->driver_id])->one();
+            if ($model_emp) {
+                $price = $model_emp->cost_living_price;
+            }
+        }
+
+        return $price;
+    }
+    public static function findSocialPrice($id)
+    {
+        $price = 0;
+        $model_x = Car::find()->where(['id' => $id])->one();
+        if ($model_x) {
+            $model_emp = Employee::find()->where(['id' => $model_x->driver_id])->one();
+            if ($model_emp) {
+                $price = $model_emp->social_price;
+            }
+        }
+
+        return $price;
+    }
 //    public function findUnitid($code){
 //        $model = Unit::find()->where(['name'=>$code])->one();
 //        return count($model)>0?$model->id:0;
