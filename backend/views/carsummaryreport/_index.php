@@ -381,10 +381,10 @@ if ($from_date != '' && $to_date != '') {
             <td></td>
             <td><b>รวม</b></td>
             <td></td>
-            <td style="text-align: right;padding: 5px;"><b><u><?=number_format($sum_col_10,2)?></u></b></td>
+            <td style="text-align: right;padding: 5px;"><b><u><?=number_format(($sum_col_10 + $cost_living_price),2)?></u></b></td>
             <td style="text-align: center;padding: 5px;">บาท</td>
             <td><b>คงเหลือ</b></td>
-            <td style="text-align: right;padding: 5px;"><b><u><?=number_format($sum_col_10 - $deduct_total,2)?></u></b></td>
+            <td style="text-align: right;padding: 5px;"><b><u><?=number_format(($sum_col_10 + $cost_living_price) - $deduct_total,2)?></u></b></td>
             <td style="text-align: center;padding: 5px;">บาท</td>
         </tr>
     </table>
