@@ -41,7 +41,7 @@ class Employee extends \yii\db\ActiveRecord
     {
         return [
             [['gender', 'position', 'salary_type', 'status', 'company_id', 'created_at', 'updated_at', 'created_by', 'updated_by'], 'integer'],
-            [['emp_start','card_issue_date','card_exp_date','passport_issue_date','passport_exp_date'], 'safe'],
+            [['emp_start','card_issue_date','card_exp_date','passport_issue_date','passport_exp_date','cost_living_price','social_price'], 'safe'],
             [['code', 'fname', 'lname', 'description', 'photo','id_card_no','card_issue_place','passport'], 'string', 'max' => 255],
         ];
     }
@@ -70,6 +70,8 @@ class Employee extends \yii\db\ActiveRecord
             'passport' => 'เลขที่หนังสือเดินทาง',
             'passport_issue_date' => 'วันที่ทำ',
             'passport_exp_date' => 'วันหมดอายุ',
+            'cost_living_price' => 'ค่าครองชีพ',
+            'social_price' => 'ค่าประกันสังคม',
             'company_id' => 'Company ID',
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',
