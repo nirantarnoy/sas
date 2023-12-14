@@ -208,7 +208,10 @@ $car_type_data = \common\models\CarType::find()->all();
                     <th>ประเภทรถ</th>
                     <th>ค่าเที่ยว</th>
                     <th>ค่าทางด่วน</th>
-                    <th>ค่าอื่นๆ(คลุมผ้าใบ,ค้างคืน,บวกคลัง,พิเศษอื่นๆ)</th>
+                    <th>คลุมผ้าใบ</th>
+                    <th>ค้างคืน</th>
+                    <th>บวกคลัง</th>
+                    <th>ค่าพิเศษอื่นๆ</th>
                     <th></th>
                     </thead>
                     <tbody>
@@ -229,6 +232,18 @@ $car_type_data = \common\models\CarType::find()->all();
                             <td>
                                 <input type="number" name="express_road_price_line[]"
                                        class="form-control express-road-price-line" id="">
+                            </td>
+                            <td>
+                                <input type="number" name="cover_sheet_price_line[]"
+                                       class="form-control cover-sheet-price-line" id="">
+                            </td>
+                            <td>
+                                <input type="number" name="overnight_price_line[]"
+                                       class="form-control overnight-price-line" id="">
+                            </td>
+                            <td>
+                                <input type="number" name="warehouse_plus_price_line[]"
+                                       class="form-control warehouse-plus-price-line" id="">
                             </td>
                             <td>
                                 <input type="number" name="other_price_line[]"
@@ -269,6 +284,18 @@ $car_type_data = \common\models\CarType::find()->all();
                                                value="<?= $key->express_road_price ?>">
                                     </td>
                                     <td>
+                                        <input type="number" name="cover_sheet_price_line[]"
+                                               class="form-control cover-sheet-price-line" id="" value="<?= $key->cover_sheet_price ?>">
+                                    </td>
+                                    <td>
+                                        <input type="number" name="overnight_price_line[]"
+                                               class="form-control overnight-price-line" id="" value="<?= $key->overnight_price ?>">
+                                    </td>
+                                    <td>
+                                        <input type="number" name="warehouse_plus_price_line[]"
+                                               class="form-control warehouse-plus-price-line" id="" value="<?= $key->warehouse_plus_price ?>">
+                                    </td>
+                                    <td>
                                         <input type="number" name="other_price_line[]"
                                                class="form-control other-price-line" id="" value="<?=$key->other_price?>">
                                     </td>
@@ -295,6 +322,18 @@ $car_type_data = \common\models\CarType::find()->all();
                                 <td>
                                     <input type="number" name="express_road_price_line[]"
                                            class="form-control express-road-price-line" id="">
+                                </td>
+                                <td>
+                                    <input type="number" name="cover_sheet_price_line[]"
+                                           class="form-control cover-sheet-price-line" id="">
+                                </td>
+                                <td>
+                                    <input type="number" name="overnight_price_line[]"
+                                           class="form-control overnight-price-line" id="">
+                                </td>
+                                <td>
+                                    <input type="number" name="warehouse_plus_price_line[]"
+                                           class="form-control warehouse-plus-price-line" id="">
                                 </td>
                                 <td>
                                     <input type="number" name="other_price_line[]"
@@ -369,7 +408,10 @@ function addline2(e){
                     clone.find(".car-type-id").val("");
                     clone.find(".labour-price-line").val("0");
                     clone.find(".express-road-price-line").val("0");
-                    clone.find(".other-price-line").val("0");
+                    clone.find(".cover-sheet-price-line").val("0");
+                   clone.find(".overnight-price-line").val("0");
+                   clone.find(".warehouse-plus-price-line").val("0");
+                   clone.find(".other-price-line").val("0");
                     
                   
                     clone.attr("data-var", "");
@@ -415,8 +457,11 @@ function removeline(e) {
                     $(this).find(":text").val("");
                    // $(this).find(".line-prod-photo").attr('src', '');
                    
-                     $(this).find(".labour-price-line").val(0);
+                    $(this).find(".labour-price-line").val(0);
                     $(this).find(".express-road-price-line").val(0);
+                    $(this).find(".cover-sheet-price-line").val(0);
+                    $(this).find(".overnight-price-line").val(0);
+                    $(this).find(".warehouse-plus-price-line").val(0);
                     $(this).find(".other-price-line").val(0);
                     // cal_num();
                 });

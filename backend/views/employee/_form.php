@@ -59,6 +59,17 @@ $drivingcard_data = \backend\helpers\DrivingcardType::asArrayObject();
             ]) ?>
         </div>
     </div>
+    <div class="row">
+        <div class="col-lg-4">
+            <?= $form->field($model, 'cost_living_price')->textInput(['maxlength' => true]) ?>
+        </div>
+        <div class="col-lg-4">
+            <?= $form->field($model, 'social_price')->textInput(['maxlength' => true]) ?>
+        </div>
+        <div class="col-lg-4">
+        </div>
+    </div>
+
     <br>
     <h5 style="color: blue;"><b>ข้อมูลบัตรประชาชน</b></h5>
     <div class="row">

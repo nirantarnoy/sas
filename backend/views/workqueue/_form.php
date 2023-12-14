@@ -37,8 +37,14 @@ if($itemback_list!=null){
         array_push($itemback_list,$v->item_back_id);
     }
 }
+$current_route_plan_id = $model->route_plan_id;
+$is_newpage = $model->isNewRecord ? 0:1;
+$current_car_type_id = 0;
+if(!$model->isNewRecord){
+    $current_car_type_id = \backend\models\Car::getCartypeId($model->car_id);
+}
 //print_r($dropoff_list);
-
+//print_r($model->route_plan_id);
 ?>
 
 <div class="workqueue-form">
@@ -267,6 +273,17 @@ if($itemback_list!=null){
         </div>
     </div>
     <div class="row">
+        <div class="col-lg-4">
+            <?= $form->field($model, 'cover_sheet_price')->textinput(['maxlength' => true, 'id' => 'cover-sheet-price',]) ?>
+        </div>
+        <div class="col-lg-4">
+            <?= $form->field($model, 'overnight_price')->textInput(['maxlength' => true, 'id' => 'overnight-price',]) ?>
+        </div>
+        <div class="col-lg-4">
+            <?= $form->field($model, 'warehouse_plus_price')->textInput(['maxlength' => true, 'id' => 'warehouse-plus-price',]) ?>
+        </div>
+    </div>
+    <div class="row">
         <div class="col-lg-4"><?= $form->field($model, 'test_price')->textinput(['maxlength' => true, 'id' => 'test-price',]) ?></div>
         <div class="col-lg-4"><?= $form->field($model, 'damaged_price')->textinput(['maxlength' => true, 'id' => 'damaged-price',]) ?></div>
         <div class="col-lg-4"></div>
@@ -395,19 +412,24 @@ if($itemback_list!=null){
     <input type="hidden" name="work_queue_id" value="<?= $model->id ?>">
     <input type="hidden" class="work-queue-doc-delete" name="doc_name" value="">
 </form>
-<input type="hidden" id="is-page-new" value="<?= $model->isNewRecord ? 1 : 0 ?>">
-<input type="hidden" id="route-plan-id" value="">
-<input type="hidden" id="car-type-selected" value="">
+<input type="hidden" id="is-page-new" value="<?= $is_newpage ?>">
+<input type="hidden" id="route-plan-id" value="<?= $current_route_plan_id?>">
+<input type="hidden" id="car-type-selected" value="<?=$current_car_type_id?>">
 <input type="hidden" id="labour-price-checked" value="0">
 <input type="hidden" id="labour-price-plan" value="<?= $model->labour_price ?>">
 <input type="hidden" id="express-road-price-checked" value="0">
 <input type="hidden" id="express-road-price-plan" value="<?= $model->express_road_price ?>">
 <input type="hidden" id="other-price-checked" value="0">
 <input type="hidden" id="other-price-plan" value="<?= $model->other_price ?>">
+<input type="hidden" id="cover-sheet-price-checked" value="0">
+<input type="hidden" id="cover-sheet-price-plan" value="<?= $model->cover_sheet_price ?>">
+<input type="hidden" id="overnight-price-checked" value="0">
+<input type="hidden" id="overnight-price-plan" value="<?= $model->overnight_price ?>">
+<input type="hidden" id="warehouse-plus-price-checked" value="0">
+<input type="hidden" id="warehouse-plus-price-plan" value="<?= $model->warehouse_plus_price ?>">
 <?php
 $url_to_getCardata = \yii\helpers\Url::to(['car/getcarinfo'], true);
 $url_to_routeplan = \yii\helpers\Url::to(['car/getrouteplan'], true);
-
 $url_to_find_item = \yii\helpers\Url::to(['item/finditem'], true);
 
 $js = <<<JS
@@ -417,12 +439,19 @@ var loop2 = 0;
 var loop3 = 0;
 
 $(function(){
-    // alert();
+     //alert($("#is-page-new").val());
    
     if($("#is-page-new").val() == 0){
         $("#labour-price-checked").val($("#workqueue-is_labur").val());
         $("#express-road-price-checked").val($("#workqueue-is_express_road").val());
         $("#other-price-checked").val($("#workqueue-is_other").val());
+        
+        $("#cover-sheet-price-checked").val($("#workqueue-is_other").val());
+        $("#overnight-price-checked").val($("#workqueue-is_other").val());
+        $("#warehouse-plus-price-checked").val($("#workqueue-is_other").val());
+    }else{
+      //  alert();
+        getRouteplan();
     }
     
 });
@@ -552,10 +581,24 @@ function enableOther(e){
            getRouteplan();
            var labour = $('#other-price-plan').val();
            $("#other-price").val(labour);
-           }else{
+         
+       
+           var cover_sheet_price = $('#cover-sheet-price-plan').val();
+           $("#cover-sheet-price").val(cover_sheet_price);
+          
+           var overnight_price = $('#overnight-price-plan').val();
+           $("#overnight-price").val(overnight_price);
+          
+          
+           var warehouse_plus_price = $('#warehouse-plus-price-plan').val();
+           $("#warehouse-plus-price").val(warehouse_plus_price);
+          
+       }else{
                 $("#other-price").val(0);
+                $("#cover-sheet-price").val(0);
+                 $("#overnight-price").val(0);
+                  $("#warehouse-plus-price").val(0);
            }
-     
        // loop = 0;
        return  false;
    }
@@ -605,17 +648,18 @@ function getCarinfo(e){
 }
 
 function getRouteplan(){
-    //var route_plan_id = $("#route-plan-id").val();
+    var route_plan_id = $("#route-plan-id").val();
     var customer_id = $("#customer-selected-id").val();
     //alert(route_plan_id);
-    if(customer_id > 0){
+   
+    if(customer_id > 0 && route_plan_id > 0){
         var car_type_id = $("#car-type-selected").val();
-       // alert(car_type_id);
+      // alert(car_type_id);
         $.ajax({
             'type': 'post',
             'dataType': 'json',
             'url': '$url_to_routeplan',
-            'data': {'route_plan_id': 0,'car_type_id': car_type_id,'customer_id': customer_id},
+            'data': {'route_plan_id': route_plan_id,'car_type_id': car_type_id,'customer_id': customer_id},
             'success': function(data){
                 // alert(data);
                 if(data != null){
@@ -625,12 +669,18 @@ function getRouteplan(){
                     var dropoff_qty = data[0]['total_dropoff_rate_qty'];
                     var labour_price = data[0]['labour_price'];
                     var express_road_price = data[0]['express_road_price'];
+                    var cover_sheet_price = data[0]['cover_sheet_price'];
+                    var overnight_price = data[0]['overnight_price'];
+                    var warehouse_plus_price = data[0]['warehouse_plus_price'];
                     var other_price = data[0]['other_price'];
                    // alert(other_price);
                     $('.total-distance').val(distance);
                     $('.total-qty').val(parseFloat(rate_qty) + parseFloat(dropoff_qty));
                     $('#labour-price-plan').val(labour_price);
                     $('#express-road-price-plan').val(express_road_price);
+                    $('#cover-sheet-price-plan').val(cover_sheet_price);
+                    $('#overnight-price-plan').val(overnight_price);
+                    $('#warehouse-plus-price-plan').val(warehouse_plus_price);
                     $('#other-price-plan').val(other_price);
                 }
             },
