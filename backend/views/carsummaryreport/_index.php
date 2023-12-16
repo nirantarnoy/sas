@@ -329,7 +329,7 @@ if ($from_date != '' && $to_date != '') {
             <td style="text-align: right;padding: 5px;"><?=number_format($cost_living_price,2)?></td>
             <td style="text-align: center;padding: 5px;">บาท</td>
             <td style="padding-left: 10px;">ค่าประกันสังคม <?=$social_price.' %'?></td>
-            <td style="text-align: right;padding: 5px;"><?=(($sum_col_4 * $social_price) /100)?></td>
+            <td style="text-align: right;padding: 5px;"><?=((($sum_col_10 + $cost_living_price) * $social_price) /100)?></td>
             <td style="text-align: center;padding: 5px;">บาท</td>
         </tr>
         <tr>
