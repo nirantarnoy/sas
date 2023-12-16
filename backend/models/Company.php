@@ -34,7 +34,7 @@ class Company extends \common\models\Company
         return [
             [['status', 'created_at', 'created_by', 'updated_at', 'updated_by'], 'integer'],
             [['name', 'description','doc'], 'string', 'max' => 255],
-            [['social_deduct_per'],'safe']
+            [['social_deduct_per'],'number']
         ];
     }
 
