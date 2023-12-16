@@ -21,6 +21,7 @@ use yii\widgets\ActiveForm;
                 <?= $form->field($model, 'social_deduct_per')->textInput(['maxlength' => true]) ?>
             </div>
             <div class="col-lg-3">
+                <label for="">อัพเดทล่าสุด</label>
                 <input type="text" class="form-control" readonly value="<?=\backend\models\Company::findSocialLastUpdate($model->id)?>">
             </div>
         </div>
