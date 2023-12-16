@@ -144,6 +144,8 @@ class CompanyController extends Controller
             $uploaded = UploadedFile::getInstancesByName('line_file_name');
              $line_id = \Yii::$app->request->post('rec_id');
 
+
+             $update_social_date = date('Y-m-d H:i:s');
              // print_r($line_id);return;
             if ($model->save()) {
                 if ($line_id != null) {
@@ -184,6 +186,21 @@ class CompanyController extends Controller
                     }
 
                 }
+
+                // update social per rate
+
+                $model_social_per = \common\models\SocialPerTrans::find()->where(['company_id'=>$id,'month(trans_date)'=>date('m'),'year(trans_date)'=>date('Y')])->one();
+                if($model_social_per){
+                    $model_social_per->social_per = $model->social_deduct_per;
+                    $model_social_per->save(false);
+                }else{
+                    $model_new_social_per = new \common\models\SocialPerTrans();
+                    $model_new_social_per->company_id = $id;
+                    $model_new_social_per->trans_date = $update_social_date;
+                    $model_new_social_per->social_per = $model->social_deduct_per;
+                    $model_new_social_per->save(false);
+                }
+
                 return $this->redirect(['view', 'id' => $model->id]);
             }
         }
