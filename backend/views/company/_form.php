@@ -16,6 +16,8 @@ use yii\widgets\ActiveForm;
 
         <?= $form->field($model, 'description')->textInput(['maxlength' => true]) ?>
 
+        <?= $form->field($model, 'social_deduct_per')->textInput(['maxlength' => true,'style'=>'width: 25%;']) ?>
+
         <!-- <?= $form->field($model, 'status')->textInput() ?> -->
         <?php echo $form->field($model, 'status')->widget(\toxor88\switchery\Switchery::className(), ['options' => ['label' => '', 'class' => 'form-control']])->label() ?>
 

@@ -252,7 +252,8 @@ if ($from_date != '' && $to_date != '') {
         $sum_col_10 = 0;
 
         $cost_living_price = \backend\models\Employee::findCostLivingPrice($search_car_id);
-        $social_price = \backend\models\Employee::findSocialPrice($search_car_id); // percent
+        //$social_price = \backend\models\Employee::findSocialPrice($search_car_id); // percent
+        $social_price = \backend\models\Company::findCompanySocialPer(1); // company percent
         $social_per_text = \backend\models\Employee::findSocialPricePer($search_car_id);
 
         $deduct_total = 0;
