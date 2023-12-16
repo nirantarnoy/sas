@@ -16,7 +16,16 @@ use yii\widgets\ActiveForm;
 
         <?= $form->field($model, 'description')->textInput(['maxlength' => true]) ?>
 
-        <?= $form->field($model, 'social_deduct_per')->textInput(['maxlength' => true,'style'=>'width: 25%;']) ?>
+        <div class="row">
+            <div class="col-lg-3">
+                <?= $form->field($model, 'social_deduct_per')->textInput(['maxlength' => true]) ?>
+            </div>
+            <div class="col-lg-3">
+                <input type="text" class="form-control" readonly value="<?=\backend\models\Company::findSocialLastUpdate($model->id)?>">
+            </div>
+        </div>
+
+
 
         <!-- <?= $form->field($model, 'status')->textInput() ?> -->
         <?php echo $form->field($model, 'status')->widget(\toxor88\switchery\Switchery::className(), ['options' => ['label' => '', 'class' => 'form-control']])->label() ?>

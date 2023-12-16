@@ -86,4 +86,15 @@ class Company extends \common\models\Company
 //        }
 //        return $per;
     }
+
+    public static function findSocialLastUpdate($id){
+        $per_date = '';
+        $model = \common\models\SocialPerTrans::find()->where(['company_id' => $id,'month(trans_date)'=>date('m'),'year(trans_date)'=>date('Y')])->one();
+        if($model != null){
+            if($model->trans_date != null){
+                $per_date = date('d-m-Y H:i:s',strtotime($model->trans_date));
+            }
+        }
+        return $per_date;
+    }
 }

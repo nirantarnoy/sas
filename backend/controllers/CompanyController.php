@@ -191,6 +191,7 @@ class CompanyController extends Controller
 
                 $model_social_per = \common\models\SocialPerTrans::find()->where(['company_id'=>$id,'month(trans_date)'=>date('m'),'year(trans_date)'=>date('Y')])->one();
                 if($model_social_per){
+                    $model_social_per->trans_date = date('Y-m-d H:i:s');
                     $model_social_per->social_per = $model->social_deduct_per;
                     $model_social_per->save(false);
                 }else{
