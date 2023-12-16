@@ -70,12 +70,20 @@ class Company extends \common\models\Company
     public static function findCompanySocialPer($id)
     {
         $per = 0;
-        $model = Company::find()->where(['id' => $id])->one();
+        $model = \common\models\SocialPerTrans::find()->where(['company_id' => $id,'month(trans_date)'=>date('m'),'year(trans_date)'=>date('Y')])->one();
         if($model != null){
-            if($model->social_deduct_per != null){
-             $per = $model->social_deduct_per;
+            if($model->social_per != null){
+                $per = $model->social_per;
             }
         }
         return $per;
+//        $per = 0;
+//        $model = Company::find()->where(['id' => $id])->one();
+//        if($model != null){
+//            if($model->social_deduct_per != null){
+//             $per = $model->social_deduct_per;
+//            }
+//        }
+//        return $per;
     }
 }
