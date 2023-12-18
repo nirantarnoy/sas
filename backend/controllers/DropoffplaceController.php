@@ -145,8 +145,9 @@ class DropoffplaceController extends Controller
         if ($id){
             $hp = \backend\models\DropoffPlace::getHp($id);
             $oil_rate = \backend\models\DropoffPlace::getOilrate($id);
+            $oil_rate_1 =\backend\models\DropoffPlace::getOilrate1($id);
 
-            array_push($data,['oil_rate'=>$oil_rate,'hp'=>$hp]);
+            array_push($data,['oil_rate'=>$oil_rate,'hp'=>$hp,'oil_rate_1'=>$oil_rate_1]);
         }
         echo json_encode($data);
     }

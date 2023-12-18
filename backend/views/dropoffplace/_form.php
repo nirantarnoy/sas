@@ -32,10 +32,13 @@ use yii\widgets\ActiveForm;
         </div>
     </div>
     <div class="row">
-        <div class="col-lg-6">
+        <div class="col-lg-4">
+            <?= $form->field($model, 'oil_rate_qty_1')->textInput(['maxlength' => true]) ?>
+        </div>
+        <div class="col-lg-4">
             <?= $form->field($model, 'description')->textarea(['maxlength' => true]) ?>
         </div>
-        <div class="col-lg-6">
+        <div class="col-lg-4">
             <?php echo $form->field($model, 'status')->widget(\toxor88\switchery\Switchery::className(), ['options' => ['label' => '', 'class' => 'form-control']])->label() ?>
         </div>
     </div>

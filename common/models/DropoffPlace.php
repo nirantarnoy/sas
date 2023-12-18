@@ -34,7 +34,7 @@ class DropoffPlace extends \yii\db\ActiveRecord
         return [
             [['status', 'created_at', 'created_by', 'updated_at', 'updated_by','hp','car_type_id'], 'integer'],
             [['name', 'description'], 'string', 'max' => 255],
-            [['oil_rate_qty'],'safe']
+            [['oil_rate_qty','oil_rate_qty_1'],'safe']
         ];
     }
 
@@ -48,7 +48,8 @@ class DropoffPlace extends \yii\db\ActiveRecord
             'name' => 'ชื่อ',
             'description' => 'รายละเอียด',
             'hp' => 'แรงม้า',
-            'oil_rate_qty' => 'จำนวนเรทน้ำมัน(ลิตร)',
+            'oil_rate_qty' => 'จำนวนเรทน้ำมันหนัก(ลิตร)',
+            'oil_rate_qty_1' => 'จำนวนเรทน้ำมันเบา(ลิตร)',
             'status' => 'สถานะ',
             'car_type_id'=>'ประเภทรถ',
             'created_at' => 'Created At',

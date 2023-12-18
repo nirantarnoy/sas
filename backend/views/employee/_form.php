@@ -67,6 +67,7 @@ $drivingcard_data = \backend\helpers\DrivingcardType::asArrayObject();
             <?= $form->field($model, 'social_price')->textInput(['maxlength' => true]) ?>
         </div>
         <div class="col-lg-4">
+            <?php echo $form->field($model, 'is_cashier')->widget(\toxor88\switchery\Switchery::className(), ['options' => ['label' => '', 'class' => 'form-control']])->label() ?>
         </div>
     </div>
 

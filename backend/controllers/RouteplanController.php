@@ -80,6 +80,12 @@ class RouteplanController extends Controller
                 $drop_off_place = \Yii::$app->request->post('drop_off_place');
                 $drop_off_qty = \Yii::$app->request->post('drop_off_qty');
 
+                $car_type = \Yii::$app->request->post('car_type');
+                $lite_oil_rate = \Yii::$app->request->post('lite_oil_rate');
+                $count_go = \Yii::$app->request->post('count_go');
+                $count_back = \Yii::$app->request->post('count_back');
+                $total = \Yii::$app->request->post('total');
+
                 $car_type_id = \Yii::$app->request->post('car_type_id');
                 $labour_price_line = \Yii::$app->request->post('labour_price_line');
                 $express_road_price_line = \Yii::$app->request->post('express_road_price_line');
@@ -98,6 +104,11 @@ class RouteplanController extends Controller
                                 if ($route_plan_line_chk) {
                                     $route_plan_line_chk->dropoff_place_id = $drop_off_place[$i];
                                     $route_plan_line_chk->dropoff_qty = $drop_off_qty[$i];
+                                    $route_plan_line_chk->car_type = $car_type[$i];
+                                    $route_plan_line_chk->lite_oil_rate = $lite_oil_rate[$i];
+                                    $route_plan_line_chk->count_go = $count_go[$i];
+                                    $route_plan_line_chk->count_back = $count_back[$i];
+                                    $route_plan_line_chk->total = $total[$i];
                                     $route_plan_line_chk->status = $model->status;
                                     if ($route_plan_line_chk->save(false)) {
 
@@ -107,6 +118,11 @@ class RouteplanController extends Controller
                                     $new_line->route_plan_id = $model->id;
                                     $new_line->dropoff_place_id = $drop_off_place[$i];
                                     $new_line->dropoff_qty = $drop_off_qty[$i];
+                                    $new_line->car_type = $car_type[$i];
+                                    $new_line->lite_oil_rate = $lite_oil_rate[$i];
+                                    $new_line->count_go = $count_go[$i];
+                                    $new_line->count_back = $count_back[$i];
+                                    $new_line->total = $total[$i];
                                     $new_line->status = $model->status;
                                     if ($new_line->save(false)) {
 
@@ -182,6 +198,12 @@ class RouteplanController extends Controller
             $drop_off_place = \Yii::$app->request->post('drop_off_place');
             $drop_off_qty = \Yii::$app->request->post('drop_off_qty');
 
+            $car_type = \Yii::$app->request->post('car_type');
+            $lite_oil_rate = \Yii::$app->request->post('lite_oil_rate');
+            $count_go = \Yii::$app->request->post('count_go');
+            $count_back = \Yii::$app->request->post('count_back');
+            $total = \Yii::$app->request->post('total');
+
             $removelist = \Yii::$app->request->post('remove_list');
             $removelist2 = \Yii::$app->request->post('remove_list2');
 
@@ -194,6 +216,8 @@ class RouteplanController extends Controller
             $other_price_line = \Yii::$app->request->post('other_price_line');
 
 
+
+
             if ($model->save(false)) {
                 if (count($drop_off_place)) {
                     for ($i = 0; $i <= count($drop_off_place) - 1; $i++) {
@@ -202,6 +226,11 @@ class RouteplanController extends Controller
                             if ($route_plan_line_chk) {
                                 $route_plan_line_chk->dropoff_place_id = $drop_off_place[$i];
                                 $route_plan_line_chk->dropoff_qty = $drop_off_qty[$i];
+                                $route_plan_line_chk->car_type = $car_type[$i];
+                                $route_plan_line_chk->lite_oil_rate = $lite_oil_rate[$i];
+                                $route_plan_line_chk->count_go = $count_go[$i];
+                                $route_plan_line_chk->count_back = $count_back[$i];
+                                $route_plan_line_chk->total = $total[$i];
                                 $route_plan_line_chk->status = $model->status;
                                 if ($route_plan_line_chk->save(false)) {
 
@@ -211,6 +240,11 @@ class RouteplanController extends Controller
                                 $new_line->route_plan_id = $model->id;
                                 $new_line->dropoff_place_id = $drop_off_place[$i];
                                 $new_line->dropoff_qty = $drop_off_qty[$i];
+                                $new_line->car_type = $car_type[$i];
+                                $new_line->lite_oil_rate = $lite_oil_rate[$i];
+                                $new_line->count_go = $count_go[$i];
+                                $new_line->count_back = $count_back[$i];
+                                $new_line->total = $total[$i];
                                 $new_line->status = $model->status;
                                 if ($new_line->save(false)) {
 

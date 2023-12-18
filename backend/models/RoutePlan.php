@@ -36,7 +36,7 @@ class RoutePlan extends \common\models\RoutePlan
     {
         return [
             [['des_province_id', 'status', 'created_at', 'created_by', 'updated_at', 'updated_by','item_back_id','customer_id','car_type_id','hp'], 'integer'],
-            [['total_distanct','oil_rate_qty','labour_price','express_road_price'], 'number'],
+            [['total_distanct','oil_rate_qty','labour_price','express_road_price','total_distance_back'], 'number'],
             [['des_name'], 'string', 'max' => 255],
         ];
     }
@@ -50,7 +50,7 @@ class RoutePlan extends \common\models\RoutePlan
             'id' => 'ID',
             'des_name' => 'ชื่อปลายทาง',
             'des_province_id' => 'จังหวัดปลายทาง',
-            'total_distanct' => 'ระยะทาง',
+            'total_distanct' => 'ระยะทางไป',
             'status' => 'สถานะ',
             'customer_id' => 'ลูกค้าปลายทาง',
             'hp'=> 'แรงม้า',
@@ -59,6 +59,7 @@ class RoutePlan extends \common\models\RoutePlan
             'car_type_id' => 'ประเภทรถ',
             'labour_price' => 'ค่าแรง',
             'express_road_price'=> 'ค่าทางด่วน',
+            'total_distance_back'=> 'ระยะทางกลับ',
             'created_at' => 'Created At',
             'created_by' => 'Created By',
             'updated_at' => 'Updated At',
