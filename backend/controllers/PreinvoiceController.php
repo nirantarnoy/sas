@@ -94,12 +94,19 @@ class PreinvoiceController extends Controller
                 $line_work_amount = \Yii::$app->request->post('line_work_queue_amount');
                 $all_total = \Yii::$app->request->post('all_total');
 
-                $invoice_date = date('Y-m-d');
-                $x = explode('-', $model->journal_date);
+                $invoice_from_date = date('Y-m-d');
+                $invoice_to_date = date('Y-m-d');
+                $x = explode('-', $model->from_date);
                 if (count($x) > 1) {
-                    $invoice_date = $x[2] . '/' . $x[1] . '/' . $x[0];
+                    $invoice_from_date = $x[2] . '/' . $x[1] . '/' . $x[0];
                 }
-                $model->journal_date = date('Y-m-d',strtotime($invoice_date));
+                $y = explode('-', $model->to_date);
+                if (count($y) > 1) {
+                    $invoice_to_date = $y[2] . '/' . $y[1] . '/' . $y[0];
+                }
+                $model->journal_date = date('Y-m-d');
+                $model->from_date = date('Y-m-d', strtotime($invoice_from_date));
+                $model->to_date = date('Y-m-d', strtotime($invoice_to_date));
                 $model->journal_no = Preinvoice::getLastNo();
                 $model->status = 1;
                 $model->total_amount= $all_total;
@@ -145,12 +152,19 @@ class PreinvoiceController extends Controller
             $removelist = \Yii::$app->request->post('removelist');
             $all_total = \Yii::$app->request->post('all_total');
 
-            $invoice_date = date('Y-m-d');
-            $x = explode('-', $model->journal_date);
+            $invoice_from_date = date('Y-m-d');
+            $invoice_to_date = date('Y-m-d');
+            $x = explode('-', $model->from_date);
             if (count($x) > 1) {
-                $invoice_date = $x[2] . '/' . $x[1] . '/' . $x[0];
+                $invoice_from_date = $x[2] . '/' . $x[1] . '/' . $x[0];
             }
-            $model->journal_date = date('Y-m-d',strtotime($invoice_date));
+            $y = explode('-', $model->to_date);
+            if (count($y) > 1) {
+                $invoice_to_date = $y[2] . '/' . $y[1] . '/' . $y[0];
+            }
+           // $model->journal_date = date('Y-m-d');
+            $model->from_date = date('Y-m-d', strtotime($invoice_from_date));
+            $model->to_date = date('Y-m-d', strtotime($invoice_to_date));
             $model->total_amount = $all_total;
             if($model->save()){
                 if($line_work_id !=null){

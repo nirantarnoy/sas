@@ -38,6 +38,7 @@ class Preinvoice extends \yii\db\ActiveRecord
             [['status', 'created_at', 'created_by', 'updated_at', 'updated_by','customer_id'], 'integer'],
             [['journal_no', 'name', 'description'], 'string', 'max' => 255],
             [['total_amount'],'number'],
+            [['from_date','to_date'],'safe'],
         ];
     }
 
@@ -55,6 +56,8 @@ class Preinvoice extends \yii\db\ActiveRecord
             'customer_id' => 'ลูกค้า',
             'status' => 'Status',
             'total_amount'=>'ยอดเงินรวม',
+            'from_date'=>'ตั้งแต่วันที่',
+            'to_date' => 'ถึงวันที่',
             'created_at' => 'Created At',
             'created_by' => 'Created By',
             'updated_at' => 'Updated At',

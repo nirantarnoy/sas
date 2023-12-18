@@ -47,6 +47,7 @@ class CashrecordController extends Controller
         $dataProvider = $searchModel->search($this->request->queryParams);
 
         $dataProvider->pagination->pageSize = $pageSize;
+        $dataProvider->setSort(['defaultOrder'=>['id'=>SORT_DESC]]);
 
         return $this->render('index', [
             'searchModel' => $searchModel,

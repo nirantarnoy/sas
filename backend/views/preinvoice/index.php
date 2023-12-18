@@ -61,9 +61,15 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
             'journal_no',
             [
-                'attribute' => 'journal_date',
+                'attribute' => 'from_date',
                 'value' => function ($data) {
-                    return date('d-m-Y', strtotime($data->journal_date));
+                    return date('d-m-Y', strtotime($data->from_date));
+                }
+            ],
+            [
+                'attribute' => 'to_date',
+                'value' => function ($data) {
+                    return date('d-m-Y', strtotime($data->to_date));
                 }
             ],
             'name',

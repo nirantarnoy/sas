@@ -13,20 +13,29 @@ use yii\widgets\ActiveForm;
         <?php $form = ActiveForm::begin(); ?>
         <input type="hidden" class="remove-list" name="removelist" value="">
         <div class="row">
-            <div class="col-lg-4">
+            <div class="col-lg-3">
                 <?= $form->field($model, 'journal_no')->textInput(['maxlength' => true, 'readonly' => 'readonly'])  ?>
             </div>
-            <div class="col-lg-4">
-                <?php $model->journal_date = $model->isNewRecord ? date('d-m-Y') : date('d-m-Y', strtotime($model->journal_date)); ?>
-                <?= $form->field($model, 'journal_date')->widget(\kartik\date\DatePicker::className(), [
+            <div class="col-lg-3">
+                <?= $form->field($model, 'name')->textarea(['maxlength' => true]) ?>
+            </div>
+            <div class="col-lg-3">
+                <?php $model->from_date = $model->isNewRecord ? date('d-m-Y') : date('d-m-Y', strtotime($model->from_date)); ?>
+                <?= $form->field($model, 'from_date')->widget(\kartik\date\DatePicker::className(), [
                     'value' => date('d-m-Y'),
                     'pluginOptions' => [
                         'format' => 'dd-mm-yyyy',
                     ]
                 ]) ?>
             </div>
-            <div class="col-lg-4">
-                <?= $form->field($model, 'name')->textarea(['maxlength' => true]) ?>
+            <div class="col-lg-3">
+                <?php $model->to_date = $model->isNewRecord ? date('d-m-Y') : date('d-m-Y', strtotime($model->to_date)); ?>
+                <?= $form->field($model, 'to_date')->widget(\kartik\date\DatePicker::className(), [
+                    'value' => date('d-m-Y'),
+                    'pluginOptions' => [
+                        'format' => 'dd-mm-yyyy',
+                    ]
+                ]) ?>
             </div>
         </div>
         <div class="row">
