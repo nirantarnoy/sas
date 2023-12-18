@@ -40,17 +40,17 @@ $car_type_data = \common\models\CarType::find()->all();
                     ]
                 ]) ?>
             </div>
-            <div class="col-lg-4">
-                <?= $form->field($model, 'total_distanct')->textInput() ?>
-            </div>
+
         </div>
         <div class="row">
             <div class="col-lg-4">
-                <?= $form->field($model, 'hp')->textInput() ?>
+                <?= $form->field($model, 'total_distanct')->textInput() ?>
             </div>
             <div class="col-lg-4">
-                <?= $form->field($model, 'oil_rate_qty')->textInput() ?>
+                <?= $form->field($model, 'total_distance_back')->textInput() ?>
+                <?php //echo $form->field($model, 'hp')->textInput() ?>
             </div>
+                <?php //echo $form->field($model, 'oil_rate_qty')->textInput() ?>
             <div class="col-lg-4">
                 <?= $form->field($model, 'item_back_id')->Widget(\kartik\select2\Select2::className(), [
                     'data' => \yii\helpers\ArrayHelper::map(\backend\models\Item::find()->all(), 'id', 'name'),
@@ -79,38 +79,58 @@ $car_type_data = \common\models\CarType::find()->all();
 <!--        </div>-->
 
         <?php echo $form->field($model, 'status')->widget(\toxor88\switchery\Switchery::className(), ['options' => ['label' => '', 'class' => 'form-control']])->label() ?>
-        <h5>กำหนดจุดขึ้นสินค้า</h5>
+        <h5>เรทน้ำมัน</h5>
         <div class="row">
             <div class="col-lg-12">
                 <table class="table table-bordered table-striped" id="table-list">
                     <thead>
                     <th>จุดขึ้นสินค้า</th>
                     <th>แรงรถ</th>
-                    <th>จำนวนเรทน้ำมัน(ลิตร)</th>
-                    <th style="width: 30%">จำนวนบวกเพิ่ม (ลิตร)</th>
+                    <th>เรทน้ำมันหนัก</th>
+                    <th style="width: 10%">จำนวนบวกเพิ่ม (ลิตร)</th>
+                    <th style="width: 10%">ประเภทรถ</th>
+                    <th style="width: 10%">เรทน้ำมันเบา</th>
+                    <th style="width: 10%">จำนวนลิตร (ไป)</th>
+                    <th style="width: 10%">จำนวนลิตร (กลับ)</th>
+                    <th style="width: 10%">รวมจำนวนลิตร</th>
                     <th style="width: 5%"></th>
                     </thead>
                     <tbody>
                     <?php if ($model->isNewRecord): ?>
                         <tr>
-                            <td>
+                            <td style="width: 10%">
                                 <select name="drop_off_place[]" class="form-control drop-off-place" id=""
                                         onchange="getDropoffinfo($(this))">
-                                    <option value="0">--ประเภท--</option>
+                                    <option value="0">--จุดขึ่นสินค้า--</option>
                                     <?php for ($i = 0; $i <= count($dropoff_place_data) - 1; $i++) : ?>
                                         <option value="<?= $dropoff_place_data[$i]['id'] ?>"><?= $dropoff_place_data[$i]['name'] ?></option>
                                     <?php endfor; ?>
                                 </select>
                                 <!--                                <input type="text" class="form-control drop-off-place" name="drop_off_place[]">-->
                             </td>
-                            <td>
+                            <td style="width: 10%">
                                 <input type="text" class="form-control hp" name="hp[]" readonly>
                             </td>
-                            <td>
-                                <input type="text" class="form-control oil-rate" name="oil_rate[]" readonly>
+                            <td style="width: 10%">
+                                <input type="text" class="form-control oil-rate" name="oil_rate[]" readonly  >
                             </td>
-                            <td>
-                                <input type="text" class="form-control drop-off-qty" name="drop_off_qty[]">
+                            <td style="width: 10%">
+                                <input type="text" class="form-control drop-off-qty" name="drop_off_qty[]" onchange="callLine($(this))" >
+                            </td>
+                            <td style="width: 10%">
+                                <input type="text" class="form-control car-type" name="car_type[]" >
+                            </td>
+                            <td style="width: 10%">
+                                <input type="text" class="form-control lite-oil-rate" name="lite_oil_rate[]" readonly >
+                            </td>
+                            <td style="width: 10%">
+                                <input type="text" class="form-control count-go" name="count_go[]" onchange="callLine($(this))" readonly>
+                            </td>
+                            <td style="width: 10%">
+                                <input type="text" class="form-control count-back" name="count_back[]" onchange="callLine($(this))" readonly>
+                            </td>
+                            <td style="width: 10%">
+                                <input type="text" class="form-control total" name="total[]" onchange="callLine($(this))" readonly>
                             </td>
                             <td>
                                 <div class="btn btn-danger btn-sm" onclick="removeline($(this))"><i
@@ -126,7 +146,7 @@ $car_type_data = \common\models\CarType::find()->all();
                                         <input type="hidden" class="rec-id" name="rec_id[]" value="<?= $value->id ?>">
                                         <select name="drop_off_place[]" class="form-control drop-off-place"
                                                 onchange="getDropoffinfo($(this))">
-                                            <option value="0">--ประเภท--</option>
+                                            <option value="0">--จุดขึ่นสินค้า--</option>
                                             <?php for ($i = 0; $i <= count($dropoff_place_data) - 1; $i++) : ?>
                                                 <?php
                                                 $selected = '';
@@ -147,8 +167,28 @@ $car_type_data = \common\models\CarType::find()->all();
                                                value="<?= $data != null ? $data[0]['oil_rate_qty'] : 0 ?>" readonly>
                                     </td>
                                     <td>
-                                        <input type="text" class="form-control drop-off-qty" name="drop_off_qty[]"
+                                        <input type="text" class="form-control drop-off-qty" name="drop_off_qty[]" onchange="callLine($(this))"
                                                value="<?= $value->dropoff_qty ?>">
+                                    </td>
+                                    <td style="width: 10%">
+                                        <input type="text" class="form-control car-type" name="car_type[]"
+                                        value="<?= $value->car_type ?>" >
+                                    </td>
+                                    <td style="width: 10%">
+                                        <input type="text" class="form-control lite-oil-rate" name="lite_oil_rate[]" readonly
+                                        value="<?= $value->lite_oil_rate ?>"  >
+                                    </td>
+                                    <td style="width: 10%">
+                                        <input type="text" class="form-control count-go" name="count_go[]" onchange="callLine($(this))" readonly
+                                        value="<?= $value->count_go ?>" >
+                                    </td>
+                                    <td style="width: 10%">
+                                        <input type="text" class="form-control count-back" name="count_back[]" onchange="callLine($(this))" readonly
+                                        value="<?= $value->count_back ?>" >
+                                    </td>
+                                    <td style="width: 10%">
+                                        <input type="text" class="form-control total" name="total[]" onchange="callLine($(this))" readonly
+                                        value="<?= $value->total ?>" >
                                     </td>
                                     <td>
                                         <div class="btn btn-danger btn-sm" onclick="removeline($(this))"><i
@@ -161,7 +201,7 @@ $car_type_data = \common\models\CarType::find()->all();
                                 <td>
                                     <select name="drop_off_place[]" class="form-control drop-off-place" id=""
                                             onchange="getDropoffinfo($(this))">
-                                        <option value="0">--ประเภท--</option>
+                                        <option value="0">--จุดขึ่นสินค้า--</option>
                                         <?php for ($i = 0; $i <= count($dropoff_place_data) - 1; $i++) : ?>
                                             <option value="<?= $dropoff_place_data[$i]['id'] ?>"><?= $dropoff_place_data[$i]['name'] ?></option>
                                         <?php endfor; ?>
@@ -174,7 +214,22 @@ $car_type_data = \common\models\CarType::find()->all();
                                     <input type="text" class="form-control oil-rate" name="oil_rate[]" readonly>
                                 </td>
                                 <td>
-                                    <input type="text" class="form-control drop-off-qty" name="drop_off_qty[]">
+                                    <input type="text" class="form-control drop-off-qty" name="drop_off_qty[]" onchange="callLine($(this))">
+                                </td>
+                                <td style="width: 10%">
+                                    <input type="text" class="form-control car-type" name="car_type[]" >
+                                </td>
+                                <td style="width: 10%">
+                                    <input type="text" class="form-control lite-oil-rate" name="lite_oil_rate[]" readonly>
+                                </td>
+                                <td style="width: 10%">
+                                    <input type="text" class="form-control count-go" name="count_go[]" onchange="callLine($(this))" readonly>
+                                </td>
+                                <td style="width: 10%">
+                                    <input type="text" class="form-control count-back" name="count_back[]" onchange="callLine($(this))" readonly>
+                                </td>
+                                <td style="width: 10%">
+                                    <input type="text" class="form-control total" name="total[]" onchange="callLine($(this))" readonly>
                                 </td>
                                 <td>
                                     <div class="btn btn-danger btn-sm" onclick="removeline($(this))"><i
@@ -392,6 +447,11 @@ function addline(e){
                     clone.find(".hp").val("");
                     clone.find(".oil-rate").val("");
                     clone.find(".drop-off-qty").val("");
+                    clone.find(".car-type").val(0);
+                    clone.find(".lite-oil-rate").val(0);
+                    clone.find(".count-go").val(0);
+                    clone.find(".count-back").val(0);
+                    clone.find(".total").val(0);
                     
                   
                     clone.attr("data-var", "");
@@ -484,11 +544,26 @@ function removeline(e) {
             // alert(data)
             'success': function(data){
                 if(data != null){
+                    var distant_go = $("#routeplan-total_distanct").val();
+                    var distant_back = $("#routeplan-total_distance_back").val();
+                    // alert(distant_go);
+                
+                    
+                    
                     // alert(data[0]['oil_rate']);
                     var oil_rate = data[0]['oil_rate'];
                     var hp = data[0]['hp'];
+                    var oil_rate_1 = data[0]['oil_rate_1']
+                    
+                    var line_count_go = ( parseFloat(distant_go) / parseFloat(oil_rate) );
+                    var line_count_back = ( parseFloat(distant_back) / parseFloat(oil_rate_1) );
+                    
                     e.closest('tr').find('.oil-rate').val(oil_rate);
                     e.closest('tr').find('.hp').val(hp);
+                    e.closest('tr').find('.lite-oil-rate').val(oil_rate_1);
+                    
+                    e.closest('tr').find('.count-go').val(parseFloat(line_count_go).toFixed(2)).change();
+                    e.closest('tr').find('.count-back').val(parseFloat(line_count_back).toFixed(2)).change();
                 }
             },
             'error': function(data){
@@ -496,6 +571,20 @@ function removeline(e) {
             }
         });
     }
+}
+
+function callLine(e){
+    var count_go = e.closest("tr").find(".count-go").val();
+    var count_back = e.closest("tr").find(".count-back").val();
+    var oil_rate_qty = e.closest("tr").find(".drop-off-qty").val();
+    
+    // alert();
+    
+    var line_total = 0;
+    
+    line_total = (parseFloat(count_go) + parseFloat(count_back) + parseFloat(oil_rate_qty));
+    
+    e.closest("tr").find(".total").val(line_total);
 }
 
 

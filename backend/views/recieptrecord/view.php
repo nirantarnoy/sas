@@ -46,9 +46,9 @@ $this->params['breadcrumbs'][] = $this->title;
 //            'create_at',
 //            'created_by',
             [
-                'attribute' => 'created_by',
+                'attribute' => 'emp_id',
                 'value' => function ($data) {
-                    return \backend\models\Employee::findFullName($data->created_by);
+                    return \backend\models\Employee::findFullName($data->emp_id);
                 }
             ],
         ],

@@ -16,7 +16,7 @@ $cost_title_data = \common\models\FixcostTitle::find()->where(['type_id' => 1])-
         <?php $form = ActiveForm::begin(); ?>
 
         <input type="hidden" class="remove-list2" name="remove_list2" value="">
-        <input type="hidden" name="status" value="<?=$model->isNewRecord ? 1: $model->status?>">
+        <input type="hidden" name="status" value="<?= $model->isNewRecord ? 1 : $model->status ?>">
 
         <div class="row">
             <div class="col-lg-4">
@@ -73,7 +73,9 @@ $cost_title_data = \common\models\FixcostTitle::find()->where(['type_id' => 1])-
 
             <div class="col-lg-3">
                 <?= $form->field($model, 'cashier_by')->Widget(\kartik\select2\Select2::className(), [
-                    'data' => \yii\helpers\ArrayHelper::map(\backend\models\Employee::find()->where(['status' => 1])->all(), 'id', 'name'),
+                    'data' => \yii\helpers\ArrayHelper::map(\backend\models\Employee::find()->where(['status' => 1, 'is_cashier' => 1])->all(), 'id',function ($data) {
+                        return $data->fname.' '. $data->lname;
+                    }),
                     'options' => [
                         'placeholder' => '--เลือก--',
                     ]
@@ -93,7 +95,8 @@ $cost_title_data = \common\models\FixcostTitle::find()->where(['type_id' => 1])-
 
             <div class="col-lg-3">
                 <label for="">สถานะ</label>
-                <input type="text" class="form-control" readonly value="<?=$model->isNewRecord?'Open':\backend\helpers\CashrecordStatus::getTypeById($model->status)?>" />
+                <input type="text" class="form-control" readonly
+                       value="<?= $model->isNewRecord ? 'Open' : \backend\helpers\CashrecordStatus::getTypeById($model->status) ?>"/>
             </div>
 
         </div>
