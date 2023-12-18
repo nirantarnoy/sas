@@ -70,12 +70,12 @@ class EmployeeController extends Controller
         $pageSize = \Yii::$app->request->post("perpage");
         $searchModel = new EmployeeSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-        if($viewstatus ==1){
-            $dataProvider->query->andFilterWhere(['status'=>$viewstatus]);
-        }
-        if($viewstatus == 2){
-            $dataProvider->query->andFilterWhere(['status'=>0]);
-        }
+//        if($viewstatus ==1){
+//            $dataProvider->query->andFilterWhere(['status'=>$viewstatus]);
+//        }
+//        if($viewstatus == 2){
+//            $dataProvider->query->andFilterWhere(['status'=>0]);
+//        }
 
         $dataProvider->setSort(['defaultOrder' => ['id' => SORT_DESC]]);
         $dataProvider->pagination->pageSize = $pageSize;
