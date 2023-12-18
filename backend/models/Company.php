@@ -34,6 +34,7 @@ class Company extends \common\models\Company
         return [
             [['status', 'created_at', 'created_by', 'updated_at', 'updated_by'], 'integer'],
             [['name', 'description','doc'], 'string', 'max' => 255],
+            [['social_deduct_per'],'number']
         ];
     }
 
@@ -46,6 +47,7 @@ class Company extends \common\models\Company
             'id' => 'ID',
             'name' => 'ชื่อ',
             'description' => 'รายละเอียด',
+            'social_deduct_per'=>'อัตราหักประกันสังคม (%)',
             'status' => 'สถานะ',
             'doc' => 'เอกสารแนบ',
             'created_at' => 'Created At',
@@ -63,5 +65,36 @@ class Company extends \common\models\Company
     {
         $model = Company::find()->where(['id' => $id])->one();
         return $model != null ? $model->address : '';
+    }
+
+    public static function findCompanySocialPer($id)
+    {
+        $per = 0;
+        $model = \common\models\SocialPerTrans::find()->where(['company_id' => $id,'month(trans_date)'=>date('m'),'year(trans_date)'=>date('Y')])->one();
+        if($model != null){
+            if($model->social_per != null){
+                $per = $model->social_per;
+            }
+        }
+        return $per;
+//        $per = 0;
+//        $model = Company::find()->where(['id' => $id])->one();
+//        if($model != null){
+//            if($model->social_deduct_per != null){
+//             $per = $model->social_deduct_per;
+//            }
+//        }
+//        return $per;
+    }
+
+    public static function findSocialLastUpdate($id){
+        $per_date = '';
+        $model = \common\models\SocialPerTrans::find()->where(['company_id' => $id,'month(trans_date)'=>date('m'),'year(trans_date)'=>date('Y')])->one();
+        if($model != null){
+            if($model->trans_date != null){
+                $per_date = date('d-m-Y H:i:s',strtotime($model->trans_date));
+            }
+        }
+        return $per_date;
     }
 }
