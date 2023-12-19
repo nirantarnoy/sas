@@ -111,14 +111,17 @@ class SiteController extends Controller
         if ($model->load(Yii::$app->request->post()) && $model->login()) {
             //echo "login ok"; return;
             // return $this->goBack();
-            return $this->redirect(['site/index']);
+//            return $this->redirect(['site/index']);
+            $_SESSION['driver_login']=\Yii::$app->user->id;
+
+            return $this->redirect(['carsummaryreport/indexnew']);
         }
 
         //   $model->password = '';
         $model->password = '';
         $this->layout = 'main_login';
         $model->password = '';
-        return $this->render('login_new', [
+        return $this->render('login_new1', [
             'model' => $model,
         ]);
 

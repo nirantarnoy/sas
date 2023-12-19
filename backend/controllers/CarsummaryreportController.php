@@ -38,6 +38,36 @@ class CarsummaryreportController extends Controller
             'search_car_id' => $search_car_id,
         ]);
     }
+
+    public function actionIndexnew(){
+        $from_date = \Yii::$app->request->post('search_from_date');
+        $to_date = \Yii::$app->request->post('search_to_date');
+        $search_car_id = \Yii::$app->request->post('search_car_id');
+
+        $x1 = explode('-',$from_date);
+        $x2 = explode('-',$to_date);
+
+        $from_date_new = date("Y-m-d");
+        $to_date_new = date("Y-m-d");
+
+        if($x1!=null && count($x1)>1){
+            //echo count($x1);
+            $from_date_new = $x1[2].'-'.$x1[1].'-'.$x1[0];
+        }
+        if($x2!=null && count($x2)>1){
+            $to_date_new = $x2[2].'-'.$x2[1].'-'.$x2[0];
+        }
+        //echo $from_date_new;
+
+//        $this->layout='main_login';
+
+        return $this->render('_index1',[
+            'from_date'=>$from_date_new,
+            'to_date'=>$to_date_new,
+            'search_car_id' => $search_car_id,
+        ]);
+    }
+
     public function actionReport2(){
         return $this->render('_report2');
     }
