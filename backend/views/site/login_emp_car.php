@@ -50,6 +50,8 @@ use yii\helpers\Html;
 <!--                    <h1 style="color: dodgerblue">BKT</h1>-->
 <!--                    <h1 style="color: dodgerblue">BP</h1>-->
                 </div>
+                <h5>พขร.</h5>
+                <br />
                 <p class="login-box-msg">ลงชื่อเข้าเพื่อเข้าใช้งานระบบของคุณ</p>
                 <?php $form = ActiveForm::begin(['id' => 'login-form']); ?>
                 <div class="row">
