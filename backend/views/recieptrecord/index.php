@@ -87,7 +87,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'contentOptions' => ['style' => 'text-align: center'],
                 'template' => '{view}{update}{delete}',
                 'buttons' => [
-                    
+
                     'view' => function ($url, $data, $index) {
                         $options = [
                             'title' => Yii::t('yii', 'View'),
