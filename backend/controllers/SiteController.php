@@ -111,6 +111,33 @@ class SiteController extends Controller
         if ($model->load(Yii::$app->request->post()) && $model->login()) {
             //echo "login ok"; return;
             // return $this->goBack();
+            return $this->redirect(['site/index']);
+        }
+
+        //   $model->password = '';
+        $model->password = '';
+        $this->layout = 'main_login';
+        $model->password = '';
+        return $this->render('login_new', [
+            'model' => $model,
+        ]);
+
+
+    }
+
+
+    public function actionDriverlogin()
+    {
+        if (!Yii::$app->user->isGuest) {
+            return $this->goHome();
+        }
+
+        $this->layout = 'blank';
+
+        $model = new LoginForm();
+        if ($model->load(Yii::$app->request->post()) && $model->login()) {
+            //echo "login ok"; return;
+            // return $this->goBack();
 //            return $this->redirect(['site/index']);
             $_SESSION['driver_login']=\Yii::$app->user->id;
 
@@ -127,6 +154,7 @@ class SiteController extends Controller
 
 
     }
+
     public function actionLogindriver()
     {
         if (!Yii::$app->user->isGuest) {
@@ -139,7 +167,12 @@ class SiteController extends Controller
         if ($model->load(Yii::$app->request->post()) && $model->login()) {
             //echo "login ok"; return;
             // return $this->goBack();
-            return $this->redirect(['workqueuereceive/index']);
+//            return $this->redirect(['workqueuereceive/index']);
+
+            $_SESSION['driver_login']=\Yii::$app->user->id;
+
+            return $this->redirect(['carsummaryreport/indexnew']);
+
         }
 
         //   $model->password = '';
