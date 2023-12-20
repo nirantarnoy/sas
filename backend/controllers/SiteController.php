@@ -195,6 +195,10 @@ class SiteController extends Controller
     {
         \Yii::$app->user->logout();
 
+//        if(isset($_SESSION['driver_login'])){
+//            return $this->redirect(['site/logindriver']);
+//        }
+
         return $this->goHome();
     }
     public function actionLogoutdriver()
