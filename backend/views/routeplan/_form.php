@@ -599,11 +599,23 @@ function removeline(e) {
 }
 
 function callLine(e){
+   
+    var oil_rate_qty = e.closest("tr").find(".drop-off-qty").val();
+    var oil_rate = e.closest("tr").find(".oil-rate").val();
+    var oil_rate_1 = e.closest("tr").find(".lite-oil-rate").val();
+    
+    var distant_go = $("#routeplan-total_distanct").val();
+    var distant_back = $("#routeplan-total_distance_back").val();
+    
+    var line_count_go = ( parseFloat(distant_go) / parseFloat(oil_rate) );
+    var line_count_back = ( parseFloat(distant_back) / parseFloat(oil_rate_1) );
+    
+    e.closest('tr').find('.count-go').val(parseFloat(line_count_go).toFixed(2)).change();
+    e.closest('tr').find('.count-back').val(parseFloat(line_count_back).toFixed(2)).change();
+    //alert();
+    
     var count_go = e.closest("tr").find(".count-go").val();
     var count_back = e.closest("tr").find(".count-back").val();
-    var oil_rate_qty = e.closest("tr").find(".drop-off-qty").val();
-    
-    alert();
     
     var line_total = 0;
     
