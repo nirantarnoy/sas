@@ -610,8 +610,8 @@ function callLine(e){
     var line_count_go = ( parseFloat(distant_go) / parseFloat(oil_rate) );
     var line_count_back = ( parseFloat(distant_back) / parseFloat(oil_rate_1) );
     
-    e.closest('tr').find('.count-go').val(parseFloat(line_count_go).toFixed(2)).change();
-    e.closest('tr').find('.count-back').val(parseFloat(line_count_back).toFixed(2)).change();
+    e.closest('tr').find('.count-go').val(parseFloat(line_count_go).toFixed(2));
+    e.closest('tr').find('.count-back').val(parseFloat(line_count_back).toFixed(2));
     //alert();
     
     var count_go = e.closest("tr").find(".count-go").val();
