@@ -121,14 +121,14 @@ $car_type_data = \common\models\CarType::find()->all();
                                 <input type="text" class="form-control hp" name="hp[]" readonly>
                             </td>
                             <td style="width: 10%">
-                                <input type="text" class="form-control oil-rate" name="oil_rate[]">
+                                <input type="text" class="form-control oil-rate" name="oil_rate[]" onchange="callLine($(this))">
                             </td>
                             <td style="width: 10%">
                                 <input type="text" class="form-control drop-off-qty" name="drop_off_qty[]" onchange="callLine($(this))" >
                             </td>
 
                             <td style="width: 10%">
-                                <input type="text" class="form-control lite-oil-rate" name="lite_oil_rate[]" readonly >
+                                <input type="text" class="form-control lite-oil-rate" name="lite_oil_rate[]" onchange="callLine($(this))" >
                             </td>
                             <td style="width: 10%">
                                 <input type="text" class="form-control count-go" name="count_go[]" onchange="callLine($(this))" readonly>
@@ -184,7 +184,7 @@ $car_type_data = \common\models\CarType::find()->all();
                                     </td>
                                     <td>
                                         <input type="text" class="form-control oil-rate" name="oil_rate[]"
-                                               value="<?= $data != null ? $data[0]['oil_rate_qty'] : 0 ?>">
+                                               value="<?= $data != null ? $data[0]['oil_rate_qty'] : 0 ?>" onchange="callLine($(this))">
                                     </td>
                                     <td>
                                         <input type="text" class="form-control drop-off-qty" name="drop_off_qty[]" onchange="callLine($(this))"
@@ -193,7 +193,7 @@ $car_type_data = \common\models\CarType::find()->all();
 
                                     <td style="width: 10%">
                                         <input type="text" class="form-control lite-oil-rate" name="lite_oil_rate[]"
-                                        value="<?= $value->lite_oil_rate ?>"  >
+                                        value="<?= $value->lite_oil_rate ?>" onchange="callLine($(this))" >
                                     </td>
                                     <td style="width: 10%">
                                         <input type="text" class="form-control count-go" name="count_go[]" onchange="callLine($(this))" readonly
@@ -237,13 +237,13 @@ $car_type_data = \common\models\CarType::find()->all();
                                     <input type="text" class="form-control hp" name="hp[]">
                                 </td>
                                 <td>
-                                    <input type="text" class="form-control oil-rate" name="oil_rate[]">
+                                    <input type="text" class="form-control oil-rate" name="oil_rate[]" onchange="callLine($(this))">
                                 </td>
                                 <td>
                                     <input type="text" class="form-control drop-off-qty" name="drop_off_qty[]" onchange="callLine($(this))">
                                 </td>
                                 <td style="width: 10%">
-                                    <input type="text" class="form-control lite-oil-rate" name="lite_oil_rate[]">
+                                    <input type="text" class="form-control lite-oil-rate" name="lite_oil_rate[]" onchange="callLine($(this))">
                                 </td>
                                 <td style="width: 10%">
                                     <input type="text" class="form-control count-go" name="count_go[]" onchange="callLine($(this))" readonly>
