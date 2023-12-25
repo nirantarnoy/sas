@@ -603,7 +603,7 @@ function callLine(e){
     var count_back = e.closest("tr").find(".count-back").val();
     var oil_rate_qty = e.closest("tr").find(".drop-off-qty").val();
     
-    // alert();
+    alert();
     
     var line_total = 0;
     
