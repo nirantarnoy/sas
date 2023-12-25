@@ -577,6 +577,7 @@ function removeline(e) {
                     var oil_rate = data[0]['oil_rate'];
                     var hp = data[0]['hp'];
                     var oil_rate_1 = data[0]['oil_rate_1']
+                    var car_type_id  = data[0]['car_type_id']
                     
                     var line_count_go = ( parseFloat(distant_go) / parseFloat(oil_rate) );
                     var line_count_back = ( parseFloat(distant_back) / parseFloat(oil_rate_1) );
@@ -584,6 +585,7 @@ function removeline(e) {
                     e.closest('tr').find('.oil-rate').val(oil_rate);
                     e.closest('tr').find('.hp').val(hp);
                     e.closest('tr').find('.lite-oil-rate').val(oil_rate_1);
+                    e.closest('tr').find('.car-type').val(car_type_id).change();
                     
                     e.closest('tr').find('.count-go').val(parseFloat(line_count_go).toFixed(2)).change();
                     e.closest('tr').find('.count-back').val(parseFloat(line_count_back).toFixed(2)).change();
