@@ -85,10 +85,10 @@ $car_type_data = \common\models\CarType::find()->all();
                 <table class="table table-bordered table-striped" id="table-list">
                     <thead>
                     <th>จุดขึ้นสินค้า</th>
+                    <th style="width: 10%">ประเภทรถ</th>
                     <th>แรงรถ</th>
                     <th>เรทน้ำมันหนัก</th>
                     <th style="width: 10%">จำนวนบวกเพิ่ม (ลิตร)</th>
-                    <th style="width: 10%">ประเภทรถ</th>
                     <th style="width: 10%">เรทน้ำมันเบา</th>
                     <th style="width: 10%">จำนวนลิตร (ไป)</th>
                     <th style="width: 10%">จำนวนลิตร (กลับ)</th>
@@ -109,19 +109,26 @@ $car_type_data = \common\models\CarType::find()->all();
                                 <!--                                <input type="text" class="form-control drop-off-place" name="drop_off_place[]">-->
                             </td>
                             <td style="width: 10%">
+                                <select name="car_type[]" class="form-control car-type" id=""
+                                        onchange="">
+                                    <option value="0">--ประเภทรถ--</option>
+                                    <?php for ($i = 0; $i <= count($car_type_data) - 1; $i++) : ?>
+                                        <option value="<?= $car_type_data[$i]['id'] ?>"><?= $car_type_data[$i]['name'] ?></option>
+                                    <?php endfor; ?>
+                                </select>
+                            </td>
+                            <td style="width: 10%">
                                 <input type="text" class="form-control hp" name="hp[]" readonly>
                             </td>
                             <td style="width: 10%">
-                                <input type="text" class="form-control oil-rate" name="oil_rate[]" readonly  >
+                                <input type="text" class="form-control oil-rate" name="oil_rate[]" onchange="callLine($(this))">
                             </td>
                             <td style="width: 10%">
                                 <input type="text" class="form-control drop-off-qty" name="drop_off_qty[]" onchange="callLine($(this))" >
                             </td>
+
                             <td style="width: 10%">
-                                <input type="text" class="form-control car-type" name="car_type[]" >
-                            </td>
-                            <td style="width: 10%">
-                                <input type="text" class="form-control lite-oil-rate" name="lite_oil_rate[]" readonly >
+                                <input type="text" class="form-control lite-oil-rate" name="lite_oil_rate[]" onchange="callLine($(this))" >
                             </td>
                             <td style="width: 10%">
                                 <input type="text" class="form-control count-go" name="count_go[]" onchange="callLine($(this))" readonly>
@@ -158,25 +165,35 @@ $car_type_data = \common\models\CarType::find()->all();
                                             <?php endfor; ?>
                                         </select>
                                     </td>
+                                    <td style="width: 10%">
+                                        <select name="car_type[]" class="form-control car-type" id=""
+                                                onchange="">
+                                            <option value="0">--ประเภทรถ--</option>
+                                            <?php for ($i = 0; $i <= count($car_type_data) - 1; $i++) : ?>
+                                                <?php $selected = '';
+                                                 if($car_type_data[$i]['id'] == $value->car_type)$selected ='selected';
+                                                ?>
+
+                                                <option value="<?= $car_type_data[$i]['id'] ?>" <?=$selected?>><?= $car_type_data[$i]['name'] ?></option>
+                                            <?php endfor; ?>
+                                        </select>
+                                    </td>
                                     <td>
                                         <input type="text" class="form-control hp" name="hp[]"
-                                               value="<?= $data != null ? $data[0]['hp'] : 0 ?>" readonly>
+                                               value="<?= $data != null ? $data[0]['hp'] : 0 ?>">
                                     </td>
                                     <td>
                                         <input type="text" class="form-control oil-rate" name="oil_rate[]"
-                                               value="<?= $data != null ? $data[0]['oil_rate_qty'] : 0 ?>" readonly>
+                                               value="<?= $data != null ? $data[0]['oil_rate_qty'] : 0 ?>" onchange="callLine($(this))">
                                     </td>
                                     <td>
                                         <input type="text" class="form-control drop-off-qty" name="drop_off_qty[]" onchange="callLine($(this))"
                                                value="<?= $value->dropoff_qty ?>">
                                     </td>
+
                                     <td style="width: 10%">
-                                        <input type="text" class="form-control car-type" name="car_type[]"
-                                        value="<?= $value->car_type ?>" >
-                                    </td>
-                                    <td style="width: 10%">
-                                        <input type="text" class="form-control lite-oil-rate" name="lite_oil_rate[]" readonly
-                                        value="<?= $value->lite_oil_rate ?>"  >
+                                        <input type="text" class="form-control lite-oil-rate" name="lite_oil_rate[]"
+                                        value="<?= $value->lite_oil_rate ?>" onchange="callLine($(this))" >
                                     </td>
                                     <td style="width: 10%">
                                         <input type="text" class="form-control count-go" name="count_go[]" onchange="callLine($(this))" readonly
@@ -207,20 +224,26 @@ $car_type_data = \common\models\CarType::find()->all();
                                         <?php endfor; ?>
                                     </select>
                                 </td>
-                                <td>
-                                    <input type="text" class="form-control hp" name="hp[]" readonly>
+                                <td style="width: 10%">
+                                    <select name="car_type[]" class="form-control car-type" id=""
+                                            onchange="">
+                                        <option value="0">--ประเภทรถ--</option>
+                                        <?php for ($i = 0; $i <= count($car_type_data) - 1; $i++) : ?>
+                                            <option value="<?= $car_type_data[$i]['id'] ?>"><?= $car_type_data[$i]['name'] ?></option>
+                                        <?php endfor; ?>
+                                    </select>
                                 </td>
                                 <td>
-                                    <input type="text" class="form-control oil-rate" name="oil_rate[]" readonly>
+                                    <input type="text" class="form-control hp" name="hp[]">
+                                </td>
+                                <td>
+                                    <input type="text" class="form-control oil-rate" name="oil_rate[]" onchange="callLine($(this))">
                                 </td>
                                 <td>
                                     <input type="text" class="form-control drop-off-qty" name="drop_off_qty[]" onchange="callLine($(this))">
                                 </td>
                                 <td style="width: 10%">
-                                    <input type="text" class="form-control car-type" name="car_type[]" >
-                                </td>
-                                <td style="width: 10%">
-                                    <input type="text" class="form-control lite-oil-rate" name="lite_oil_rate[]" readonly>
+                                    <input type="text" class="form-control lite-oil-rate" name="lite_oil_rate[]" onchange="callLine($(this))">
                                 </td>
                                 <td style="width: 10%">
                                     <input type="text" class="form-control count-go" name="count_go[]" onchange="callLine($(this))" readonly>
@@ -554,6 +577,7 @@ function removeline(e) {
                     var oil_rate = data[0]['oil_rate'];
                     var hp = data[0]['hp'];
                     var oil_rate_1 = data[0]['oil_rate_1']
+                    var car_type_id  = data[0]['car_type_id']
                     
                     var line_count_go = ( parseFloat(distant_go) / parseFloat(oil_rate) );
                     var line_count_back = ( parseFloat(distant_back) / parseFloat(oil_rate_1) );
@@ -561,6 +585,7 @@ function removeline(e) {
                     e.closest('tr').find('.oil-rate').val(oil_rate);
                     e.closest('tr').find('.hp').val(hp);
                     e.closest('tr').find('.lite-oil-rate').val(oil_rate_1);
+                    e.closest('tr').find('.car-type').val(car_type_id).change();
                     
                     e.closest('tr').find('.count-go').val(parseFloat(line_count_go).toFixed(2)).change();
                     e.closest('tr').find('.count-back').val(parseFloat(line_count_back).toFixed(2)).change();
@@ -574,11 +599,23 @@ function removeline(e) {
 }
 
 function callLine(e){
+   
+    var oil_rate_qty = e.closest("tr").find(".drop-off-qty").val();
+    var oil_rate = e.closest("tr").find(".oil-rate").val();
+    var oil_rate_1 = e.closest("tr").find(".lite-oil-rate").val();
+    
+    var distant_go = $("#routeplan-total_distanct").val();
+    var distant_back = $("#routeplan-total_distance_back").val();
+    
+    var line_count_go = ( parseFloat(distant_go) / parseFloat(oil_rate) );
+    var line_count_back = ( parseFloat(distant_back) / parseFloat(oil_rate_1) );
+    
+    e.closest('tr').find('.count-go').val(parseFloat(line_count_go).toFixed(2));
+    e.closest('tr').find('.count-back').val(parseFloat(line_count_back).toFixed(2));
+    //alert();
+    
     var count_go = e.closest("tr").find(".count-go").val();
     var count_back = e.closest("tr").find(".count-back").val();
-    var oil_rate_qty = e.closest("tr").find(".drop-off-qty").val();
-    
-    // alert();
     
     var line_total = 0;
     

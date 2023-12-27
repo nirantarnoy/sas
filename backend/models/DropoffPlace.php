@@ -71,6 +71,12 @@ class DropoffPlace extends \common\models\DropoffPlace
         $model = DropoffPlace::find()->where(['id' => $id])->one();
         return $model != null ? $model->oil_rate_qty_1 : '';
     }
+    public static function getCartypeId($id)
+    {
+        $model = DropoffPlace::find()->where(['id' => $id])->one();
+        return $model != null ? $model->car_type_id : 0;
+    }
+
 
     public static function getInfo($id)
     {
