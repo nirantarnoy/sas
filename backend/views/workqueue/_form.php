@@ -465,7 +465,7 @@ function enableLabour(e){
    // alert('loop is' + loop);
   // alert($("#labour-price-checked").val());
    if($("#labour-price-checked").val() == 1){
-     //  alert("has 1");
+      // alert("has 1");
        $("#labour-price-checked").val(0);
        if($("#labour-price-checked").val() == 0){
            $("#labour-price-checked").val(0)
