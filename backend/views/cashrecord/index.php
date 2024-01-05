@@ -87,7 +87,12 @@ $this->params['breadcrumbs'][] = $this->title;
             [
                 'label' => 'จ่ายให้',
                 'value' => function ($data) {
-                    return \backend\models\car::findDrivername($data->car_id);
+                    if($data->car_id == null){
+                        return $data->pay_for;
+                    }else{
+                        return \backend\models\car::findDrivername($data->car_id);
+                    }
+
                 }],
             [
                 'attribute' => 'status',

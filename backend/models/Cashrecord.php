@@ -73,7 +73,14 @@ class Cashrecord extends \common\models\CashRecord
 //        $model = Unit::find()->where(['name'=>$code])->one();
 //        return count($model)>0?$model->id:0;
 //    }
-
+    public static function findPayname($id){
+        $name = '';
+        $model = Cashrecord::find()->where(['id'=>$id])->one();
+        if($model){
+            $name= $model->pay_for;
+        }
+        return $name;
+    }
     public static function getLastNo()
     {
         //   $model = Orders::find()->MAX('order_no');

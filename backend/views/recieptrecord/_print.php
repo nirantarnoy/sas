@@ -127,7 +127,7 @@ $date_year = date('Y', strtotime($model->trans_date)) + 543;
     <table style="width: 100%">
         <tr>
             <td style="width:50%;padding: 5px;">อ้างถึง
-                <b><?= \backend\models\Employee::findFullName($model->emp_id) ?></b>
+                <b><?= $model->emp_id != null ? \backend\models\Employee::findFullName($model->emp_id) : \backend\models\Cashrecord::findPayname($model->trans_ref_id) ?></b>
             </td>
             <!--            <td><input type="text" class="form-control"></td>-->
             <td style="width:50%;padding: 5px;"> วันที่ <b><?= date('d-m-Y', strtotime($model->trans_date)) ?></b></td>

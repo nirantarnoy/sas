@@ -17,10 +17,10 @@ $cost_title_data = \common\models\FixcostTitle::find()->where(['type_id'=>2])->a
         <input type="hidden" class="remove-list2" name="remove_list2" value="">
 
         <div class="row">
-            <div class="col-lg-4">
+            <div class="col-lg-3">
                 <?= $form->field($model, 'journal_no')->textInput(['maxlength' => true,'readonly' => 'readonly']) ?>
             </div>
-            <div class="col-lg-4">
+            <div class="col-lg-3">
                 <?php $model->trans_date = $model->isNewRecord ? date('d-m-Y') : date('d-m-Y', strtotime($model->trans_date)) ?>
                 <?= $form->field($model, 'trans_date')->widget(\kartik\date\DatePicker::className(), [
                     'value' => date('d/m/Y'),
@@ -31,7 +31,20 @@ $cost_title_data = \common\models\FixcostTitle::find()->where(['type_id'=>2])->a
                     ]
                 ]) ?>
             </div>
-            <div class="col-lg-4">
+            <div class="col-lg-3">
+                <?= $form->field($model, 'trans_ref_id')->widget(\kartik\select2\Select2::className(), [
+                    'data' => \yii\helpers\ArrayHelper::map(\backend\models\Cashrecord::find()->all(), 'id', function ($data) {
+                        return $data->journal_no.' '.$data->pay_for;
+                    }),
+                    'options' => [
+                        'placeholder' => '--เลือก--',
+                    ],
+                    'pluginOptions' => [
+                        'allowClear' => true,
+                    ]
+                ]) ?>
+            </div>
+            <div class="col-lg-3">
                 <?= $form->field($model, 'emp_id')->widget(\kartik\select2\Select2::className(), [
                     'data' => \yii\helpers\ArrayHelper::map(\backend\models\Employee::find()->all(), 'id', function ($data) {
                         return $data->fname . ' ' . $data->lname;
@@ -73,7 +86,7 @@ $cost_title_data = \common\models\FixcostTitle::find()->where(['type_id'=>2])->a
                             </td>
                             <td>
                                 <input type="number" name="price_line[]"
-                                       class="form-control price-line" id="">
+                                       class="form-control price-line" id="" step="0.01">
                             </td>
                             <td>
                                 <input type="text" name="ref_id[]"
@@ -115,7 +128,7 @@ $cost_title_data = \common\models\FixcostTitle::find()->where(['type_id'=>2])->a
                                     <td>
                                         <input type="number" name="price_line[]"
                                                class="form-control price-line" id=""
-                                               value="<?= $key->amount ?>">
+                                               value="<?= $key->amount ?>" step="0.01">
                                     </td>
                                     <td>
                                         <input type="text" name="ref_id[]"
@@ -150,7 +163,7 @@ $cost_title_data = \common\models\FixcostTitle::find()->where(['type_id'=>2])->a
                                 </td>
                                 <td>
                                     <input type="number" name="price_line[]"
-                                           class="form-control price-line" id="">
+                                           class="form-control price-line" id="" step="0.01">
                                 </td>
                                 <td>
                                     <input type="text" name="ref_id[]"

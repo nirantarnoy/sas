@@ -33,6 +33,7 @@ class RecieptRecord extends \yii\db\ActiveRecord
             [['trans_date'], 'safe'],
             [['status', 'create_at', 'created_by','emp_id'], 'integer'],
             [['journal_no'], 'string', 'max' => 255],
+            [['trans_ref_id'],'safe'],
         ];
     }
 
@@ -46,6 +47,7 @@ class RecieptRecord extends \yii\db\ActiveRecord
             'journal_no' => 'เลขที่',
             'trans_date' => 'วันที่',
             'emp_id' => 'อ้างถึง',
+            'trans_ref_id'=> 'รายการอ้างอิง',
             'status' => 'สถานะ',
             'create_at' => 'Create At',
             'created_by' => 'พนักงาน',
