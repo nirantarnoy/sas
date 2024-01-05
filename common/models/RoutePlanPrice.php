@@ -11,7 +11,7 @@ use Yii;
  * @property int|null $route_plan_id
  * @property int|null $car_type_id
  * @property float|null $labour_price
- * @property float|null $express_road_price
+ * @property float|null $express_road_price    
  * @property int|null $status
  */
 class RoutePlanPrice extends \yii\db\ActiveRecord

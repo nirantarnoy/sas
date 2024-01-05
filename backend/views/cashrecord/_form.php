@@ -131,6 +131,7 @@ $cost_title_data = \common\models\FixcostTitle::find()->where(['type_id' => 1])-
                             </td>
                             <td>
                                 <input type="number" name="price_line[]"
+                                       step="0.01"
                                        class="form-control price-line" id="">
                             </td>
                             <td>
@@ -166,6 +167,7 @@ $cost_title_data = \common\models\FixcostTitle::find()->where(['type_id' => 1])-
                                     <td>
                                         <input type="number" name="price_line[]"
                                                class="form-control price-line" id=""
+                                               step="0.01"
                                                value="<?= $key->amount ?>">
                                     </td>
                                     <td>
@@ -191,6 +193,7 @@ $cost_title_data = \common\models\FixcostTitle::find()->where(['type_id' => 1])-
                                 </td>
                                 <td>
                                     <input type="number" name="price_line[]"
+                                           step="0.01"
                                            class="form-control price-line" id="">
                                 </td>
                                 <td>

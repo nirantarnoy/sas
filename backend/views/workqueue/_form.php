@@ -26,25 +26,28 @@ if (!$model->isNewRecord) {
     $t_back_plate = \backend\models\Car::getPlateno($model->tail_back_id);
 }
 $dropoff_list = [];
-if($w_dropoff!=null){
-    foreach($w_dropoff as $v){
-        array_push($dropoff_list,$v->dropoff_id);
+if ($w_dropoff != null) {
+    foreach ($w_dropoff as $v) {
+        array_push($dropoff_list, $v->dropoff_id);
     }
 }
 $itemback_list = [];
-if($itemback_list!=null){
-    foreach($itemback_list as $v){
-        array_push($itemback_list,$v->item_back_id);
+if ($itemback_list != null) {
+    foreach ($itemback_list as $v) {
+        array_push($itemback_list, $v->item_back_id);
     }
 }
+$current_route_plan_id = 0;
 $current_route_plan_id = $model->route_plan_id;
-$is_newpage = $model->isNewRecord ? 0:1;
+//print_r($current_route_plan_id); return
+$is_newpage = $model->isNewRecord ? 0 : 1;
 $current_car_type_id = 0;
-if(!$model->isNewRecord){
+if (!$model->isNewRecord) {
     $current_car_type_id = \backend\models\Car::getCartypeId($model->car_id);
 }
 //print_r($dropoff_list);
 //print_r($model->route_plan_id);
+$dropoff_data = \common\models\DropoffPlace::find()->all();
 ?>
 
 <div class="workqueue-form">
@@ -53,6 +56,7 @@ if(!$model->isNewRecord){
 
     <input type="hidden" class="remove-list" name="remove_list" value="">
     <input type="hidden" class="remove-list1" name="remove_list1" value="">
+    <input type="hidden" class="remove-list2" name="remove_list2" value="">
     <div class="row">
         <div class="col-lg-4">
             <?= $form->field($model, 'work_queue_no')->textInput(['maxlength' => true, 'readonly' => 'readonly', 'value' => $model->isNewRecord ? 'Draft' : $model->work_queue_no]) ?>
@@ -67,23 +71,6 @@ if(!$model->isNewRecord){
                     'todayBtn' => true,
                 ]
             ]) ?>
-        </div>
-        <div class="col-lg-4">
-            <?php $model->route_plan_id = !$model->isNewRecord ?  $dropoff_list :null?>
-            <?= $form->field($model, 'route_plan_id')->Widget(\kartik\select2\Select2::className(), [
-                'data' => \yii\helpers\ArrayHelper::map(\backend\models\DropoffPlace::find()->all(), 'id', function ($data) {
-                    return $data->name;
-                }),
-                'options' => [
-                    'placeholder' => '--จุดขึ้นสินค้า--',
-                    'onchange' => '$("#route-plan-id").val($(this).val())'
-                    //  'onchange' => 'getRouteplan($(this))'
-                ],
-                'pluginOptions'=>[
-                        'multiple'=>true,
-                ]
-
-            ])->label('จุดขึ้นสินค้า') ?>
         </div>
     </div>
 
@@ -124,7 +111,7 @@ if(!$model->isNewRecord){
             ]) ?>
         </div>
         <div class="col-lg-3">
-            <?php $model->item_back_id = !$model->isNewRecord ?  $itemback_list :null?>
+            <?php $model->item_back_id = !$model->isNewRecord ? $itemback_list : null ?>
             <?= $form->field($model, 'item_back_id')->Widget(\kartik\select2\Select2::className(), [
                 'data' => \yii\helpers\ArrayHelper::map(\backend\models\Item::find()->all(), 'id', function ($data) {
                     return $data->name;
@@ -132,8 +119,8 @@ if(!$model->isNewRecord){
                 'options' => [
                     'placeholder' => '--ของนำกลับ--',
                 ],
-                'pluginOptions'=>[
-                    'multiple'=>true,
+                'pluginOptions' => [
+                    'multiple' => true,
                 ]
 
             ])->label('ของนำกลับ') ?>
@@ -292,6 +279,139 @@ if(!$model->isNewRecord){
     <br/>
 
 
+    <br/>
+    <h5>จุดขื้นสินค้า</h5>
+    <div class="row">
+        <div class="col-lg-12">
+            <table class="table table-bordered table-striped" id="table-list2">
+                <thead>
+                <th>สถานที่ชื้นสินค้า</th>
+                <th>เลขที่ใบตั้ง</th>
+                <th>จำนวนม้วน</th>
+                <th>น้ำหนัก</th>
+                <th></th>
+                </thead>
+                <tbody>
+                <?php if ($model->isNewRecord): ?>
+                    <tr>
+                        <td>
+                            <select name="dropoff_id[]" class="form-control dropoff-id" id="">
+                                <option value="0">--สถานที่ชื้นสินค้า--</option>
+                                <?php for ($i = 0; $i <= count($dropoff_data) - 1; $i++) : ?>
+                                    <option value="<?= $dropoff_data[$i]['id'] ?>"><?= $dropoff_data[$i]['name'] ?></option>
+                                <?php endfor; ?>
+                            </select>
+                        </td>
+                        <td>
+                            <input type="text" name="dropoff_no[]"
+                                   class="form-control dropoff-no" id="">
+                        </td>
+                        <td>
+                            <input type="number" name="qty[]"
+                                   step="any"
+                                   class="form-control qty" id="">
+                        </td>
+                        <td>
+                            <input type="number" name="weight[]"
+                                   step="any"
+                                   class="form-control weight" id="">
+                        </td>
+                        <td>
+                            <div class="btn btn-danger btn-sm" onclick="removeline1($(this))"><i
+                                        class="fa fa-trash"></i></div>
+                        </td>
+                    </tr>
+                <?php else: ?>
+                    <?php if (count($w_dropoff)): ?>
+                        <?php foreach ($w_dropoff as $key): ?>
+                            <tr data-var="<?= $key->id ?>">
+                                <td>
+                                    <select name="dropoff_id[]" class="form-control dropoff-id" id="">
+                                        <option value="0">--สถานที่ชื้นสินค้า--</option>
+                                        <?php for ($i = 0; $i <= count($dropoff_data) - 1; $i++) : ?>
+                                            <?php
+                                            $selected = "";
+                                            if ($dropoff_data[$i]['id'] == $key->dropoff_id) {
+                                                $selected = 'selected';
+                                            }
+                                            ?>
+                                            <option value="<?= $dropoff_data[$i]['id'] ?>" <?= $selected ?>><?= $dropoff_data[$i]['name'] ?></option>
+                                        <?php endfor; ?>
+                                    </select>
+                                </td>
+                                <td>
+                                    <input type="text" name="dropoff_no[]"
+                                           class="form-control dropoff-no" id=""
+                                           value="<?= $key->dropoff_no ?>">
+                                </td>
+                                <td>
+                                    <input type="number" name="qty[]"
+                                           class="form-control qty" id=""
+                                           step="any"
+                                           value="<?= $key->qty ?>">
+                                </td>
+                                <td>
+                                    <input type="number" name="weight[]"
+                                           class="form-control weight" id=""
+                                           step="any"
+                                           value="<?= $key->weight ?>">
+                                </td>
+                                <td>
+                                    <div class="btn btn-danger btn-sm" onclick="removeline1($(this))"><i
+                                                class="fa fa-trash"></i></div>
+                                </td>
+                            </tr>
+                        <?php endforeach; ?>
+                    <?php else: ?>
+                        <tr>
+                            <td>
+                                <select name="dropoff_id[]" class="form-control dropoff-id" id="">
+                                    <option value="0">--สถานที่ชื้นสินค้า--</option>
+                                    <?php for ($i = 0; $i <= count($dropoff_data) - 1; $i++) : ?>
+                                        <option value="<?= $dropoff_data[$i]['id'] ?>"><?= $dropoff_data[$i]['name'] ?></option>
+                                    <?php endfor; ?>
+                                </select>
+                            </td>
+                            <td>
+                                <input type="text" name="dropoff_no[]"
+                                       class="form-control dropoff-no" id="">
+                            </td>
+                            <td>
+                                <input type="number" name="qty[]"
+                                       class="form-control qty"
+                                       step="any"
+                                       id="">
+                            </td>
+                            <td>
+                                <input type="number" name="weight[]"
+                                       class="form-control weight"
+                                       step="any"
+                                       id="">
+                            </td>
+                            <td>
+                                <div class="btn btn-danger btn-sm" onclick="removeline1($(this))"><i
+                                            class="fa fa-trash"></i></div>
+                            </td>
+                        </tr>
+                    <?php endif; ?>
+                <?php endif; ?>
+
+                </tbody>
+                <tfoot>
+                <tr>
+                    <td colspan="4">
+                        <div class="btn btn-primary"
+                             onclick="addline1($(this))">
+                            <i class="fa fa-plus-circle"></i>
+                        </div>
+                    </td>
+                </tr>
+                </tfoot>
+            </table>
+        </div>
+    </div>
+
+
     <h6>แนบเอกสาร</h6>
 
     <?php if ($model_line_doc == null): ?>
@@ -375,9 +495,6 @@ if(!$model->isNewRecord){
     <?php endif; ?>
 
 
-
-
-
     <div class="row">
         <div class="col-lg-6">
             <div class="form-group">
@@ -390,12 +507,12 @@ if(!$model->isNewRecord){
         </div>
         <div class="col-lg-6" style="text-align: right">
             <?php if (!$model->isNewRecord): ?>
-               <div class="btn-group">
-                   <a href="<?= \yii\helpers\Url::to(['workqueue/exportdoc', 'id' => $model->id], true) ?>"
-                      class="btn btn-default">Export</a>
-                   <a href="<?= \yii\helpers\Url::to(['workqueue/printdocx', 'id' => $model->id], true) ?>"
-                      class="btn btn-warning">พิมพ์</a>
-               </div>
+                <div class="btn-group">
+                    <a href="<?= \yii\helpers\Url::to(['workqueue/exportdoc', 'id' => $model->id], true) ?>"
+                       class="btn btn-default">Export</a>
+                    <a href="<?= \yii\helpers\Url::to(['workqueue/printdocx', 'id' => $model->id], true) ?>"
+                       class="btn btn-warning">พิมพ์</a>
+                </div>
 
             <?php endif; ?>
         </div>
@@ -405,7 +522,6 @@ if(!$model->isNewRecord){
     <?php ActiveForm::end(); ?>
 
 
-
 </div>
 
 <form id="form-delete-doc" action="<?= \yii\helpers\Url::to(['workqueue/removedoc'], true) ?>" method="post">
@@ -413,8 +529,8 @@ if(!$model->isNewRecord){
     <input type="hidden" class="work-queue-doc-delete" name="doc_name" value="">
 </form>
 <input type="hidden" id="is-page-new" value="<?= $is_newpage ?>">
-<input type="hidden" id="route-plan-id" value="<?= $current_route_plan_id?>">
-<input type="hidden" id="car-type-selected" value="<?=$current_car_type_id?>">
+<input type="hidden" id="route-plan-id" value="<?= $current_route_plan_id ?>">
+<input type="hidden" id="car-type-selected" value="<?= $current_car_type_id ?>">
 <input type="hidden" id="labour-price-checked" value="0">
 <input type="hidden" id="labour-price-plan" value="<?= $model->labour_price ?>">
 <input type="hidden" id="express-road-price-checked" value="0">
@@ -434,6 +550,7 @@ $url_to_find_item = \yii\helpers\Url::to(['item/finditem'], true);
 
 $js = <<<JS
 var removelist = [];
+var removelist2 = [];
 var loop = 0;
 var loop2 = 0;
 var loop3 = 0;
@@ -465,7 +582,7 @@ function enableLabour(e){
    // alert('loop is' + loop);
   // alert($("#labour-price-checked").val());
    if($("#labour-price-checked").val() == 1){
-     //  alert("has 1");
+      // alert("has 1");
        $("#labour-price-checked").val(0);
        if($("#labour-price-checked").val() == 0){
            $("#labour-price-checked").val(0)
@@ -778,6 +895,51 @@ function removedoc(e){
         $("form#form-delete-doc").submit();
     }
 }
+
+
+function addline1(e){
+    var tr = $("#table-list2 tbody tr:last");
+                    var clone = tr.clone();
+                    //clone.find(":text").val("");
+                    // clone.find("td:eq(1)").text("");
+                    clone.find(".dropoff-id").val("");
+                    clone.find(".dropoff-no").val("");
+                    clone.find(".qty").val(0);
+                    clone.find(".weight").val(0);
+                   
+                    clone.attr("data-var", "");
+                    clone.find('.rec-id').val("0");
+                   
+                    tr.after(clone);
+    
+}
+function removeline1(e) {
+        if (confirm("ต้องการลบรายการนี้ใช่หรือไม่?")) {
+            if (e.parent().parent().attr("data-var") != '') {
+                removelist2.push(e.parent().parent().attr("data-var"));
+                $(".remove-list2").val(removelist2);
+            }
+            // alert(removelist2);
+            // alert(e.parent().parent().attr("data-var"));
+
+            if ($("#table-list2 tbody tr").length == 1) {
+                $("#table-list2 tbody tr").each(function () {
+                    $(this).find(":text").val("");
+                   // $(this).find(".line-prod-photo").attr('src', '');
+                    $(this).find(".dropoff-id").val(0);
+                     $(this).find(".dropoff-no").val('');
+                     $(this).find(".qty").val(0);
+                    $(this).find(".weight").val(0);
+                    // cal_num();
+                });
+            } else {
+                e.parent().parent().remove();
+            }
+            // cal_linenum();
+            // cal_all();
+        }
+    }
+
 
 JS;
 $this->registerJs($js, static::POS_END);

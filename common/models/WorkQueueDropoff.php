@@ -28,6 +28,8 @@ class WorkQueueDropoff extends \yii\db\ActiveRecord
     {
         return [
             [['work_queue_id', 'dropoff_id'], 'integer'],
+            [['qty','weight'], 'number'],
+            [['dropoff_no'], 'string'],
         ];
     }
 
