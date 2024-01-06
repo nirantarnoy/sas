@@ -7,7 +7,7 @@ use yii\widgets\ActiveForm;
 /** @var backend\models\Recieptrecord $model */
 /** @var yii\widgets\ActiveForm $form */
 
-$cost_title_data = \common\models\FixcostTitle::find()->where(['type_id'=>2])->all();
+$cost_title_data = \common\models\FixcostTitle::find()->where(['type_id' => 2])->all();
 ?>
 
     <div class="recieptrecord-form">
@@ -18,7 +18,7 @@ $cost_title_data = \common\models\FixcostTitle::find()->where(['type_id'=>2])->a
 
         <div class="row">
             <div class="col-lg-3">
-                <?= $form->field($model, 'journal_no')->textInput(['maxlength' => true,'readonly' => 'readonly']) ?>
+                <?= $form->field($model, 'journal_no')->textInput(['maxlength' => true, 'readonly' => 'readonly']) ?>
             </div>
             <div class="col-lg-3">
                 <?php $model->trans_date = $model->isNewRecord ? date('d-m-Y') : date('d-m-Y', strtotime($model->trans_date)) ?>
@@ -34,7 +34,7 @@ $cost_title_data = \common\models\FixcostTitle::find()->where(['type_id'=>2])->a
             <div class="col-lg-3">
                 <?= $form->field($model, 'trans_ref_id')->widget(\kartik\select2\Select2::className(), [
                     'data' => \yii\helpers\ArrayHelper::map(\backend\models\Cashrecord::find()->all(), 'id', function ($data) {
-                        return $data->journal_no.' '.$data->pay_for;
+                        return $data->journal_no . ' ' . $data->pay_for;
                     }),
                     'options' => [
                         'placeholder' => '--เลือก--',
@@ -208,8 +208,10 @@ $cost_title_data = \common\models\FixcostTitle::find()->where(['type_id'=>2])->a
                 </div>
             </div>
             <div class="col-lg-6" style="text-align: right;">
-                <a href="<?= \yii\helpers\Url::to(['recieptrecord/print', 'id' => $model->id], true) ?>"
-                   class="btn btn-warning">พิมพ์</a>
+                <?php if (!$model->isNewRecord): ?>
+                    <a href="<?= \yii\helpers\Url::to(['recieptrecord/print', 'id' => $model->id], true) ?>"
+                       class="btn btn-warning">พิมพ์</a>
+                <?php endif; ?>
             </div>
         </div>
 

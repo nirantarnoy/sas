@@ -102,6 +102,7 @@ class Workqueue extends \common\models\WorkQueue
 //            $clen = strlen($cnum + 1);
 //            $loop = $len - $clen;
             $prefix = $pre . '-' . substr(date("Y"), 2, 2);
+          //  $prefix = $pre . '-' . substr(date("Y"), 2, 2). substr(date("m"), 0, 2);
             $cnum = substr((string)$model, 5, strlen($model));
             $len = strlen($cnum);
             $clen = strlen($cnum + 1);
@@ -113,6 +114,7 @@ class Workqueue extends \common\models\WorkQueue
             return $prefix;
         } else {
             $prefix = $pre . '-' . substr(date("Y"), 2, 2);
+       //     return $prefix . '00001';
             return $prefix . '00001';
         }
     }

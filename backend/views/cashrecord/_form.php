@@ -44,8 +44,8 @@ $cost_title_data = \common\models\FixcostTitle::find()->where(['type_id' => 1])-
                     'options' => [
                         'placeholder' => '--รถ--',
                     ],
-                    'pluginOptions'=>[
-                            'allowClear'=> true,
+                    'pluginOptions' => [
+                        'allowClear' => true,
                     ]
                 ]) ?>
             </div>
@@ -79,8 +79,8 @@ $cost_title_data = \common\models\FixcostTitle::find()->where(['type_id' => 1])-
 
             <div class="col-lg-3">
                 <?= $form->field($model, 'cashier_by')->Widget(\kartik\select2\Select2::className(), [
-                    'data' => \yii\helpers\ArrayHelper::map(\backend\models\Employee::find()->where(['status' => 1, 'is_cashier' => 1])->all(), 'id',function ($data) {
-                        return $data->fname.' '. $data->lname;
+                    'data' => \yii\helpers\ArrayHelper::map(\backend\models\Employee::find()->where(['status' => 1, 'is_cashier' => 1])->all(), 'id', function ($data) {
+                        return $data->fname . ' ' . $data->lname;
                     }),
                     'options' => [
                         'placeholder' => '--เลือก--',
@@ -235,11 +235,12 @@ $cost_title_data = \common\models\FixcostTitle::find()->where(['type_id' => 1])-
                 </div>
             </div>
             <div class="col-lg-6" style="text-align: right;">
-                <a href="<?= \yii\helpers\Url::to(['cashrecord/print', 'id' => $model->id], true) ?>"
-                   class="btn btn-warning">พิมพ์</a>
+                <?php if (!$model->isNewRecord): ?>
+                    <a href="<?= \yii\helpers\Url::to(['cashrecord/print', 'id' => $model->id], true) ?>"
+                       class="btn btn-warning">พิมพ์</a>
+                <?php endif; ?>
             </div>
         </div>
-
 
         <?php ActiveForm::end(); ?>
 
