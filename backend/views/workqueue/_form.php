@@ -32,8 +32,8 @@ if ($w_dropoff != null) {
     }
 }
 $itemback_list = [];
-if ($itemback_list != null) {
-    foreach ($itemback_list as $v) {
+if ($w_itemback != null) {
+    foreach ($w_itemback as $v) {
         array_push($itemback_list, $v->item_back_id);
     }
 }
