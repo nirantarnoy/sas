@@ -285,7 +285,7 @@ $dropoff_data = \common\models\DropoffPlace::find()->all();
         <div class="col-lg-12">
             <table class="table table-bordered table-striped" id="table-list2">
                 <thead>
-                <th>สถานที่ชื้นสินค้า</th>
+                <th>สถานที่ขึ้นสินค้า</th>
                 <th>เลขที่ใบตั้ง</th>
                 <th>จำนวนม้วน</th>
                 <th>น้ำหนัก</th>
