@@ -1,6 +1,7 @@
 <?php
 
 namespace backend\controllers;
+date_default_timezone_set('Asia/Bangkok');
 
 use backend\models\Workqueue;
 use backend\models\WorkqueueSearch;
@@ -41,6 +42,7 @@ class WorkqueueController extends Controller
      */
     public function actionIndex()
     {
+        echo date('d-m-Y H:i:s');
         $pageSize = \Yii::$app->request->post("perpage");
 
         $searchModel = new WorkqueueSearch();
