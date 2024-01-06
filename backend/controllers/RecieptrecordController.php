@@ -1,7 +1,7 @@
 <?php
 
 namespace backend\controllers;
-
+date_default_timezone_set('Asia/Bangkok');
 use backend\models\Recieptrecord;
 use backend\models\RecieptrecordSearch;
 use yii\web\Controller;

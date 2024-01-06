@@ -1,7 +1,7 @@
 <?php
 
 namespace backend\controllers;
-
+date_default_timezone_set('Asia/Bangkok');
 use backend\models\RoutePlan;
 use backend\models\RouteplanSearch;
 use yii\web\Controller;

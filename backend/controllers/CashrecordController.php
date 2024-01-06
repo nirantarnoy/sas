@@ -1,7 +1,7 @@
 <?php
 
 namespace backend\controllers;
-
+date_default_timezone_set('Asia/Bangkok');
 use backend\models\Cashrecord;
 use backend\models\CashrecordSearch;
 use yii\web\Controller;

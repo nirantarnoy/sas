@@ -42,7 +42,7 @@ class WorkqueueController extends Controller
      */
     public function actionIndex()
     {
-        echo date('d-m-Y H:i:s');
+        //echo date('d-m-Y H:i:s');
         $pageSize = \Yii::$app->request->post("perpage");
 
         $searchModel = new WorkqueueSearch();
