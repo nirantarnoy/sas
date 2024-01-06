@@ -220,21 +220,21 @@ $dropoff_data = \common\models\DropoffPlace::find()->all();
         </div>
         <div class="col-lg-4">
             <label for="">ราคาน้ำมัน</label>
-            <input type="text" class="form-control oil-daily-price" readonly>
+            <input type="text" class="form-control oil-daily-price" >
         </div>
     </div>
     <div class="row">
         <div class="col-lg-4">
             <label for="">ระยะทางไป-กลับ</label>
-            <input type="text" class="form-control total-distance" readonly>
+            <input type="text" class="form-control total-distance" >
         </div>
         <div class="col-lg-4">
             <label for="">รวมจำนวน(ลิตร)</label>
-            <input type="text" class="form-control total-qty" readonly>
+            <input type="text" class="form-control total-qty" >
         </div>
         <div class="col-lg-4">
             <label for="">รวมจำนวน(บาท)</label>
-            <input type="text" class="form-control total-amount" readonly>
+            <input type="text" class="form-control total-amount" >
         </div>
     </div>
     <div style="height: 10px;"></div>
