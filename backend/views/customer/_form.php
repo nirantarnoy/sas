@@ -21,12 +21,16 @@ $partycat_data = \backend\helpers\PartycatType::asArrayObject();
 
 $contactcat_data = \backend\helpers\ContactcatType::asArrayObject();
 
-$x_address = $address_chk==null?'':$address_chk->address;
-$x_street = $address_chk==null?'':$address_chk->street;
-$x_zipcode = $address_chk==null?'':$address_chk->zipcode;
+$x_address = $address_chk == null ? '' : $address_chk->address;
+$x_street = $address_chk == null ? '' : $address_chk->street;
+$x_zipcode = $address_chk == null ? '' : $address_chk->zipcode;
 
-
-
+$group_assign_list = [];
+if($model_user_group_list!=null){
+    foreach ($model_user_group_list as $value){
+        array_push($group_assign_list,$value->group_id);
+    }
+}
 
 //print_r($address_chk) ; return;
 ?>
@@ -47,12 +51,16 @@ $x_zipcode = $address_chk==null?'':$address_chk->zipcode;
             <?= $form->field($model, 'business_type')->textInput() ?>
         </div>
         <div class="col-lg-3">
+            <?php $model->customer_group_id = $group_assign_list;?>
             <?= $form->field($model, 'customer_group_id')->Widget(\kartik\select2\Select2::className(), [
                 'data' => \yii\helpers\ArrayHelper::map(\backend\models\Customergroup::find()->all(), 'id', function ($data) {
                     return $data->name;
                 }),
                 'options' => [
                     'placeholder' => '--กลุ่มลูกค้า--'
+                ],
+                'pluginOptions' => [
+                    'multiple' => true,
                 ]
             ]) ?>
         </div>
@@ -156,32 +164,32 @@ $x_zipcode = $address_chk==null?'':$address_chk->zipcode;
     <div class="row">
         <div class="col-lg-3">
 
-                <?= $form->field($model, 'payment_term_id')->Widget(\kartik\select2\Select2::className(), [
-                    'data' => \yii\helpers\ArrayHelper::map(\backend\models\Paymentterm::find()->all(), 'id', function ($data) {
-                        return $data->name;
-                    }),
-                    'options' => [
-                        'placeholder' => '--เลือกเงื่อนไขชำระเงิน--'
-                    ]
-                ]) ?>
+            <?= $form->field($model, 'payment_term_id')->Widget(\kartik\select2\Select2::className(), [
+                'data' => \yii\helpers\ArrayHelper::map(\backend\models\Paymentterm::find()->all(), 'id', function ($data) {
+                    return $data->name;
+                }),
+                'options' => [
+                    'placeholder' => '--เลือกเงื่อนไขชำระเงิน--'
+                ]
+            ]) ?>
 
         </div>
         <div class="col-lg-3">
 
-                <?= $form->field($model, 'payment_method_id')->Widget(\kartik\select2\Select2::className(), [
-                    'data' => \yii\helpers\ArrayHelper::map(\backend\models\Paymentmethod::find()->all(), 'id', function ($data) {
-                        return $data->name;
-                    }),
-                    'options' => [
-                        'placeholder' => '--เลือกวิธีชำระเงิน--'
-                    ]
-                ]) ?>
+            <?= $form->field($model, 'payment_method_id')->Widget(\kartik\select2\Select2::className(), [
+                'data' => \yii\helpers\ArrayHelper::map(\backend\models\Paymentmethod::find()->all(), 'id', function ($data) {
+                    return $data->name;
+                }),
+                'options' => [
+                    'placeholder' => '--เลือกวิธีชำระเงิน--'
+                ]
+            ]) ?>
 
         </div>
         <div class="col-lg-3"></div>
         <div class="col-lg-3"></div>
     </div>
-    <br />
+    <br/>
     <div class="row">
         <div class="col-lg-3">
             <?= $form->field($model, 'taxid')->textInput(['maxlength' => true]) ?>
@@ -239,12 +247,12 @@ $x_zipcode = $address_chk==null?'':$address_chk->zipcode;
                 <?php else: ?>
                     <?php if (count($model_contact_line) > 0) : ?>
                         <?php foreach ($model_contact_line as $value): ?>
-                            <tr data-var="<?=$value->id ?>">
+                            <tr data-var="<?= $value->id ?>">
                                 <td>
                                     <input type="hidden" class="rec-id" name="rec_id[]"
-                                           value="<?=$value->id ?>">
+                                           value="<?= $value->id ?>">
                                     <input type="text" class="form-control line-name" name="line_name[]"
-                                           value=" <?=trim($value->contact_name)?>">
+                                           value=" <?= trim($value->contact_name) ?>">
                                 </td>
                                 <td>
                                     <select name="line_type_id[]" class="form-control line-type-id" id=""
@@ -257,13 +265,13 @@ $x_zipcode = $address_chk==null?'':$address_chk->zipcode;
                                                 $selected = 'selected';
                                             }
                                             ?>
-                                            <option value="<?=$contactcat_data[$i]['id'] ?>" <?=$selected ?>><?=$contactcat_data[$i]['name'] ?></option>
+                                            <option value="<?= $contactcat_data[$i]['id'] ?>" <?= $selected ?>><?= $contactcat_data[$i]['name'] ?></option>
                                         <?php endfor; ?>
                                     </select>
                                 </td>
                                 <td>
                                     <input type="text" class="form-control line-contact-no" name="line_contact_no[]"
-                                           value=" <?=trim($value->contact_no)?>">
+                                           value=" <?= trim($value->contact_no) ?>">
                                 </td>
                                 <td style="text-align: center">
                                     <div class="btn btn-danger btn-sm" onclick="removeline($(this))"><i

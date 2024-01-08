@@ -16,6 +16,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <?= $this->render('_form', [
         'model' => $model,
         'model_customer_tax_info'=> null,
+        'model_user_group_list' => null,
     ]) ?>
 
 </div>

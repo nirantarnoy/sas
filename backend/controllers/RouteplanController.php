@@ -81,6 +81,8 @@ class RouteplanController extends Controller
                 $drop_off_qty = \Yii::$app->request->post('drop_off_qty');
 
                 $car_type = \Yii::$app->request->post('car_type');
+                $hp = \Yii::$app->request->post('hp');
+                $oil_rate = \Yii::$app->request->post('oil_rate');
                 $lite_oil_rate = \Yii::$app->request->post('lite_oil_rate');
                 $count_go = \Yii::$app->request->post('count_go');
                 $count_back = \Yii::$app->request->post('count_back');
@@ -105,6 +107,8 @@ class RouteplanController extends Controller
                                     $route_plan_line_chk->dropoff_place_id = $drop_off_place[$i];
                                     $route_plan_line_chk->dropoff_qty = $drop_off_qty[$i];
                                     $route_plan_line_chk->car_type = $car_type[$i];
+                                    $route_plan_line_chk->hp = $hp[$i];
+                                    $route_plan_line_chk->oil_rate = $oil_rate[$i];
                                     $route_plan_line_chk->lite_oil_rate = $lite_oil_rate[$i];
                                     $route_plan_line_chk->count_go = $count_go[$i];
                                     $route_plan_line_chk->count_back = $count_back[$i];
@@ -119,6 +123,8 @@ class RouteplanController extends Controller
                                     $new_line->dropoff_place_id = $drop_off_place[$i];
                                     $new_line->dropoff_qty = $drop_off_qty[$i];
                                     $new_line->car_type = $car_type[$i];
+                                    $new_line->hp = $hp[$i];
+                                    $new_line->oil_rate = $oil_rate[$i];
                                     $new_line->lite_oil_rate = $lite_oil_rate[$i];
                                     $new_line->count_go = $count_go[$i];
                                     $new_line->count_back = $count_back[$i];
@@ -199,6 +205,8 @@ class RouteplanController extends Controller
             $drop_off_qty = \Yii::$app->request->post('drop_off_qty');
 
             $car_type = \Yii::$app->request->post('car_type');
+            $hp = \Yii::$app->request->post('hp');
+            $oil_rate = \Yii::$app->request->post('oil_rate');
             $lite_oil_rate = \Yii::$app->request->post('lite_oil_rate');
             $count_go = \Yii::$app->request->post('count_go');
             $count_back = \Yii::$app->request->post('count_back');
@@ -227,6 +235,9 @@ class RouteplanController extends Controller
                                 $route_plan_line_chk->dropoff_place_id = $drop_off_place[$i];
                                 $route_plan_line_chk->dropoff_qty = $drop_off_qty[$i];
                                 $route_plan_line_chk->car_type = $car_type[$i];
+                                $route_plan_line_chk->hp = $hp[$i];
+                                $route_plan_line_chk->oil_rate = $oil_rate[$i];
+                                $route_plan_line_chk->car_type = $car_type[$i];
                                 $route_plan_line_chk->lite_oil_rate = $lite_oil_rate[$i];
                                 $route_plan_line_chk->count_go = $count_go[$i];
                                 $route_plan_line_chk->count_back = $count_back[$i];
@@ -241,6 +252,8 @@ class RouteplanController extends Controller
                                 $new_line->dropoff_place_id = $drop_off_place[$i];
                                 $new_line->dropoff_qty = $drop_off_qty[$i];
                                 $new_line->car_type = $car_type[$i];
+                                $new_line->hp = $hp[$i];
+                                $new_line->oil_rate = $oil_rate[$i];
                                 $new_line->lite_oil_rate = $lite_oil_rate[$i];
                                 $new_line->count_go = $count_go[$i];
                                 $new_line->count_back = $count_back[$i];

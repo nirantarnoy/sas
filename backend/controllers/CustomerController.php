@@ -102,7 +102,7 @@ class CustomerController extends Controller
                     if ($party_type) {
 //                        echo $address;
 //                        echo $zipcode; return ;
-                        $address_chk = \common\models\AddressInfo::find()->where(['party_id' => $model->id,'party_type'=>$party_type])->one();
+                        $address_chk = \common\models\AddressInfo::find()->where(['party_id' => $model->id, 'party_type' => $party_type])->one();
                         if ($address_chk) {
                             $address_chk->address = $address;
                             $address_chk->street = $street;
@@ -170,6 +170,16 @@ class CustomerController extends Controller
                     $model_tax->email = $customer_payment_tax_email;
                     $model_tax->status = 1;
                     $model_tax->save(false);
+
+
+                    if ($model->customer_group_id) {
+                        for ($m = 0; $m <= count($model->customer_group_id) - 1; $m++) {
+                            $model_group_assign = new \common\models\CustomerAssignList();
+                            $model_group_assign->customer_id = $model->id;
+                            $model_group_assign->group_id = $model->customer_group_id[$m];
+                            $model_group_assign->save(false);
+                        }
+                    }
                 }
                 return $this->redirect(['view', 'id' => $model->id]);
             }
@@ -197,7 +207,9 @@ class CustomerController extends Controller
 
         $model_contact_line = \common\models\ContactInfo::find()->where(['party_id' => $id])->all();
 
-        $model_customer_tax_info = \common\models\CustomerInvoiceInfo::find()->where(['customer_id'=>$id])->one();
+        $model_customer_tax_info = \common\models\CustomerInvoiceInfo::find()->where(['customer_id' => $id])->one();
+
+        $model_user_group_list = \common\models\CustomerAssignList::find()->where(['customer_id'=>$id])->all();
 
         if ($this->request->isPost && $model->load($this->request->post())) {
             $party_type = 2;
@@ -219,6 +231,7 @@ class CustomerController extends Controller
             $customer_payment_tax_branch = \Yii::$app->request->post('customer_tax_branch');
             $customer_payment_tax_email = \Yii::$app->request->post('customer_tax_email');
 
+            // print_r($model->customer_group_id);return;
 
 //            print_r($removelist); return;
             if ($model->save(false)) {
@@ -259,7 +272,7 @@ class CustomerController extends Controller
                         //print_r($line_contact_name);return ;
                         if ($line_contact_name[$i]) {
                             //print_r($line_contact_name);return ;
-                            $contact_chk = \common\models\ContactInfo::find()->where(['party_id' => $model->id, 'contact_name' => trim($line_contact_name[$i]),'party_type'=>$party_type])->one();
+                            $contact_chk = \common\models\ContactInfo::find()->where(['party_id' => $model->id, 'contact_name' => trim($line_contact_name[$i]), 'party_type' => $party_type])->one();
 //                            print_r($contact_chk);return ;
                             if ($contact_chk) {
                                 $contact_chk->contact_name = trim($line_contact_name[$i]);
@@ -281,21 +294,21 @@ class CustomerController extends Controller
                             }
 
                             $delete_rec = explode(",", $removelist);
-                            if (count($delete_rec)){
-                                \common\models\ContactInfo::deleteAll(['party_id'=>$model->id,'id'=>$delete_rec]);
+                            if (count($delete_rec)) {
+                                \common\models\ContactInfo::deleteAll(['party_id' => $model->id, 'id' => $delete_rec]);
                             }
                         }
                         //                            print_r($line_contact_name);return ;
 
                     }
                 }
-                $model_tax_check = \common\models\CustomerInvoiceInfo::find()->where(['customer_id'=>$model->id])->one();
-                if($model_tax_check){
+                $model_tax_check = \common\models\CustomerInvoiceInfo::find()->where(['customer_id' => $model->id])->one();
+                if ($model_tax_check) {
                     $model_tax_check->tax_id = $customer_payment_tax_id;
                     $model_tax_check->branch = $customer_payment_tax_branch;
                     $model_tax_check->email = $customer_payment_tax_email;
                     $model_tax_check->save(false);
-                }else{
+                } else {
                     $model_tax = new \common\models\CustomerInvoiceInfo();
                     $model_tax->customer_id = $model->id;
                     $model_tax->tax_id = $customer_payment_tax_id;
@@ -303,6 +316,16 @@ class CustomerController extends Controller
                     $model_tax->email = $customer_payment_tax_email;
                     $model_tax->status = 1;
                     $model_tax->save(false);
+                }
+
+                if ($model->customer_group_id) {
+                    \common\models\CustomerAssignList::deleteAll(['customer_id' => $model->id]);
+                    for ($m = 0; $m <= count($model->customer_group_id) - 1; $m++) {
+                        $model_group_assign = new \common\models\CustomerAssignList();
+                        $model_group_assign->customer_id = $model->id;
+                        $model_group_assign->group_id = $model->customer_group_id[$m];
+                        $model_group_assign->save(false);
+                    }
                 }
 
             }
@@ -313,7 +336,8 @@ class CustomerController extends Controller
             'model' => $model,
             'model_line' => $model_line,
             'model_contact_line' => $model_contact_line,
-            'model_customer_tax_info' => $model_customer_tax_info
+            'model_customer_tax_info' => $model_customer_tax_info,
+            'model_user_group_list' => $model_user_group_list,
         ]);
     }
 
@@ -334,7 +358,7 @@ class CustomerController extends Controller
 //                $this->findModel($id)->delete();
             }
         }
-        if ($model_contact){
+        if ($model_contact) {
             if (\common\models\ContactInfo::deleteAll(['party_id' => $id])) {
 //                $this->findModel($id)->delete();
             }

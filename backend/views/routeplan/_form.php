@@ -50,7 +50,7 @@ $car_type_data = \common\models\CarType::find()->all();
                 <?= $form->field($model, 'total_distance_back')->textInput() ?>
                 <?php //echo $form->field($model, 'hp')->textInput() ?>
             </div>
-                <?php //echo $form->field($model, 'oil_rate_qty')->textInput() ?>
+            <?php //echo $form->field($model, 'oil_rate_qty')->textInput() ?>
             <div class="col-lg-4">
                 <?= $form->field($model, 'item_back_id')->Widget(\kartik\select2\Select2::className(), [
                     'data' => \yii\helpers\ArrayHelper::map(\backend\models\Item::find()->all(), 'id', 'name'),
@@ -61,22 +61,22 @@ $car_type_data = \common\models\CarType::find()->all();
             </div>
         </div>
 
-<!--        <div class="row">-->
-<!--            <div class="col-lg-4">-->
-                <?php //echo $form->field($model, 'car_type_id')->Widget(\kartik\select2\Select2::className(), [
-//                    'data' => \yii\helpers\ArrayHelper::map(\backend\models\CarType::find()->all(), 'id', 'name'),
-//                    'options' => [
-//                        'placeholder' => '--ประเภทรถ--'
-//                    ]
-//                ]) ?>
-<!--            </div>-->
-<!--            <div class="col-lg-4">-->
-<!--                --><?php ////echo $form->field($model, 'labour_price')->textInput() ?>
-<!--            </div>-->
-<!--            <div class="col-lg-4">-->
-<!--                --><?php ////echo $form->field($model, 'express_road_price')->textInput() ?>
-<!--            </div>-->
-<!--        </div>-->
+        <!--        <div class="row">-->
+        <!--            <div class="col-lg-4">-->
+        <?php //echo $form->field($model, 'car_type_id')->Widget(\kartik\select2\Select2::className(), [
+        //                    'data' => \yii\helpers\ArrayHelper::map(\backend\models\CarType::find()->all(), 'id', 'name'),
+        //                    'options' => [
+        //                        'placeholder' => '--ประเภทรถ--'
+        //                    ]
+        //                ]) ?>
+        <!--            </div>-->
+        <!--            <div class="col-lg-4">-->
+        <!--                --><?php ////echo $form->field($model, 'labour_price')->textInput() ?>
+        <!--            </div>-->
+        <!--            <div class="col-lg-4">-->
+        <!--                --><?php ////echo $form->field($model, 'express_road_price')->textInput() ?>
+        <!--            </div>-->
+        <!--        </div>-->
 
         <?php echo $form->field($model, 'status')->widget(\toxor88\switchery\Switchery::className(), ['options' => ['label' => '', 'class' => 'form-control']])->label() ?>
         <h5>เรทน้ำมัน</h5>
@@ -121,23 +121,29 @@ $car_type_data = \common\models\CarType::find()->all();
                                 <input type="text" class="form-control hp" name="hp[]" readonly>
                             </td>
                             <td style="width: 10%">
-                                <input type="text" class="form-control oil-rate" name="oil_rate[]" onchange="callLine($(this))">
+                                <input type="text" class="form-control oil-rate" name="oil_rate[]"
+                                       onchange="callLine($(this))">
                             </td>
                             <td style="width: 10%">
-                                <input type="text" class="form-control drop-off-qty" name="drop_off_qty[]" onchange="callLine($(this))" >
+                                <input type="text" class="form-control drop-off-qty" name="drop_off_qty[]"
+                                       onchange="callLine($(this))">
                             </td>
 
                             <td style="width: 10%">
-                                <input type="text" class="form-control lite-oil-rate" name="lite_oil_rate[]" onchange="callLine($(this))" >
+                                <input type="text" class="form-control lite-oil-rate" name="lite_oil_rate[]"
+                                       onchange="callLine($(this))">
                             </td>
                             <td style="width: 10%">
-                                <input type="text" class="form-control count-go" name="count_go[]" onchange="callLine($(this))" readonly>
+                                <input type="text" class="form-control count-go" name="count_go[]"
+                                       onchange="callLine($(this))" readonly>
                             </td>
                             <td style="width: 10%">
-                                <input type="text" class="form-control count-back" name="count_back[]" onchange="callLine($(this))" readonly>
+                                <input type="text" class="form-control count-back" name="count_back[]"
+                                       onchange="callLine($(this))" readonly>
                             </td>
                             <td style="width: 10%">
-                                <input type="text" class="form-control total" name="total[]" onchange="callLine($(this))" readonly>
+                                <input type="text" class="form-control total" name="total[]"
+                                       onchange="callLine($(this))" readonly>
                             </td>
                             <td>
                                 <div class="btn btn-danger btn-sm" onclick="removeline($(this))"><i
@@ -171,41 +177,47 @@ $car_type_data = \common\models\CarType::find()->all();
                                             <option value="0">--ประเภทรถ--</option>
                                             <?php for ($i = 0; $i <= count($car_type_data) - 1; $i++) : ?>
                                                 <?php $selected = '';
-                                                 if($car_type_data[$i]['id'] == $value->car_type)$selected ='selected';
+                                                if ($car_type_data[$i]['id'] == $value->car_type) $selected = 'selected';
                                                 ?>
 
-                                                <option value="<?= $car_type_data[$i]['id'] ?>" <?=$selected?>><?= $car_type_data[$i]['name'] ?></option>
+                                                <option value="<?= $car_type_data[$i]['id'] ?>" <?= $selected ?>><?= $car_type_data[$i]['name'] ?></option>
                                             <?php endfor; ?>
                                         </select>
                                     </td>
                                     <td>
+
+                                        <?php //echo $data != null ? $data[0]['hp'] : 0 ?>
                                         <input type="text" class="form-control hp" name="hp[]"
-                                               value="<?= $data != null ? $data[0]['hp'] : 0 ?>">
+                                               value="<?= $value->hp ?>">
                                     </td>
                                     <td>
                                         <input type="text" class="form-control oil-rate" name="oil_rate[]"
-                                               value="<?= $data != null ? $data[0]['oil_rate_qty'] : 0 ?>" onchange="callLine($(this))">
+                                               value="<?= $value->oil_rate ?>" onchange="callLine($(this))">
                                     </td>
                                     <td>
-                                        <input type="text" class="form-control drop-off-qty" name="drop_off_qty[]" onchange="callLine($(this))"
+                                        <input type="text" class="form-control drop-off-qty" name="drop_off_qty[]"
+                                               onchange="callLine($(this))"
                                                value="<?= $value->dropoff_qty ?>">
                                     </td>
 
                                     <td style="width: 10%">
                                         <input type="text" class="form-control lite-oil-rate" name="lite_oil_rate[]"
-                                        value="<?= $value->lite_oil_rate ?>" onchange="callLine($(this))" >
+                                               value="<?= $value->lite_oil_rate ?>" onchange="callLine($(this))">
                                     </td>
                                     <td style="width: 10%">
-                                        <input type="text" class="form-control count-go" name="count_go[]" onchange="callLine($(this))" readonly
-                                        value="<?= $value->count_go ?>" >
+                                        <input type="text" class="form-control count-go" name="count_go[]"
+                                               onchange="callLine($(this))" readonly
+                                               value="<?= $value->count_go ?>">
                                     </td>
                                     <td style="width: 10%">
-                                        <input type="text" class="form-control count-back" name="count_back[]" onchange="callLine($(this))" readonly
-                                        value="<?= $value->count_back ?>" >
+                                        <input type="text" class="form-control count-back" name="count_back[]"
+                                               onchange="callLine($(this))" readonly
+                                               value="<?= $value->count_back ?>">
                                     </td>
                                     <td style="width: 10%">
-                                        <input type="text" class="form-control total" name="total[]" onchange="callLine($(this))" readonly
-                                        value="<?= $value->total ?>" >
+                                        <input type="text" class="form-control total" name="total[]"
+                                               onchange="callLine($(this))" readonly
+                                               value="<?= $value->total ?>">
                                     </td>
                                     <td>
                                         <div class="btn btn-danger btn-sm" onclick="removeline($(this))"><i
@@ -237,22 +249,28 @@ $car_type_data = \common\models\CarType::find()->all();
                                     <input type="text" class="form-control hp" name="hp[]">
                                 </td>
                                 <td>
-                                    <input type="text" class="form-control oil-rate" name="oil_rate[]" onchange="callLine($(this))">
+                                    <input type="text" class="form-control oil-rate" name="oil_rate[]"
+                                           onchange="callLine($(this))">
                                 </td>
                                 <td>
-                                    <input type="text" class="form-control drop-off-qty" name="drop_off_qty[]" onchange="callLine($(this))">
+                                    <input type="text" class="form-control drop-off-qty" name="drop_off_qty[]"
+                                           onchange="callLine($(this))">
                                 </td>
                                 <td style="width: 10%">
-                                    <input type="text" class="form-control lite-oil-rate" name="lite_oil_rate[]" onchange="callLine($(this))">
+                                    <input type="text" class="form-control lite-oil-rate" name="lite_oil_rate[]"
+                                           onchange="callLine($(this))">
                                 </td>
                                 <td style="width: 10%">
-                                    <input type="text" class="form-control count-go" name="count_go[]" onchange="callLine($(this))" readonly>
+                                    <input type="text" class="form-control count-go" name="count_go[]"
+                                           onchange="callLine($(this))" readonly>
                                 </td>
                                 <td style="width: 10%">
-                                    <input type="text" class="form-control count-back" name="count_back[]" onchange="callLine($(this))" readonly>
+                                    <input type="text" class="form-control count-back" name="count_back[]"
+                                           onchange="callLine($(this))" readonly>
                                 </td>
                                 <td style="width: 10%">
-                                    <input type="text" class="form-control total" name="total[]" onchange="callLine($(this))" readonly>
+                                    <input type="text" class="form-control total" name="total[]"
+                                           onchange="callLine($(this))" readonly>
                                 </td>
                                 <td>
                                     <div class="btn btn-danger btn-sm" onclick="removeline($(this))"><i
@@ -363,19 +381,23 @@ $car_type_data = \common\models\CarType::find()->all();
                                     </td>
                                     <td>
                                         <input type="number" name="cover_sheet_price_line[]"
-                                               class="form-control cover-sheet-price-line" id="" value="<?= $key->cover_sheet_price ?>">
+                                               class="form-control cover-sheet-price-line" id=""
+                                               value="<?= $key->cover_sheet_price ?>">
                                     </td>
                                     <td>
                                         <input type="number" name="overnight_price_line[]"
-                                               class="form-control overnight-price-line" id="" value="<?= $key->overnight_price ?>">
+                                               class="form-control overnight-price-line" id=""
+                                               value="<?= $key->overnight_price ?>">
                                     </td>
                                     <td>
                                         <input type="number" name="warehouse_plus_price_line[]"
-                                               class="form-control warehouse-plus-price-line" id="" value="<?= $key->warehouse_plus_price ?>">
+                                               class="form-control warehouse-plus-price-line" id=""
+                                               value="<?= $key->warehouse_plus_price ?>">
                                     </td>
                                     <td>
                                         <input type="number" name="other_price_line[]"
-                                               class="form-control other-price-line" id="" value="<?=$key->other_price?>">
+                                               class="form-control other-price-line" id=""
+                                               value="<?= $key->other_price ?>">
                                     </td>
                                     <td>
                                         <div class="btn btn-danger btn-sm" onclick="removeline2($(this))"><i

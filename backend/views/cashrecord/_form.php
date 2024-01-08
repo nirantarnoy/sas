@@ -34,15 +34,12 @@ $cost_title_data = \common\models\FixcostTitle::find()->where(['type_id' => 1])-
                 ]) ?>
             </div>
             <div class="col-lg-3">
-                <?= $form->field($model, 'pay_for')->textInput(['maxlength' => true]) ?>
-            </div>
-            <div class="col-lg-3">
-                <?= $form->field($model, 'car_id')->Widget(\kartik\select2\Select2::className(), [
-                    'data' => \yii\helpers\ArrayHelper::map(\backend\models\Car::find()->where(['type_id' => '1'])->all(), 'id', function ($data) {
-                        return $data->name;
-                    }),
+                <?= $form->field($model, 'pay_for_type_id')->Widget(\kartik\select2\Select2::className(), [
+                    'data' => \yii\helpers\ArrayHelper::map(\backend\helpers\PayForType::asArrayObject(), 'id', 'name'),
                     'options' => [
-                        'placeholder' => '--รถ--',
+                        'id'=>'pay-for-type-id',
+                        'placeholder' => '--ประเภทผู้รับเงิน--',
+                        'onchange'=>'checkpaytype($(this))',
                     ],
                     'pluginOptions' => [
                         'allowClear' => true,
@@ -50,8 +47,27 @@ $cost_title_data = \common\models\FixcostTitle::find()->where(['type_id' => 1])-
                 ]) ?>
             </div>
 
+            <div class="col-lg-3">
+                <?= $form->field($model, 'pay_for')->textInput(['maxlength' => true,'class'=>'form-control pay-for-name']) ?>
+            </div>
+
         </div>
         <div class="row">
+            <div class="col-lg-3">
+                <?= $form->field($model, 'car_id')->Widget(\kartik\select2\Select2::className(), [
+                    'data' => \yii\helpers\ArrayHelper::map(\backend\models\Car::find()->where(['type_id' => '1'])->all(), 'id', function ($data) {
+                        return $data->name.' '.\backend\models\Car::findDrivername($data->id);
+                    }),
+
+                    'options' => [
+                        'placeholder' => '--รถ--',
+                        'id'=>'car-id',
+                    ],
+                    'pluginOptions' => [
+                        'allowClear' => true,
+                    ]
+                ]) ?>
+            </div>
 
             <div class="col-lg-3">
                 <?php //echo $form->field($model, 'car_tail_id')->textInput() ?>
@@ -59,9 +75,11 @@ $cost_title_data = \common\models\FixcostTitle::find()->where(['type_id' => 1])-
                     'data' => \yii\helpers\ArrayHelper::map(\backend\models\Car::find()->where(['type_id' => '2'])->all(), 'id', function ($data) {
                         return $data->name;
                     }),
+
                     'options' => [
                         'placeholder' => '--พ่วง--',
                         'onchange' => 'getTailinfo($(this))',
+                        'id'=>'car-tail-id',
                     ]
                 ]) ?>
             </div>
@@ -88,6 +106,9 @@ $cost_title_data = \common\models\FixcostTitle::find()->where(['type_id' => 1])-
                 ]) ?>
                 <?php //echo $form->field($model, 'status')->widget(\toxor88\switchery\Switchery::className(), ['options' => ['label' => '', 'class' => 'form-control']])->label() ?>
             </div>
+
+        </div>
+        <div class="row">
             <div class="col-lg-3">
                 <?= $form->field($model, 'payment_method_id')->Widget(\kartik\select2\Select2::className(), [
                     'data' => \yii\helpers\ArrayHelper::map(\backend\models\Paymentmethod::find()->all(), 'id', 'name'),
@@ -96,9 +117,6 @@ $cost_title_data = \common\models\FixcostTitle::find()->where(['type_id' => 1])-
                     ]
                 ]) ?>
             </div>
-        </div>
-        <div class="row">
-
             <div class="col-lg-3">
                 <label for="">สถานะ</label>
                 <input type="text" class="form-control" readonly
@@ -257,6 +275,17 @@ var removelist2 = [];
 $(function(){
     // $('.start-date').datepicker({dateformat: 'dd-mm-yy'});
     // $('.expire-date').datepicker({dateFormat: 'dd-mm-yy'});
+    
+    if($("#pay-for-type-id").val() <=0){
+          $("#pay-for-type-id").val(1).change();
+          $(".pay-for-name").prop("disabled","disabled");
+          $("#car-id").prop("disabled", false);
+          $("#car-tail-id").prop("disabled", false);
+    }else{
+        $(".pay-for-name").prop("disabled","");
+        $("#car-id").prop("disabled", true);
+        $("#car-tail-id").prop("disabled", true);
+    }
 });
 
 function addline(e){
@@ -268,7 +297,6 @@ function addline(e){
                     clone.find(".price-line").val("0");
                     clone.find(".remark-line").val("");
                     
-                  
                     clone.attr("data-var", "");
                     clone.find('.rec-id').val("");
                     
@@ -300,7 +328,21 @@ function addline(e){
             // cal_all();
         }
     }
-
+function checkpaytype(e){
+    var id = e.val();
+    // alert();
+    if(id != 1){
+        $(".pay-for-name").prop("disabled","");
+        $("#car-id").prop("disabled", true);
+        $("#car-tail-id").prop("disabled", true);
+        $("#car-id").val(-1).change();
+        $("#car-tail-id").val(-1).change();
+    }else{
+        $(".pay-for-name").prop("disabled","disabled");
+         $("#car-id").prop("disabled", false);
+        $("#car-tail-id").prop("disabled", false);
+    }
+}
 
 JS;
 
