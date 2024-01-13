@@ -78,6 +78,11 @@ class Customer extends \common\models\Customer
         $model = Customer::find()->where(['id' => $id])->one();
         return $model != null ? $model->address : '';
     }
+    public static function findAddressProvinceId($id)
+    {
+        $model = AddressInfo::find()->where(['party_id' => $id,'party_type'=>2])->one();
+        return $model != null ? $model->province_id : 0;
+    }
     public static function findTaxId($id)
     {
         $model = Customer::find()->where(['id' => $id])->one();
@@ -93,5 +98,22 @@ class Customer extends \common\models\Customer
             }
         }
         return '';
+    }
+    public static function findWorkTypeIdByCustomer($id)
+    {
+        $type_id = 0;
+        $model = Customer::find()->where(['id' => $id])->one();
+        if($model){
+            $model_type = \common\models\WorkOptionType::find()->where(['id'=>$model->work_type_id])->one();
+            if($model_type){
+                $type_id = $model_type->id;
+            }
+        }
+        return $type_id;
+    }
+    public static function findCusProvinceId($id)
+    {
+        $model = Customer::find()->where(['id' => $id])->one();
+        return $model != null ? $model->name : '';
     }
 }

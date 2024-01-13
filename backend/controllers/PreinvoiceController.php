@@ -272,10 +272,20 @@ class PreinvoiceController extends Controller
                 foreach ($model as $value) {
                     $work_type_name = \backend\models\WorkOptionType::findName($value->work_option_type_id);
 
+                    $province_id = \backend\models\Customer::findAddressProvinceId($value->customer_id);
+                    $work_type_id = \backend\models\Customer::findWorkTypeIdByCustomer($value->customer_id);
+
+
                     $model_dropoff_no = \common\models\WorkQueueDropoff::find()->where(['work_queue_id'=> 3345])->all();
                     if($model_dropoff_no){
                         $has_data = 1;
                         foreach ($model_dropoff_no as $valuex){
+
+                            $dropoff_cal_data = $this->dropofflinecal($valuex->dropoff_id,$province_id,$work_type_id);
+
+
+
+
                             $html .= '<tr>';
                             $html .= '<td style="text-align: center">
                             <div class="btn btn-outline-success btn-sm" onclick="addselecteditem($(this))" data-var="' . $valuex->id . '">เลือก</div>
@@ -302,5 +312,18 @@ class PreinvoiceController extends Controller
             $html .= '</tr>';
         }
         echo $html;
+    }
+    function dropofflinecal($id,$province_id,$work_type_id){
+       $amount = 0;
+       $car_type_id = 0;
+       $work_type_id = 0;
+
+       if($id && $province_id && $work_type_id){
+           $model_dropoff = \common\models\DropoffPlace::find()->where(['id'=>$id])->one();
+           if($model_dropoff){
+               $car_type_id = $model_dropoff->car_type_id;
+           }
+       }
+       return $amount;
     }
 }
