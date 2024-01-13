@@ -264,6 +264,7 @@ class PreinvoiceController extends Controller
     {
         $customer_id = \Yii::$app->request->post('customer_id');
         $html = '';
+        $has_data = 0;
         if ($customer_id > 0) {
             //$model = \backend\models\Workqueue::find()->where(['is_invoice' => 0])->all();
             $model = \backend\models\Workqueue::find()->where(['is_invoice' => 0,'customer_id'=>$customer_id])->all();
@@ -273,6 +274,7 @@ class PreinvoiceController extends Controller
 
                     $model_dropoff_no = \common\models\WorkQueueDropoff::find()->where(['work_queue_id'=>$value->id])->all();
                     if($model_dropoff_no){
+                        $has_data = 1;
                         foreach ($model_dropoff_no as $valuex){
                             $html .= '<tr>';
                             $html .= '<td style="text-align: center">
@@ -289,16 +291,14 @@ class PreinvoiceController extends Controller
                             $html .= '<td style="text-align: left">' . $work_type_name . '</td>';
                             $html .= '</tr>';
                         }
-                    }else{
-                        $html .= '<tr>';
-                        $html .= '<td colspan="4" style="text-align: center">ไม่พบข้อมูล</td>';
-                        $html .= '</tr>';
                     }
-
-
-
                 }
             }
+        }
+        if($has_data ==0){
+            $html .= '<tr>';
+            $html .= '<td colspan="4" style="text-align: center">ไม่พบข้อมูล</td>';
+            $html .= '</tr>';
         }
         echo $html;
     }
