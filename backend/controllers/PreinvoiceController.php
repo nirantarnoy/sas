@@ -272,7 +272,7 @@ class PreinvoiceController extends Controller
                 foreach ($model as $value) {
                     $work_type_name = \backend\models\WorkOptionType::findName($value->work_option_type_id);
 
-                    $model_dropoff_no = \common\models\WorkQueueDropoff::find()->where(['work_queue_id'=>$value->id])->all();
+                    $model_dropoff_no = \common\models\WorkQueueDropoff::find()->where(['work_queue_idx'=>$value->id])->all();
                     if($model_dropoff_no){
                         $has_data = 1;
                         foreach ($model_dropoff_no as $valuex){
@@ -297,7 +297,7 @@ class PreinvoiceController extends Controller
         }
         if($has_data ==0){
             $html .= '<tr>';
-            $html .= '<td colspan="4" style="text-align: center">ไม่พบข้อมูล</td>';
+            $html .= '<td colspan="4" style="text-align: center;color: red;">ไม่พบข้อมูล</td>';
             $html .= '</tr>';
         }
         echo $html;
