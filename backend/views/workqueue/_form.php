@@ -767,7 +767,7 @@ function getCarinfo(e){
 function getRouteplan(){
     var route_plan_id = $("#route-plan-id").val();
     var customer_id = $("#customer-selected-id").val();
-    //alert(route_plan_id);
+    alert(route_plan_id);
    
     if(customer_id > 0 && route_plan_id > 0){
         var car_type_id = $("#car-type-selected").val();
