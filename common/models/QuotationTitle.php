@@ -32,7 +32,7 @@ class QuotationTitle extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['created_at', 'created_by', 'updated_at', 'updated_by','status'], 'integer'],
+            [['created_at', 'created_by', 'updated_at', 'updated_by','status','car_type_id'], 'integer'],
             [['name', 'description'], 'string', 'max' => 255],
             [['created_by_display','created_at_display','fuel_rate'],'safe']
         ];
@@ -48,6 +48,7 @@ class QuotationTitle extends \yii\db\ActiveRecord
             'name' => 'ชื่อ',
             'description' => 'รายละเอียด',
             'fuel_rate'=>'ราคาน้ำมัน',
+            'car_type_id'=>'ประเภทรถ',
             'created_by_display'=>'สร้างโดย',
             'created_at_display'=>'สร้างเมื่อ',
             'created_at' => 'Created At',

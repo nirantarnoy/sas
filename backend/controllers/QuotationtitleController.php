@@ -109,7 +109,7 @@ class QuotationtitleController extends Controller
                             $model_line = new \common\models\QuotationRate();
                             $model_line->quotation_title_id = $model->id;
                             $model_line->province_id = $line_warehouse_id[$i];
-                            $model_line->car_type_id = 0;
+                            $model_line->car_type_id = $model->car_type_id;
                             $model_line->distance = $line_distance[$i];
                             $model_line->route_code = $line_route[$i];
                             $model_line->price_current_rate = $line_quotation_price[$i];
@@ -160,7 +160,7 @@ class QuotationtitleController extends Controller
                         $model_line = new \common\models\QuotationRate();
                         $model_line->quotation_title_id = $model->id;
                         $model_line->province_id = $line_warehouse_id[$i];
-                        $model_line->car_type_id = 0;
+                        $model_line->car_type_id = $model->car_type_id;
                         $model_line->distance = $line_distance[$i];
                         $model_line->price_current_rate = $line_quotation_price[$i];
                         $model_line->load_qty = $line_average[$i];

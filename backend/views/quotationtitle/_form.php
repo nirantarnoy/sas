@@ -25,6 +25,18 @@ $model_cityzone = \backend\models\Cityzone::find()->all();
     </div>
     <div class="row">
         <div class="col-lg-3">
+            <?= $form->field($model, 'car_type_id')->widget(\kartik\select2\Select2::className(),[
+                    'data'=>\yii\helpers\ArrayHelper::map(\backend\models\CarType::find()->all(),'id','name'),
+                    'options' => [
+                            'placeholder'=>'--เลือกปรระเภทรถ--'
+                    ],
+                    'pluginOptions' => [
+                            'allowClear'=>true,
+                    ]
+
+            ]) ?>
+        </div>
+        <div class="col-lg-3">
             <?php $model->created_at_display = $model->created_at != null ? date('d-m-Y H:i:s', $model->created_at) : '' ?>
             <?= $form->field($model, 'created_at_display')->textInput(['readonly' => 'readonly']) ?>
         </div>
