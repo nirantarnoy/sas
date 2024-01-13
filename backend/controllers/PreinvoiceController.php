@@ -320,7 +320,7 @@ class PreinvoiceController extends Controller
     function dropofflinecal($id,$province_id,$work_type_id,$weight){
        $amount = 0;
        $car_type_id = 0;
-       if($id && $province_id && $work_type_id){
+      // if($id && $province_id && $work_type_id){
            $model_dropoff = \common\models\DropoffPlace::find()->where(['id'=>$id])->one();
            if($model_dropoff){
                $car_type_id = $model_dropoff->car_type_id;
@@ -330,7 +330,7 @@ class PreinvoiceController extends Controller
            if($model_quotation){
                $amount = ($model_quotation->price_current_rate * $weight);
            }
-       }
-       return $province_id;
+     //  }
+       return $car_type_id;
     }
 }
