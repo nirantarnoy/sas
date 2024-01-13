@@ -189,6 +189,8 @@ use yii\widgets\ActiveForm;
                             <th style="width: 20%;text-align: center">เลขที่</th>
                             <th style="width: 20%;text-align: center">วันที่</th>
                             <th>หัวข้อ</th>
+                            <th>น้ำหนัก</th>
+                            <th>จำนวนเงิน</th>
                         </tr>
                         </thead>
                         <tbody>

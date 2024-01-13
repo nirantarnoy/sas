@@ -301,6 +301,8 @@ class PreinvoiceController extends Controller
                             $html .= '<td style="text-align: left">' . $valuex->dropoff_no . '</td>';
                             $html .= '<td style="text-align: left">' . date('d-m-Y', strtotime($value->work_queue_date)) . '</td>';
                             $html .= '<td style="text-align: left">' . $work_type_name . '</td>';
+                            $html .= '<td style="text-align: left">' . $valuex->weight . '</td>';
+                            $html .= '<td style="text-align: left">' . $dropoff_cal_amount . '</td>';
                             $html .= '</tr>';
                         }
                     }
