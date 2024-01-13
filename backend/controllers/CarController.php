@@ -383,7 +383,7 @@ class CarController extends Controller
         $customer_id = \Yii::$app->request->post('customer_id');
         $car_type_id = \Yii::$app->request->post('car_type_id');
         $data = [];
-        if ($id && $car_type_id) {
+        if ( $customer_id && $car_type_id) {
             $distance = 10;
             $total_rate_qty = 0;
             $total_dropoff_qty = 0;
@@ -394,7 +394,7 @@ class CarController extends Controller
             $warehouse_plus_price = 0;
             $other_price = 0;
 
-            $model = \common\models\RoutePlan::find()->where(['id' => $id])->one();
+            $model = \common\models\RoutePlan::find()->where(['customer_id' => $customer_id])->one();
             if ($model) {
                 $distance = $model->total_distanct;
                 $total_rate_qty = $model->oil_rate_qty;
