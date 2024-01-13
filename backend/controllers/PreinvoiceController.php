@@ -284,7 +284,8 @@ class PreinvoiceController extends Controller
                             <input type="hidden" class="line-find-qty" value="' . 1 . '">
                             <input type="hidden" class="line-find-price" value="' . 0 . '">
                             <input type="hidden" class="line-find-work-type-name" value="' . $work_type_name . '">
-                           <input type="hidden" class="line-find-order-no" value="' . $valuex->dropoff_no . '">
+                            <input type="hidden" class="line-find-order-no" value="' . $valuex->dropoff_no . '">
+                            <input type="hidden" class="line-find-work-queue-weight" value="' . $valuex->weight . '">
                            </td>';
                             $html .= '<td style="text-align: left">' . $valuex->dropoff_no . '</td>';
                             $html .= '<td style="text-align: left">' . date('d-m-Y', strtotime($value->work_queue_date)) . '</td>';

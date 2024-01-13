@@ -65,6 +65,7 @@ use yii\widgets\ActiveForm;
                     <tr>
                         <th style="width: 5%;text-align: center;">#</th>
                         <th style="text-align: center;">เลขที่ใบตั้ง</th>
+                        <th style="width: 15%;text-align: center;">น้ำหนัก</th>
                         <th style="width: 15%;text-align: center;">ยอดเงิน</th>
                         <th style="width: 5%;text-align: center;">-</th>
                     </tr>
@@ -78,6 +79,9 @@ use yii\widgets\ActiveForm;
                                        name="line_work_queue_id[]">
                                 <input type="text" class="form-control line-work-queue-no" name="line_work_queue_no[]"
                                        readonly>
+                            </td>
+                            <td>
+                                <input type="text" class="form-control line-work-queue-weight" name="line_work_queue_weight[]" value="" readonly>
                             </td>
                             <td>
                                 <input type="number" class="form-control line-work-queue-amount"
@@ -103,6 +107,9 @@ use yii\widgets\ActiveForm;
                                                readonly>
                                     </td>
                                     <td>
+                                        <input type="text" class="form-control line-work-queue-weight" name="line_work_queue_weight[]" value="" readonly>
+                                    </td>
+                                    <td>
                                         <input type="number" class="form-control line-work-queue-amount"
                                                name="line_work_queue_amount[]" min="0" value="<?=$value->total_amount?>" onchange="calinvoiceall();">
                                     </td>
@@ -121,6 +128,9 @@ use yii\widgets\ActiveForm;
                                     <input type="text" class="form-control line-work-queue-no"
                                            name="line_work_queue_no[]"
                                            readonly>
+                                </td>
+                                <td>
+                                    <input type="text" class="form-control line-work-queue-weight" name="line_work_queue_weight[]" value="" readonly>
                                 </td>
                                 <td>
                                     <input type="number" class="form-control line-work-queue-amount"
@@ -247,7 +257,7 @@ function addline(e){
                     //clone.find(":text").val("");
                     // clone.find("td:eq(1)").text("");
                    clone.find(".line-text").val("0");
-                  clone.find(".line-order-no").val("");
+                   clone.find(".line-order-no").val("");
                    clone.find(".line-qty").val("0");
                    clone.find(".line-price").val("0");
                    clone.find(".line-total").val("0");
@@ -290,6 +300,7 @@ function addselecteditem(e) {
         ///// add new 
          var order_line_work_type_name = e.closest('tr').find('.line-find-work-type-name').val();
          var order_no = e.closest('tr').find('.line-find-order-no').val();
+         var order_line_weight = e.closest('tr').find('.line-find-work-queue-weight').val();
          var order_line_qty = e.closest('tr').find('.line-find-qty').val();
          var order_line_price = e.closest('tr').find('.line-find-price').val();
         ///////
@@ -304,6 +315,7 @@ function addselecteditem(e) {
                 obj['order_id'] = order_id;
                 obj['line_work_type_name'] = order_line_work_type_name;
                 obj['line_order_no'] = order_no;
+                obj['line_order_weight'] = order_line_weight;
                 obj['qty'] = order_line_qty;
                 obj['price'] = order_line_price;
                 obj['total'] = (order_line_qty * order_line_price);
@@ -375,6 +387,7 @@ $(".btn-emp-selected").click(function () {
             
                     tr.closest("tr").find(".line-work-queue-id").val(selecteditem[i]['order_id']);
                     tr.closest("tr").find(".line-work-queue-no").val(selecteditem[i]['line_order_no']);
+                    tr.closest("tr").find(".line-work-queue-weight").val(selecteditem[i]['line_order_weight']);
                     //console.log(line_prod_code);
                     } else {
                        
@@ -382,6 +395,7 @@ $(".btn-emp-selected").click(function () {
                         clone.closest("tr").find(".line-rec-id").val('0');
                         clone.closest("tr").find(".line-work-queue-id").val(selecteditem[i]['order_id']);
                         clone.closest("tr").find(".line-work-queue-no").val(selecteditem[i]['line_order_no']);
+                        clone.closest("tr").find(".line-work-queue-weight").val(selecteditem[i]['line_order_weight']);
                       
                         tr.after(clone);
                     } 
