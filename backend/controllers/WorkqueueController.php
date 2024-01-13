@@ -99,7 +99,7 @@ class WorkqueueController extends Controller
                 $weight = \Yii::$app->request->post('weight');
 
 //                print_r(count($uploaded)); return ;
-
+                $model->is_invoice = 0;
                 if ($model->save(false)) {
 
 //                    echo '123'; return ;

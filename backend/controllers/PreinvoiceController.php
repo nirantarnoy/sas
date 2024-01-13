@@ -282,7 +282,7 @@ class PreinvoiceController extends Controller
                     if($model_dropoff_no){
                         $has_data = 1;
                         foreach ($model_dropoff_no as $valuex){
-
+                            if($valuex->dropoff_no =='')continue;
                             $dropoff_cal_amount = $this->dropofflinecal($valuex->dropoff_id,$province_id,$work_type_id,$valuex->weight);
 
 
@@ -310,7 +310,7 @@ class PreinvoiceController extends Controller
         }
         if($has_data ==0){
             $html .= '<tr>';
-            $html .= '<td colspan="4" style="text-align: center;color: red;">ไม่พบข้อมูล</td>';
+            $html .= '<td colspan="5" style="text-align: center;color: red;">ไม่พบข้อมูล</td>';
             $html .= '</tr>';
         }
         echo $html;
