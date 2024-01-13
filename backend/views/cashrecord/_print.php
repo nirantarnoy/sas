@@ -131,7 +131,7 @@ $date_year = date('Y', strtotime($model->trans_date)) + 543;
       }else{
           $pay_for_name = $model->pay_for;
       }
-      $pay_for_name = $model->pay_for_type_id;
+      //$pay_for_name = $model->pay_for_type_id;
     ?>
     <table style="width: 100%">
         <tr>
