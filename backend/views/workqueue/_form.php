@@ -772,14 +772,14 @@ function getRouteplan(){
    
     if(customer_id > 0 && car_type_id > 0){
         
-       alert(car_type_id);
+    //   alert(car_type_id);
         $.ajax({
             'type': 'post',
             'dataType': 'json',
             'url': '$url_to_routeplan',
             'data': {'route_plan_id': route_plan_id,'car_type_id': car_type_id,'customer_id': customer_id},
             'success': function(data){
-                 alert('has data');
+                // alert('has data');
                 if(data != null){
                     // alert(data[0]['plate_no']);
                     var distance = data[0]['total_distance'];
@@ -794,6 +794,7 @@ function getRouteplan(){
                    // alert(other_price);
                     $('.total-distance').val(distance);
                     $('.total-qty').val(parseFloat(rate_qty) + parseFloat(dropoff_qty));
+                    $('#labour-price').val(labour_price);
                     $('#labour-price-plan').val(labour_price);
                     $('#express-road-price-plan').val(express_road_price);
                     $('#cover-sheet-price-plan').val(cover_sheet_price);
