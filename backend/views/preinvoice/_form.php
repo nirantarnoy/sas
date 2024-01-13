@@ -232,6 +232,7 @@ function checkcustomer(e){
 
 function finditem(e){
     if(customer_id > 0){
+        alert(customer_id);
         $.ajax({
           type: 'post',
           dataType: 'html',

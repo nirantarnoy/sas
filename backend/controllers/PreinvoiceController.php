@@ -277,7 +277,8 @@ class PreinvoiceController extends Controller
                     $work_type_id = \backend\models\Customer::findWorkTypeIdByCustomer($value->customer_id);
 
 
-                    $model_dropoff_no = \common\models\WorkQueueDropoff::find()->where(['work_queue_id'=> 3345])->all();
+                  //  $model_dropoff_no = \common\models\WorkQueueDropoff::find()->where(['work_queue_id'=> 3345])->all();
+                    $model_dropoff_no = \common\models\WorkQueueDropoff::find()->where(['work_queue_id'=> $value->id])->all();
                     if($model_dropoff_no){
                         $has_data = 1;
                         foreach ($model_dropoff_no as $valuex){
