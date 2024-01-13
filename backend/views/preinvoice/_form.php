@@ -150,7 +150,7 @@ use yii\widgets\ActiveForm;
                             <div class="btn btn-primary btn-sm btn-addline" onclick="finditem($(this))"><i
                                         class="fa fa-plus"></i></div>
                         </td>
-                        <td style="text-align: right;">รวมเงิน</td>
+                        <td style="text-align: right;" colspan="2">รวมเงิน</td>
                         <td>
                             <input type="text" class="form-control all-total" value="" readonly>
                             <input type="hidden" class="all-total-save" name="all_total" value="">
