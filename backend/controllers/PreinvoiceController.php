@@ -272,9 +272,10 @@ class PreinvoiceController extends Controller
                     $work_type_name = \backend\models\WorkOptionType::findName($value->work_option_type_id);
 
                     $model_dropoff_no = \common\models\WorkQueueDropoff::find()->where(['work_queue_id'=>$value->id])->all();
-                    foreach ($model_dropoff_no as $valuex){
-                        $html .= '<tr>';
-                        $html .= '<td style="text-align: center">
+                    if($model_dropoff_no){
+                        foreach ($model_dropoff_no as $valuex){
+                            $html .= '<tr>';
+                            $html .= '<td style="text-align: center">
                             <div class="btn btn-outline-success btn-sm" onclick="addselecteditem($(this))" data-var="' . $valuex->id . '">เลือก</div>
                             <input type="hidden" class="line-find-order-id" value="' . $valuex->id . '">
                             <input type="hidden" class="line-find-work-queue-id" value="' . $value->id . '">
@@ -283,11 +284,17 @@ class PreinvoiceController extends Controller
                             <input type="hidden" class="line-find-work-type-name" value="' . $work_type_name . '">
                            <input type="hidden" class="line-find-order-no" value="' . $valuex->dropoff_no . '">
                            </td>';
-                        $html .= '<td style="text-align: left">' . $valuex->dropoff_no . '</td>';
-                        $html .= '<td style="text-align: left">' . date('d-m-Y', strtotime($value->work_queue_date)) . '</td>';
-                        $html .= '<td style="text-align: left">' . $work_type_name . '</td>';
+                            $html .= '<td style="text-align: left">' . $valuex->dropoff_no . '</td>';
+                            $html .= '<td style="text-align: left">' . date('d-m-Y', strtotime($value->work_queue_date)) . '</td>';
+                            $html .= '<td style="text-align: left">' . $work_type_name . '</td>';
+                            $html .= '</tr>';
+                        }
+                    }else{
+                        $html .= '<tr>';
+                        $html .= '<td colspan="4" style="text-align: center">ไม่พบข้อมูล</td>';
                         $html .= '</tr>';
                     }
+
 
 
                 }
