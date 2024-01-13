@@ -301,6 +301,7 @@ function addselecteditem(e) {
          var order_line_work_type_name = e.closest('tr').find('.line-find-work-type-name').val();
          var order_no = e.closest('tr').find('.line-find-order-no').val();
          var order_line_weight = e.closest('tr').find('.line-find-work-queue-weight').val();
+         var order_line_amount = e.closest('tr').find('.line-find-work-queue-amount').val();
          var order_line_qty = e.closest('tr').find('.line-find-qty').val();
          var order_line_price = e.closest('tr').find('.line-find-price').val();
         ///////
@@ -316,6 +317,7 @@ function addselecteditem(e) {
                 obj['line_work_type_name'] = order_line_work_type_name;
                 obj['line_order_no'] = order_no;
                 obj['line_order_weight'] = order_line_weight;
+                obj['line_order_amount'] = order_line_amount;
                 obj['qty'] = order_line_qty;
                 obj['price'] = order_line_price;
                 obj['total'] = (order_line_qty * order_line_price);
@@ -388,6 +390,7 @@ $(".btn-emp-selected").click(function () {
                     tr.closest("tr").find(".line-work-queue-id").val(selecteditem[i]['order_id']);
                     tr.closest("tr").find(".line-work-queue-no").val(selecteditem[i]['line_order_no']);
                     tr.closest("tr").find(".line-work-queue-weight").val(selecteditem[i]['line_order_weight']);
+                    tr.closest("tr").find(".line-work-queue-amount").val(selecteditem[i]['line_order_amount']);
                     //console.log(line_prod_code);
                     } else {
                        
@@ -396,6 +399,7 @@ $(".btn-emp-selected").click(function () {
                         clone.closest("tr").find(".line-work-queue-id").val(selecteditem[i]['order_id']);
                         clone.closest("tr").find(".line-work-queue-no").val(selecteditem[i]['line_order_no']);
                         clone.closest("tr").find(".line-work-queue-weight").val(selecteditem[i]['line_order_weight']);
+                        clone.closest("tr").find(".line-work-queue-amount").val(selecteditem[i]['line_order_amount']);
                       
                         tr.after(clone);
                     } 

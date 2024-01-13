@@ -281,7 +281,7 @@ class PreinvoiceController extends Controller
                         $has_data = 1;
                         foreach ($model_dropoff_no as $valuex){
 
-                            $dropoff_cal_data = $this->dropofflinecal($valuex->dropoff_id,$province_id,$work_type_id);
+                            $dropoff_cal_amount = $this->dropofflinecal($valuex->dropoff_id,$province_id,$work_type_id,$valuex->weight);
 
 
 
@@ -296,6 +296,7 @@ class PreinvoiceController extends Controller
                             <input type="hidden" class="line-find-work-type-name" value="' . $work_type_name . '">
                             <input type="hidden" class="line-find-order-no" value="' . $valuex->dropoff_no . '">
                             <input type="hidden" class="line-find-work-queue-weight" value="' . $valuex->weight . '">
+                            <input type="hidden" class="line-find-work-queue-amount" value="' . $dropoff_cal_amount . '">
                            </td>';
                             $html .= '<td style="text-align: left">' . $valuex->dropoff_no . '</td>';
                             $html .= '<td style="text-align: left">' . date('d-m-Y', strtotime($value->work_queue_date)) . '</td>';
@@ -313,15 +314,18 @@ class PreinvoiceController extends Controller
         }
         echo $html;
     }
-    function dropofflinecal($id,$province_id,$work_type_id){
+    function dropofflinecal($id,$province_id,$work_type_id,$weight){
        $amount = 0;
        $car_type_id = 0;
-       $work_type_id = 0;
-
        if($id && $province_id && $work_type_id){
            $model_dropoff = \common\models\DropoffPlace::find()->where(['id'=>$id])->one();
            if($model_dropoff){
                $car_type_id = $model_dropoff->car_type_id;
+           }
+
+           $model_quotation = \common\models\QuotationRate::find()->where(['car_type_id'=>$car_type_id,'province_id'=>$province_id])->one();
+           if($model_quotation){
+               $amount = ($model_quotation->price_current_rate * $weight);
            }
        }
        return $amount;
