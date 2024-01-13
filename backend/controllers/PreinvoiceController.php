@@ -118,7 +118,9 @@ class PreinvoiceController extends Controller
                             $model_line->work_queue_id = $line_work_id[$i];
                             $model_line->total_amount = $line_work_amount[$i];
                             $model_line->status = 1;
-                            $model_line->save(false);
+                            if($model_line->save(false)){
+                                \common\models\WorkQueueDropoff::updateAll(['is_invoice'=>1],['id'=>$line_work_id[$i]]);
+                            }
                         }
                     }
                 }
