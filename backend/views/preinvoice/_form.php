@@ -64,7 +64,7 @@ use yii\widgets\ActiveForm;
                     <thead>
                     <tr>
                         <th style="width: 5%;text-align: center;">#</th>
-                        <th style="text-align: center;">ใบคิวงาน</th>
+                        <th style="text-align: center;">เลขที่ใบตั้ง</th>
                         <th style="width: 15%;text-align: center;">ยอดเงิน</th>
                         <th style="width: 5%;text-align: center;">-</th>
                     </tr>
