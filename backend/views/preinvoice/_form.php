@@ -165,7 +165,7 @@ use yii\widgets\ActiveForm;
             <!-- Modal content-->
             <div class="modal-content">
                 <div class="modal-header">
-                    <h3>รายการใบงาน</h3>
+                    <h3>รายการใบงาน (เลขที่ใบตั้ง)</h3>
                 </div>
                 <!--            <div class="modal-body" style="white-space:nowrap;overflow-y: auto">-->
                 <!--            <div class="modal-body" style="white-space:nowrap;overflow-y: auto;scrollbar-x-position: top">-->
@@ -200,7 +200,8 @@ use yii\widgets\ActiveForm;
         </div>
     </div>
 <?php
-$url_to_find_workqueue = \yii\helpers\Url::to(['preinvoice/findworkqueue'], true);
+//$url_to_find_workqueue = \yii\helpers\Url::to(['preinvoice/findworkqueue'], true);
+$url_to_find_workqueue = \yii\helpers\Url::to(['preinvoice/findworkqueue2'], true);
 $js = <<<JS
 var selecteditem = [];
 var selectedorderlineid = [];
