@@ -331,6 +331,6 @@ class PreinvoiceController extends Controller
                $amount = ($model_quotation->price_current_rate * $weight);
            }
        }
-       return $amount;
+       return $car_type_id;
     }
 }

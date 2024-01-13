@@ -28,7 +28,7 @@ $model_cityzone = \backend\models\Cityzone::find()->all();
             <?= $form->field($model, 'car_type_id')->widget(\kartik\select2\Select2::className(),[
                     'data'=>\yii\helpers\ArrayHelper::map(\backend\models\CarType::find()->all(),'id','name'),
                     'options' => [
-                            'placeholder'=>'--เลือกปรระเภทรถ--'
+                            'placeholder'=>'--เลือกประเภทรถ--'
                     ],
                     'pluginOptions' => [
                             'allowClear'=>true,
