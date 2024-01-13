@@ -124,10 +124,17 @@ $date_year = date('Y', strtotime($model->trans_date)) + 543;
         </tr>
     </table>
     <br>
+    <?php
+      $pay_for_name = '';
+      if($model->pay_for_type_id == 1){
+          $pay_for_name = \backend\models\Car::findDrivername($model->car_id).','.\backend\models\Car::getPlateno($model->car_id);
+      }else{
+          $pay_for_name = $model->pay_for;
+      }
+    ?>
     <table style="width: 100%">
         <tr>
-            <td style="width:50%;padding: 5px;">จ่ายให้ <b><?= \backend\models\Car::findDrivername($model->car_id) ?>
-                    , <?= \backend\models\Car::getPlateno($model->car_id) ?></b>
+            <td style="width:50%;padding: 5px;">จ่ายให้ <b><?=$pay_for_name ?></b>
             </td>
             <!--            <td><input type="text" class="form-control"></td>-->
             <td style="width:50%;padding: 5px;"> วันที่ <b><?= date('d-m-Y', strtotime($model->trans_date)) ?></b></td>
