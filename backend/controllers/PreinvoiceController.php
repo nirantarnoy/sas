@@ -270,7 +270,8 @@ class PreinvoiceController extends Controller
             $model = \backend\models\Workqueue::find()->where(['is_invoice' => 0,'customer_id'=>$customer_id])->all();
             if ($model) {
                 foreach ($model as $value) {
-                    $work_type_name = \backend\models\WorkOptionType::findName($value->work_option_type_id);
+                    $work_type_name = '';
+                  //  $work_type_name = \backend\models\WorkOptionType::findName($value->work_option_type_id);
 
                     $province_id = \backend\models\Customer::findAddressProvinceId($value->customer_id);
                     $work_type_id = \backend\models\Customer::findWorkTypeIdByCustomer($value->customer_id);
@@ -282,8 +283,6 @@ class PreinvoiceController extends Controller
                         foreach ($model_dropoff_no as $valuex){
 
                             $dropoff_cal_amount = $this->dropofflinecal($valuex->dropoff_id,$province_id,$work_type_id,$valuex->weight);
-
-
 
 
                             $html .= '<tr>';
@@ -300,7 +299,6 @@ class PreinvoiceController extends Controller
                            </td>';
                             $html .= '<td style="text-align: left">' . $valuex->dropoff_no . '</td>';
                             $html .= '<td style="text-align: left">' . date('d-m-Y', strtotime($value->work_queue_date)) . '</td>';
-                            $html .= '<td style="text-align: left">' . $work_type_name . '</td>';
                             $html .= '<td style="text-align: left">' . $valuex->weight . '</td>';
                             $html .= '<td style="text-align: left">' . $dropoff_cal_amount . '</td>';
                             $html .= '</tr>';
