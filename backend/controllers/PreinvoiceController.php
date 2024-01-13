@@ -277,7 +277,7 @@ class PreinvoiceController extends Controller
                         $html .= '<td style="text-align: center">
                             <div class="btn btn-outline-success btn-sm" onclick="addselecteditem($(this))" data-var="' . $valuex->id . '">เลือก</div>
                             <input type="hidden" class="line-find-order-id" value="' . $valuex->id . '">
-                            <input type="hidden" class="line-find-workqueue-id" value="' . $value->id . '">
+                            <input type="hidden" class="line-find-work-queue-id" value="' . $value->id . '">
                             <input type="hidden" class="line-find-qty" value="' . 1 . '">
                             <input type="hidden" class="line-find-price" value="' . 0 . '">
                             <input type="hidden" class="line-find-work-type-name" value="' . $work_type_name . '">
