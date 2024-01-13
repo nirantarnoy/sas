@@ -69,7 +69,7 @@ $this->params['breadcrumbs'][] = $this->title;
 //            ],
             [
                 'attribute' => 'create_at',
-                'label' => 'วันที่บันทึกข้อมูล',
+                'label' => 'วันที่ขอเอกสาร',
                 'value' => function ($data) {
                     return date('d-m-Y H:i:s', $data->create_at);
                 }
