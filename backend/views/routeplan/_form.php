@@ -143,7 +143,7 @@ $car_type_data = \common\models\CarType::find()->all();
                             </td>
                             <td style="width: 10%">
                                 <input type="text" class="form-control total" name="total[]"
-                                       onchange="callLine($(this))" readonly>
+                                       onchange="callLine($(this))">
                             </td>
                             <td>
                                 <div class="btn btn-danger btn-sm" onclick="removeline($(this))"><i
@@ -216,7 +216,7 @@ $car_type_data = \common\models\CarType::find()->all();
                                     </td>
                                     <td style="width: 10%">
                                         <input type="text" class="form-control total" name="total[]"
-                                               onchange="callLine($(this))" readonly
+                                               onchange="callLine($(this))"
                                                value="<?= $value->total ?>">
                                     </td>
                                     <td>
@@ -270,7 +270,7 @@ $car_type_data = \common\models\CarType::find()->all();
                                 </td>
                                 <td style="width: 10%">
                                     <input type="text" class="form-control total" name="total[]"
-                                           onchange="callLine($(this))" readonly>
+                                           onchange="callLine($(this))">
                                 </td>
                                 <td>
                                     <div class="btn btn-danger btn-sm" onclick="removeline($(this))"><i
