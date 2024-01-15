@@ -277,6 +277,7 @@ class PreinvoiceController extends Controller
 
                     $province_id = \backend\models\Customer::findAddressProvinceId($value->customer_id);
                     $work_type_id = \backend\models\Customer::findWorkTypeIdByCustomer($value->customer_id);
+                    $car_type_id = \backend\models\Car::getCartypeId($value->car_id);
 
 
                   //  $model_dropoff_no = \common\models\WorkQueueDropoff::find()->where(['work_queue_id'=> 3345])->all();
@@ -285,7 +286,7 @@ class PreinvoiceController extends Controller
                         $has_data = 1;
                         foreach ($model_dropoff_no as $valuex){
                             if($valuex->dropoff_no =='')continue;
-                            $dropoff_cal_amount = $this->dropofflinecal($valuex->dropoff_id,$province_id,$work_type_id,$valuex->weight);
+                            $dropoff_cal_amount = $this->dropofflinecal($valuex->dropoff_id,$province_id,$work_type_id,$valuex->weight,$car_type_id);
 
 
                             $html .= '<tr>';
@@ -317,14 +318,14 @@ class PreinvoiceController extends Controller
         }
         echo $html;
     }
-    function dropofflinecal($id,$province_id,$work_type_id,$weight){
+    function dropofflinecal($id,$province_id,$work_type_id,$weight,$car_type_id){
        $amount = 0;
-       $car_type_id = 0;
+     //  $car_type_id = 0;
       // if($id && $province_id && $work_type_id){
-           $model_dropoff = \common\models\DropoffPlace::find()->where(['id'=>$id])->one();
-           if($model_dropoff){
-               $car_type_id = $model_dropoff->car_type_id;
-           }
+//           $model_dropoff = \common\models\DropoffPlace::find()->where(['id'=>$id])->one();
+//           if($model_dropoff){
+//               $car_type_id = $model_dropoff->car_type_id;
+//           }
 
            $model_quotation = \common\models\QuotationRate::find()->where(['car_type_id'=>$car_type_id,'province_id'=>$province_id])->one();
            if($model_quotation){
