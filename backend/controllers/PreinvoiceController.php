@@ -285,7 +285,7 @@ class PreinvoiceController extends Controller
                         $has_data = 1;
                         foreach ($model_dropoff_no as $valuex){
                             if($valuex->dropoff_no =='')continue;
-                            $dropoff_cal_amount = $this->dropofflinecal($valuex->dropoff_id,$province_id,$work_type_id,$valuex->weight,$valuex->car_type_id);
+                            $dropoff_cal_amount = $this->dropofflinecal($valuex->dropoff_id,$province_id,$work_type_id,$valuex->weight);
 
 
                             $html .= '<tr>';
@@ -317,14 +317,14 @@ class PreinvoiceController extends Controller
         }
         echo $html;
     }
-    function dropofflinecal($id,$province_id,$work_type_id,$weight,$car_type_id){
+    function dropofflinecal($id,$province_id,$work_type_id,$weight){
        $amount = 0;
-      // $car_type_id = 0;
+       $car_type_id = 0;
       // if($id && $province_id && $work_type_id){
-//           $model_dropoff = \common\models\DropoffPlace::find()->where(['id'=>$id])->one();
-//           if($model_dropoff){
-//               $car_type_id = $model_dropoff->car_type_id;
-//           }
+           $model_dropoff = \common\models\DropoffPlace::find()->where(['id'=>$id])->one();
+           if($model_dropoff){
+               $car_type_id = $model_dropoff->car_type_id;
+           }
 
            $model_quotation = \common\models\QuotationRate::find()->where(['car_type_id'=>$car_type_id,'province_id'=>$province_id])->one();
            if($model_quotation){
