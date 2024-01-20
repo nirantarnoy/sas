@@ -142,8 +142,7 @@ $car_type_data = \common\models\CarType::find()->all();
                                        onchange="callLine($(this))" readonly>
                             </td>
                             <td style="width: 10%">
-                                <input type="text" class="form-control total" name="total[]"
-                                       onchange="callLine($(this))">
+                                <input type="text" class="form-control total" name="total[]">
                             </td>
                             <td>
                                 <div class="btn btn-danger btn-sm" onclick="removeline($(this))"><i
@@ -215,9 +214,7 @@ $car_type_data = \common\models\CarType::find()->all();
                                                value="<?= $value->count_back ?>">
                                     </td>
                                     <td style="width: 10%">
-                                        <input type="text" class="form-control total" name="total[]"
-                                               onchange="callLine($(this))"
-                                               value="<?= $value->total ?>">
+                                        <input type="text" class="form-control total" name="total[]" value="<?= $value->total ?>">
                                     </td>
                                     <td>
                                         <div class="btn btn-danger btn-sm" onclick="removeline($(this))"><i
@@ -269,8 +266,7 @@ $car_type_data = \common\models\CarType::find()->all();
                                            onchange="callLine($(this))" readonly>
                                 </td>
                                 <td style="width: 10%">
-                                    <input type="text" class="form-control total" name="total[]"
-                                           onchange="callLine($(this))">
+                                    <input type="text" class="form-control total" name="total[]">
                                 </td>
                                 <td>
                                     <div class="btn btn-danger btn-sm" onclick="removeline($(this))"><i
