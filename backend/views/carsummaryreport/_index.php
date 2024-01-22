@@ -255,7 +255,7 @@ if ($from_date != '' && $to_date != '') {
         //$social_price = \backend\models\Employee::findSocialPrice($search_car_id); // percent
         $social_price = \backend\models\Company::findCompanySocialPer(1); // company percent
         //$social_per_text = \backend\models\Employee::findSocialPricePer($search_car_id);
-
+        $social_base_price = \backend\models\Company::findSocialbasePrice(1);
         $deduct_total = 0;
         ?>
         <?php if ($model_line != null): ?>
@@ -287,7 +287,13 @@ if ($from_date != '' && $to_date != '') {
             <?php endforeach; ?>
         <?php endif; ?>
         <?php
-        $deduct_total = (($sum_col_4 * $social_price) /100);
+        $base_deduct = (($social_base_price * $social_price)/100); //15000
+        if(($sum_col_4 + $cost_living_price) >= $social_base_price){
+            $deduct_total = $base_deduct;
+        }else{
+            $deduct_total = (($sum_col_4 + $cost_living_price) * $social_price /100);
+        }
+
         ?>
         </tbody>
         <tfoot>
@@ -329,7 +335,7 @@ if ($from_date != '' && $to_date != '') {
             <td style="text-align: right;padding: 5px;"><?=number_format($cost_living_price,2)?></td>
             <td style="text-align: center;padding: 5px;">บาท</td>
             <td style="padding-left: 10px;">ค่าประกันสังคม <?=$social_price.' %'?></td>
-            <td style="text-align: right;padding: 5px;"><?=number_format((($sum_col_10 + $cost_living_price) * $social_price) /100,2)?></td>
+            <td style="text-align: right;padding: 5px;"><?=number_format($deduct_total,2)?></td>
             <td style="text-align: center;padding: 5px;">บาท</td>
         </tr>
         <tr>
