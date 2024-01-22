@@ -86,7 +86,7 @@ class CompanyController extends Controller
                 // $line_file_name = \Yii::$app->request->post('line_file_name');
                 $uploaded = UploadedFile::getInstancesByName('line_file_name');
 
-
+                $model->social_base_price = $model->social_base_price == null ? 0 : $model->social_base_price;
                 if ($model->save()) {
                     if ($line_doc_name != null) {
                         for ($i = 0; $i <= count($line_doc_name) - 1; $i++) {
@@ -147,6 +147,7 @@ class CompanyController extends Controller
 
              $update_social_date = date('Y-m-d H:i:s');
              // print_r($line_id);return;
+            $model->social_base_price = $model->social_base_price == null ? 0 : $model->social_base_price;
             if ($model->save()) {
                 if ($line_id != null) {
                     // echo count($uploaded);return;

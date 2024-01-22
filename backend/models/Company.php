@@ -34,7 +34,8 @@ class Company extends \common\models\Company
         return [
             [['status', 'created_at', 'created_by', 'updated_at', 'updated_by'], 'integer'],
             [['name', 'description','doc'], 'string', 'max' => 255],
-            [['social_deduct_per'],'number']
+            [['social_deduct_per'],'number'],
+            [['social_base_price'],'safe'],
         ];
     }
 
@@ -48,6 +49,7 @@ class Company extends \common\models\Company
             'name' => 'ชื่อ',
             'description' => 'รายละเอียด',
             'social_deduct_per'=>'อัตราหักประกันสังคม (%)',
+            'social_base_price'=>'ฐานเงินเดือนประกันสังคม',
             'status' => 'สถานะ',
             'doc' => 'เอกสารแนบ',
             'created_at' => 'Created At',
