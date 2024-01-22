@@ -18,6 +18,9 @@ use yii\widgets\ActiveForm;
 
         <div class="row">
             <div class="col-lg-3">
+                <?= $form->field($model, 'social_base_price')->textInput(['maxlength' => true]) ?>
+            </div>
+            <div class="col-lg-3">
                 <?= $form->field($model, 'social_deduct_per')->textInput(['maxlength' => true]) ?>
             </div>
             <div class="col-lg-3">

@@ -34,7 +34,7 @@ class Company extends \yii\db\ActiveRecord
         return [
             [['status', 'created_at', 'created_by', 'updated_at', 'updated_by'], 'integer'],
             [['name', 'description','doc'], 'string', 'max' => 255],
-            [['social_deduct_per'],'safe']
+            [['social_deduct_per','social_base_price'],'safe']
         ];
     }
 
@@ -49,6 +49,7 @@ class Company extends \yii\db\ActiveRecord
             'description' => 'Description',
             'status' => 'Status',
             'social_deduct_per'=>'อัตราหักประกันสังคม (%)',
+            'social_base_price'=>'ฐานเงินเดือนประกันสังคม',
             'created_at' => 'Created At',
             'created_by' => 'Created By',
             'updated_at' => 'Updated At',

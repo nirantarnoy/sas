@@ -269,8 +269,10 @@ if ($model_find_emp_id){
         //$social_price = \backend\models\Employee::findSocialPrice($search_car_id); // percent
         $social_price = \backend\models\Company::findCompanySocialPer(1); // company percent
         //$social_per_text = \backend\models\Employee::findSocialPricePer($search_car_id);
+        $social_base_price = \backend\models\Company::findSocialbasePrice(1);
 
         $deduct_total = 0;
+        $social_deduct_amount = 0;
         ?>
         <?php if ($model_line != null): ?>
             <?php foreach ($model_line as $value): ?>
@@ -301,7 +303,13 @@ if ($model_find_emp_id){
             <?php endforeach; ?>
         <?php endif; ?>
         <?php
-        $deduct_total = (($sum_col_4 * $social_price) /100);
+        $base_deduct = (($social_base_price * $social_price)/100); //15000
+        if($sum_col_4 >= $social_base_price){
+            $deduct_total = $base_deduct;
+        }else{
+            $deduct_total = (($sum_col_4 + $cost_living_price) * $social_price /100);
+        }
+
         ?>
         </tbody>
         <tfoot>
@@ -319,7 +327,6 @@ if ($model_find_emp_id){
                 <b><?= number_format($sum_col_9, 2) ?></b></td>
             <td style="border: 1px solid grey;padding: 5px;text-align: right;">
                 <b><?= number_format($sum_col_10, 2) ?></b></td>
-
         </tr>
         </tfoot>
     </table>
@@ -337,13 +344,12 @@ if ($model_find_emp_id){
         </tr>
         <tr>
             <td></td>
-
             <td style="padding-left: 10px;">ค่าครองชีพ</td>
             <td></td>
             <td style="text-align: right;padding: 5px;"><?=number_format($cost_living_price,2)?></td>
             <td style="text-align: center;padding: 5px;">บาท</td>
             <td style="padding-left: 10px;">ค่าประกันสังคม <?=$social_price.' %'?></td>
-            <td style="text-align: right;padding: 5px;"><?=number_format((($sum_col_10 + $cost_living_price) * $social_price) /100,2)?></td>
+            <td style="text-align: right;padding: 5px;"><?=number_format($deduct_total,2)?></td>
             <td style="text-align: center;padding: 5px;">บาท</td>
         </tr>
         <tr>
