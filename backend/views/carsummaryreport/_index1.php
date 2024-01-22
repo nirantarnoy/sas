@@ -304,7 +304,7 @@ if ($model_find_emp_id){
         <?php endif; ?>
         <?php
         $base_deduct = (($social_base_price * $social_price)/100); //15000
-        if($sum_col_4 >= $social_base_price){
+        if(($sum_col_4 + $cost_living_price) >= $social_base_price){
             $deduct_total = $base_deduct;
         }else{
             $deduct_total = (($sum_col_4 + $cost_living_price) * $social_price /100);
