@@ -280,7 +280,7 @@ $dropoff_data = \common\models\DropoffPlace::find()->all();
 
 
     <br/>
-    <h5>จุดขื้นสินค้า</h5>
+    <h5>จุดขึ้นสินค้า</h5>
     <div class="row">
         <div class="col-lg-12">
             <table class="table table-bordered table-striped" id="table-list2">

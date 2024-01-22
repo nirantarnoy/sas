@@ -98,7 +98,7 @@ class WorkqueueController extends Controller
                 $qty = \Yii::$app->request->post('qty');
                 $weight = \Yii::$app->request->post('weight');
 
-//                print_r(count($uploaded)); return ;
+                print_r($weight); return ;
                 $model->is_invoice = 0;
                 if ($model->save(false)) {
 
@@ -205,7 +205,7 @@ class WorkqueueController extends Controller
 
 
 //             print_r($weight);return;
-            if ($model->save()) {
+            if ($model->save(false)) {
                 if ($line_id != null) {
                     // echo count($uploaded);return;
                     for ($i = 0; $i <= count($line_id) - 1; $i++) {
@@ -272,17 +272,17 @@ class WorkqueueController extends Controller
 
                 }
 
-                if ($model->route_plan_id != null) {
-                    if (count($model->route_plan_id) > 0) {
-                        \common\models\WorkQueueDropoff::deleteAll(['work_queue_id' => $model->id]);
-                        for ($x = 0; $x <= count($model->route_plan_id) - 1; $x++) {
-                            $w_dropoff_new = new \common\models\WorkQueueDropoff();
-                            $w_dropoff_new->work_queue_id = $model->id;
-                            $w_dropoff_new->dropoff_id = $model->route_plan_id[$x];
-                            $w_dropoff_new->save(false);
-                        }
-                    }
-                }
+//                if ($model->route_plan_id != null) {
+//                    if (count($model->route_plan_id) > 0) {
+//                        \common\models\WorkQueueDropoff::deleteAll(['work_queue_id' => $model->id]);
+//                        for ($x = 0; $x <= count($model->route_plan_id) - 1; $x++) {
+//                            $w_dropoff_new = new \common\models\WorkQueueDropoff();
+//                            $w_dropoff_new->work_queue_id = $model->id;
+//                            $w_dropoff_new->dropoff_id = $model->route_plan_id[$x];
+//                            $w_dropoff_new->save(false);
+//                        }
+//                    }
+//                }
                 if ($model->item_back_id != null) {
                     if (count($model->item_back_id) > 0) {
                         \common\models\WorkQueueItemback::deleteAll(['work_queue_id' => $model->id]);
