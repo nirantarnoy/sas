@@ -102,7 +102,7 @@ class RouteplanController extends Controller
                     if (count($drop_off_place)) {
                         for ($i = 0; $i <= count($drop_off_place) - 1; $i++) {
                             if ($drop_off_place[$i] != 0) {
-                                $route_plan_line_chk = \common\models\RoutePlanLine::find()->where(['route_plan_id' => $model->id, 'dropoff_place_id' => $drop_off_place[$i]])->one();
+                                $route_plan_line_chk = \common\models\RoutePlanLine::find()->where(['route_plan_id' => $model->id, 'dropoff_place_id' => $drop_off_place[$i],'car_type'=>$car_type[$i]])->one();
                                 if ($route_plan_line_chk) {
                                     $route_plan_line_chk->dropoff_place_id = $drop_off_place[$i];
                                     $route_plan_line_chk->dropoff_qty = $drop_off_qty[$i];
@@ -230,7 +230,7 @@ class RouteplanController extends Controller
                 if (count($drop_off_place)) {
                     for ($i = 0; $i <= count($drop_off_place) - 1; $i++) {
                         if ($drop_off_place[$i] != 0) {
-                            $route_plan_line_chk = \common\models\RoutePlanLine::find()->where(['route_plan_id' => $model->id, 'dropoff_place_id' => $drop_off_place[$i]])->one();
+                            $route_plan_line_chk = \common\models\RoutePlanLine::find()->where(['route_plan_id' => $model->id, 'dropoff_place_id' => $drop_off_place[$i],'car_type'=>$car_type[$i]])->one();
                             if ($route_plan_line_chk) {
                                 $route_plan_line_chk->dropoff_place_id = $drop_off_place[$i];
                                 $route_plan_line_chk->dropoff_qty = $drop_off_qty[$i];
