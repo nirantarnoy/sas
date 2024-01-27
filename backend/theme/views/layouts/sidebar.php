@@ -334,6 +334,115 @@
                 </li>
                 <li class="nav-item has-treeview has-sub">
                     <a href="#" class="nav-link">
+                        <i class="nav-icon fas fa-cubes"></i>
+                        <p>
+                            จัดการสต๊อกสินค้า
+                            <i class="fas fa-angle-left right"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <?php //if (\Yii::$app->user->can('customergroup/index')): ?>
+                        <li class="nav-item">
+                            <a href="index.php?r=productgroup/index" class="nav-link productgroup">
+                                <i class="far fa-circlez nav-icon"></i>
+                                <p>กลุ่มสินค้า/อะไหล่</p>
+                            </a>
+                        </li>
+                        <?php //endif; ?>
+                        <?php //if (\Yii::$app->user->can('customergroup/index')): ?>
+                        <li class="nav-item">
+                            <a href="index.php?r=product" class="nav-link product">
+                                <i class="far fa-circlez nav-icon"></i>
+                                <p>สินค้า/อะไหล่</p>
+                            </a>
+                        </li>
+                        <?php //endif; ?>
+                        <?php //if (\Yii::$app->user->can('customergroup/index')): ?>
+                        <li class="nav-item">
+                            <a href="index.php?r=customergroup" class="nav-link customergroup">
+                                <i class="far fa-circlez nav-icon"></i>
+                                <p>คลังสินค้า</p>
+                            </a>
+                        </li>
+                        <?php //endif; ?>
+                        <?php //if (\Yii::$app->user->can('customertype/index')): ?>
+                        <!--                            <li class="nav-item">-->
+                        <!--                                <a href="index.php?r=customertype/index" class="nav-link customertype">-->
+                        <!--                                    <i class="far fa-circlez nav-icon"></i>-->
+                        <!--                                    <p>ประเภทลูกค้า</p>-->
+                        <!--                                </a>-->
+                        <!--                            </li>-->
+                        <?php //endif; ?>
+                        <?php //if (\Yii::$app->user->can('customers/index')): ?>
+                        <li class="nav-item">
+                            <a href="index.php?r=customer" class="nav-link customer">
+                                <i class="far fa-circlez nav-icon"></i>
+                                <p>
+                                    สินค้าคงเหลือ
+                                    <!--                                <span class="right badge badge-danger">New</span>-->
+                                </p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="index.php?r=vendorgroup" class="nav-link vendorgroup">
+                                <i class="far fa-circlez nav-icon"></i>
+                                <p>
+                                    กลุ่มผู้ขาย
+                                    <!--                                <span class="right badge badge-danger">New</span>-->
+                                </p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="index.php?r=vendor" class="nav-link vendor">
+                                <i class="far fa-circlez nav-icon"></i>
+                                <p>
+                                    ผู้ขาย
+                                    <!--                                <span class="right badge badge-danger">New</span>-->
+                                </p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="index.php?r=customer" class="nav-link customer">
+                                <i class="far fa-circlez nav-icon"></i>
+                                <p>
+                                    ใบสั่งซื้อ
+                                    <!--                                <span class="right badge badge-danger">New</span>-->
+                                </p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="index.php?r=customer" class="nav-link customer">
+                                <i class="far fa-circlez nav-icon"></i>
+                                <p>
+                                    เบิกสินค้า/อะไหล่
+                                    <!--                                <span class="right badge badge-danger">New</span>-->
+                                </p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="index.php?r=customer" class="nav-link customer">
+                                <i class="far fa-circlez nav-icon"></i>
+                                <p>
+                                    บันทึกแจ้งซ่อม
+                                    <!--                                <span class="right badge badge-danger">New</span>-->
+                                </p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="index.php?r=customer" class="nav-link customer">
+                                <i class="far fa-circlez nav-icon"></i>
+                                <p>
+                                    ประเมิณผู้ขาย
+                                    <!--                                <span class="right badge badge-danger">New</span>-->
+                                </p>
+                            </a>
+                        </li>
+                        <?php //endif; ?>
+
+                    </ul>
+                </li>
+                <li class="nav-item has-treeview has-sub">
+                    <a href="#" class="nav-link">
                         <i class="nav-icon fas fa-chart-pie"></i>
                         <p>
                             รายงาน
