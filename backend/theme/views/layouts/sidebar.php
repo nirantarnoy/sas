@@ -359,7 +359,7 @@
                         <?php //endif; ?>
                         <?php //if (\Yii::$app->user->can('customergroup/index')): ?>
                         <li class="nav-item">
-                            <a href="index.php?r=customergroup" class="nav-link customergroup">
+                            <a href="index.php?r=warehouse" class="nav-link warehouse">
                                 <i class="far fa-circlez nav-icon"></i>
                                 <p>คลังสินค้า</p>
                             </a>
@@ -375,7 +375,7 @@
                         <?php //endif; ?>
                         <?php //if (\Yii::$app->user->can('customers/index')): ?>
                         <li class="nav-item">
-                            <a href="index.php?r=customer" class="nav-link customer">
+                            <a href="index.php?r=stocksum" class="nav-link stocksum">
                                 <i class="far fa-circlez nav-icon"></i>
                                 <p>
                                     สินค้าคงเหลือ
@@ -402,7 +402,7 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="index.php?r=customer" class="nav-link customer">
+                            <a href="index.php?r=purchorder" class="nav-link purchorder">
                                 <i class="far fa-circlez nav-icon"></i>
                                 <p>
                                     ใบสั่งซื้อ
@@ -411,7 +411,7 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="index.php?r=customer" class="nav-link customer">
+                            <a href="index.php?r=journalissue" class="nav-link journalissue">
                                 <i class="far fa-circlez nav-icon"></i>
                                 <p>
                                     เบิกสินค้า/อะไหล่
@@ -420,7 +420,7 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="index.php?r=customer" class="nav-link customer">
+                            <a href="index.php?r=workorder" class="nav-link workorder">
                                 <i class="far fa-circlez nav-icon"></i>
                                 <p>
                                     บันทึกแจ้งซ่อม
@@ -429,7 +429,7 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="index.php?r=customer" class="nav-link customer">
+                            <a href="index.php?r=customerscore" class="nav-link customerscore">
                                 <i class="far fa-circlez nav-icon"></i>
                                 <p>
                                     ประเมิณผู้ขาย
