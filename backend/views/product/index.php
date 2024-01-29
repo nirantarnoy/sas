@@ -62,7 +62,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'code',
             'name',
             'description',
-            'product_type_id',
+           // 'product_type_id',
             [
                 'attribute' => 'product_cat_id',
                 'value' => function ($data) {
