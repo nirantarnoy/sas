@@ -15,7 +15,7 @@ class Warehouse extends \common\models\Warehouse
             'timestampcdate' => [
                 'class' => \yii\behaviors\AttributeBehavior::className(),
                 'attributes' => [
-                    ActiveRecord::EVENT_BEFORE_INSERT => 'create_at',
+                    ActiveRecord::EVENT_BEFORE_INSERT => 'created_at',
                 ],
                 'value' => time(),
             ],
