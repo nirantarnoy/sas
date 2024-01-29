@@ -19,7 +19,7 @@ use yii\widgets\ActiveForm;
     <div class="row">
         <div class="col-lg-4">
             <?= $form->field($model, 'company_id')->widget(\kartik\select2\Select2::className(),[
-                'data'=>\yii\helpers\ArrayHelper::map(\backend\models\Warehouse::find()->all(),'id','name'),
+                'data'=>\yii\helpers\ArrayHelper::map(\backend\models\Company::find()->all(),'id','name'),
                 'options' => [
 
                 ],
