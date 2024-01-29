@@ -64,7 +64,7 @@ $this->params['breadcrumbs'][] = $this->title;
             [
                 'attribute' => 'company_id',
                 'value' => function ($data) {
-                   return \backend\models\company::findCompanyName($data->company_id);
+                   return \backend\models\Company::findCompanyName($data->company_id);
                 }
             ],
             [
