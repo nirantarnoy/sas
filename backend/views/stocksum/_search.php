@@ -22,7 +22,7 @@ use yii\widgets\ActiveForm;
 
         <?= $form->field($model, 'warehouse_id')->widget(\kartik\select2\Select2::className(), [
             'data' => \yii\helpers\ArrayHelper::map(\backend\models\Warehouse::find()->all(), 'id', function ($data) {
-                return $data->code . ' ' . $data->name;
+                return $data->name;
             }),
             'options' => [
                 'placeholder' => '--เลือกคลังสินค้า--',
