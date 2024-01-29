@@ -27,9 +27,6 @@ use yii\widgets\ActiveForm;
     </div>
    <div class="row">
        <div class="col-lg-4">
-           <?= $form->field($model, 'product_type_id')->textInput() ?>
-       </div>
-       <div class="col-lg-4">
            <?= $form->field($model, 'product_cat_id')->widget(\kartik\select2\Select2::className(),[
                'data'=>\yii\helpers\ArrayHelper::map(\backend\models\Productgroup::find()->all(),'id','name'),
                'options' => [

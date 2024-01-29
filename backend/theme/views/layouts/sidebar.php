@@ -432,7 +432,7 @@
                             <a href="index.php?r=customerscore" class="nav-link customerscore">
                                 <i class="far fa-circlez nav-icon"></i>
                                 <p>
-                                    ประเมิณผู้ขาย
+                                    ประเมินผู้ขาย
                                     <!--                                <span class="right badge badge-danger">New</span>-->
                                 </p>
                             </a>
