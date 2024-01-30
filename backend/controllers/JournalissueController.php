@@ -4,7 +4,6 @@ namespace backend\controllers;
 
 use backend\models\Journalissue;
 use backend\models\JournalissueSearch;
-use backend\models\WarehouseSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -46,7 +45,7 @@ class JournalissueController extends Controller
         }
 
         $pageSize = \Yii::$app->request->post("perpage");
-        $searchModel = new JournalissueSearch();
+        $searchModel = new \backend\models\JournalissueSearch();
         $dataProvider = $searchModel->search(\Yii::$app->request->queryParams);
 //        if($viewstatus ==1){
 //            $dataProvider->query->andFilterWhere(['status'=>$viewstatus]);
