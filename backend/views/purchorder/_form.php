@@ -59,7 +59,8 @@ $all_total = 0;
                 <?= $form->field($model, 'reason')->textarea(['maxlength' => true]) ?>
             </div>
             <div class="col-lg-3">
-                <?= $form->field($model, 'status')->textInput() ?>
+                <label for="">สถานะ</label>
+                <input type="text" class="form-control" value="<?=$model->isNewRecord? 'Open': \backend\helpers\PurchStatus::getTypeById($model->status)?>" readonly>
             </div>
         </div>
 
