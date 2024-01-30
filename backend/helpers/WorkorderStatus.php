@@ -2,20 +2,20 @@
 
 namespace backend\helpers;
 
-class ActivityType
+class WorkorderStatus
 {
     private static $data = [
-        '1' => 'รับเข้าใบสั่งซื้อ',
-        '2' => 'ยกเลิกรับสั่งซื้อ',
-        '3' => 'เบิก',
-        '4' => 'คืนเบิก'
+        '1' => 'Open',
+        '2' => 'Approved',
+        '3' => 'Closed',
+        '4' => 'Cancel'
     ];
 
     private static $dataobj = [
-        ['id' => '1', 'name' => 'รับเข้าใบสั่งซื้อ'],
-        ['id' => '2', 'name' => 'ยกเลิกรับสั่งซื้อ'],
-        ['id' => '3', 'name' => 'เบิก'],
-        ['id' => '4', 'name' => 'คืนเบิก'],
+        ['id' => '1', 'name' => 'Open'],
+        ['id' => '2', 'name' => 'Approved'],
+        ['id' => '3', 'name' => 'Closed'],
+        ['id' => '4', 'name' => 'Cancel'],
     ];
 
     public static function asArray()

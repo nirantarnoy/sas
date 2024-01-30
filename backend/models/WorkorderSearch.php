@@ -4,12 +4,12 @@ namespace backend\models;
 
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use backend\models\Journalissue;
+use backend\models\Workorder;
 
 /**
- * JournalissueSearch represents the model behind the search form of `backend\models\Journalissue`.
+ * WorkorderSearch represents the model behind the search form of `backend\models\Workorder`.
  */
-class JournalissueSearch extends Journalissue
+class WorkorderSearch extends Workorder
 {
     public $globalSearch;
     /**
@@ -18,8 +18,8 @@ class JournalissueSearch extends Journalissue
     public function rules()
     {
         return [
-            [['id', 'department_id', 'status', 'created_at', 'created_by', 'updated_at', 'updated_by'], 'integer'],
-            [['journal_no', 'trans_date', 'reason'], 'safe'],
+            [['id', 'emp_inform_id', 'car_id', 'mile_data', 'is_other', 'approval_emp_id', 'emp_notify_id', 'status', 'created_at', 'created_by', 'updated_at', 'updated_by', 'car_type_id'], 'integer'],
+            [['trans_date', 'workorder_no', 'other_text'], 'safe'],
             [['globalSearch'],'string'],
         ];
     }
@@ -42,7 +42,7 @@ class JournalissueSearch extends Journalissue
      */
     public function search($params)
     {
-        $query = Journalissue::find();
+        $query = Workorder::find();
 
         // add conditions that should always apply here
 
@@ -62,17 +62,23 @@ class JournalissueSearch extends Journalissue
         $query->andFilterWhere([
             'id' => $this->id,
             'trans_date' => $this->trans_date,
-            'department_id' => $this->department_id,
+            'emp_inform_id' => $this->emp_inform_id,
+            'car_id' => $this->car_id,
+            'mile_data' => $this->mile_data,
+            'is_other' => $this->is_other,
+            'approval_emp_id' => $this->approval_emp_id,
+            'emp_notify_id' => $this->emp_notify_id,
             'status' => $this->status,
             'created_at' => $this->created_at,
             'created_by' => $this->created_by,
             'updated_at' => $this->updated_at,
             'updated_by' => $this->updated_by,
+            'car_type_id' => $this->car_type_id,
         ]);
 
         if($this->globalSearch!=''){
-            $query->orFilterWhere(['like', 'journal_no', $this->globalSearch])
-                ->orFilterWhere(['like', 'reason', $this->globalSearch]);
+            $query->orFilterWhere(['like', 'workorder_no', $this->globalSearch])
+                ->orFilterWhere(['like', 'other_text', $this->globalSearch]);
         }
 
 

@@ -32,7 +32,7 @@ class PurchLine extends \yii\db\ActiveRecord
     {
         return [
             [['purch_id', 'product_id', 'status'], 'integer'],
-            [['qry', 'line_price', 'line_total'], 'number'],
+            [['qry', 'line_price', 'line_total','remain_qty'], 'number'],
         ];
     }
 
@@ -48,6 +48,7 @@ class PurchLine extends \yii\db\ActiveRecord
             'qry' => 'Qry',
             'line_price' => 'Line Price',
             'line_total' => 'Line Total',
+            'remain_qty' => 'Remain Qty',
             'status' => 'Status',
         ];
     }

@@ -11,6 +11,8 @@ use backend\models\Purchorder;
  */
 class PurchorderSearch extends Purchorder
 {
+    public $globalSearch;
+
     /**
      * {@inheritdoc}
      */
@@ -19,6 +21,7 @@ class PurchorderSearch extends Purchorder
         return [
             [['id', 'department_id', 'status', 'created_at', 'created_by', 'updated_at', 'updated_by'], 'integer'],
             [['purch_no', 'trans_date', 'reason'], 'safe'],
+            [['globalSearch'], 'string'],
         ];
     }
 
@@ -68,8 +71,11 @@ class PurchorderSearch extends Purchorder
             'updated_by' => $this->updated_by,
         ]);
 
-        $query->andFilterWhere(['like', 'purch_no', $this->purch_no])
-            ->andFilterWhere(['like', 'reason', $this->reason]);
+        if ($this->globalSearch != null) {
+            $query->orFilterWhere(['like', 'purch_no', $this->globalSearch])
+                ->orFilterWhere(['like', 'reason', $this->globalSearch]);
+        }
+
 
         return $dataProvider;
     }

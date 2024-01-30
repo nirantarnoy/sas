@@ -7,7 +7,7 @@ use yii\db\ActiveRecord;
 
 date_default_timezone_set('Asia/Bangkok');
 
-class Journalissue extends \common\models\JournalIssue
+class Workorder extends \common\models\Workorder
 {
     public function behaviors()
     {
@@ -64,14 +64,14 @@ class Journalissue extends \common\models\JournalIssue
         ];
     }
 
-    public function findJournalno($id){
-        $model = Journalissue::find()->where(['id'=>$id])->one();
-        return $model != null ?$model->journal_no:'';
-    }
-    public function findDesc($id){
-        $model = Warehouse::find()->where(['id'=>$id])->one();
-        return $model != null ?$model->description:'';
-    }
+//    public function findName($id){
+//        $model = Warehouse::find()->where(['id'=>$id])->one();
+//        return $model != null ?$model->name:'';
+//    }
+//    public function findDesc($id){
+//        $model = Warehouse::find()->where(['id'=>$id])->one();
+//        return $model != null ?$model->description:'';
+//    }
 
 //    public static function findName($id){
 //        $model = \common\models\RoutePlan::find()->where(['id'=>$id])->one();
@@ -83,37 +83,9 @@ class Journalissue extends \common\models\JournalIssue
 //    }
     public static function getLastNo()
     {
-        $model = Journalissue::find()->MAX('journal_no');
+        $model = Workorder::find()->MAX('workorder_no');
 
-        $pre = "IS";
-
-        if ($model != null) {
-//            $prefix = $pre.substr(date("Y"),2,2);
-//            $cnum = substr((string)$model,4,strlen($model));
-//            $len = strlen($cnum);
-//            $clen = strlen($cnum + 1);
-//            $loop = $len - $clen;
-            $prefix = $pre . '-' . substr(date("Y"), 2, 2);
-            $cnum = substr((string)$model, 5, strlen($model));
-            $len = strlen($cnum);
-            $clen = strlen($cnum + 1);
-            $loop = $len - $clen;
-            for ($i = 1; $i <= $loop; $i++) {
-                $prefix .= "0";
-            }
-            $prefix .= $cnum + 1;
-            return $prefix;
-        } else {
-            $prefix = $pre . '-' . substr(date("Y"), 2, 2);
-            return $prefix . '00001';
-        }
-    }
-
-    public static function getReturnLastNo()
-    {
-        $model = Journalissue::find()->where(['like','journal_no','RT'])->MAX('journal_no');
-
-        $pre = "RT";
+        $pre = "MO";
 
         if ($model != null) {
 //            $prefix = $pre.substr(date("Y"),2,2);

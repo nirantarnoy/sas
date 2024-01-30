@@ -34,7 +34,7 @@ class StockTrans extends \yii\db\ActiveRecord
     {
         return [
             [['trans_date'], 'safe'],
-            [['activity_type_id', 'item_id', 'created_by', 'created_at', 'stock_type_id'], 'integer'],
+            [['activity_type_id', 'item_id', 'created_by', 'created_at', 'stock_type_id','warehouse_id'], 'integer'],
             [['qty'], 'number'],
             [['journal_no'], 'string', 'max' => 255],
         ];
@@ -47,14 +47,15 @@ class StockTrans extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'journal_no' => 'Journal No',
-            'trans_date' => 'Trans Date',
-            'activity_type_id' => 'Activity Type ID',
-            'item_id' => 'Item ID',
-            'qty' => 'Qty',
-            'created_by' => 'Created By',
+            'journal_no' => 'เลขที่อ้างอิง',
+            'trans_date' => 'วันที่ทำรายการ',
+            'activity_type_id' => 'กิจกรรม',
+            'item_id' => 'สินค้า/อะไหล่',
+            'qty' => 'จำนวน',
+            'warehouse_id' => 'คลังสินค้า',
+            'created_by' => 'ผู้ดำเนินการ',
             'created_at' => 'Created At',
-            'stock_type_id' => 'Stock Type ID',
+            'stock_type_id' => 'ประเภทสต็อก',
         ];
     }
 }

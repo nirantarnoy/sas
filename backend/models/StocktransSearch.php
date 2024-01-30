@@ -4,23 +4,22 @@ namespace backend\models;
 
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use backend\models\Journalissue;
+use backend\models\Stocktrans;
 
 /**
- * JournalissueSearch represents the model behind the search form of `backend\models\Journalissue`.
+ * StocktransSearch represents the model behind the search form of `backend\models\Stocktrans`.
  */
-class JournalissueSearch extends Journalissue
+class StocktransSearch extends Stocktrans
 {
-    public $globalSearch;
     /**
      * {@inheritdoc}
      */
     public function rules()
     {
         return [
-            [['id', 'department_id', 'status', 'created_at', 'created_by', 'updated_at', 'updated_by'], 'integer'],
-            [['journal_no', 'trans_date', 'reason'], 'safe'],
-            [['globalSearch'],'string'],
+            [['id', 'activity_type_id', 'item_id', 'created_by', 'created_at', 'stock_type_id'], 'integer'],
+            [['journal_no', 'trans_date'], 'safe'],
+            [['qty'], 'number'],
         ];
     }
 
@@ -42,7 +41,7 @@ class JournalissueSearch extends Journalissue
      */
     public function search($params)
     {
-        $query = Journalissue::find();
+        $query = Stocktrans::find();
 
         // add conditions that should always apply here
 
@@ -62,19 +61,15 @@ class JournalissueSearch extends Journalissue
         $query->andFilterWhere([
             'id' => $this->id,
             'trans_date' => $this->trans_date,
-            'department_id' => $this->department_id,
-            'status' => $this->status,
-            'created_at' => $this->created_at,
+            'activity_type_id' => $this->activity_type_id,
+            'item_id' => $this->item_id,
+            'qty' => $this->qty,
             'created_by' => $this->created_by,
-            'updated_at' => $this->updated_at,
-            'updated_by' => $this->updated_by,
+            'created_at' => $this->created_at,
+            'stock_type_id' => $this->stock_type_id,
         ]);
 
-        if($this->globalSearch!=''){
-            $query->orFilterWhere(['like', 'journal_no', $this->globalSearch])
-                ->orFilterWhere(['like', 'reason', $this->globalSearch]);
-        }
-
+        $query->andFilterWhere(['like', 'journal_no', $this->journal_no]);
 
         return $dataProvider;
     }

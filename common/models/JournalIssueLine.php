@@ -30,7 +30,7 @@ class JournalIssueLine extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['journal_issue_id', 'product_id', 'status'], 'integer'],
+            [['journal_issue_id', 'product_id', 'status','warehouse_id'], 'integer'],
             [['qry'], 'number'],
             [['reason'], 'string', 'max' => 255],
         ];

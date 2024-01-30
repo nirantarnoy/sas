@@ -35,7 +35,7 @@ class JournalIssue extends \yii\db\ActiveRecord
     {
         return [
             [['trans_date'], 'safe'],
-            [['department_id', 'status', 'created_at', 'created_by', 'updated_at', 'updated_by'], 'integer'],
+            [['department_id', 'status', 'created_at', 'created_by', 'updated_at', 'updated_by','trans_ref_id'], 'integer'],
             [['journal_no', 'reason'], 'string', 'max' => 255],
         ];
     }
@@ -47,11 +47,12 @@ class JournalIssue extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'journal_no' => 'Journal No',
-            'trans_date' => 'Trans Date',
-            'department_id' => 'Department ID',
-            'reason' => 'Reason',
-            'status' => 'Status',
+            'journal_no' => 'เลขที่',
+            'trans_date' => 'วันที่',
+            'department_id' => 'แผนก',
+            'reason' => 'เหตุผล',
+            'status' => 'สถานะ',
+            'trans_ref_id' => 'อ้างอิงใบแจ้งซ่อม',
             'created_at' => 'Created At',
             'created_by' => 'Created By',
             'updated_at' => 'Updated At',

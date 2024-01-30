@@ -1,6 +1,6 @@
 <?php
 
-use backend\models\Purchorder;
+use backend\models\Workorder;
 use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\grid\ActionColumn;
@@ -9,13 +9,13 @@ use yii\widgets\Pjax;
 use yii\widgets\LinkPager;
 
 /** @var yii\web\View $this */
-/** @var backend\models\PurchorderSearch $searchModel */
+/** @var backend\models\WorkorderSearch $searchModel */
 /** @var yii\data\ActiveDataProvider $dataProvider */
 
-$this->title = 'คำสั่งซื้อ';
+$this->title = 'ใบแจ้งซ่อม';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="purchorder-index">
+<div class="workorder-index">
 
     <?php Pjax::begin(); ?>
     <div class="row">
@@ -60,30 +60,32 @@ $this->params['breadcrumbs'][] = $this->title;
                 'headerOptions' => ['style' => 'text-align:center;'],
                 'contentOptions' => ['style' => 'text-align: center'],
             ],
-            'purch_no',
             [
                 'attribute' => 'trans_date',
                 'value' => function ($data) {
                     return date('d-m-Y',strtotime($data->trans_date));
                 }
             ],
+            'workorder_no',
             [
-                'attribute' => 'vendor_id',
+                'attribute' => 'emp_inform_id',
                 'value' => function ($data) {
-                    return \backend\models\Vendor::findName($data->vendor_id);
+                    return \backend\models\Employee::findFullName($data->emp_inform_id);
                 }
             ],
-            'department_id',
-            'reason',
-            //'status',
-            //'created_at',
-            //'created_by',
-            //'updated_at',
-            //'updated_by',
+            [
+                'attribute' => 'car_id',
+                'value' => function ($data) {
+                    return \backend\models\Car::findName($data->car_id);
+                }
+            ],
+            'mile_data',
             [
                 'attribute' => 'status',
+                'headerOptions' => ['style' => 'text-align: center'],
+                'contentOptions' => ['style' => 'text-align: center'],
                 'value' => function ($data) {
-                    return \backend\helpers\PurchStatus::getTypeById($data->status);
+                   return \backend\helpers\WorkorderStatus::getTypeById($data->status);
                 }
             ],
 

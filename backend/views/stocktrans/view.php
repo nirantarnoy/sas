@@ -4,14 +4,16 @@ use yii\helpers\Html;
 use yii\widgets\DetailView;
 
 /** @var yii\web\View $this */
-/** @var backend\models\Journalissue $model */
+/** @var backend\models\Stocktrans $model */
 
-$this->title = $model->journal_no;
-$this->params['breadcrumbs'][] = ['label' => 'เบิกสินค้า/อะไหล่', 'url' => ['index']];
+$this->title = $model->id;
+$this->params['breadcrumbs'][] = ['label' => 'Stocktrans', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 \yii\web\YiiAsset::register($this);
 ?>
-<div class="journalissue-view">
+<div class="stocktrans-view">
+
+    <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
         <?= Html::a('Update', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
@@ -27,16 +29,15 @@ $this->params['breadcrumbs'][] = $this->title;
     <?= DetailView::widget([
         'model' => $model,
         'attributes' => [
-           // 'id',
+            'id',
             'journal_no',
             'trans_date',
-            'department_id',
-            'reason',
-            'status',
-            'created_at',
+            'activity_type_id',
+            'item_id',
+            'qty',
             'created_by',
-            'updated_at',
-            'updated_by',
+            'created_at',
+            'stock_type_id',
         ],
     ]) ?>
 
