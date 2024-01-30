@@ -33,7 +33,7 @@ $all_total = 0;
                         return $data->name;
                     }),
                     'options' => [
-
+                        'placeholder'=>'--เลือกผู้ขาย--'
                     ],
                     'pluginOptions' => [
                         'allowClear' => true,
@@ -46,7 +46,7 @@ $all_total = 0;
                         return $data->fname . ' ' . $data->lname;
                     }),
                     'options' => [
-
+                        'placeholder'=>'--เลือกผู้สั่งซื้อ--'
                     ],
                     'pluginOptions' => [
                         'allowClear' => true,
