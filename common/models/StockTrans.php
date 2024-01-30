@@ -37,6 +37,7 @@ class StockTrans extends \yii\db\ActiveRecord
             [['activity_type_id', 'item_id', 'created_by', 'created_at', 'stock_type_id','warehouse_id'], 'integer'],
             [['qty'], 'number'],
             [['journal_no'], 'string', 'max' => 255],
+            [['trans_ref_id'],'safe'],
         ];
     }
 

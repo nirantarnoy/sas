@@ -276,6 +276,7 @@ class PurchorderController extends Controller
                 $model_trans->activity_type_id = 1; // 1 is po receive
                 $model_trans->stock_type_id = 1; // 1 = in , 2 = out
                 $model_trans->warehouse_id = 7;
+                $model_trans->trans_ref_id = $purch_id;
                 if($model_trans->save(false)){
                     $model_stock = \backend\models\Stocksum::find()->where(['item_id'=>$line_product_id[$i],'warehouse_id'=>7])->one();
                     if($model_stock){

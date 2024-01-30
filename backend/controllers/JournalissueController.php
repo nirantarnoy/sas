@@ -121,6 +121,7 @@ class JournalissueController extends Controller
                                 $model_trans->activity_type_id = 3; // 3 is issue
                                 $model_trans->stock_type_id = 2; // 1 = in , 2 = out
                                 $model_trans->warehouse_id = $line_warehouse_id[$i];
+                                $model_trans->trans_ref_id = $model->id;
                                 if($model_trans->save(false)){
                                     $model_stock = \backend\models\Stocksum::find()->where(['item_id'=>$line_item_id[$i],'warehouse_id'=>7])->one();
                                     if($model_stock){
@@ -217,6 +218,7 @@ class JournalissueController extends Controller
                                 $model_trans->qty = (float)$model_return->qry;
                                 $model_trans->activity_type_id = 4; // 4 is return issue
                                 $model_trans->stock_type_id = 1; // 1 = in , 2 = out
+                                $model_trans->trans_ref_id = $model->id ;
                                 if($model_trans->save(false)){
                                     $model_stock = \backend\models\Stocksum::find()->where(['item_id'=>$model_return->product_id,'warehouse_id'=>7])->one();
                                     if($model_stock){
