@@ -269,7 +269,7 @@ class PurchorderController extends Controller
             for($i=0;$i<=count($line_rec_id)-1;$i++){
                 if($line_rec_qty[$i] == 0 || $line_rec_qty[$i] == null || $line_rec_qty[$i] == '')continue;
                 $model_trans = new \backend\models\Stocktrans();
-                $model_trans->journal_no = '';
+                $model_trans->journal_no = $model_trans::getReceiveLastNo();
                 $model_trans->trans_date = date('Y-m-d H:i:s');
                 $model_trans->item_id = $line_product_id[$i];
                 $model_trans->qty = (float)$line_rec_qty[$i];
