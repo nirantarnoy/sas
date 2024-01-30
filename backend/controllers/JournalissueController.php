@@ -122,7 +122,7 @@ class JournalissueController extends Controller
                                 $model_trans->stock_type_id = 2; // 1 = in , 2 = out
                                 $model_trans->warehouse_id = $line_warehouse_id[$i];
                                 if($model_trans->save(false)){
-                                    $model_stock = \backend\models\Stocksum::find()->where(['item_id'=>$line_item_id[$i],'warehouse_id'=>1])->one();
+                                    $model_stock = \backend\models\Stocksum::find()->where(['item_id'=>$line_item_id[$i],'warehouse_id'=>7])->one();
                                     if($model_stock){
                                         $model_stock->qty = (float)$model_stock->qty - (float)$line_qty[$i];
                                         $model_stock->last_update = date('Y-m-d H:i:s');
@@ -131,7 +131,7 @@ class JournalissueController extends Controller
                                         $model_new = new \backend\models\Stocksum();
                                         $model_new->company_id = 1;
                                         $model_new->item_id = $line_item_id[$i];
-                                        $model_new->warehouse_id = 1;
+                                        $model_new->warehouse_id = 7;
                                         $model_new->qty = (float)$line_qty[$i];
                                         $model_new->last_update = date('Y-m-d H:i:s');
                                         $model_new->save(false);
@@ -218,7 +218,7 @@ class JournalissueController extends Controller
                                 $model_trans->activity_type_id = 4; // 4 is return issue
                                 $model_trans->stock_type_id = 1; // 1 = in , 2 = out
                                 if($model_trans->save(false)){
-                                    $model_stock = \backend\models\Stocksum::find()->where(['item_id'=>$model_return->product_id,'warehouse_id'=>1])->one();
+                                    $model_stock = \backend\models\Stocksum::find()->where(['item_id'=>$model_return->product_id,'warehouse_id'=>7])->one();
                                     if($model_stock){
                                         $model_stock->qty = (float)$model_stock->qty + (float)$model_return->qry;
                                         $model_stock->last_update = date('Y-m-d H:i:s');
@@ -227,7 +227,7 @@ class JournalissueController extends Controller
                                         $model_new = new \backend\models\Stocksum();
                                         $model_new->company_id = 1;
                                         $model_new->item_id = $model_return->product_id;
-                                        $model_new->warehouse_id = 1;
+                                        $model_new->warehouse_id = 7;
                                         $model_new->qty = (float)$model_return->qry;
                                         $model_new->last_update = date('Y-m-d H:i:s');
                                         $model_new->save(false);
@@ -286,7 +286,7 @@ class JournalissueController extends Controller
         $html = '';
         $has_data = 0;
         //$model = \backend\models\Workqueue::find()->where(['is_invoice' => 0])->all();
-        $model = \backend\models\Stocksum::find()->where(['warehouse_id' => 1])->all();
+        $model = \backend\models\Stocksum::find()->where(['warehouse_id' => 7])->all();
         if ($model) {
             $has_data = 1;
             foreach ($model as $value) {
