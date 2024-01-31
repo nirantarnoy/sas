@@ -229,12 +229,14 @@ class QuotationtitleController extends Controller
         $province_id = \Yii::$app->request->post('province_id');
         $html = '<option value="-1">--เลือกโซน--</option>';
         if ($province_id > 0) {
-            $model = \backend\models\Cityzone::find()->where(['province_id' => $province_id])->one();
+            $model = \backend\models\Cityzone::find()->where(['province_id' => $province_id])->all();
             if ($model) {
-                $detail = $this->getCityzonedetail($model->id);
-                $html .= '<option value="' . $model->id . '">';
-                $html .= $detail;
-                $html .= '</option>';
+                foreach ($model as $value){
+                    $detail = $this->getCityzonedetail($value->id);
+                    $html .= '<option value="' . $value->id . '">';
+                    $html .= $detail;
+                    $html .= '</option>';
+                }
             }
         }
         echo $html;
