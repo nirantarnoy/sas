@@ -32,7 +32,7 @@ use yii\widgets\ActiveForm;
         <div class="col-lg-8">
 
             <?= $form->field($model, 'city_id')->widget(\kartik\select2\Select2::className(), [
-                'data' => \yii\helpers\ArrayHelper::map(\common\models\Amphur::find()->all(), 'AMPHUR_ID', 'AMPHUR_NAME'),
+                'data' => \yii\helpers\ArrayHelper::map(\common\models\Amphur::find()->where(['PROVINCE_ID'=>$model->province_id])->all(), 'AMPHUR_ID', 'AMPHUR_NAME'),
                 'theme' => Select2::THEME_BOOTSTRAP,
                 //     'theme' => Select2::THEME_DEFAULT,
                 //         'theme' => Select2::THEME_BOOTSTRAP,
