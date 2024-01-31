@@ -126,6 +126,15 @@ class CityzoneController extends Controller
         $model->city_id = $cityzone_data;
 
         if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
+            if($model->save(false)){
+                for($i=0;$i<=count($model->city_id)-1;$i++){
+                    $model_line = new \common\models\CityzoneLine();
+                    $model_line->cityzone_id = $model->id;
+                    $model_line->province_id = $model->province_id;
+                    $model_line->city_id = $model->city_id[$i];
+                    $model_line->save(false);
+                }
+            }
             return $this->redirect(['view', 'id' => $model->id]);
         }
 

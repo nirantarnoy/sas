@@ -13,7 +13,7 @@ use yii\widgets\ActiveForm;
 <div class="cityzone-form">
 
     <?php $form = ActiveForm::begin(); ?>
-
+    <input type="hidden">
     <div class="row">
         <div class="col-lg-12">
             <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
@@ -62,7 +62,7 @@ use yii\widgets\ActiveForm;
 $url_to_getcity = \yii\helpers\Url::to(['customer/showcity'], true);
 $js = <<<JS
 $(function(){
-     $("select#cityzone-city_id").prop("disabled","disabled");
+   //  $("select#cityzone-city_id").prop("disabled","disabled");
    $(".btn-pull-price").on("click",function(){
        getapiprice();
    }) ;
