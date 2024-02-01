@@ -204,7 +204,8 @@ class WorkqueueController extends Controller
             $removelist2 = \Yii::$app->request->post('remove_list2');
 
 
-             print_r($weight);return;
+            print_r($dropoff_id);
+            print_r($weight);return;
             if ($model->save(false)) {
                 if ($line_id != null) {
                     // echo count($uploaded);return;
