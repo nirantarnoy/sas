@@ -297,6 +297,9 @@ $all_total = 0;
                                 <th style="text-align: right">
                                     รับเข้า
                                 </th>
+                                <th style="text-align: right">
+                                    ราคารับเข้า
+                                </th>
                                 <th>
                                     ยกเลิก
                                 </th>
@@ -332,7 +335,11 @@ $all_total = 0;
                                         </td>
                                         <td>
                                             <input type="number" class="form-control" name="line_receive_qty[]"
-                                                   value="<?= $xvalue->qry ?>">
+                                                   value="<?=$xvalue->remain_qty ?>">
+                                        </td>
+                                        <td>
+                                            <input type="number" class="form-control" name="line_receive_price[]"
+                                                   value="0">
                                         </td>
                                         <td>
                                             <div class="btn btn-secondary" onclick="cancelrecline($(this))">ยกเลิก</div>

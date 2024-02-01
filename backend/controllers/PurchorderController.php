@@ -262,6 +262,7 @@ class PurchorderController extends Controller
         $line_rec_id = \Yii::$app->request->post('line_receive_id');
         $line_product_id = \Yii::$app->request->post('line_receive_product_id');
         $line_rec_qty = \Yii::$app->request->post('line_receive_qty');
+        $line_rec_price = \Yii::$app->request->post('line_receive_price');
         $warehouse_id = \Yii::$app->request->post('line_warehouse_id');
 
         //print_r($line_rec_id);return;
@@ -277,6 +278,7 @@ class PurchorderController extends Controller
                 $model_trans->stock_type_id = 1; // 1 = in , 2 = out
                 $model_trans->warehouse_id = 7;
                 $model_trans->trans_ref_id = $purch_id;
+                $model_trans->trans_price = (float)$line_rec_price[$i];
                 if($model_trans->save(false)){
                     $model_stock = \backend\models\Stocksum::find()->where(['item_id'=>$line_product_id[$i],'warehouse_id'=>7])->one();
                     if($model_stock){
