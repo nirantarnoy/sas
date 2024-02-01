@@ -238,16 +238,16 @@ class WorkqueueController extends Controller
                         if ($model_test) {
                             $model_test->dropoff_id = $dropoff_id[$a];
                             $model_test->dropoff_no = $dropoff_no[$a];
-                            $model_test->qty = $qty[$a];
-                            $model_test->weight = $weight[$a];
+                            $model_test->qty = (float)$qty[$a];
+                            $model_test->weight = (float)$weight[$a];
                             $model_test->save(false);
                         } else {
                             $model_do = new \common\models\WorkQueueDropoff();
                             $model_do->work_queue_id = $model->id;
                             $model_do->dropoff_id = $dropoff_id[$a];
                             $model_do->dropoff_no = $dropoff_no[$a];
-                            $model_do->qty = $qty[$a];
-                            $model_do->weight = $weight[$a];
+                            $model_do->qty = (float)$qty[$a];
+                            $model_do->weight = (float)$weight[$a];
                             $model_do->save(false);
                         }
                     }
