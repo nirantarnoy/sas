@@ -101,7 +101,7 @@ class JournalissueController extends Controller
                             $model_line->status = 0;
                             $model_line->warehouse_id = $line_warehouse_id[$i];
                             $model_line->reason = $line_remark[$i];
-                            if($model_line->save(false)){
+                            if ($model_line->save(false)) {
                                 $model_trans = new \backend\models\Stocktrans();
                                 $model_trans->journal_no = $model->journal_no;
                                 $model_trans->trans_date = date('Y-m-d H:i:s');
@@ -111,13 +111,13 @@ class JournalissueController extends Controller
                                 $model_trans->stock_type_id = 2; // 1 = in , 2 = out
                                 $model_trans->warehouse_id = $line_warehouse_id[$i];
                                 $model_trans->trans_ref_id = $model->id;
-                                if($model_trans->save(false)){
-                                    $model_stock = \backend\models\Stocksum::find()->where(['item_id'=>$line_item_id[$i],'warehouse_id'=>7])->one();
-                                    if($model_stock){
+                                if ($model_trans->save(false)) {
+                                    $model_stock = \backend\models\Stocksum::find()->where(['item_id' => $line_item_id[$i], 'warehouse_id' => 7])->one();
+                                    if ($model_stock) {
                                         $model_stock->qty = (float)$model_stock->qty - (float)$line_qty[$i];
                                         $model_stock->last_update = date('Y-m-d H:i:s');
                                         $model_stock->save(false);
-                                    }else{
+                                    } else {
                                         $model_new = new \backend\models\Stocksum();
                                         $model_new->company_id = 1;
                                         $model_new->item_id = $line_item_id[$i];
@@ -131,6 +131,11 @@ class JournalissueController extends Controller
                             }
                         }
                     }
+
+                    if ($model->trans_ref_id > 0) {
+                        \common\models\Workorder::updateAll(['is_issue_status' => 1], ['id' => $model->trans_ref_id]);
+                    }
+
                     return $this->redirect(['view', 'id' => $model->id]);
                 }
 
@@ -154,7 +159,7 @@ class JournalissueController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
-        $model_line = \common\models\JournalIssueLine::find()->where(['journal_issue_id'=>$id])->all();
+        $model_line = \common\models\JournalIssueLine::find()->where(['journal_issue_id' => $id])->all();
 
         if ($this->request->isPost && $model->load($this->request->post())) {
             $line_item_id = \Yii::$app->request->post('line_product_id');
@@ -194,12 +199,12 @@ class JournalissueController extends Controller
 //                    }
 //                }
 
-                if($removelist !=null){
-                    $x=explode(',',$removelist);
-                    if($x!=null){
-                        for($m=0;$m<=count($x)-1;$m++){
-                            $model_return = \common\models\JournalIssueLine::find()->where(['id'=>$x[$m]])->one();
-                            if($model_return){
+                if ($removelist != null) {
+                    $x = explode(',', $removelist);
+                    if ($x != null) {
+                        for ($m = 0; $m <= count($x) - 1; $m++) {
+                            $model_return = \common\models\JournalIssueLine::find()->where(['id' => $x[$m]])->one();
+                            if ($model_return) {
                                 $model_trans = new \backend\models\Stocktrans();
                                 $model_trans->journal_no = \backend\models\Journalissue::getReturnLastNo();
                                 $model_trans->trans_date = date('Y-m-d H:i:s');
@@ -207,14 +212,14 @@ class JournalissueController extends Controller
                                 $model_trans->qty = (float)$model_return->qry;
                                 $model_trans->activity_type_id = 4; // 4 is return issue
                                 $model_trans->stock_type_id = 1; // 1 = in , 2 = out
-                                $model_trans->trans_ref_id = $model->id ;
-                                if($model_trans->save(false)){
-                                    $model_stock = \backend\models\Stocksum::find()->where(['item_id'=>$model_return->product_id,'warehouse_id'=>7])->one();
-                                    if($model_stock){
+                                $model_trans->trans_ref_id = $model->id;
+                                if ($model_trans->save(false)) {
+                                    $model_stock = \backend\models\Stocksum::find()->where(['item_id' => $model_return->product_id, 'warehouse_id' => 7])->one();
+                                    if ($model_stock) {
                                         $model_stock->qty = (float)$model_stock->qty + (float)$model_return->qry;
                                         $model_stock->last_update = date('Y-m-d H:i:s');
                                         $model_stock->save(false);
-                                    }else{
+                                    } else {
                                         $model_new = new \backend\models\Stocksum();
                                         $model_new->company_id = 1;
                                         $model_new->item_id = $model_return->product_id;

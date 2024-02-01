@@ -102,6 +102,7 @@ class WorkorderController extends Controller
 
                 $model->workorder_no = Workorder::getLastNo();
                 $model->trans_date = date('Y-m-d', strtotime($t_date));
+                $model->is_issue_status = 0;
                 if ($model->save(false)) {
                     if ($line_text != null) {
                         for ($i = 0; $i <= count($line_text) - 1; $i++) {

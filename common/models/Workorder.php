@@ -41,7 +41,7 @@ class Workorder extends \yii\db\ActiveRecord
     {
         return [
             [['trans_date'], 'safe'],
-            [['emp_inform_id', 'car_id', 'mile_data', 'is_other', 'approval_emp_id', 'emp_notify_id', 'status', 'created_at', 'created_by', 'updated_at', 'updated_by', 'car_type_id'], 'integer'],
+            [['emp_inform_id', 'car_id', 'mile_data', 'is_other', 'approval_emp_id', 'emp_notify_id', 'status', 'created_at', 'created_by', 'updated_at', 'updated_by', 'car_type_id','is_issue_status'], 'integer'],
             [['workorder_no', 'other_text'], 'string', 'max' => 255],
         ];
     }
@@ -63,6 +63,7 @@ class Workorder extends \yii\db\ActiveRecord
             'approval_emp_id' => 'ผู้อนุมัติ',
             'emp_notify_id' => 'ผู้รับแจ้งซ่อม',
             'status' => 'สถานะ',
+            'is_issue_status' => 'สถานะเบิก',
             'created_at' => 'Created At',
             'created_by' => 'Created By',
             'updated_at' => 'Updated At',
