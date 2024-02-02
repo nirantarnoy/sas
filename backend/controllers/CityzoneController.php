@@ -82,7 +82,7 @@ class CityzoneController extends Controller
                 $line = $model->city_id;
               //  print_r($line);return;
                 $model->city_id = 0;
-                if($model->save()){
+                if($model->save(false)){
                     if($line !=null){
                         for($i=0;$i<=count($line)-1;$i++){
                             $model_line = new \common\models\CityzoneLine();
@@ -132,13 +132,19 @@ class CityzoneController extends Controller
             $model->city_id = 0;
             if($model->save(false)){
                 if($zone_line != null){
-                    \common\models\CityzoneLine::deleteAll(['cityzone_id'=>$id]);
+                    //\common\models\CityzoneLine::deleteAll(['cityzone_id'=>$id]);
                     for($i=0;$i<=count($zone_line)-1;$i++){
-                        $model_line = new \common\models\CityzoneLine();
-                        $model_line->cityzone_id = $model->id;
-                        $model_line->province_id = $model->province_id;
-                        $model_line->city_id = $zone_line[$i];
-                        $model_line->save(false);
+                        $model_check = \common\models\CityzoneLine::find()->where(['cityzone_id'=>$model->id,'city_id'=>$zone_line[$i]])->one();
+                        if($model_check){
+
+                        }else{
+                            $model_line = new \common\models\CityzoneLine();
+                            $model_line->cityzone_id = $model->id;
+                            $model_line->province_id = $model->province_id;
+                            $model_line->city_id = $zone_line[$i];
+                            $model_line->save(false);
+                        }
+
                     }
                 }
 
