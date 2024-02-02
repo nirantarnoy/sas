@@ -15,6 +15,7 @@ use yii\filters\VerbFilter;
 class CityzoneController extends Controller
 {
     public $enableCsrfValidation = false;
+
     /**
      * @inheritDoc
      */
@@ -26,7 +27,7 @@ class CityzoneController extends Controller
                 'verbs' => [
                     'class' => VerbFilter::className(),
                     'actions' => [
-                        'delete' => ['POST','GET'],
+                        'delete' => ['POST', 'GET'],
                     ],
                 ],
             ]
@@ -50,7 +51,7 @@ class CityzoneController extends Controller
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
-            'perpage'=>$pageSize,
+            'perpage' => $pageSize,
         ]);
     }
 
@@ -80,11 +81,11 @@ class CityzoneController extends Controller
             if ($model->load($this->request->post())) {
 
                 $line = $model->city_id;
-              //  print_r($line);return;
+                //  print_r($line);return;
                 $model->city_id = 0;
-                if($model->save(false)){
-                    if($line !=null){
-                        for($i=0;$i<=count($line)-1;$i++){
+                if ($model->save(false)) {
+                    if ($line != null) {
+                        for ($i = 0; $i <= count($line) - 1; $i++) {
                             $model_line = new \common\models\CityzoneLine();
                             $model_line->cityzone_id = $model->id;
                             $model_line->province_id = $model->province_id;
@@ -117,12 +118,11 @@ class CityzoneController extends Controller
         $model = $this->findModel($id);
         $cityzone_data = [];
         $model_line = \common\models\CityzoneLine::find()->where(['cityzone_id' => $id])->all();
-        if($model_line){
-            foreach($model_line as $value){
-                array_push($cityzone_data,$value->city_id);
+        if ($model_line) {
+            foreach ($model_line as $value) {
+                array_push($cityzone_data, $value->city_id);
             }
         }
-
 
 
         if ($this->request->isPost && $model->load($this->request->post())) {
@@ -130,21 +130,15 @@ class CityzoneController extends Controller
             $zone_line = $model->city_id;
             //print_r($zone_line);return;
             $model->city_id = 0;
-            if($model->save(false)){
-                if($zone_line != null){
-                    //\common\models\CityzoneLine::deleteAll(['cityzone_id'=>$id]);
-                    for($i=0;$i<=count($zone_line)-1;$i++){
-                        $model_check = \common\models\CityzoneLine::find()->where(['cityzone_id'=>$model->id,'city_id'=>$zone_line[$i]])->one();
-                        if($model_check){
-
-                        }else{
-                            $model_line = new \common\models\CityzoneLine();
-                            $model_line->cityzone_id = $model->id;
-                            $model_line->province_id = $model->province_id;
-                            $model_line->city_id = $zone_line[$i];
-                            $model_line->save(false);
-                        }
-
+            if ($model->save(false)) {
+                if ($zone_line != null) {
+                    \common\models\CityzoneLine::deleteAll(['cityzone_id' => $id]);
+                    for ($i = 0; $i <= count($zone_line) - 1; $i++) {
+                        $model_line = new \common\models\CityzoneLine();
+                        $model_line->cityzone_id = $model->id;
+                        $model_line->province_id = $model->province_id;
+                        $model_line->city_id = $zone_line[$i];
+                        $model_line->save(false);
                     }
                 }
 
@@ -153,10 +147,9 @@ class CityzoneController extends Controller
         }
 
 
-
         return $this->render('update', [
             'model' => $model,
-            'zone_line_data'=> $cityzone_data,
+            'zone_line_data' => $cityzone_data,
         ]);
     }
 
@@ -169,7 +162,7 @@ class CityzoneController extends Controller
      */
     public function actionDelete($id)
     {
-        \common\models\CityzoneLine::deleteAll(['cityzone_id'=>$id]);
+        \common\models\CityzoneLine::deleteAll(['cityzone_id' => $id]);
         $this->findModel($id)->delete();
 
         return $this->redirect(['index']);
