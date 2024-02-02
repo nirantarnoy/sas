@@ -13,6 +13,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <?= $this->render('_form', [
         'model' => $model,
+        'zone_line_data'=> null,
     ]) ?>
 
 </div>

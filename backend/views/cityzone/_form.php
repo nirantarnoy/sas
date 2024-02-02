@@ -30,7 +30,7 @@ use yii\widgets\ActiveForm;
             ]) ?>
         </div>
         <div class="col-lg-8">
-
+            <?php $model->city_id = $model->isNewRecord ? 0: $zone_line_data;?>
             <?= $form->field($model, 'city_id')->widget(\kartik\select2\Select2::className(), [
                 'data' => \yii\helpers\ArrayHelper::map(\common\models\Amphur::find()->where(['PROVINCE_ID'=>$model->province_id])->all(), 'AMPHUR_ID', 'AMPHUR_NAME'),
                 'theme' => Select2::THEME_BOOTSTRAP,
