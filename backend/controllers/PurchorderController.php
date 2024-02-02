@@ -276,11 +276,11 @@ class PurchorderController extends Controller
                 $model_trans->qty = (float)$line_rec_qty[$i];
                 $model_trans->activity_type_id = 1; // 1 is po receive
                 $model_trans->stock_type_id = 1; // 1 = in , 2 = out
-                $model_trans->warehouse_id = 7;
+                $model_trans->warehouse_id = $warehouse_id[$i];
                 $model_trans->trans_ref_id = $purch_id;
                 $model_trans->trans_price = (float)$line_rec_price[$i];
                 if($model_trans->save(false)){
-                    $model_stock = \backend\models\Stocksum::find()->where(['item_id'=>$line_product_id[$i],'warehouse_id'=>7])->one();
+                    $model_stock = \backend\models\Stocksum::find()->where(['item_id'=>$line_product_id[$i],'warehouse_id'=>$warehouse_id[$i]])->one();
                     if($model_stock){
                         $model_stock->qty = (float)$model_stock->qty + (float)$line_rec_qty[$i];
                         $model_stock->last_update = date('Y-m-d H:i:s');
@@ -295,7 +295,7 @@ class PurchorderController extends Controller
                         $model_new = new \backend\models\Stocksum();
                         $model_new->company_id = 1;
                         $model_new->item_id = $line_product_id[$i];
-                        $model_new->warehouse_id = 7;
+                        $model_new->warehouse_id = $warehouse_id[$i];
                         $model_new->qty = (float)$line_rec_qty[$i];
                         $model_new->last_update = date('Y-m-d H:i:s');
                         if($model_new->save(false)){
@@ -316,8 +316,7 @@ class PurchorderController extends Controller
         $onhand = 0;
 
         if($product_id){
-            $onhand = \backend\models\Stocksum::find()->where(['item_id'=>$product_id,'warehouse_id'=>7])->sum('qty');
-
+            $onhand = \backend\models\Stocksum::find()->where(['item_id'=>$product_id])->sum('qty');
         }
         return $onhand;
     }

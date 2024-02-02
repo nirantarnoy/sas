@@ -8,6 +8,7 @@ use yii\widgets\ActiveForm;
 /** @var yii\widgets\ActiveForm $form */
 $qty_all_total = 0;
 $all_total = 0;
+$warehouse_data = \backend\models\Warehouse::find()->where(['status' => 1])->all();
 ?>
 
     <div class="purchorder-form">
@@ -33,7 +34,7 @@ $all_total = 0;
                         return $data->name;
                     }),
                     'options' => [
-                        'placeholder'=>'--เลือกผู้ขาย--'
+                        'placeholder' => '--เลือกผู้ขาย--'
                     ],
                     'pluginOptions' => [
                         'allowClear' => true,
@@ -46,7 +47,7 @@ $all_total = 0;
                         return $data->fname . ' ' . $data->lname;
                     }),
                     'options' => [
-                        'placeholder'=>'--เลือกผู้สั่งซื้อ--'
+                        'placeholder' => '--เลือกผู้สั่งซื้อ--'
                     ],
                     'pluginOptions' => [
                         'allowClear' => true,
@@ -60,7 +61,9 @@ $all_total = 0;
             </div>
             <div class="col-lg-3">
                 <label for="">สถานะ</label>
-                <input type="text" class="form-control" value="<?=$model->isNewRecord? 'Open': \backend\helpers\PurchStatus::getTypeById($model->status)?>" readonly>
+                <input type="text" class="form-control"
+                       value="<?= $model->isNewRecord ? 'Open' : \backend\helpers\PurchStatus::getTypeById($model->status) ?>"
+                       readonly>
             </div>
         </div>
 
@@ -251,7 +254,7 @@ $all_total = 0;
     <div id="receiveModal"
          class="modal fade"
          role="dialog">
-        <div class="modal-dialog modal-xl">
+        <div class="modal-dialog" style="max-width: 95%">
             <!-- Modal content-->
             <div class="modal-content">
                 <div class="modal-header" style="background-color: #1aa67d;">
@@ -288,16 +291,19 @@ $all_total = 0;
                                 <th>
                                     รายละเอียด
                                 </th>
-                                <th>
+                                <th style="width: 8%">
                                     จำนวนซื้อ
                                 </th>
-                                <th style="text-align: right">
+                                <th style="text-align: right;width: 8%">
                                     ค้างรับ
                                 </th>
-                                <th style="text-align: right">
+                                <th style="text-align: right;width: 8%">
                                     รับเข้า
                                 </th>
-                                <th style="text-align: right">
+                                <th style="text-align: right;width: 15%">
+                                    คลังสินค้า
+                                </th>
+                                <th style="text-align: right;width: 8%">
                                     ราคารับเข้า
                                 </th>
                                 <th>
@@ -331,11 +337,19 @@ $all_total = 0;
                                             <input type="text" class="form-control" value="<?= $xvalue->qry ?>">
                                         </td>
                                         <td>
-                                            <input type="text" class="form-control" value="<?= $xvalue->remain_qty ?>">
+                                            <input type="text" class="form-control" value="<?= $xvalue->remain_qty ?>" readonly>
                                         </td>
                                         <td>
                                             <input type="number" class="form-control" name="line_receive_qty[]"
-                                                   value="<?=$xvalue->remain_qty ?>">
+                                                   value="<?= $xvalue->remain_qty ?>">
+                                        </td>
+                                        <td>
+                                            <select name="line_warehouse_id[]" class="form-control" id="">
+                                                <?php foreach ($warehouse_data as $xvalue): ?>
+                                                    <option value="<?=$xvalue->id?>"><?=$xvalue->name;?></option>
+                                                <?php endforeach; ?>
+
+                                            </select>
                                         </td>
                                         <td>
                                             <input type="number" class="form-control" name="line_receive_price[]"
