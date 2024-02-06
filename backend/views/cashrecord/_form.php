@@ -333,13 +333,13 @@ function checkpaytype(e){
     // alert();
     if(id != 1){
         $(".pay-for-name").prop("disabled","");
-        $("#car-id").prop("disabled", true);
+       // $("#car-id").prop("disabled", true);
         $("#car-tail-id").prop("disabled", true);
         $("#car-id").val(-1).change();
         $("#car-tail-id").val(-1).change();
     }else{
         $(".pay-for-name").prop("disabled","disabled");
-         $("#car-id").prop("disabled", false);
+        $("#car-id").prop("disabled", false);
         $("#car-tail-id").prop("disabled", false);
     }
 }
