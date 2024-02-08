@@ -16,9 +16,11 @@ class CashreportdailyController extends Controller
 
     public function actionIndex(){
         $search_date = \Yii::$app->request->post('search_date');
+        $search_to_date = \Yii::$app->request->post('search_to_date');
         $search_cost_type = \Yii::$app->request->post('search_cost_type');
         return $this->render('_index',[
             'search_date' => $search_date,
+            'search_to_date' => $search_to_date,
             'search_cost_type' => $search_cost_type,
         ]);
     }
