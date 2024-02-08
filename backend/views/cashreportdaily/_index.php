@@ -18,7 +18,7 @@ if ($search_cost_type != null) {
 }
 
 ?>
-    <form action="<?= \yii\helpers\Url::to(['report/reportcashrecord'], true) ?>" method="post">
+    <form action="<?= \yii\helpers\Url::to(['cashreportdaily/index'], true) ?>" method="post">
         <div class="row">
             <div class="col-lg-6">
                 <label class="form-label">เลือกวันที่</label>

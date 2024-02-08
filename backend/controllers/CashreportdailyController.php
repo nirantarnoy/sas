@@ -14,7 +14,7 @@ class CashreportdailyController extends Controller
 {
     public $enableCsrfValidation = false;
 
-    public function actionReportcashrecord(){
+    public function actionIndex(){
         $search_date = \Yii::$app->request->post('search_date');
         $search_cost_type = \Yii::$app->request->post('search_cost_type');
         return $this->render('_index',[
