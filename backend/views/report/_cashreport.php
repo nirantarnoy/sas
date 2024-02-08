@@ -90,7 +90,7 @@ if ($search_cost_type != null) {
                         <td style="width: 8%;text-align: center;"><?= $line_num ?></td>
                         <td style="width: 10%;text-align: center;"><?= date('d/m/Y', strtotime($value->trans_date)) ?></td>
                         <td style="width: 10%;text-align: center;"><?= \backend\helpers\PayForType::getTypeById($value->pay_for_type_id) ?></td>
-                        <td style="width: 10%;text-align: center;"><?= $value->pay_for ?></td>
+                        <td style="width: 10%;text-align: center;"><?= $value->pay_for_type_id !=1 ? $value->pay_for: $value->fname.' '.$value->lname ?></td>
                         <td style="width: 10%;text-align: center;"><?= $value->car_plate_no ?></td>
                         <td style="width: 10%;text-align: center;"><?= $value->car_tail_plate_no ?></td>
                         <td style="width: 10%;text-align: center;"><?= $value->name ?></td>
