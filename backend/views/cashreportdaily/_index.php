@@ -69,7 +69,7 @@ if ($search_cost_type != null) {
                 <th style="width: 5%;text-align: center;">ลำดับที่</th>
                 <th style="width: 8%;text-align: center;">วันที่</th>
                 <th style="width: 10%;text-align: center;">ประเภทผู้รับเงิน</th>
-                <th style="text-align: left;">ชื่อ</th>
+                <th style="text-align: center;">ชื่อ</th>
                 <th style="width: 10%;text-align: center;">ทะเบียนหัว</th>
                 <th style="width: 10%;text-align: center;">ทะเบียนหาง</th>
                 <th style="width: 10%;text-align: center;">ประเภทค่าใช้จ่าย</th>
@@ -87,15 +87,15 @@ if ($search_cost_type != null) {
                     $total_amount += ($value->amount);
                     ?>
                     <tr>
-                        <td style="width: 8%;text-align: center;"><?= $line_num ?></td>
-                        <td style="width: 10%;text-align: center;"><?= date('d/m/Y', strtotime($value->trans_date)) ?></td>
-                        <td style="width: 10%;text-align: center;"><?= \backend\helpers\PayForType::getTypeById($value->pay_for_type_id) ?></td>
-                        <td style="width: 10%;text-align: center;"><?= $value->pay_for_type_id !=1 ? $value->pay_for: $value->fname.' '.$value->lname ?></td>
-                        <td style="width: 10%;text-align: center;"><?= $value->car_plate_no ?></td>
-                        <td style="width: 10%;text-align: center;"><?= $value->car_tail_plate_no ?></td>
-                        <td style="width: 10%;text-align: center;"><?= $value->name ?></td>
-                        <td style="width: 10%;text-align: right;"><?= number_format($value->amount,2) ?></td>
-                        <td style="width: 10%;text-align: left;"><?= $value->remark?></td>
+                        <td style="text-align: center;"><?= $line_num ?></td>
+                        <td style="text-align: center;"><?= date('d/m/Y', strtotime($value->trans_date)) ?></td>
+                        <td style="text-align: center;"><?= \backend\helpers\PayForType::getTypeById($value->pay_for_type_id) ?></td>
+                        <td style="text-align: center;"><?= $value->pay_for_type_id !=1 ? $value->pay_for: $value->fname.' '.$value->lname ?></td>
+                        <td style="text-align: center;"><?= $value->car_plate_no ?></td>
+                        <td style="text-align: center;"><?= $value->car_tail_plate_no ?></td>
+                        <td style="text-align: center;"><?= $value->name ?></td>
+                        <td style="text-align: right;"><?= number_format($value->amount,2) ?></td>
+                        <td style="text-align: left;"><?= $value->remark?></td>
                     </tr>
                 <?php endforeach; ?>
             <?php endif; ?>
