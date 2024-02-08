@@ -57,4 +57,12 @@ class ReportController extends Controller
             'search_car_type' => $search_car_type,
         ]);
     }
+    public function actionReportcashrecord(){
+        $search_date = \Yii::$app->request->post('search_date');
+        $search_cost_type = \Yii::$app->request->post('search_cost_type');
+        return $this->render('_cashreport',[
+            'search_date' => $search_date,
+            'search_cost_type' => $search_cost_type,
+        ]);
+    }
 }
