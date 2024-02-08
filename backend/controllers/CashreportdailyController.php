@@ -17,7 +17,7 @@ class CashreportdailyController extends Controller
     public function actionReportcashrecord(){
         $search_date = \Yii::$app->request->post('search_date');
         $search_cost_type = \Yii::$app->request->post('search_cost_type');
-        return $this->render('_cashreport',[
+        return $this->render('_index',[
             'search_date' => $search_date,
             'search_cost_type' => $search_cost_type,
         ]);
