@@ -66,10 +66,10 @@ if ($search_cost_type != null) {
         <table class="table table-bordered">
             <thead>
             <tr>
-                <th style="width: 8%;text-align: center;">ลำดับที่</th>
-                <th style="width: 10%;text-align: center;">วันที่</th>
+                <th style="width: 5%;text-align: center;">ลำดับที่</th>
+                <th style="width: 8%;text-align: center;">วันที่</th>
                 <th style="width: 10%;text-align: center;">ประเภทผู้รับเงิน</th>
-                <th style="width: 10%;text-align: center;">ชื่อ</th>
+                <th style="text-align: left;">ชื่อ</th>
                 <th style="width: 10%;text-align: center;">ทะเบียนหัว</th>
                 <th style="width: 10%;text-align: center;">ทะเบียนหาง</th>
                 <th style="width: 10%;text-align: center;">ประเภทค่าใช้จ่าย</th>
