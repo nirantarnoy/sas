@@ -99,6 +99,9 @@ if ($search_cost_type != null) {
                 <td style="text-align: center;"><h3><b>รายงานเงินสดย่อย</b></h3></td>
             </tr>
             <tr>
+                <td style="text-align: center;"><h3><b><?=\backend\models\Company::findCompanyName($search_company_id)?></b></h3></td>
+            </tr>
+            <tr>
                 <td style="text-align: center;"><b>วันที่ <?= date('d/m/Y', strtotime($find_date)); ?></b></td>
             </tr>
         </table>
