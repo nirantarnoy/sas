@@ -341,19 +341,19 @@ function addline(e){
         }
     }
 function checkpaytype(e){
-    var id = e.val();
-    // alert();
-    if(id != 1){
-        $(".pay-for-name").prop("disabled","");
-       // $("#car-id").prop("disabled", true);
-        $("#car-tail-id").prop("disabled", true);
-        $("#car-id").val(-1).change();
-        $("#car-tail-id").val(-1).change();
-    }else{
-        $(".pay-for-name").prop("disabled","disabled");
-        $("#car-id").prop("disabled", false);
-        $("#car-tail-id").prop("disabled", false);
-    }
+    // var id = e.val();
+    // // alert();
+    // if(id != 1){
+    //     $(".pay-for-name").prop("disabled","");
+    //    // $("#car-id").prop("disabled", true);
+    //     $("#car-tail-id").prop("disabled", "");
+    //     $("#car-id").val(-1).change();
+    //     $("#car-tail-id").val(-1).change();
+    // }else{
+    //     $(".pay-for-name").prop("disabled","disabled");
+    //     $("#car-id").prop("disabled", false);
+    //     $("#car-tail-id").prop("disabled", false);
+    // }
 }
 
 JS;
