@@ -18,15 +18,15 @@ $model = null;
 
 //$model = \backend\models\Workqueue::find()->where(['date(work_queue_date)' => $find_date,'work_option_type_id'=>[1,2]])->all();
 if ($search_cost_type != null) {
-    $model = \common\models\QueryCashRecord::find()->where(['cost_title_id' => $search_cost_type])->andFilterWhere(['>=','date(trans_date)',$find_date])->andFilterWhere(['<=','date(trans_date)',$find_to_date])->all();
+    $model = \common\models\QueryCashRecord::find()->where(['cost_title_id' => $search_cost_type,'company_id'=>$search_company_id])->andFilterWhere(['>=','date(trans_date)',$find_date])->andFilterWhere(['<=','date(trans_date)',$find_to_date])->all();
 } else {
-    $model = \common\models\QueryCashRecord::find()->Where(['>=','date(trans_date)',$find_date])->andFilterWhere(['<=','date(trans_date)',$find_to_date])->all();
+    $model = \common\models\QueryCashRecord::find()->where(['company_id'=>$search_company_id])->andFilterWhere(['>=','date(trans_date)',$find_date])->andFilterWhere(['<=','date(trans_date)',$find_to_date])->all();
 }
 
 ?>
     <form action="<?= \yii\helpers\Url::to(['cashreportdaily/index'], true) ?>" method="post">
         <div class="row">
-            <div class="col-lg-3">
+            <div class="col-lg-2">
                 <label class="form-label">ตั้งแต่วันที่</label>
 
                     <?php
@@ -41,7 +41,7 @@ if ($search_cost_type != null) {
                     ]);
                     ?>
             </div>
-            <div class="col-lg-3">
+            <div class="col-lg-2">
                 <label class="form-label">ถึงวันที่</label>
                 <?php
                 echo DatePicker::widget([
@@ -55,7 +55,7 @@ if ($search_cost_type != null) {
                 ]);
                 ?>
             </div>
-            <div class="col-lg-3">
+            <div class="col-lg-2">
                 <label class="form-label">ประเภท</label>
                 <?php
                 echo \kartik\select2\Select2::widget([
@@ -71,7 +71,23 @@ if ($search_cost_type != null) {
                 ]);
                 ?>
             </div>
-            <div class="col-lg-3">
+            <div class="col-lg-2">
+                <label class="form-label">บริษัท</label>
+                <?php
+                echo \kartik\select2\Select2::widget([
+                    'name' => 'search_company_id',
+                    'data' => \yii\helpers\ArrayHelper::map(\common\models\Company::find()->where(['status'=>1])->all(), 'id', 'name'),
+                    'value' => $search_company_id,
+                    'options' => [
+                        'placeholder'=>'---เลือกบริษัท---'
+                    ],
+                    'pluginOptions' => [
+                        'allowClear' => true,
+                    ]
+                ]);
+                ?>
+            </div>
+            <div class="col-lg-2">
                 <button class="btn btn-primary" style="margin-top: 30px;">ค้นหา</button>
             </div>
         </div>
@@ -92,12 +108,14 @@ if ($search_cost_type != null) {
             <tr>
                 <th style="width: 5%;text-align: center;">ลำดับที่</th>
                 <th style="width: 8%;text-align: center;">วันที่</th>
-                <th style="width: 10%;text-align: center;">ประเภทผู้รับเงิน</th>
+                <th style="width: 10%;text-align: center;">ประเภทจ่ายเงิน</th>
+                <th style="width: 10%;text-align: center;">ข้อมูลธนาคาร</th>
                 <th style="text-align: center;">ชื่อ</th>
                 <th style="width: 10%;text-align: center;">ทะเบียนหัว</th>
                 <th style="width: 10%;text-align: center;">ทะเบียนหาง</th>
                 <th style="width: 10%;text-align: center;">ประเภทค่าใช้จ่าย</th>
                 <th style="width: 10%;text-align: right;">จำนวนเงิน</th>
+                <th style="width: 10%;text-align: right;">ผู้จ่ายเงิน</th>
                 <th style="width: 10%;text-align: center;">หมายเหตุ</th>
             </tr>
             </thead>
@@ -113,12 +131,14 @@ if ($search_cost_type != null) {
                     <tr>
                         <td style="text-align: center;"><?= $line_num ?></td>
                         <td style="text-align: center;"><?= date('d/m/Y', strtotime($value->trans_date)) ?></td>
-                        <td style="text-align: center;"><?= \backend\helpers\PayForType::getTypeById($value->pay_for_type_id) ?></td>
+                        <td style="text-align: center;"><?= \backend\models\Paymentmethod::findName($value->payment_method_id) ?></td>
+                        <td style="text-align: center;"><?= $value->bank_account ?></td>
                         <td style="text-align: left;"><?= $value->pay_for_type_id !=1 ? $value->pay_for: $value->fname.' '.$value->lname ?></td>
                         <td style="text-align: center;"><?= $value->car_plate_no ?></td>
                         <td style="text-align: center;"><?= $value->car_tail_plate_no ?></td>
                         <td style="text-align: center;"><?= $value->name ?></td>
                         <td style="text-align: right;"><?= number_format($value->amount,2) ?></td>
+                        <td style="text-align: left;"><?= \backend\models\Employee::findFullName($value->cashier_by)?></td>
                         <td style="text-align: left;"><?= $value->remark?></td>
                     </tr>
                 <?php endforeach; ?>
@@ -126,8 +146,9 @@ if ($search_cost_type != null) {
             </tbody>
             <tfoot>
             <tr>
-                <td colspan="7" style="width: 8%;text-align: right;"><b>รวม</b></td>
+                <td colspan="8" style="width: 8%;text-align: right;"><b>รวม</b></td>
                 <td style="width: 10%;text-align: right;"><b><?= number_format($total_amount, 3) ?></b></td>
+                <td></td>
                 <td></td>
             </tr>
             </tfoot>

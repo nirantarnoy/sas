@@ -109,6 +109,15 @@ $cost_title_data = \common\models\FixcostTitle::find()->where(['type_id' => 1])-
 
         </div>
         <div class="row">
+
+            <div class="col-lg-3">
+                <?= $form->field($model, 'company_id')->Widget(\kartik\select2\Select2::className(), [
+                    'data' => \yii\helpers\ArrayHelper::map(\backend\models\Company::find()->all(), 'id', 'name'),
+                    'options' => [
+                        'placeholder' => '--เลือก--',
+                    ]
+                ]) ?>
+            </div>
             <div class="col-lg-3">
                 <?= $form->field($model, 'payment_method_id')->Widget(\kartik\select2\Select2::className(), [
                     'data' => \yii\helpers\ArrayHelper::map(\backend\models\Paymentmethod::find()->all(), 'id', 'name'),
@@ -116,6 +125,9 @@ $cost_title_data = \common\models\FixcostTitle::find()->where(['type_id' => 1])-
                         'placeholder' => '--เลือก--',
                     ]
                 ]) ?>
+            </div>
+            <div class="col-lg-3">
+                <?= $form->field($model, 'bank_account')->Textinput()->label() ?>
             </div>
             <div class="col-lg-3">
                 <label for="">สถานะ</label>
