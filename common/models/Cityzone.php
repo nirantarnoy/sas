@@ -14,6 +14,7 @@ use Yii;
  */
 class Cityzone extends \yii\db\ActiveRecord
 {
+    public $district_id;
     /**
      * {@inheritdoc}
      */
@@ -31,7 +32,7 @@ class Cityzone extends \yii\db\ActiveRecord
             [['province_id'],'required'],
             [['province_id',], 'integer'],
             [['name'], 'string', 'max' => 255],
-            [['city_id'],'safe']
+            [['city_id','district_id'],'safe']
         ];
     }
 
@@ -45,6 +46,7 @@ class Cityzone extends \yii\db\ActiveRecord
             'name' => 'ชื่อโซน',
             'province_id' => 'จังหวัด',
             'city_id' => 'เขต/อำเภอ',
+            'district_id' => 'แขวง/ตำบล',
         ];
     }
 }

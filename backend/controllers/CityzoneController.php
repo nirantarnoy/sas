@@ -117,10 +117,17 @@ class CityzoneController extends Controller
     {
         $model = $this->findModel($id);
         $cityzone_data = [];
+        $cityzone_district_data = [];
         $model_line = \common\models\CityzoneLine::find()->where(['cityzone_id' => $id])->andFilterWhere(['>','city_id',0])->all();
         if ($model_line) {
             foreach ($model_line as $value) {
                 array_push($cityzone_data, $value->city_id);
+            }
+        }
+        $model_district_line = \common\models\CityzoneDistrictLine::find()->where(['cityzone_id' => $id])->andFilterWhere(['>','district_id',0])->all();
+        if ($model_district_line) {
+            foreach ($model_district_line as $value) {
+                array_push($cityzone_district_data, $value->district_id);
             }
         }
 
@@ -128,6 +135,7 @@ class CityzoneController extends Controller
         if ($this->request->isPost && $model->load($this->request->post())) {
 
             $zone_line = $model->city_id;
+            $zone_district_line = $model->district_id;
             //print_r($zone_line);return;
             $model->city_id = 0;
             if ($model->save(false)) {
@@ -149,6 +157,25 @@ class CityzoneController extends Controller
 //
                     }
                 }
+                if ($zone_district_line != null) {
+                    \common\models\CityzoneDistrictLine::deleteAll(['cityzone_id' => $id]);
+
+                    for ($i = 0; $i <= count($zone_district_line) - 1; $i++) {
+                        if($zone_district_line[$i] <=0)continue;
+//                        $check = \common\models\CityzoneLine::find()->where(['city_id'=>$zone_line[$i],'province_id'=>$model->province_id])->one();
+//                        if($check){
+//
+//                        }else{
+                        $model_line = new \common\models\CityzoneDistrictLine();
+                        $model_line->cityzone_id = $model->id;
+                        $model_line->province_id = $model->province_id;
+                        $model_line->city_id = $this->getCityid($zone_district_line[$i]);
+                        $model_line->district_id = $zone_district_line[$i];
+                        $model_line->save(false);
+//                        }
+//
+                    }
+                }
 
             }
             return $this->redirect(['view', 'id' => $model->id]);
@@ -158,7 +185,19 @@ class CityzoneController extends Controller
         return $this->render('update', [
             'model' => $model,
             'zone_line_data' => $cityzone_data,
+            'zone_line_district_data' => $cityzone_district_data,
         ]);
+    }
+
+    public function getCityid($district_id){
+        $city_id = 0;
+        if($district_id){
+            $model = \common\models\District::find()->where(['DISTRICT_ID'=>$district_id])->one();
+            if($model){
+                $city_id = $model->AMPHUR_ID;
+            }
+        }
+        return $city_id;
     }
 
     /**

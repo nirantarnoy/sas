@@ -15,6 +15,7 @@ $this->params['breadcrumbs'][] = 'แก้ไข';
     <?= $this->render('_form', [
         'model' => $model,
         'zone_line_data'=> $zone_line_data,
+        'zone_line_district_data'=>$zone_line_district_data,
     ]) ?>
 
 </div>

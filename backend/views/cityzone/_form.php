@@ -20,7 +20,7 @@ use yii\widgets\ActiveForm;
         </div>
     </div>
     <div class="row">
-        <div class="col-lg-4">
+        <div class="col-lg-3">
             <?php echo $form->field($model, 'province_id')->widget(Select2::className(), [
                 'data' => ArrayHelper::map(\common\models\Province::find()->all(), 'PROVINCE_ID', 'PROVINCE_NAME'),
                 'options' => [
@@ -33,6 +33,28 @@ use yii\widgets\ActiveForm;
             <?php $model->city_id = $model->isNewRecord ? 0: $zone_line_data;?>
             <?= $form->field($model, 'city_id')->widget(\kartik\select2\Select2::className(), [
                 'data' => \yii\helpers\ArrayHelper::map(\common\models\Amphur::find()->where(['PROVINCE_ID'=>$model->province_id])->all(), 'AMPHUR_ID', 'AMPHUR_NAME'),
+                'theme' => Select2::THEME_BOOTSTRAP,
+                //     'theme' => Select2::THEME_DEFAULT,
+                //         'theme' => Select2::THEME_BOOTSTRAP,
+                //     'theme' => Select2::THEME_CLASSIC,
+
+                'options' => [
+                    'placeholder' => 'Select ...',
+                    'multiple' => true
+                ],
+                'pluginOptions' => [
+                    'tags' => true,
+                    'tokenSeparators' => [',', ' '],
+                    'maximumInputLength' => 100
+                ],
+            ]) ?>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <?php $model->district_id = $model->isNewRecord ? 0: $zone_line_district_data;?>
+            <?= $form->field($model, 'district_id')->widget(\kartik\select2\Select2::className(), [
+                'data' => \yii\helpers\ArrayHelper::map(\common\models\District::find()->where(['PROVINCE_ID'=>$model->province_id])->all(), 'DISTRICT_ID', 'DISTRICT_NAME'),
                 'theme' => Select2::THEME_BOOTSTRAP,
                 //     'theme' => Select2::THEME_DEFAULT,
                 //         'theme' => Select2::THEME_BOOTSTRAP,
