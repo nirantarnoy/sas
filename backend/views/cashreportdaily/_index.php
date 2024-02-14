@@ -118,7 +118,7 @@ if ($search_cost_type != null) {
                 <td style="text-align: center;"><h3><b><?=\backend\models\Company::findCompanyName($search_company_id)?></b></h3></td>
             </tr>
             <tr>
-                <td style="text-align: center;"><h3><b><?=\backend\helpers\OfficeType::getTypeById($search_office_id)?></b></h3></td>
+                <td style="text-align: center;"><h3>หน่วยงาน <b><?=\backend\helpers\OfficeType::getTypeById($search_office_id)?></b></h3></td>
             </tr>
             <tr>
                 <td style="text-align: center;"><b>วันที่ <?= date('d/m/Y', strtotime($find_date)); ?> ถึงวันที่ <?= date('d/m/Y', strtotime($find_to_date)); ?></b></td>

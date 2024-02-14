@@ -117,7 +117,7 @@ class CityzoneController extends Controller
     {
         $model = $this->findModel($id);
         $cityzone_data = [];
-        $model_line = \common\models\CityzoneLine::find()->where(['cityzone_id' => $id])->all();
+        $model_line = \common\models\CityzoneLine::find()->where(['cityzone_id' => $id])->andFilterWhere(['>','city_id',0])->all();
         if ($model_line) {
             foreach ($model_line as $value) {
                 array_push($cityzone_data, $value->city_id);
@@ -133,12 +133,20 @@ class CityzoneController extends Controller
             if ($model->save(false)) {
                 if ($zone_line != null) {
                     \common\models\CityzoneLine::deleteAll(['cityzone_id' => $id]);
+
                     for ($i = 0; $i <= count($zone_line) - 1; $i++) {
-                        $model_line = new \common\models\CityzoneLine();
-                        $model_line->cityzone_id = $model->id;
-                        $model_line->province_id = $model->province_id;
-                        $model_line->city_id = $zone_line[$i];
-                        $model_line->save(false);
+                        if($zone_line[$i] <=0)continue;
+//                        $check = \common\models\CityzoneLine::find()->where(['city_id'=>$zone_line[$i],'province_id'=>$model->province_id])->one();
+//                        if($check){
+//
+//                        }else{
+                            $model_line = new \common\models\CityzoneLine();
+                            $model_line->cityzone_id = $model->id;
+                            $model_line->province_id = $model->province_id;
+                            $model_line->city_id = $zone_line[$i];
+                            $model_line->save(false);
+//                        }
+//
                     }
                 }
 
