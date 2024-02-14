@@ -18,9 +18,9 @@ $model = null;
 
 //$model = \backend\models\Workqueue::find()->where(['date(work_queue_date)' => $find_date,'work_option_type_id'=>[1,2]])->all();
 if ($search_cost_type != null) {
-    $model = \common\models\QueryCashRecord::find()->where(['cost_title_id' => $search_cost_type,'company_id'=>$search_company_id])->andFilterWhere(['>=','date(trans_date)',$find_date])->andFilterWhere(['<=','date(trans_date)',$find_to_date])->all();
+    $model = \common\models\QueryCashRecord::find()->where(['cost_title_id' => $search_cost_type,'company_id'=>$search_company_id,'office_id'=>$search_office_id])->andFilterWhere(['>=','date(trans_date)',$find_date])->andFilterWhere(['<=','date(trans_date)',$find_to_date])->all();
 } else {
-    $model = \common\models\QueryCashRecord::find()->where(['company_id'=>$search_company_id])->andFilterWhere(['>=','date(trans_date)',$find_date])->andFilterWhere(['<=','date(trans_date)',$find_to_date])->all();
+    $model = \common\models\QueryCashRecord::find()->where(['company_id'=>$search_company_id,'office_id'=>$search_office_id])->andFilterWhere(['>=','date(trans_date)',$find_date])->andFilterWhere(['<=','date(trans_date)',$find_to_date])->all();
 }
 
 ?>
@@ -88,6 +88,22 @@ if ($search_cost_type != null) {
                 ?>
             </div>
             <div class="col-lg-2">
+                <label class="form-label">สำนักงาน</label>
+                <?php
+                echo \kartik\select2\Select2::widget([
+                    'name' => 'search_office_id',
+                    'data' => \yii\helpers\ArrayHelper::map(\backend\helpers\OfficeType::asArrayObject(), 'id', 'name'),
+                    'value' => $search_office_id,
+                    'options' => [
+                        'placeholder'=>'---เลือกสำนักงาน---'
+                    ],
+                    'pluginOptions' => [
+                        'allowClear' => true,
+                    ]
+                ]);
+                ?>
+            </div>
+            <div class="col-lg-2">
                 <button class="btn btn-primary" style="margin-top: 30px;">ค้นหา</button>
             </div>
         </div>
@@ -102,7 +118,10 @@ if ($search_cost_type != null) {
                 <td style="text-align: center;"><h3><b><?=\backend\models\Company::findCompanyName($search_company_id)?></b></h3></td>
             </tr>
             <tr>
-                <td style="text-align: center;"><b>วันที่ <?= date('d/m/Y', strtotime($find_date)); ?></b></td>
+                <td style="text-align: center;"><h3><b><?=\backend\helpers\OfficeType::getTypeById($search_office_id)?></b></h3></td>
+            </tr>
+            <tr>
+                <td style="text-align: center;"><b>วันที่ <?= date('d/m/Y', strtotime($find_date)); ?> ถึงวันที่ <?= date('d/m/Y', strtotime($find_to_date)); ?></b></td>
             </tr>
         </table>
         <br>

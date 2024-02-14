@@ -330,7 +330,7 @@ if ($from_date != '' && $to_date != '') {
         <tr>
             <td></td>
 
-            <td style="padding-left: 10px;">ค่าครองชีพ</td>
+            <td style="padding-left: 10px;">เงินเดือน</td>
             <td></td>
             <td style="text-align: right;padding: 5px;"><?=number_format($cost_living_price,2)?></td>
             <td style="text-align: center;padding: 5px;">บาท</td>

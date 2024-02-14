@@ -119,6 +119,14 @@ $cost_title_data = \common\models\FixcostTitle::find()->where(['type_id' => 1])-
                 ]) ?>
             </div>
             <div class="col-lg-3">
+                <?= $form->field($model, 'office_id')->Widget(\kartik\select2\Select2::className(), [
+                    'data' => \yii\helpers\ArrayHelper::map(\backend\helpers\OfficeType::asArrayObject(), 'id', 'name'),
+                    'options' => [
+                        'placeholder' => '--เลือก--',
+                    ]
+                ]) ?>
+            </div>
+            <div class="col-lg-3">
                 <?= $form->field($model, 'payment_method_id')->Widget(\kartik\select2\Select2::className(), [
                     'data' => \yii\helpers\ArrayHelper::map(\backend\models\Paymentmethod::find()->all(), 'id', 'name'),
                     'options' => [
@@ -129,12 +137,15 @@ $cost_title_data = \common\models\FixcostTitle::find()->where(['type_id' => 1])-
             <div class="col-lg-3">
                 <?= $form->field($model, 'bank_account')->Textinput()->label() ?>
             </div>
+
+
+        </div>
+        <div class="row">
             <div class="col-lg-3">
                 <label for="">สถานะ</label>
                 <input type="text" class="form-control" readonly
                        value="<?= $model->isNewRecord ? 'Open' : \backend\helpers\CashrecordStatus::getTypeById($model->status) ?>"/>
             </div>
-
         </div>
 
         <br/>
@@ -290,13 +301,13 @@ $(function(){
     
     if($("#pay-for-type-id").val() <=0){
           $("#pay-for-type-id").val(1).change();
-          $(".pay-for-name").prop("disabled","disabled");
-          $("#car-id").prop("disabled", false);
-          $("#car-tail-id").prop("disabled", false);
+         // $(".pay-for-name").prop("disabled","disabled");
+         // $("#car-id").prop("disabled", false);
+         // $("#car-tail-id").prop("disabled", false);
     }else{
-        $(".pay-for-name").prop("disabled","");
-        $("#car-id").prop("disabled", true);
-        $("#car-tail-id").prop("disabled", true);
+        //$(".pay-for-name").prop("disabled","");
+        //$("#car-id").prop("disabled", true);
+        //$("#car-tail-id").prop("disabled", true);
     }
 });
 
