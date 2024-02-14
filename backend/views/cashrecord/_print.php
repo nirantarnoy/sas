@@ -162,7 +162,7 @@ $date_year = date('Y', strtotime($model->trans_date)) + 543;
                 </tr>
                 <?php if ($model_line != null): ?>
                     <?php
-                    $line_diff = 8 - count($model_line);
+                    $line_diff = 6 - count($model_line);
                     $all_total = 0;
                     ?>
                     <?php foreach ($model_line as $value): ?>
@@ -182,14 +182,6 @@ $date_year = date('Y', strtotime($model->trans_date)) + 543;
                         <?php endfor; ?>
                     <?php endif; ?>
                 <?php else: ?>
-                    <tr>
-                        <td style="width: 30%;border: 1px solid grey;text-align: left;padding: 5px;"></td>
-                        <td style="width: 30%;border: 1px solid grey;text-align: right;"></td>
-                    </tr>
-                    <tr>
-                        <td style="width: 30%;border: 1px solid grey;text-align: left;padding: 5px;"></td>
-                        <td style="width: 30%;border: 1px solid grey;text-align: right;"></td>
-                    </tr>
                     <tr>
                         <td style="width: 30%;border: 1px solid grey;text-align: left;padding: 5px;"></td>
                         <td style="width: 30%;border: 1px solid grey;text-align: right;"></td>
