@@ -15,6 +15,8 @@ use yii\widgets\ActiveForm;
         <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
 
         <?= $form->field($model, 'description')->textInput(['maxlength' => true]) ?>
+        <?= $form->field($model, 'taxid')->textInput(['maxlength' => true]) ?>
+        <?= $form->field($model, 'address')->textInput(['maxlength' => true]) ?>
 
         <div class="row">
             <div class="col-lg-3">
