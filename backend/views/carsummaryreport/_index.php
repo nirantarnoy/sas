@@ -21,7 +21,8 @@ if ($from_date != '' && $to_date != '') {
     $from_date = date('d-m-Y', strtotime($from_date));
     $to_date = date('d-m-Y', strtotime($to_date));
 }
-
+$driver_id = \backend\models\Car::getDriver($search_car_id);
+$emp_company_id = \backend\models\Employee::findEmpcompanyid($driver_id);
 
 ?>
 <style>
@@ -187,13 +188,13 @@ if ($from_date != '' && $to_date != '') {
         <tr>
             <td style="text-align: right;width: 33%"></td>
             <td style="text-align: center;width: 33%"><h4>
-                    <b><?= \backend\models\Company::findCompanyName(1) ?></b></h4></td>
+                    <b><?= \backend\models\Company::findCompanyName($emp_company_id) ?></b></h4></td>
             <td style="text-align: right;width: 33%"></td>
         </tr>
         <tr>
             <td style="text-align: right;width: 33%"></td>
             <td style="text-align: center;width: 33%">
-                <h6><?= \backend\models\Company::findAddress(1) ?></h6></td>
+                <h6><?= \backend\models\Company::findAddress($emp_company_id) ?></h6></td>
             <td style="text-align: right;width: 33%"></td>
         </tr>
     </table>
@@ -251,11 +252,12 @@ if ($from_date != '' && $to_date != '') {
         $sum_col_9 = 0;
         $sum_col_10 = 0;
 
+
         $cost_living_price = \backend\models\Employee::findCostLivingPrice($search_car_id);
         //$social_price = \backend\models\Employee::findSocialPrice($search_car_id); // percent
-        $social_price = \backend\models\Company::findCompanySocialPer(1); // company percent
+        $social_price = \backend\models\Company::findCompanySocialPer($emp_company_id); // company percent
         //$social_per_text = \backend\models\Employee::findSocialPricePer($search_car_id);
-        $social_base_price = \backend\models\Company::findSocialbasePrice(1);
+        $social_base_price = \backend\models\Company::findSocialbasePrice($emp_company_id);
         $deduct_total = 0;
         ?>
         <?php if ($model_line != null): ?>
@@ -388,7 +390,7 @@ if ($from_date != '' && $to_date != '') {
             <td style="text-align: center;padding: 5px;">บาท</td>
             <td></td>
             <td style="text-align: right;padding: 5px;"></td>
-            <td></td>
+            <td></td>ecmd
         </tr>
         <tr>
             <td></td>

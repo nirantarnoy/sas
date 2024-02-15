@@ -60,13 +60,21 @@ $drivingcard_data = \backend\helpers\DrivingcardType::asArrayObject();
         </div>
     </div>
     <div class="row">
-        <div class="col-lg-4">
+        <div class="col-lg-3">
+            <?= $form->field($model, 'company_id')->Widget(\kartik\select2\Select2::className(), [
+                'data' => \yii\helpers\ArrayHelper::map(\backend\models\Company::find()->all(), 'id', 'name'),
+                'options' => [
+                    'placeholder' => '--เลือก--',
+                ]
+            ]) ?>
+        </div>
+        <div class="col-lg-3">
             <?= $form->field($model, 'cost_living_price')->textInput(['maxlength' => true]) ?>
         </div>
-        <div class="col-lg-4">
+        <div class="col-lg-3">
             <?= $form->field($model, 'social_price')->textInput(['maxlength' => true]) ?>
         </div>
-        <div class="col-lg-4">
+        <div class="col-lg-3">
             <?php echo $form->field($model, 'is_cashier')->widget(\toxor88\switchery\Switchery::className(), ['options' => ['label' => '', 'class' => 'form-control']])->label() ?>
         </div>
     </div>

@@ -73,7 +73,7 @@ class Employee extends \yii\db\ActiveRecord
             'cost_living_price' => 'ค่าครองชีพ',
             'social_price' => 'ค่าประกันสังคม(%)',
             'is_cashier' => 'จ่ายเงิน',
-            'company_id' => 'Company ID',
+            'company_id' => 'บริษัท',
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',
             'created_by' => 'Created By',

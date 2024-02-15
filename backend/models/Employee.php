@@ -68,6 +68,11 @@ class Employee extends \common\models\Employee
 //        $model = Unit::find()->where(['id'=>$id])->one();
 //        return count($model)>0?$model->name:'';
 //    }
+    public static function findEmpcompanyid($id)
+    {
+        $model = Employee::find()->where(['id' => $id])->one();
+        return $model != null ? $model->company_id : 0;
+    }
     public static function findCode($id)
     {
         $model = Employee::find()->where(['id' => $id])->one();
