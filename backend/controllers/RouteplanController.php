@@ -90,6 +90,8 @@ class RouteplanController extends Controller
 
                 $car_type_id = \Yii::$app->request->post('car_type_id');
                 $labour_price_line = \Yii::$app->request->post('labour_price_line');
+                $car_trail_id = \Yii::$app->request->post('car_trail_id');
+                $trail_labour_price_line = \Yii::$app->request->post('trail_labour_price_line');
                 $express_road_price_line = \Yii::$app->request->post('express_road_price_line');
                 $cover_sheet_price_line = \Yii::$app->request->post('cover_sheet_price_line');
                 $overnight_price_line = \Yii::$app->request->post('overnight_price_line');
@@ -151,6 +153,8 @@ class RouteplanController extends Controller
                                     $route_plan_price_line_chk->overnight_price = $overnight_price_line[$z];
                                     $route_plan_price_line_chk->warehouse_plus_price = $warehouse_plus_price_line[$z];
                                     $route_plan_price_line_chk->other_price = $other_price_line[$z];
+                                    $route_plan_price_line_chk->trail_id = $car_trail_id[$z];
+                                    $route_plan_price_line_chk->trail_labour_price = $trail_labour_price_line[$z];
                                     if ($route_plan_price_line_chk->save(false)){
 
                                     }
@@ -165,6 +169,8 @@ class RouteplanController extends Controller
                                     $new_route_plan_price->warehouse_plus_price = $warehouse_plus_price_line[$z];
                                     $new_route_plan_price->other_price = $other_price_line[$z];
                                     $new_route_plan_price->status = $model->status;
+                                    $new_route_plan_price->trail_id = $car_trail_id[$z];
+                                    $new_route_plan_price->trail_labour_price = $trail_labour_price_line[$z];
                                     if ($new_route_plan_price->save(false)){
 
                                     }
@@ -222,6 +228,8 @@ class RouteplanController extends Controller
             $overnight_price_line = \Yii::$app->request->post('overnight_price_line');
             $warehouse_plus_price_line = \Yii::$app->request->post('warehouse_plus_price_line');
             $other_price_line = \Yii::$app->request->post('other_price_line');
+            $car_trail_id = \Yii::$app->request->post('car_trail_id');
+            $trail_labour_price_line = \Yii::$app->request->post('trail_labour_price_line');
 
 
 
@@ -278,6 +286,8 @@ class RouteplanController extends Controller
                                 $route_plan_price_line_chk->overnight_price = $overnight_price_line[$z];
                                 $route_plan_price_line_chk->warehouse_plus_price = $warehouse_plus_price_line[$z];
                                 $route_plan_price_line_chk->other_price = $other_price_line[$z];
+                                $route_plan_price_line_chk->trail_id = $car_trail_id[$z];
+                                $route_plan_price_line_chk->trail_labour_price = $trail_labour_price_line[$z];
                                 if ($route_plan_price_line_chk->save(false)){
 
                                 }
@@ -292,6 +302,8 @@ class RouteplanController extends Controller
                                 $new_route_plan_price->warehouse_plus_price = $warehouse_plus_price_line[$z];
                                 $new_route_plan_price->other_price = $other_price_line[$z];
                                 $new_route_plan_price->status = $model->status;
+                                $new_route_plan_price->trail_id = $car_trail_id[$z];
+                                $new_route_plan_price->trail_labour_price = $trail_labour_price_line[$z];
                                 if ($new_route_plan_price->save(false)){
 
                                 }

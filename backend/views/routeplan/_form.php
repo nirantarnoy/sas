@@ -10,6 +10,7 @@ use yii\widgets\ActiveForm;
 $dropoff_place_data = \common\models\DropoffPlace::find()->all();
 
 $car_type_data = \common\models\CarType::find()->all();
+$car_trail_type_data = \common\models\Car::find()->where(['car_type_id'=>2,'status'=>1])->all();
 
 //print_r($dropoff_place_data);return;
 
@@ -299,6 +300,8 @@ $car_type_data = \common\models\CarType::find()->all();
                     <thead>
                     <th>ประเภทรถ</th>
                     <th>ค่าเที่ยว</th>
+                    <th>ทะเบียนหาง</th>
+                    <th>ค่าเที่ยว</th>
                     <th>ค่าทางด่วน</th>
                     <th>คลุมผ้าใบ</th>
                     <th>ค้างคืน</th>
@@ -319,6 +322,18 @@ $car_type_data = \common\models\CarType::find()->all();
                             </td>
                             <td>
                                 <input type="number" name="labour_price_line[]" class="form-control labour-price-line"
+                                       id="">
+                            </td>
+                            <td>
+                                <select name="car_trail_id[]" class="form-control car-trail-id" id="">
+                                    <option value="0">--ทะเบียนหาง--</option>
+                                    <?php for ($i = 0; $i <= count($car_trail_type_data) - 1; $i++) : ?>
+                                        <option value="<?= $car_trail_type_data[$i]['id'] ?>"><?= $car_trail_type_data[$i]['name'] ?></option>
+                                    <?php endfor; ?>
+                                </select>
+                            </td>
+                            <td>
+                                <input type="number" name="trail_labour_price_line[]" class="form-control trail-labour-price-line"
                                        id="">
                             </td>
                             <td>
@@ -371,6 +386,24 @@ $car_type_data = \common\models\CarType::find()->all();
                                                value="<?= $key->labour_price ?>">
                                     </td>
                                     <td>
+                                        <select name="car_trail_id[]" class="form-control car-trail-id" id="">
+                                            <option value="0">--ทะเบียนหาง--</option>
+                                            <?php for ($i = 0; $i <= count($car_trail_type_data) - 1; $i++) : ?>
+                                                <?php
+                                                $selected = "";
+                                                if ($car_trail_type_data[$i]['id'] == $key->trail_id) {
+                                                    $selected = 'selected';
+                                                }
+                                                ?>
+                                                <option value="<?= $car_trail_type_data[$i]['id'] ?>" <?=$selected?>><?= $car_trail_type_data[$i]['name'] ?></option>
+                                            <?php endfor; ?>
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <input type="number" name="trail_labour_price_line[]" class="form-control trail-labour-price-line"
+                                               id="" value="<?= $key->trail_labour_price ?>">
+                                    </td>
+                                    <td>
                                         <input type="number" name="express_road_price_line[]"
                                                class="form-control express-road-price-line" id=""
                                                value="<?= $key->express_road_price ?>">
@@ -414,6 +447,18 @@ $car_type_data = \common\models\CarType::find()->all();
                                 <td>
                                     <input type="number" name="labour_price_line[]"
                                            class="form-control labour-price-line" id="">
+                                </td>
+                                <td>
+                                    <select name="car_trail_id[]" class="form-control car-trail-id" id="">
+                                        <option value="0">--ทะเบียนหาง--</option>
+                                        <?php for ($i = 0; $i <= count($car_trail_type_data) - 1; $i++) : ?>
+                                            <option value="<?= $car_trail_type_data[$i]['id'] ?>"><?= $car_trail_type_data[$i]['name'] ?></option>
+                                        <?php endfor; ?>
+                                    </select>
+                                </td>
+                                <td>
+                                    <input type="number" name="trail_labour_price_line[]" class="form-control trail-labour-price-line"
+                                           id="">
                                 </td>
                                 <td>
                                     <input type="number" name="express_road_price_line[]"

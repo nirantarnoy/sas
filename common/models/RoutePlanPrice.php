@@ -30,8 +30,8 @@ class RoutePlanPrice extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['route_plan_id', 'car_type_id', 'status'], 'integer'],
-            [['labour_price', 'express_road_price','other_price'], 'number'],
+            [['route_plan_id', 'car_type_id', 'status','trail_id'], 'integer'],
+            [['labour_price', 'express_road_price','other_price','trail_labour_price'], 'number'],
         ];
     }
 
