@@ -53,7 +53,7 @@ class Company extends \common\models\Company
             'social_base_price'=>'ฐานเงินเดือนประกันสังคม',
             'status' => 'สถานะ',
             'doc' => 'เอกสารแนบ',
-            'taxid' => 'เลขที่เสียภาษี',
+            'taxid' => 'เลขที่ผู้เสียภาษี',
             'created_at' => 'Created At',
             'created_by' => 'Created By',
             'updated_at' => 'Updated At',
