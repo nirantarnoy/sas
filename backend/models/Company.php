@@ -33,7 +33,7 @@ class Company extends \common\models\Company
     {
         return [
             [['status', 'created_at', 'created_by', 'updated_at', 'updated_by'], 'integer'],
-            [['name', 'description','doc'], 'string', 'max' => 255],
+            [['name', 'description','doc','address'], 'string', 'max' => 255],
             [['taxid'], 'string', 'max' => 13],
             [['social_deduct_per'],'number'],
             [['social_base_price'],'safe'],
