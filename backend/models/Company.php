@@ -75,6 +75,10 @@ class Company extends \common\models\Company
         $model = Company::find()->where(['id' => $id])->one();
         return $model != null ? $model->social_base_price : 0;
     }
+    public static function findTaxid($id){
+        $model = Company::find()->where(['id' => $id])->one();
+        return $model != null ? $model->taxid : '';
+    }
 
     public static function findCompanySocialPer($id)
     {

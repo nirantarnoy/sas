@@ -111,6 +111,12 @@ $date_year = date('Y', strtotime($model->trans_date)) + 543;
         <tr>
             <td style="text-align: right;width: 33%"></td>
             <td style="text-align: center;width: 33%">
+                <h6>เลขที่ผู้เสียภาษี <?= \backend\models\Company::findTaxid($model->company_id) ?></h6></td>
+            <td style="text-align: right;width: 33%"></td>
+        </tr>
+        <tr>
+            <td style="text-align: right;width: 33%"></td>
+            <td style="text-align: center;width: 33%">
                 <h6><?= \backend\models\Company::findAddress($model->company_id) ?></h6></td>
             <td style="text-align: right;width: 33%"></td>
         </tr>
