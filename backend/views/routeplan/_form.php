@@ -10,7 +10,7 @@ use yii\widgets\ActiveForm;
 $dropoff_place_data = \common\models\DropoffPlace::find()->all();
 
 $car_type_data = \common\models\CarType::find()->all();
-$car_trail_type_data = \common\models\Car::find()->where(['car_type_id'=>2])->all();
+$car_trail_type_data = \common\models\Car::find()->where(['type_id'=>2])->all();
 
 //print_r($dropoff_place_data);return;
 
