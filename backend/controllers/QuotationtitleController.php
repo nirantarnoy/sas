@@ -253,9 +253,9 @@ class QuotationtitleController extends Controller
                 }
             }
             $model_district = \common\models\CityzoneDistrictLine::find()->where(['cityzone_id' => $city_zone_id])->all();
-            if ($model) {
-                foreach ($model as $value) {
-                    $name .= \backend\models\District::findDistrictName($value->district_id) . ',';
+            if ($model_district) {
+                foreach ($model_district as $valuex) {
+                    $name .= \backend\models\District::findDistrictName($valuex->district_id) . ',';
                 }
             }
         }
