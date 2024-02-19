@@ -252,6 +252,12 @@ class QuotationtitleController extends Controller
                     $name .= \backend\models\Amphur::findAmphurName($value->city_id) . ',';
                 }
             }
+            $model_district = \common\models\CityzoneDistrictLine::find()->where(['cityzone_id' => $city_zone_id])->all();
+            if ($model) {
+                foreach ($model as $value) {
+                    $name .= \backend\models\District::findDistrictName($value->district_id) . ',';
+                }
+            }
         }
         return $name;
     }
