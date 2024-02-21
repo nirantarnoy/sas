@@ -230,7 +230,7 @@ $dropoff_data = \common\models\DropoffPlace::find()->all();
         </div>
         <div class="col-lg-4">
             <label for="">รวมจำนวน(ลิตร)</label>
-            <input type="text" class="form-control total-qty" name="total_lite" value="<?=$model->total_lite?>">
+            <input type="text" class="form-control total-lite" name="total_lite" value="<?=$model->total_lite?>">
         </div>
         <div class="col-lg-4">
             <label for="">รวมจำนวน(บาท)</label>
