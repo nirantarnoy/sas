@@ -98,7 +98,7 @@ class WorkqueueController extends Controller
                 $qty = \Yii::$app->request->post('qty');
                 $weight = \Yii::$app->request->post('weight');
 
-             //   print_r($weight); return ;
+                //   print_r($weight); return ;
                 $model->is_invoice = 0;
                 if ($model->save(false)) {
 
@@ -201,11 +201,19 @@ class WorkqueueController extends Controller
             $qty = \Yii::$app->request->post('qty');
             $weight = \Yii::$app->request->post('weight');
 
+            $total_distance = \Yii::$app->request->post('total_distance');
+            $total_lite = \Yii::$app->request->post('total_lite');
+            $total_amount = \Yii::$app->request->post('total_amount');
+
+
             $removelist2 = \Yii::$app->request->post('remove_list2');
 
 
 //            print_r($dropoff_id);
 //            print_r($weight);return;
+            $model->total_distance = $total_distance;
+            $model->total_lite = $total_lite;
+            $model->total_amount = $total_amount;
             if ($model->save(false)) {
                 if ($line_id != null) {
                     // echo count($uploaded);return;
@@ -235,7 +243,7 @@ class WorkqueueController extends Controller
 
                 if ($dropoff_id != null) {
                     for ($a = 0; $a <= count($dropoff_id) - 1; $a++) {
-                        $model_test = \common\models\WorkQueueDropoff::find()->where(['work_queue_id' => $model->id, 'dropoff_id' => $dropoff_id[$a],'dropoff_no'=>$dropoff_no[$a]])->one();
+                        $model_test = \common\models\WorkQueueDropoff::find()->where(['work_queue_id' => $model->id, 'dropoff_id' => $dropoff_id[$a], 'dropoff_no' => $dropoff_no[$a]])->one();
                         if ($model_test) {
                             $model_test->dropoff_id = $dropoff_id[$a];
                             $model_test->dropoff_no = $dropoff_no[$a];

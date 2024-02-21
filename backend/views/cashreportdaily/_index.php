@@ -168,7 +168,7 @@ if ($search_cost_type != null) {
             </tbody>
             <tfoot>
             <tr>
-                <td colspan="8" style="width: 8%;text-align: right;"><b>รวม</b></td>
+                <td colspan="8" style="width: 8%;text-align: right;"><b>ยอดคงเหลือ</b></td>
                 <td style="width: 10%;text-align: right;"><b><?= number_format($total_amount, 3) ?></b></td>
                 <td></td>
                 <td></td>
