@@ -44,7 +44,7 @@ class WorkqueueSearch extends Workqueue
      */
     public function search($params)
     {
-        $query = Workqueue::find()->innerJoin('customer','work_queue.customer_id = customer.id')->innerJoin('employee','work_queue.emp_assign=employee.id');
+        $query = Workqueue::find()->leftJoin('customer','work_queue.customer_id = customer.id')->innerJoin('employee','work_queue.emp_assign=employee.id');
 
         // add conditions that should always apply here
 
