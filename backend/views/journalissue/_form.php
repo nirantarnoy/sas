@@ -41,7 +41,7 @@ use yii\widgets\ActiveForm;
             <div class="col-lg-4">
                 <?= $form->field($model, 'trans_ref_id')->widget(\kartik\select2\Select2::className(), [
                     'data' => \yii\helpers\ArrayHelper::map(\backend\models\Workorder::find()->where(['is_issue_status' => 0])->all(), 'id', function ($data) {
-                        return $data->workorder_no;
+                        return $data->workorder_no .'( '.\backend\models\Car::findName($data->car_id).' )';
                     }),
                     'options' => [
                         'placeholder' => '--เลือกรายการ--'
