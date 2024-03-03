@@ -243,12 +243,20 @@
                     </a>
                     <ul class="nav nav-treeview">
                         <?php //if (\Yii::$app->user->can('position/index')): ?>
-                            <li class="nav-item">
-                                <a href="index.php?r=position/index" class="nav-link position">
-                                    <i class="far fa-circlez nav-icon"></i>
-                                    <p>ตำแหน่ง</p>
-                                </a>
-                            </li>
+                        <li class="nav-item">
+                            <a href="index.php?r=department/index" class="nav-link department">
+                                <i class="far fa-circlez nav-icon"></i>
+                                <p>แผนก</p>
+                            </a>
+                        </li>
+                        <?php //endif; ?>
+                        <?php //if (\Yii::$app->user->can('position/index')): ?>
+                        <li class="nav-item">
+                            <a href="index.php?r=position/index" class="nav-link position">
+                                <i class="far fa-circlez nav-icon"></i>
+                                <p>ตำแหน่ง</p>
+                            </a>
+                        </li>
                         <?php //endif; ?>
                         <?php //if (\Yii::$app->user->can('employee/index')): ?>
                             <li class="nav-item">

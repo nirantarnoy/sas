@@ -26,17 +26,25 @@ use yii\widgets\ActiveForm;
                 ]) ?>
             </div>
             <div class="col-lg-4">
-                <?= $form->field($model, 'department_id')->textInput() ?>
+                <?= $form->field($model, 'department_id')->widget(\kartik\select2\Select2::className(), [
+                    'data' => \yii\helpers\ArrayHelper::map(\backend\models\Department::find()->all(), 'id', 'name'),
+                    'options' => [
+                        'placeholder' => '--เลือกแผนก--'
+                    ],
+                    'pluginOptions' => [
+                        'allowClear' => true,
+                    ]
+                ]) ?>
             </div>
         </div>
         <div class="row">
             <div class="col-lg-4">
                 <?= $form->field($model, 'trans_ref_id')->widget(\kartik\select2\Select2::className(), [
-                    'data' => \yii\helpers\ArrayHelper::map(\backend\models\Workorder::find()->where(['is_issue_status'=>0])->all(), 'id', function ($data) {
+                    'data' => \yii\helpers\ArrayHelper::map(\backend\models\Workorder::find()->where(['is_issue_status' => 0])->all(), 'id', function ($data) {
                         return $data->workorder_no;
                     }),
                     'options' => [
-                        'placeholder'=>'--เลือกรายการ--'
+                        'placeholder' => '--เลือกรายการ--'
                     ],
                     'pluginOptions' => [
                         'allowClear' => true,
@@ -154,7 +162,7 @@ use yii\widgets\ActiveForm;
                                             <div class="btn btn-sm btn-danger" onclick="removeline($(this))"><i
                                                         class="fa fa-trash"></i>
                                             </div>
-                                        <?php elseif(!$model->isNewRecord && $value->status != 3):?>
+                                        <?php elseif (!$model->isNewRecord && $value->status != 3): ?>
                                             <div class="btn btn-sm btn-secondary" onclick="cancelline($(this))">ยกเลิก
                                             </div>
                                         <?php endif; ?>
