@@ -274,7 +274,7 @@ $emp_company_id = \backend\models\Employee::findEmpcompanyid($driver_id);
                 $sum_col_9 += ($value->work_other_price);
 
                 $test_price += ($value->test_price);
-                $damage_price += ($value->damage_price);
+                $damage_price += ($value->damaged_price);
 
                 $line_total = ($value->work_labour_price + $value->trail_labour_price + $value->work_express_road_price + $value->cover_sheet_price  + $value->overnight_price + $value->warehouse_plus_price + $value->work_other_price);
                 $sum_col_10 += ($line_total);
