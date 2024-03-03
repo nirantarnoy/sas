@@ -254,6 +254,7 @@ $emp_company_id = \backend\models\Employee::findEmpcompanyid($driver_id);
 
         $test_price = 0;
         $damage_price = 0;
+        $deduct_other_price = 0;
 
 
         $cost_living_price = \backend\models\Employee::findCostLivingPrice($search_car_id);
@@ -275,6 +276,7 @@ $emp_company_id = \backend\models\Employee::findEmpcompanyid($driver_id);
 
                 $test_price += ($value->test_price);
                 $damage_price += ($value->damaged_price);
+                $deduct_other_price += ($value->deduct_other_price);
 
                 $line_total = ($value->work_labour_price + $value->trail_labour_price + $value->work_express_road_price + $value->cover_sheet_price  + $value->overnight_price + $value->warehouse_plus_price + $value->work_other_price);
                 $sum_col_10 += ($line_total);
@@ -374,9 +376,9 @@ $emp_company_id = \backend\models\Employee::findEmpcompanyid($driver_id);
             <td></td>
             <td style="text-align: right;padding: 5px;"><?=number_format($sum_col_7,2)?></td>
             <td style="text-align: center;padding: 5px;">บาท</td>
-            <td></td>
-            <td style="text-align: right;padding: 5px;"></td>
-            <td></td>
+            <td style="padding-left: 10px">หักอื่นๆ</td>
+            <td style="text-align: right;padding: 5px;"><?=number_format($deduct_other_price,2)?></td>
+            <td style="text-align: center;padding: 5px;">บาท</td>
         </tr>
         <tr>
             <td></td>
