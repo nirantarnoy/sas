@@ -78,7 +78,7 @@ class WorkQueue extends \yii\db\ActiveRecord
             'express_road_price'=> 'ค่าทางด่วน',
             'other_price' => 'พิเศษอื่นๆ',
             'test_price' => 'ค่าเงินยืมทดรอง',
-            'damaged_price' => 'ค่าความเสียหาย',
+            'damaged_price' => 'เงินประกันสินค้าเสียหาย',
             'cover_sheet_price' => 'ค่าคลุมผ้าใบ',
             'overnight_price' => 'ค่าค้างคืน',
             'warehouse_plus_price' => 'ค่าบวกคลัง',
