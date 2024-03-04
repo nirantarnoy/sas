@@ -71,6 +71,16 @@ $is_pos_user = 0;
             font-size: 16px;
         }
 
+        @media print {
+            @page {
+                size: A4 landscape;
+            }
+            body {
+                writing-mode: tb-rl;
+                transform: rotate(-90deg);
+            }
+        }
+
 
         /*.pagination li {*/
         /*    padding: 10px;*/

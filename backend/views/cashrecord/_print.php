@@ -5,7 +5,7 @@ $date_day = date('d', strtotime($model->trans_date));
 $date_month = \backend\helpers\Thaimonth::getTypeById((int)(date('m', strtotime($model->trans_date))));
 $date_year = date('Y', strtotime($model->trans_date)) + 543;
 ?>
-<style>
+<style media="print">
     /*body {*/
     /*    font-family: sarabun;*/
     /*    !*font-family: garuda;*!*/
@@ -80,11 +80,8 @@ $date_year = date('Y', strtotime($model->trans_date)) + 543;
     /*    padding: 2px;*/
     /*}*/
 
-    @media print {
-        @page {
-            size: auto;
-        }
-    }
+
+
 
     /*@media print {*/
     /*    html, body {*/
@@ -100,7 +97,7 @@ $date_year = date('Y', strtotime($model->trans_date)) + 543;
         <div class="btn btn-default btn-print" onclick="printContent('print-area')">พิมพ์</div>
     </div>
 </div>
-<div id="print-area">
+<div id="print-area" style="width: 100%;">
     <table style="width: 100%">
         <tr>
             <td style="text-align: right;width: 33%"></td>
