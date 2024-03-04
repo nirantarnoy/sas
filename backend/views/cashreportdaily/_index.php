@@ -154,17 +154,17 @@ if ($search_cost_type != null) {
                 $total_amount += ($value->amount);
                 ?>
                 <tr>
-                    <td style="text-align: center;"><?= $line_num ?></td>
-                    <td style="text-align: center;"><?= date('d/m/Y', strtotime($value->trans_date)) ?></td>
-                    <td style="text-align: center;"><?= \backend\models\Paymentmethod::findName($value->payment_method_id) ?></td>
-                    <td style="text-align: center;"><?= $value->bank_account ?></td>
-                    <td style="text-align: left;"><?= $value->pay_for_type_id != 1 ? $value->pay_for : $value->fname . ' ' . $value->lname ?></td>
-                    <td style="text-align: center;"><?= $value->car_plate_no ?></td>
-                    <td style="text-align: center;"><?= $value->car_tail_plate_no ?></td>
-                    <td style="text-align: center;"><?= $value->name ?></td>
-                    <td style="text-align: right;"><?= number_format($value->amount, 2) ?></td>
-                    <td style="text-align: left;"><?= \backend\models\Employee::findFullName($value->cashier_by) ?></td>
-                    <td style="text-align: left;"><?= $value->remark ?></td>
+                    <td style="text-align: center;padding: 1px;"><?= $line_num ?></td>
+                    <td style="text-align: center;padding: 1px;"><?= date('d/m/Y', strtotime($value->trans_date)) ?></td>
+                    <td style="text-align: center;padding: 1px;"><?= \backend\models\Paymentmethod::findName($value->payment_method_id) ?></td>
+                    <td style="text-align: center;padding: 1px;"><?= $value->bank_account ?></td>
+                    <td style="text-align: left;padding: 1px;"><?= $value->pay_for_type_id != 1 ? $value->pay_for : $value->fname . ' ' . $value->lname ?></td>
+                    <td style="text-align: center;padding: 1px;"><?= $value->car_plate_no ?></td>
+                    <td style="text-align: center;padding: 1px;"><?= $value->car_tail_plate_no ?></td>
+                    <td style="text-align: center;padding: 1px;"><?= $value->name ?></td>
+                    <td style="text-align: right;padding: 1px;"><?= number_format($value->amount, 2) ?></td>
+                    <td style="text-align: left;padding: 1px;"><?= \backend\models\Employee::findFullName($value->cashier_by) ?></td>
+                    <td style="text-align: left;padding: 1px;"><?= $value->remark ?></td>
                 </tr>
             <?php endforeach; ?>
         <?php endif; ?>
