@@ -169,15 +169,15 @@ if ($search_cost_type != null) {
             <?php endforeach; ?>
         <?php endif; ?>
         </tbody>
-        <tfoot>
+
+    </table>
+    <table class="table table-bordered">
         <tr>
             <td colspan="8" style="width: 8%;text-align: right;"><b>ยอดคงเหลือ</b></td>
             <td style="width: 10%;text-align: right;"><b><?= number_format($total_amount, 3) ?></b></td>
             <td></td>
             <td></td>
         </tr>
-        </tfoot>
-
     </table>
 </div>
 
