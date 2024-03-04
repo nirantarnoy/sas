@@ -76,6 +76,7 @@ $is_pos_user = 0;
                 size: A4 landscape;
             }
             body {
+                font-size: 12px;
                 writing-mode: horizontal-tb;
                 /*transform: rotate(90deg);*/
             }
