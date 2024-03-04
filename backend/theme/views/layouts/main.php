@@ -76,8 +76,8 @@ $is_pos_user = 0;
                 size: A4 landscape;
             }
             body {
-                writing-mode: tb-rl;
-                transform: rotate(-90deg);
+                writing-mode: horizontal-tb;
+                /*transform: rotate(90deg);*/
             }
         }
 
