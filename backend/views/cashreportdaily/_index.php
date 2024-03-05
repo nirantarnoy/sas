@@ -128,18 +128,18 @@ if ($search_cost_type != null) {
         </tr>
     </table>
     <br>
-    <table class="table table-bordered" id="table-data">
+    <table class="table table-bordered" style="width: 100%;" id="table-data">
         <thead>
         <tr>
             <th style="width: 5%;text-align: center;">ลำดับที่</th>
             <th style="width: 8%;text-align: center;">วันที่</th>
-            <th style="width: 10%;text-align: center;">ประเภทจ่ายเงิน</th>
+            <th style="width: 8%;text-align: center;">ประเภทจ่ายเงิน</th>
             <th style="width: 10%;text-align: center;">ข้อมูลธนาคาร</th>
             <th style="text-align: center;">ชื่อ</th>
-            <th style="width: 10%;text-align: center;">ทะเบียนหัว</th>
-            <th style="width: 10%;text-align: center;">ทะเบียนหาง</th>
+            <th style="width: 8%;text-align: center;">ทะเบียนหัว</th>
+            <th style="width: 8%;text-align: center;">ทะเบียนหาง</th>
             <th style="width: 10%;text-align: center;">ประเภทค่าใช้จ่าย</th>
-            <th style="width: 10%;text-align: right;">จำนวนเงิน</th>
+            <th style="width: 8%;text-align: right;">จำนวนเงิน</th>
             <th style="width: 10%;text-align: right;">ผู้จ่ายเงิน</th>
             <th style="width: 10%;text-align: center;">หมายเหตุ</th>
         </tr>

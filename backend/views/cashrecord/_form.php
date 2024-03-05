@@ -162,6 +162,7 @@ $cost_title_data = \common\models\FixcostTitle::find()->where(['type_id' => 1])-
                     'options' => [
                         'id' => 'vat-per-amount',
                         'placeholder' => '--หัก ณ ที่จ่าย--',
+                        'onchange'=>'calallvat($(this))'
                     ]
                 ]) ?>
             </div>
@@ -406,6 +407,15 @@ function callinevat(e){
     var vat_amount = parseFloat(line_amount) * parseFloat(vat_per) / 100;
     
     e.closest("tr").find(".vat-per-line").val(parseFloat(vat_amount).toFixed(2));
+}
+function calallvat(e){
+    var vat_per = e.val();
+ 
+    $("#table-list2 tbody tr").each(function (){
+      var line_vat_amt = parseFloat($(this).closest("tr").find(".price-line").val()) * parseFloat(vat_per) / 100;
+      $(this).closest("tr").find(".vat-per-line").val(parseFloat(line_vat_amt).toFixed(2));
+    });
+   
 }
 
 JS;
