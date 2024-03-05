@@ -126,7 +126,6 @@ $date_year = date('Y', strtotime($model->trans_date)) + 543;
             <td style="text-align: right;width: 33%">เลขที่ <b><?= $model->journal_no ?></b></td>
         </tr>
     </table>
-    <br>
     <?php
       $pay_for_name = '';
       if($model->pay_for_type_id == 1){
@@ -145,7 +144,6 @@ $date_year = date('Y', strtotime($model->trans_date)) + 543;
             <!--            <td><input type="text" class="form-control"></td>-->
         </tr>
     </table>
-    <br>
     <table style="width: 100%">
         <tr>
             <td style="width:15%;padding: 5px;">จ่ายโดย
