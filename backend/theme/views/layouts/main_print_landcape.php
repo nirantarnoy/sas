@@ -71,16 +71,16 @@ $is_pos_user = 0;
             font-size: 16px;
         }
 
-        /*@media print {*/
-        /*    @page {*/
-        /*        size: A4 landscape;*/
-        /*    }*/
-        /*    body {*/
-        /*        font-size: 9px;*/
-        /*        writing-mode: horizontal-tb;*/
-        /*        !*transform: rotate(90deg);*!*/
-        /*    }*/
-        /*}*/
+        @media print {
+            @page {
+                size: A4 landscape;
+            }
+            body {
+                font-size: 9px;
+                writing-mode: horizontal-tb;
+                /*transform: rotate(90deg);*/
+            }
+        }
 
 
         /*.pagination li {*/

@@ -21,6 +21,8 @@ class CashreportdailyController extends Controller
         $search_company_id = \Yii::$app->request->post('search_company_id');
         $search_office_id = \Yii::$app->request->post('search_office_id');
 
+        $this->layout = 'main_print_landcape';
+
         return $this->render('_index',[
             'search_date' => $search_date,
             'search_to_date' => $search_to_date,
