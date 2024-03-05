@@ -282,7 +282,8 @@ class JournalissueController extends Controller
         $html = '';
         $has_data = 0;
         //$model = \backend\models\Workqueue::find()->where(['is_invoice' => 0])->all();
-        $model = \backend\models\Stocksum::find()->where(['warehouse_id' => 7])->all();
+       // $model = \backend\models\Stocksum::find()->where(['warehouse_id' => 7])->all();
+        $model = \backend\models\Stocksum::find()->all();
         if ($model) {
             $has_data = 1;
             foreach ($model as $value) {
