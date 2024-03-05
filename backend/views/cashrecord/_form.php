@@ -146,6 +146,24 @@ $cost_title_data = \common\models\FixcostTitle::find()->where(['type_id' => 1])-
                 <input type="text" class="form-control" readonly
                        value="<?= $model->isNewRecord ? 'Open' : \backend\helpers\CashrecordStatus::getTypeById($model->status) ?>"/>
             </div>
+            <div class="row">
+                <?= $form->field($model, 'work_ref_id')->Widget(\kartik\select2\Select2::className(), [
+                    'data' => \yii\helpers\ArrayHelper::map(\backend\models\Workorder::find()->where(['status' => 1])->all(), 'id', function ($data) {
+                        return $data->workorder_no;
+                    }),
+                    'options' => [
+                        'placeholder' => '--ใบแจ้งซ่อม--',
+                    ]
+                ]) ?>
+            </div>
+            <div class="row">
+                <?= $form->field($model, 'vat_per')->Widget(\kartik\select2\Select2::className(), [
+                    'data' => \yii\helpers\ArrayHelper::map(\backend\helpers\VatperType::asArrayObject(), 'id', 'name'),
+                    'options' => [
+                        'placeholder' => '--หัก ณ ที่จ่าย--',
+                    ]
+                ]) ?>
+            </div>
         </div>
 
         <br/>
