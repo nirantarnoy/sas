@@ -37,9 +37,9 @@ $cost_title_data = \common\models\FixcostTitle::find()->where(['type_id' => 1])-
                 <?= $form->field($model, 'pay_for_type_id')->Widget(\kartik\select2\Select2::className(), [
                     'data' => \yii\helpers\ArrayHelper::map(\backend\helpers\PayForType::asArrayObject(), 'id', 'name'),
                     'options' => [
-                        'id'=>'pay-for-type-id',
+                        'id' => 'pay-for-type-id',
                         'placeholder' => '--ประเภทผู้รับเงิน--',
-                        'onchange'=>'checkpaytype($(this))',
+                        'onchange' => 'checkpaytype($(this))',
                     ],
                     'pluginOptions' => [
                         'allowClear' => true,
@@ -48,7 +48,7 @@ $cost_title_data = \common\models\FixcostTitle::find()->where(['type_id' => 1])-
             </div>
 
             <div class="col-lg-3">
-                <?= $form->field($model, 'pay_for')->textInput(['maxlength' => true,'class'=>'form-control pay-for-name']) ?>
+                <?= $form->field($model, 'pay_for')->textInput(['maxlength' => true, 'class' => 'form-control pay-for-name']) ?>
             </div>
 
         </div>
@@ -56,12 +56,12 @@ $cost_title_data = \common\models\FixcostTitle::find()->where(['type_id' => 1])-
             <div class="col-lg-3">
                 <?= $form->field($model, 'car_id')->Widget(\kartik\select2\Select2::className(), [
                     'data' => \yii\helpers\ArrayHelper::map(\backend\models\Car::find()->where(['type_id' => '1'])->all(), 'id', function ($data) {
-                        return $data->name.' '.\backend\models\Car::findDrivername($data->id);
+                        return $data->name . ' ' . \backend\models\Car::findDrivername($data->id);
                     }),
 
                     'options' => [
                         'placeholder' => '--รถ--',
-                        'id'=>'car-id',
+                        'id' => 'car-id',
                     ],
                     'pluginOptions' => [
                         'allowClear' => true,
@@ -79,7 +79,7 @@ $cost_title_data = \common\models\FixcostTitle::find()->where(['type_id' => 1])-
                     'options' => [
                         'placeholder' => '--พ่วง--',
                         'onchange' => 'getTailinfo($(this))',
-                        'id'=>'car-tail-id',
+                        'id' => 'car-tail-id',
                     ]
                 ]) ?>
             </div>
@@ -160,6 +160,7 @@ $cost_title_data = \common\models\FixcostTitle::find()->where(['type_id' => 1])-
                 <?= $form->field($model, 'vat_per')->Widget(\kartik\select2\Select2::className(), [
                     'data' => \yii\helpers\ArrayHelper::map(\backend\helpers\VatperType::asArrayObject(), 'id', 'name'),
                     'options' => [
+                        'id' => 'vat-per-amount',
                         'placeholder' => '--หัก ณ ที่จ่าย--',
                     ]
                 ]) ?>
@@ -174,6 +175,7 @@ $cost_title_data = \common\models\FixcostTitle::find()->where(['type_id' => 1])-
                     <thead>
                     <th>รายการค่าใช้จ่าย</th>
                     <th>จำนวนเงิน</th>
+                    <th>หัก ณ ที่จ่าย</th>
                     <th>หมายเหตุ</th>
                     <th></th>
                     </thead>
@@ -191,12 +193,17 @@ $cost_title_data = \common\models\FixcostTitle::find()->where(['type_id' => 1])-
                             <td>
                                 <input type="number" name="price_line[]"
                                        step="0.01"
-                                       class="form-control price-line" id="">
+                                       class="form-control price-line" id="" onchange="callinevat($(this))">
+                            </td>
+                            <td>
+                                <input type="text" name="vat_per_line[]"
+                                       class="form-control vat-per-line" id="" readonly>
                             </td>
                             <td>
                                 <input type="text" name="remark_line[]"
                                        class="form-control remark-line" id="">
                             </td>
+
                             <td>
                                 <div class="btn btn-danger btn-sm" onclick="removeline($(this))"><i
                                             class="fa fa-trash"></i></div>
@@ -227,7 +234,11 @@ $cost_title_data = \common\models\FixcostTitle::find()->where(['type_id' => 1])-
                                         <input type="number" name="price_line[]"
                                                class="form-control price-line" id=""
                                                step="0.01"
-                                               value="<?= $key->amount ?>">
+                                               value="<?= $key->amount ?>" onchange="callinevat($(this))">
+                                    </td>
+                                    <td>
+                                        <input type="text" name="vat_per_line[]"
+                                               class="form-control vat-per-line" value="<?= $key->vat_amount ?>" id="" readonly>
                                     </td>
                                     <td>
                                         <input type="text" name="remark_line[]"
@@ -253,7 +264,11 @@ $cost_title_data = \common\models\FixcostTitle::find()->where(['type_id' => 1])-
                                 <td>
                                     <input type="number" name="price_line[]"
                                            step="0.01"
-                                           class="form-control price-line" id="">
+                                           class="form-control price-line" id="" onchange="callinevat($(this))">
+                                </td>
+                                <td>
+                                    <input type="text" name="vat_per_line[]"
+                                           class="form-control vat-per-line" id="" readonly>
                                 </td>
                                 <td>
                                     <input type="text" name="remark_line[]"
@@ -383,6 +398,14 @@ function checkpaytype(e){
     //     $("#car-id").prop("disabled", false);
     //     $("#car-tail-id").prop("disabled", false);
     // }
+}
+
+function callinevat(e){
+    var line_amount = e.val();
+    var vat_per = $("#vat-per-amount").val();
+    var vat_amount = parseFloat(line_amount) * parseFloat(vat_per) / 100;
+    
+    e.closest("tr").find(".vat-per-line").val(parseFloat(vat_amount).toFixed(2));
 }
 
 JS;

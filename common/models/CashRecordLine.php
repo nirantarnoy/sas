@@ -31,7 +31,7 @@ class CashRecordLine extends \yii\db\ActiveRecord
     {
         return [
             [['car_record_id', 'cost_title_id', 'status'], 'integer'],
-            [['amount'], 'number'],
+            [['amount','vat_amount'], 'number'],
             [['remark'], 'string', 'max' => 255],
         ];
     }
@@ -46,6 +46,7 @@ class CashRecordLine extends \yii\db\ActiveRecord
             'car_record_id' => 'Car Record ID',
             'cost_title_id' => 'Cost Title ID',
             'amount' => 'Amount',
+            'vat_amount' => 'Vat Amount',
             'remark' => 'Remark',
             'status' => 'Status',
         ];

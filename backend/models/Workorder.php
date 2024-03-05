@@ -64,10 +64,10 @@ class Workorder extends \common\models\Workorder
         ];
     }
 
-//    public function findName($id){
-//        $model = Warehouse::find()->where(['id'=>$id])->one();
-//        return $model != null ?$model->name:'';
-//    }
+    public function findWorkno($id){
+        $model = Workorder::find()->where(['id'=>$id])->one();
+        return $model != null ?$model->workorder_no:'';
+    }
 //    public function findDesc($id){
 //        $model = Warehouse::find()->where(['id'=>$id])->one();
 //        return $model != null ?$model->description:'';
@@ -108,6 +108,8 @@ class Workorder extends \common\models\Workorder
             return $prefix . '00001';
         }
     }
+
+
 
 
 }

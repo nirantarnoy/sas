@@ -151,7 +151,7 @@ $date_year = date('Y', strtotime($model->trans_date)) + 543;
             <td style="width:15%;padding: 5px;">จ่ายโดย
                 <b><?= \backend\helpers\PayType::getTypeById($model->payment_method_id) ?></b></td>
             <td style="width:15%;padding: 5px;"></td>
-            <td style="width:15%;padding: 5px;">อ้างถึง</td>
+            <td style="width:15%;padding: 5px;">อ้างถึง <?=\backend\models\Workorder::findWorkno($model->work_ref_id)?></td>
 
         </tr>
     </table>

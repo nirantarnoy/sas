@@ -93,6 +93,7 @@ class CashrecordController extends Controller
 
                 $cost_title_id = \Yii::$app->request->post('cost_title_id');
                 $amount = \Yii::$app->request->post('price_line');
+                $vat_amount = \Yii::$app->request->post('vat_per_line');
                 $remark = \Yii::$app->request->post('remark_line');
                 $status = \Yii::$app->request->post('status');
 
@@ -104,6 +105,7 @@ class CashrecordController extends Controller
                             $model_line->car_record_id = $model->id;
                             $model_line->cost_title_id = $cost_title_id[$i];
                             $model_line->amount = $amount[$i];
+                            $model_line->vat_amount = $vat_amount[$i];
                             $model_line->remark = $remark[$i];
                             $model_line->status = 1;
                             $model_line->save(false);
@@ -139,6 +141,7 @@ class CashrecordController extends Controller
 
             $cost_title_id = \Yii::$app->request->post('cost_title_id');
             $amount = \Yii::$app->request->post('price_line');
+            $vat_amount = \Yii::$app->request->post('vat_per_line');
             $remark = \Yii::$app->request->post('remark_line');
             $line_id = \Yii::$app->request->post('rec_id');
 
@@ -159,6 +162,7 @@ class CashrecordController extends Controller
                         if ($model_chk){
                             $model_chk->cost_title_id = $cost_title_id[$i];
                             $model_chk->amount = $amount[$i];
+                            $model_chk->vat_amount = $vat_amount[$i];
                             $model_chk->remark = $remark[$i];
                             $model_chk->save(false);
                         } else {
@@ -166,6 +170,7 @@ class CashrecordController extends Controller
                             $model_rec->car_record_id = $model->id;
                             $model_rec->cost_title_id = $cost_title_id[$i];
                             $model_rec->amount = $amount[$i];
+                            $model_rec->vat_amount = $vat_amount[$i];
                             $model_rec->remark = $remark[$i];
                             $model_rec->status = 1;
                             $model_rec->save(false);
