@@ -36,7 +36,7 @@ class CashRecord extends \yii\db\ActiveRecord
         return [
             [['trans_date','approve_date','recieve_date'], 'safe'],
             [['car_id', 'car_tail_id', 'status', 'created_at', 'create_by', 'updated_at', 'updated_by','trans_ref_id','payment_method_id','approve_by','cashier_by','recieve_by','pay_for_type_id','company_id','office_id'], 'integer'],
-            [['journal_no','pay_for','bank_account'], 'string', 'max' => 255],
+            [['journal_no','pay_for','bank_account','ref_no'], 'string', 'max' => 255],
             [['work_ref_id'],'integer'],
             [['vat_per'],'number'],
         ];
@@ -71,6 +71,7 @@ class CashRecord extends \yii\db\ActiveRecord
             'office_id'=>'สำนักงาน',
             'work_ref_id'=>'อ้างถึง',
             'vat_per'=>'หัก ณ ที่จ่าย',
+            'ref_no'=>'อ้างถึง',
             'updated_at' => 'Updated At',
             'updated_by' => 'Updated By',
         ];
