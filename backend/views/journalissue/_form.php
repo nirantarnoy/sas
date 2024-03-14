@@ -228,7 +228,9 @@ use yii\widgets\ActiveForm;
             </div>
         </div>
         <div class="form-group">
+            <?php if($model->isNewRecord):?>
             <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
+            <?php endif;?>
         </div>
 
         <?php ActiveForm::end(); ?>
