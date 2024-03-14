@@ -367,7 +367,7 @@ $emp_company_id = \backend\models\Employee::findEmpcompanyid($driver_id);
             <td style="padding-left: 10px;">ค่าพิเศษอื่นๆ</td>
             <td></td>
             <td style="text-align: right;padding: 5px;"><?php echo number_format($sum_col_9,2)?></td>
-            <td style="text-align: center;padding: 5px;"></td>
+            <td style="text-align: center;padding: 5px;">บาท</td>
             <td style="padding-left: 10px;">ค่าประกันสินค้าเสียหาย</td>
             <td style="text-align: right;padding: 5px;"><?=number_format($damage_price,2)?></td>
             <td style="text-align: center;padding: 5px;">บาท</td>
