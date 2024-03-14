@@ -238,7 +238,7 @@ $emp_company_id = \backend\models\Employee::findEmpcompanyid($driver_id);
             <th style="text-align: right;padding: 10px;border: 1px solid grey;"><b>ค่าคลุมผ้าใบ</b></th>
             <th style="text-align: right;padding: 10px;border: 1px solid grey;"><b>ค่าค้างคืน</b></th>
             <th style="text-align: right;padding: 10px;border: 1px solid grey;"><b>ค่าบวกคลัง</b></th>
-            <th style="text-align: right;padding: 10px;border: 1px solid grey;"><b>พิเศษอื่นๆ</b></th>
+            <th style="text-align: right;padding: 10px;border: 1px solid grey;"><b>ค่าเบิ้ลงาน</b></th>
             <th style="text-align: right;padding: 10px;border: 1px solid grey;"><b>รวม</b></th>
         </tr>
         </thead>
@@ -251,6 +251,7 @@ $emp_company_id = \backend\models\Employee::findEmpcompanyid($driver_id);
         $sum_col_8 = 0;
         $sum_col_9 = 0;
         $sum_col_10 = 0;
+        $sum_col_11 = 0;
 
         $test_price = 0;
         $damage_price = 0;
@@ -267,18 +268,19 @@ $emp_company_id = \backend\models\Employee::findEmpcompanyid($driver_id);
         <?php if ($model_line != null): ?>
             <?php foreach ($model_line as $value): ?>
                 <?php
-                $sum_col_4 += ($value->work_labour_price + $value->trail_labour_price);
+                $sum_col_4 += ($value->work_labour_price + $value->trail_labour_price + $value->cover_sheet_price + $value->overnight_price + $value->warehouse_plus_price + $value->work_double_price);
                 $sum_col_5 += ($value->work_express_road_price);
                 $sum_col_6 += ($value->cover_sheet_price);
                 $sum_col_7 += ($value->overnight_price);
                 $sum_col_8 += ($value->warehouse_plus_price);
                 $sum_col_9 += ($value->work_other_price);
+                $sum_col_11 += ($value->work_double_price);
 
                 $test_price += ($value->test_price);
                 $damage_price += ($value->damaged_price);
                 $deduct_other_price += ($value->deduct_other_price);
 
-                $line_total = ($value->work_labour_price + $value->trail_labour_price + $value->work_express_road_price + $value->cover_sheet_price  + $value->overnight_price + $value->warehouse_plus_price + $value->work_other_price);
+                $line_total = ($value->work_labour_price + $value->trail_labour_price + $value->work_express_road_price + $value->cover_sheet_price  + $value->overnight_price + $value->warehouse_plus_price + $value->work_double_price);
                 $sum_col_10 += ($line_total);
 
 
@@ -291,7 +293,7 @@ $emp_company_id = \backend\models\Employee::findEmpcompanyid($driver_id);
                     <td style="border: 1px solid grey;padding: 5px;text-align: right;"><?= number_format($value->cover_sheet_price, 2) ?></td>
                     <td style="border: 1px solid grey;padding: 5px;text-align: right;"><?= number_format($value->overnight_price, 2) ?></td>
                     <td style="border: 1px solid grey;padding: 5px;text-align: right;"><?= number_format($value->warehouse_plus_price, 2) ?></td>
-                    <td style="border: 1px solid grey;padding: 5px;text-align: right;"><?= number_format($value->work_other_price, 2) ?></td>
+                    <td style="border: 1px solid grey;padding: 5px;text-align: right;"><?= number_format($value->work_double_price, 2) ?></td>
                     <td style="border: 1px solid grey;padding: 5px;text-align: right;"><?= number_format($line_total, 2) ?></td>
                 </tr>
             <?php endforeach; ?>
@@ -318,7 +320,7 @@ $emp_company_id = \backend\models\Employee::findEmpcompanyid($driver_id);
             <td style="border: 1px solid grey;padding: 5px;text-align: right;">
                 <b><?= number_format($sum_col_8, 2) ?></b></td>
             <td style="border: 1px solid grey;padding: 5px;text-align: right;">
-                <b><?= number_format($sum_col_9, 2) ?></b></td>
+                <b><?= number_format($sum_col_11, 2) ?></b></td>
             <td style="border: 1px solid grey;padding: 5px;text-align: right;">
                 <b><?= number_format($sum_col_10, 2) ?></b></td>
 
@@ -362,29 +364,29 @@ $emp_company_id = \backend\models\Employee::findEmpcompanyid($driver_id);
         <tr>
             <td></td>
 
-            <td style="padding-left: 10px;">ค่าคลุมผ้าใบ</td>
+            <td style="padding-left: 10px;">ค่าพิเศษอื่นๆ</td>
             <td></td>
-            <td style="text-align: right;padding: 5px;"><?=number_format($sum_col_6,2)?></td>
-            <td style="text-align: center;padding: 5px;">บาท</td>
+            <td style="text-align: right;padding: 5px;"><?php echo number_format($sum_col_9,2)?></td>
+            <td style="text-align: center;padding: 5px;"></td>
             <td style="padding-left: 10px;">ค่าประกันสินค้าเสียหาย</td>
             <td style="text-align: right;padding: 5px;"><?=number_format($damage_price,2)?></td>
             <td style="text-align: center;padding: 5px;">บาท</td>
         </tr>
         <tr>
             <td></td>
-            <td style="padding-left: 10px;">ค่าค้างคืน</td>
+            <td style="padding-left: 10px;"></td>
             <td></td>
-            <td style="text-align: right;padding: 5px;"><?=number_format($sum_col_7,2)?></td>
-            <td style="text-align: center;padding: 5px;">บาท</td>
+            <td style="text-align: right;padding: 5px;"><?php //echo number_format($sum_col_7,2)?></td>
+            <td style="text-align: center;padding: 5px;"></td>
             <td style="padding-left: 10px">หักอื่นๆ</td>
             <td style="text-align: right;padding: 5px;"><?=number_format($deduct_other_price,2)?></td>
             <td style="text-align: center;padding: 5px;">บาท</td>
         </tr>
         <tr>
             <td></td>
-            <td style="padding-left: 10px;">ค่าบวกคลัง</td>
+            <td style="padding-left: 10px;"></td>
             <td></td>
-            <td style="text-align: right;padding: 5px;"><?=number_format($sum_col_8,2)?></td>
+            <td style="text-align: right;padding: 5px;"><?php //echo number_format($sum_col_8,2)?></td>
             <td style="text-align: center;padding: 5px;">บาท</td>
             <td></td>
             <td style="text-align: right;padding: 5px;"></td>
@@ -392,22 +394,22 @@ $emp_company_id = \backend\models\Employee::findEmpcompanyid($driver_id);
         </tr>
         <tr>
             <td></td>
-            <td style="padding-left: 10px;">ค่าพิเศษอื่นๆ</td>
+            <td style="padding-left: 10px;"></td>
             <td></td>
-            <td style="text-align: right;padding: 5px;"><?=number_format($sum_col_9,2)?></td>
-            <td style="text-align: center;padding: 5px;">บาท</td>
+            <td style="text-align: right;padding: 5px;"><?php //echo number_format($sum_col_9,2)?></td>
+            <td style="text-align: center;padding: 5px;"></td>
             <td></td>
             <td style="text-align: right;padding: 5px;"></td>
-            <td></td>ecmd
+            <td></td>
         </tr>
         <tr>
             <td></td>
             <td><b>รวม</b></td>
             <td></td>
-            <td style="text-align: right;padding: 5px;"><b><u><?=number_format(($sum_col_10 + $cost_living_price),2)?></u></b></td>
+            <td style="text-align: right;padding: 5px;"><b><u><?=number_format(($sum_col_10 + $cost_living_price + $sum_col_9),2)?></u></b></td>
             <td style="text-align: center;padding: 5px;">บาท</td>
             <td><b>คงเหลือ</b></td>
-            <td style="text-align: right;padding: 5px;"><b><u><?=number_format(($sum_col_10 + $cost_living_price) - $deduct_total - $test_price - $damage_price,2)?></u></b></td>
+            <td style="text-align: right;padding: 5px;"><b><u><?=number_format(($sum_col_10 + $cost_living_price + $sum_col_9) - $deduct_total - $test_price - $damage_price,2)?></u></b></td>
             <td style="text-align: center;padding: 5px;">บาท</td>
         </tr>
     </table>

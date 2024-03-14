@@ -275,6 +275,9 @@ $dropoff_data = \common\models\DropoffPlace::find()->all();
         <div class="col-lg-4"><?= $form->field($model, 'damaged_price')->textinput(['maxlength' => true, 'id' => 'damaged-price',]) ?></div>
         <div class="col-lg-4"><?= $form->field($model, 'deduct_other_price')->textinput(['maxlength' => true, 'id' => 'deduct-other-price',]) ?></div>
     </div>
+    <div class="row">
+        <div class="col-lg-4"><?= $form->field($model, 'work_double_price')->textinput(['maxlength' => true, 'id' => 'work-double-price',]) ?></div>
+    </div>
 
     <br/>
 
