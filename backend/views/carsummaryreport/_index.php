@@ -10,9 +10,9 @@ use kartik\date\DatePicker;
 $model_line = null;
 
 if ($from_date != '' && $to_date != '') {
-    $date_day = date('d', strtotime($from_date));
-    $date_month = \backend\helpers\Thaimonth::getTypeById((int)(date('m', strtotime($from_date))));
-    $date_year = date('Y', strtotime($from_date)) + 543;
+    $date_day = date('d', strtotime($to_date));
+    $date_month = \backend\helpers\Thaimonth::getTypeById((int)(date('m', strtotime($to_date))));
+    $date_year = date('Y', strtotime($to_date)) + 543;
 
     if ($search_car_id != null) {
         $model_line = \common\models\QueryCarWorkSummary::find()->where(['car_id' => $search_car_id])->andFilterWhere(['>=', 'date(work_queue_date)', $from_date])->andFilterWhere(['<=', 'date(work_queue_date)', $to_date])->orderBy(['work_queue_date'=>SORT_ASC])->all();
@@ -364,9 +364,9 @@ $emp_company_id = \backend\models\Employee::findEmpcompanyid($driver_id);
         <tr>
             <td></td>
 
-            <td style="padding-left: 10px;">ค่าพิเศษอื่นๆ</td>
+            <td style="padding-left: 10px;"><b>รวม (เงินเดือน + ค่าเที่ยว)</b></td>
             <td></td>
-            <td style="text-align: right;padding: 5px;"><?php echo number_format($sum_col_9,2)?></td>
+            <td style="text-align: right;padding: 5px;"><b><?php echo number_format($cost_living_price + $sum_col_4,2)?></b></td>
             <td style="text-align: center;padding: 5px;">บาท</td>
             <td style="padding-left: 10px;">ค่าประกันสินค้าเสียหาย</td>
             <td style="text-align: right;padding: 5px;"><?=number_format($damage_price,2)?></td>
@@ -374,10 +374,10 @@ $emp_company_id = \backend\models\Employee::findEmpcompanyid($driver_id);
         </tr>
         <tr>
             <td></td>
-            <td style="padding-left: 10px;"></td>
+            <td style="padding-left: 10px;">ค่าพิเศษอื่นๆ</td>
             <td></td>
-            <td style="text-align: right;padding: 5px;"><?php //echo number_format($sum_col_7,2)?></td>
-            <td style="text-align: center;padding: 5px;"></td>
+            <td style="text-align: right;padding: 5px;"><?php echo number_format($sum_col_9,2)?></td>
+            <td style="text-align: center;padding: 5px;">บาท</td>
             <td style="padding-left: 10px">หักอื่นๆ</td>
             <td style="text-align: right;padding: 5px;"><?=number_format($deduct_other_price,2)?></td>
             <td style="text-align: center;padding: 5px;">บาท</td>
@@ -415,7 +415,17 @@ $emp_company_id = \backend\models\Employee::findEmpcompanyid($driver_id);
     </table>
 
     <br>
-
+    <br>
+    <table style="width: 100%">
+        <tr>
+            <td style="text-align: center;">ลงชื่อ .........................................................................................</td>
+            <td style="text-align: center;">ลงชื่อ .........................................................................................</td>
+        </tr>
+        <tr>
+            <td style="text-align: center;">พขร.</td>
+            <td style="text-align: center;">ผู้จัดการ</td>
+        </tr>
+    </table>
 
 </div>
 
