@@ -118,13 +118,13 @@ class JournalissueController extends Controller
                                         $model_stock->last_update = date('Y-m-d H:i:s');
                                         $model_stock->save(false);
                                     } else {
-                                        $model_new = new \backend\models\Stocksum();
-                                        $model_new->company_id = 1;
-                                        $model_new->item_id = $line_item_id[$i];
-                                        $model_new->warehouse_id = $line_warehouse_id[$i];
-                                        $model_new->qty = (float)$line_qty[$i];
-                                        $model_new->last_update = date('Y-m-d H:i:s');
-                                        $model_new->save(false);
+//                                        $model_new = new \backend\models\Stocksum();
+//                                        $model_new->company_id = 1;
+//                                        $model_new->item_id = $line_item_id[$i];
+//                                        $model_new->warehouse_id = $line_warehouse_id[$i];
+//                                        $model_new->qty = (float)$line_qty[$i];
+//                                        $model_new->last_update = date('Y-m-d H:i:s');
+//                                        $model_new->save(false);
 
                                     }
                                 }
@@ -220,13 +220,13 @@ class JournalissueController extends Controller
                                         $model_stock->last_update = date('Y-m-d H:i:s');
                                         $model_stock->save(false);
                                     } else {
-                                        $model_new = new \backend\models\Stocksum();
-                                        $model_new->company_id = 1;
-                                        $model_new->item_id = $model_return->product_id;
-                                        $model_new->warehouse_id = $line_warehouse_id[$m];
-                                        $model_new->qty = (float)$model_return->qry;
-                                        $model_new->last_update = date('Y-m-d H:i:s');
-                                        $model_new->save(false);
+//                                        $model_new = new \backend\models\Stocksum();
+//                                        $model_new->company_id = 1;
+//                                        $model_new->item_id = $model_return->product_id;
+//                                        $model_new->warehouse_id = $line_warehouse_id[$m];
+//                                        $model_new->qty = (float)$model_return->qry;
+//                                        $model_new->last_update = date('Y-m-d H:i:s');
+//                                        $model_new->save(false);
 
                                     }
                                 }
