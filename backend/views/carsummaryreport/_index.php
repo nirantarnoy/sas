@@ -364,7 +364,7 @@ $emp_company_id = \backend\models\Employee::findEmpcompanyid($driver_id);
         <tr>
             <td></td>
 
-            <td style="padding-left: 10px;"><b>รวม (เงินเดือน + ค่าเที่ยว)</b></td>
+            <td style="padding-left: 10px;"><b>ยอดรวม</b></td>
             <td></td>
             <td style="text-align: right;padding: 5px;"><b><?php echo number_format($cost_living_price + $sum_col_4,2)?></b></td>
             <td style="text-align: center;padding: 5px;">บาท</td>
