@@ -409,7 +409,7 @@ $emp_company_id = \backend\models\Employee::findEmpcompanyid($driver_id);
             <td style="text-align: right;padding: 5px;"><b><u><?=number_format(($sum_col_10 + $cost_living_price + $sum_col_9),2)?></u></b></td>
             <td style="text-align: center;padding: 5px;">บาท</td>
             <td><b>คงเหลือ</b></td>
-            <td style="text-align: right;padding: 5px;"><b><u><?=number_format(($sum_col_10 + $cost_living_price + $sum_col_9) - $deduct_total - $test_price - $damage_price,2)?></u></b></td>
+            <td style="text-align: right;padding: 5px;"><b><u><?=number_format(($sum_col_10 + $cost_living_price + $sum_col_9) - $deduct_total - $test_price - $damage_price - $deduct_other_price,2)?></u></b></td>
             <td style="text-align: center;padding: 5px;">บาท</td>
         </tr>
     </table>
