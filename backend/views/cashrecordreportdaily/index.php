@@ -3,15 +3,12 @@
 use kartik\date\DatePicker;
 
 $model = null;
-$model_total = 0;
-$model_receive_total = 0;
 
 $model = \backend\models\Cashrecord::find()->where(['id' => 1])->one();
-if ($model) {
-    $model_total = \common\models\CashRecordLine::find()->where(['car_record_id' => 1])->sum('amount');
-    $model_receive = \common\models\QueryCashRecordRecieve::find()->where(['ref_no' => trim($model->journal_no)])->all();
-    $model_receive_total = \common\models\QueryCashRecordRecieve::find()->where(['ref_no' => $model->journal_no])->sum('amount');
-}
+//if ($from_date!=null && $to_date != null) {
+$model = \common\models\StockTrans::find()->where(['activity_type_id' => [5, 6]])->all();
+
+//}
 
 ?>
     <div class="row">
@@ -75,8 +72,7 @@ if ($model) {
             <div class="col-lg-12">
                 <table style="width: 100%;border: 1px solid grey;">
                     <tr>
-                        <td style="border: 1px solid grey;width: 5%;text-align: center;padding: 10px;">เดือน</td>
-                        <td style="border: 1px solid grey;width: 5%;text-align: center;">วันที่</td>
+                        <td style="border: 1px solid grey;width: 10%;text-align: center;padding: 10px;">วันที่</td>
                         <td style="border: 1px solid grey;width: 15%;text-align: center;">รายการ</td>
                         <td style="border: 1px solid grey;width: 10%;text-align: center;">ทะเบียน</td>
                         <td style="border: 1px solid grey;width: 10%;text-align: center;">รับ</td>
@@ -86,6 +82,62 @@ if ($model) {
                         <td style="border: 1px solid grey;width: 15%;text-align: center;">ลูกค้า</td>
                         <td style="border: 1px solid grey;width: 10%;text-align: center;">หัก ณ ที่จ่าย1%</td>
                     </tr>
+                    <?php if ($model != null): ?>
+                    <?php
+                        $last_check_date = null;
+                        $line_cash_rec_total_amount = 0;
+                        $line_reciept_total_amount = 0;
+                        ?>
+                        <?php foreach ($model as $value): ?>
+                            <?php
+                            $line_title = '';
+                            $line_carplateno = 0;
+                            $line_cash_rec_amount = 0;
+                            $line_reciept_amount = 0;
+                            $line_last_cash_rec_row = 0;
+                            $xdata = null;
+                            $xrecdata = null;
+                            $xdata = getDetail($value->trans_ref_id);
+                            if ($value->activity_type_id == 5) {
+                                if ($xdata != null) {
+                                    $line_title = $xdata[0]['title_name'];
+                                    $line_carplateno = $xdata[0]['car_plateno'];
+                                    $line_cash_rec_amount = $xdata[0]['amount'];
+
+                                    $line_cash_rec_total_amount += $line_cash_rec_amount;
+                                }
+                            }
+
+
+
+                            if ($value->activity_type_id == 6) {
+                                $xdata = getRecieveDetail($value->trans_ref_id);
+                                if ($xdata != null) {
+                                    $line_title = $xdata[0]['title_name'];
+                                    $line_reciept_amount = $xdata[0]['amount'];
+
+                                    $line_reciept_total_amount += $line_reciept_amount;
+                                }
+                            }
+
+                            ?>
+                            <tr>
+                                <td style="border: 1px solid grey;text-align: center"><?= date('d-m-Y H:i', strtotime($value->trans_date)) ?></td>
+                                <td style="border: 1px solid grey;padding: 3px;"><?= $line_title; ?></td>
+                                <td style="border: 1px solid grey;text-align: center;padding: 3px;"><?= \backend\models\Car::findName($line_carplateno); ?></td>
+                                <td style="border: 1px solid grey;text-align: right;padding: 3px;"><?= $line_reciept_amount == 0 ? '' : number_format($line_reciept_amount, 2) ?></td>
+                                <td style="border: 1px solid grey;text-align: right;padding: 3px;"><?= $line_cash_rec_amount == 0 ? '' : number_format($line_cash_rec_amount, 2) ?></td>
+                                <td style="border: 1px solid grey;text-align: right;padding: 3px;"><?=$line_cash_rec_total_amount == 0 ? '':number_format($line_cash_rec_total_amount,2)?></td>
+                                <td style="border: 1px solid grey;text-align: right;padding: 3px;"></td>
+                                <td style="border: 1px solid grey;padding: 3px;"></td>
+                                <td style="border: 1px solid grey;text-align: right;padding: 3px;"></td>
+                            </tr>
+                        <?php
+                            $last_check_date = date('d-m-Y',strtotime($value->trans_date));
+
+                            ?>
+                        <?php endforeach; ?>
+                    <?php endif; ?>
                 </table>
             </div>
         </div>
@@ -96,7 +148,55 @@ if ($model) {
             <div class="btn btn-default btn-print" onclick="printContent('print-area')">พิมพ์</div>
         </div>
     </div>
+<?php
+function getDetail($refid)
+{
+    $data = [];
+    $amount = 0;
 
+    $sql = "SELECT t1.car_id,t2.car_record_id,t3.name as title_name,SUM(t2.amount) as amount FROM cash_record as t1 INNER JOIN cash_record_line as t2 on t2.car_record_id = t1.id  LEFT JOIN fixcost_title as t3 on t2.cost_title_id = t3.id
+              WHERE t1.id=" . $refid;
+    $sql .= " GROUP BY t1.car_id,t2.car_record_id,t3.name";
+    $sql .= " ORDER BY t1.id";
+    $query = \Yii::$app->db->createCommand($sql);
+    $model = $query->queryAll();
+    if ($model) {
+        for ($i = 0; $i <= count($model) - 1; $i++) {
+            array_push($data, [
+                'title_name' => $model[$i]['title_name'],
+                'amount' => $model[$i]['amount'],
+                'car_plateno' => $model[$i]['car_id'],
+            ]);
+            $amount = $model[$i]['amount'];
+        }
+    }
+    return $data;
+}
+
+function getRecieveDetail($refid)
+{
+    $data = [];
+    $amount = 0;
+
+    $sql = "SELECT t2.reciept_record_id,t3.name as title_name,SUM(t2.amount) as amount FROM reciept_record as t1 INNER JOIN reciept_record_line as t2 on t2.reciept_record_id = t1.id  LEFT JOIN fixcost_title as t3 on t2.receipt_title_id = t3.id
+              WHERE t1.id=" . $refid;
+    $sql .= " GROUP BY t1.id,t2.reciept_record_id,t3.name";
+    $sql .= " ORDER BY t1.id";
+    $query = \Yii::$app->db->createCommand($sql);
+    $model = $query->queryAll();
+    if ($model) {
+        for ($i = 0; $i <= count($model) - 1; $i++) {
+            array_push($data, [
+                'title_name' => $model[$i]['title_name'],
+                'amount' => $model[$i]['amount'],
+            ]);
+            $amount = $model[$i]['amount'];
+        }
+    }
+    return $data;
+}
+
+?>
 <?php
 $js = <<<JS
 function printContent(el)
