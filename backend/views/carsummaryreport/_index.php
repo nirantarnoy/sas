@@ -124,7 +124,7 @@ $emp_company_id = \backend\models\Employee::findEmpcompanyid($driver_id);
     <div class="col-lg-12">
         <form action="<?= \yii\helpers\Url::to(['carsummaryreport/index'], true) ?>" method="post">
             <div class="row">
-                <div class="col-lg-3">
+                <div class="col-lg-2">
                     <label class="form-label">ตั้งแต่วันที่</label>
 
                     <?php
@@ -140,7 +140,7 @@ $emp_company_id = \backend\models\Employee::findEmpcompanyid($driver_id);
                     ?>
 
                 </div>
-                <div class="col-lg-3">
+                <div class="col-lg-2">
 
                     <label class="form-label">ถึงวันที่</label>
                     <?php
@@ -174,9 +174,14 @@ $emp_company_id = \backend\models\Employee::findEmpcompanyid($driver_id);
 
 
                 </div>
+                <div class="col-lg-2">
+
+                    <label class="form-label">% ประกันสังคม</label>
+                    <input type="number" class="form-control" name="social_per" min="0" value="<?=$social_per?>">
+                </div>
                 <div class="col-lg-3">
                     <div style="height: 35px;"></div>
-                    <button class="btn btn-sm btn-primary">ค้นหา</button>
+                    <button class="btn btn-sm btn-primary">ค้นหาและคำนวน</button>
                 </div>
             </div>
         </form>
@@ -264,6 +269,10 @@ $emp_company_id = \backend\models\Employee::findEmpcompanyid($driver_id);
         //$social_per_text = \backend\models\Employee::findSocialPricePer($search_car_id);
         $social_base_price = \backend\models\Company::findSocialbasePrice($emp_company_id);
         $deduct_total = 0;
+
+        if($social_per !=''|| $social_per !=null || $social_per != 0){
+            $social_price = $social_per;
+        }
         ?>
         <?php if ($model_line != null): ?>
             <?php foreach ($model_line as $value): ?>

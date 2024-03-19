@@ -17,6 +17,7 @@ class CarsummaryreportController extends Controller
         $from_date = \Yii::$app->request->post('search_from_date');
         $to_date = \Yii::$app->request->post('search_to_date');
         $search_car_id = \Yii::$app->request->post('search_car_id');
+        $social_per = \Yii::$app->request->post('social_per');
 
         $x1 = explode('-',$from_date);
         $x2 = explode('-',$to_date);
@@ -36,6 +37,7 @@ class CarsummaryreportController extends Controller
             'from_date'=>$from_date_new,
             'to_date'=>$to_date_new,
             'search_car_id' => $search_car_id,
+            'social_per' => $social_per,
         ]);
     }
 
