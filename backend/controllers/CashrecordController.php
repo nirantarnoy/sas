@@ -2,6 +2,7 @@
 
 namespace backend\controllers;
 date_default_timezone_set('Asia/Bangkok');
+
 use backend\models\Cashrecord;
 use backend\models\CashrecordSearch;
 use yii\web\Controller;
@@ -47,7 +48,7 @@ class CashrecordController extends Controller
         $dataProvider = $searchModel->search($this->request->queryParams);
 
         $dataProvider->pagination->pageSize = $pageSize;
-        $dataProvider->setSort(['defaultOrder'=>['id'=>SORT_DESC]]);
+        $dataProvider->setSort(['defaultOrder' => ['id' => SORT_DESC]]);
 
         return $this->render('index', [
             'searchModel' => $searchModel,
@@ -87,7 +88,7 @@ class CashrecordController extends Controller
                     $trans_date = $x[2] . '/' . $x[1] . '/' . $x[0];
                 }
 
-                $model->trans_date =date('Y-m-d',strtotime($trans_date));
+                $model->trans_date = date('Y-m-d', strtotime($trans_date));
                 $model->journal_no = $model->getLastNo();
 
 
@@ -109,8 +110,17 @@ class CashrecordController extends Controller
                             $model_line->remark = $remark[$i];
                             $model_line->status = 1;
                             $model_line->save(false);
+
                         }
                     }
+
+                    // create transaction
+
+                    $model_trans = new \backend\models\Stocktrans();
+                    $model_trans->trans_date = date('Y-m-d H:i:s');
+                    $model_trans->activity_type_id = 5; // cash record
+                    $model_trans->trans_ref_id = $model->id;
+                    $model_trans->save(false);
                 }
 
                 return $this->redirect(['view', 'id' => $model->id]);
@@ -153,13 +163,13 @@ class CashrecordController extends Controller
                 $trans_date = $x[2] . '/' . $x[1] . '/' . $x[0];
             }
 
-            $model->trans_date =date('Y-m-d',strtotime($trans_date));
+            $model->trans_date = date('Y-m-d', strtotime($trans_date));
 
             if ($model->save(false)) {
                 if ($line_id != null) {
                     for ($i = 0; $i <= count($line_id) - 1; $i++) {
                         $model_chk = \common\models\CashRecordLine::find()->where(['id' => $line_id[$i]])->one();
-                        if ($model_chk){
+                        if ($model_chk) {
                             $model_chk->cost_title_id = $cost_title_id[$i];
                             $model_chk->amount = $amount[$i];
                             $model_chk->vat_amount = $vat_amount[$i];
@@ -223,16 +233,17 @@ class CashrecordController extends Controller
 
     public function actionApprove($id)
     {
-        if($id !=null){
-            \backend\models\Cashrecord::updateAll(['status'=>2],['id'=>$id]);
+        if ($id != null) {
+            \backend\models\Cashrecord::updateAll(['status' => 2], ['id' => $id]);
 
         }
         return $this->redirect(['index']);
     }
 
-    function actionPrint($id){
-       $model = \backend\models\Cashrecord::find()->where(['id'=>$id])->one();
-       $model_line = \common\models\CashRecordLine::find()->where(['car_record_id'=>$id])->all();
+    function actionPrint($id)
+    {
+        $model = \backend\models\Cashrecord::find()->where(['id' => $id])->one();
+        $model_line = \common\models\CashRecordLine::find()->where(['car_record_id' => $id])->all();
         return $this->render('_print', [
             'model' => $model,
             'model_line' => $model_line,

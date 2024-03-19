@@ -113,8 +113,16 @@ class RecieptrecordController extends Controller
                             $model_line->remark = $remark[$i];
                             $model_line->status = 1;
                             $model_line->save(false);
+
+
                         }
                     }
+                    // create transaction
+                    $model_trans = new \backend\models\Stocktrans();
+                    $model_trans->trans_date = date('Y-m-d H:i:s');
+                    $model_trans->activity_type_id = 6; // recieve record
+                    $model_trans->trans_ref_id = $model->id;
+                    $model_trans->save(false);
 
                 }
                 return $this->redirect(['view', 'id' => $model->id]);
