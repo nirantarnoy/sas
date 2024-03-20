@@ -86,7 +86,7 @@ $model = \common\models\StockTrans::find()->where(['activity_type_id' => [5, 6]]
                     <?php
                         $last_check_date = null;
                         $line_cash_rec_total_amount = 0;
-                        $line_reciept_total_amount = 0;
+                        $line_reciept_total_amount = 15000;
                         ?>
                         <?php foreach ($model as $value): ?>
                             <?php
@@ -125,9 +125,9 @@ $model = \common\models\StockTrans::find()->where(['activity_type_id' => [5, 6]]
                                 <td style="border: 1px solid grey;text-align: center"><?= date('d-m-Y H:i', strtotime($value->trans_date)) ?></td>
                                 <td style="border: 1px solid grey;padding: 3px;"><?= $line_title; ?></td>
                                 <td style="border: 1px solid grey;text-align: center;padding: 3px;"><?= \backend\models\Car::findName($line_carplateno); ?></td>
-                                <td style="border: 1px solid grey;text-align: right;padding: 3px;"><?= $line_reciept_amount == 0 ? '' : number_format($line_reciept_amount, 2) ?></td>
-                                <td style="border: 1px solid grey;text-align: right;padding: 3px;"><?= $line_cash_rec_amount == 0 ? '' : number_format($line_cash_rec_amount, 2) ?></td>
-                                <td style="border: 1px solid grey;text-align: right;padding: 3px;"><?php //echo $line_cash_rec_total_amount == 0 ? '':number_format($line_cash_rec_total_amount,2)?></td>
+                                <td style="border: 1px solid grey;text-align: right;padding: 3px;color: green;"><?= $line_reciept_amount == 0 ? '' : number_format($line_reciept_amount, 2) ?></td>
+                                <td style="border: 1px solid grey;text-align: right;padding: 3px;color: red;"><?= $line_cash_rec_amount == 0 ? '' : number_format($line_cash_rec_amount, 2) ?></td>
+                                <td style="border: 1px solid grey;text-align: right;padding: 3px;"><?php echo $line_cash_rec_total_amount == 0 ? '':number_format(($line_reciept_total_amount -$line_cash_rec_total_amount),2)?></td>
                                 <td style="border: 1px solid grey;text-align: right;padding: 3px;"></td>
                                 <td style="border: 1px solid grey;padding: 3px;"></td>
                                 <td style="border: 1px solid grey;text-align: right;padding: 3px;"></td>
