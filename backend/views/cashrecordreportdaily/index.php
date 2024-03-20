@@ -4,7 +4,6 @@ use kartik\date\DatePicker;
 
 $model = null;
 
-$model = \backend\models\Cashrecord::find()->where(['id' => 1])->one();
 //if ($from_date!=null && $to_date != null) {
 $model = \common\models\StockTrans::find()->where(['activity_type_id' => [5, 6]])->all();
 
@@ -15,7 +14,7 @@ $model = \common\models\StockTrans::find()->where(['activity_type_id' => [5, 6]]
         <div class="col-lg-12">
             <form action="<?= \yii\helpers\Url::to(['cashrecordreportdaily/index'], true) ?>" method="post">
                 <div class="row">
-                    <div class="col-lg-3">
+                    <div class="col-lg-2">
                         <label class="form-label">ตั้งแต่วันที่</label>
 
                         <?php
@@ -31,7 +30,7 @@ $model = \common\models\StockTrans::find()->where(['activity_type_id' => [5, 6]]
                         ?>
 
                     </div>
-                    <div class="col-lg-3">
+                    <div class="col-lg-2">
 
                         <label class="form-label">ถึงวันที่</label>
                         <?php
@@ -42,6 +41,38 @@ $model = \common\models\StockTrans::find()->where(['activity_type_id' => [5, 6]]
                             'pluginOptions' => [
                                 'autoclose' => true,
                                 'format' => 'dd-mm-yyyy'
+                            ]
+                        ]);
+                        ?>
+                    </div>
+                    <div class="col-lg-2">
+                        <label class="form-label">บริษัท</label>
+                        <?php
+                        echo \kartik\select2\Select2::widget([
+                            'name' => 'search_company_id',
+                            'data' => \yii\helpers\ArrayHelper::map(\common\models\Company::find()->where(['status' => 1])->all(), 'id', 'name'),
+                            'value' => $search_company_id,
+                            'options' => [
+                                'placeholder' => '---เลือกบริษัท---'
+                            ],
+                            'pluginOptions' => [
+                                'allowClear' => true,
+                            ]
+                        ]);
+                        ?>
+                    </div>
+                    <div class="col-lg-2">
+                        <label class="form-label">สำนักงาน</label>
+                        <?php
+                        echo \kartik\select2\Select2::widget([
+                            'name' => 'search_office_id',
+                            'data' => \yii\helpers\ArrayHelper::map(\backend\helpers\OfficeType::asArrayObject(), 'id', 'name'),
+                            'value' => $search_office_id,
+                            'options' => [
+                                'placeholder' => '---เลือกสำนักงาน---'
+                            ],
+                            'pluginOptions' => [
+                                'allowClear' => true,
                             ]
                         ]);
                         ?>

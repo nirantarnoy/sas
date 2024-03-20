@@ -43,6 +43,8 @@ class CashrecordreportdailyController extends Controller
     {
         $from_date = \Yii::$app->request->post('search_from_date');
         $to_date = \Yii::$app->request->post('search_to_date');
+        $search_company_id = \Yii::$app->request->post('search_company_id');
+        $search_office_id = \Yii::$app->request->post('search_office_id');
 
         $x1 = explode('-', $from_date);
         $x2 = explode('-', $to_date);
@@ -61,6 +63,8 @@ class CashrecordreportdailyController extends Controller
         return $this->render('index', [
             'from_date' => $from_date_new,
             'to_date' => $to_date_new,
+            'search_company_id' =>$search_company_id,
+            'search_office_id' =>$search_office_id,
         ]);
 
     }
