@@ -86,7 +86,7 @@ $model = \common\models\StockTrans::find()->where(['activity_type_id' => [5, 6]]
                     <?php
                         $last_check_date = null;
                         $line_cash_rec_total_amount = 0;
-                        $line_reciept_total_amount = 15000;
+                        $line_reciept_total_amount = 100000;
                         ?>
                         <?php foreach ($model as $value): ?>
                             <?php
