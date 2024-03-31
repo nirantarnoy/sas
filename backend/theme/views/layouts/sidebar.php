@@ -77,6 +77,12 @@
                                     <p>เงื่อนไขชำระเงิน</p>
                                 </a>
                             </li>
+                            <li class="nav-item">
+                                <a href="index.php?r=doccontrol" class="nav-link doccontrol">
+                                    <i class="far fa-file-import nav-icon"></i>
+                                    <p>จัดการเอกสาร</p>
+                                </a>
+                            </li>
                         </ul>
                     </li>
                 <?php endif; ?>

@@ -129,6 +129,7 @@ $model = \common\models\StockTrans::find()->where(['activity_type_id' => [5, 6]]
                             $xdata = null;
                             $xrecdata = null;
                             $xdata = getDetail($value->trans_ref_id);
+
                             if ($value->activity_type_id == 5) {
                                 if ($xdata != null) {
                                     $line_title = $xdata[0]['title_name'];
