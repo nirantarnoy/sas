@@ -115,9 +115,16 @@ $model = \common\models\StockTrans::find()->where(['activity_type_id' => [5, 6]]
                     </tr>
                     <?php if ($model != null): ?>
                     <?php
+                        $is_last_trans_balance  =0;
                         $last_check_date = null;
                         $line_cash_rec_total_amount = 0;
-                        $line_reciept_total_amount = 100000;
+                        $line_reciept_total_amount = 0;
+
+                        if($is_last_trans_balance ==0){
+                            $line_reciept_total_amount = getMonthbalance(2024,4);
+                            $is_last_trans_balance = 1;
+                        }
+
                         ?>
                         <?php foreach ($model as $value): ?>
                             <?php
@@ -226,6 +233,22 @@ function getRecieveDetail($refid)
         }
     }
     return $data;
+}
+
+function getMonthbalance($year,$month)
+{
+    $amount = 0;
+
+    $sql = "SELECT balance_amount FROM daily_trans_close WHERE trans_year=" . $year;
+    $sql .= " AND trans_month=". $month;
+    $query = \Yii::$app->db->createCommand($sql);
+    $model = $query->queryAll();
+    if ($model) {
+        for ($i = 0; $i <= count($model) - 1; $i++) {
+            $amount = $model[$i]['balance_amount'];
+        }
+    }
+    return $amount;
 }
 
 ?>
