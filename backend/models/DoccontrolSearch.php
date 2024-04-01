@@ -61,11 +61,24 @@ class DoccontrolSearch extends Doccontrol
             'id' => $this->id,
             'company_id' => $this->company_id,
             'start_date' => $this->start_date,
-            'exp_date' => $this->exp_date,
+//            'exp_date' => $this->exp_date,
             'status' => $this->status,
             'created_at' => $this->created_at,
             'created_by' => $this->created_by,
         ]);
+
+        if($this->exp_date!=null){
+            $xp_date = null;
+            $xdata = explode('-',$this->exp_date);
+            if($xdata!=null){
+                if(count($xdata)>1){
+                    $xp_date = $xdata[2].'/'.$xdata[1].'/'.$xdata[0];
+                }
+            }
+            if($xp_date!= null){
+                $query->andFilterWhere(['date(exp_date)'=>date('Y-m-d',strtotime($xp_date))]);
+            }
+        }
 
         $query->andFilterWhere(['like', 'name', $this->name])
             ->andFilterWhere(['like', 'description', $this->description])
