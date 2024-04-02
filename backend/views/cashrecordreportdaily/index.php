@@ -148,7 +148,6 @@ $model = \common\models\StockTrans::find()->where(['activity_type_id' => [5, 6]]
                             }
 
 
-
                             if ($value->activity_type_id == 6) {
                                 $xdata = getRecieveDetail($value->trans_ref_id);
                                 if ($xdata != null) {
