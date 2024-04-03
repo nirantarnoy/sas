@@ -203,7 +203,7 @@ $dropoff_data = \common\models\DropoffPlace::find()->all();
 
 
     <div class="row">
-        <div class="col-lg-4">
+        <div class="col-lg-3">
             <?= $form->field($model, 'tail_back_id')->Widget(\kartik\select2\Select2::className(), [
                 'data' => \yii\helpers\ArrayHelper::map(\backend\models\Car::find()->where(['type_id' => '2'])->all(), 'id', function ($data) {
                     return $data->name;
@@ -214,13 +214,17 @@ $dropoff_data = \common\models\DropoffPlace::find()->all();
                 ]
             ]) ?>
         </div>
-        <div class="col-lg-4">
+        <div class="col-lg-3">
             <label for="">ทะเบียน</label>
             <input type="text" class="form-control tail-back-plate-no" value="<?= $t_back_plate ?>" readonly>
         </div>
-        <div class="col-lg-4">
+        <div class="col-lg-3">
             <label for="">ราคาน้ำมัน</label>
             <input type="text" class="form-control oil-daily-price" name="oil_daily_price" value="<?=$model->oil_daily_price?>" >
+        </div>
+        <div class="col-lg-3">
+            <label for="">ราคาน้ำมันปั๊มนอก</label>
+            <input type="text" class="form-control oil-out-price" name="oil_out_price" value="<?=$model->oil_out_price?>" >
         </div>
     </div>
     <div class="row">

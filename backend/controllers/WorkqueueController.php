@@ -202,6 +202,7 @@ class WorkqueueController extends Controller
             $weight = \Yii::$app->request->post('weight');
 
             $oil_daily_price = \Yii::$app->request->post('oil_daily_price');
+            $oil_out_price = \Yii::$app->request->post('oil_out_price');
             $total_distance = \Yii::$app->request->post('total_distance');
             $total_lite = \Yii::$app->request->post('total_lite');
             $total_amount = \Yii::$app->request->post('total_amount');
@@ -212,6 +213,7 @@ class WorkqueueController extends Controller
 //            print_r($dropoff_id);
 //            print_r($weight);return;
             $model->oil_daily_price = $oil_daily_price;
+            $model->oil_out_price = $oil_out_price;
             $model->total_distance = $total_distance;
             $model->total_lite = $total_lite;
             $model->total_amount = $total_amount;
