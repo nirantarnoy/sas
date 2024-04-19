@@ -2,17 +2,19 @@
 
 use yii\helpers\Html;
 
-/** @var yii\web\View $this */
-/** @var backend\models\Workorder $model */
+/* @var $this yii\web\View */
+/* @var $model backend\models\Workorder */
 
 $this->title = 'สร้างใบแจ้งซ่อม';
 $this->params['breadcrumbs'][] = ['label' => 'ใบแจ้งซ่อม', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="workorder-create">
+
+    <br>
+
     <?= $this->render('_form', [
         'model' => $model,
-        'model_line' => null,
     ]) ?>
 
 </div>

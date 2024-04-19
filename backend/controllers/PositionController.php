@@ -2,14 +2,11 @@
 
 namespace backend\controllers;
 
-use backend\models\EmployeeSearch;
-use backend\models\PaymenttermSearch;
+use backend\models\CashrecordSearch;
 use Yii;
 use backend\models\Position;
 use backend\models\PositionSearch;
-use yii\filters\AccessControl;
 use yii\web\Controller;
-use yii\web\ForbiddenHttpException;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
@@ -17,7 +14,9 @@ use yii\filters\VerbFilter;
  * PositionController implements the CRUD actions for Position model.
  */
 class PositionController extends Controller
+
 {
+    public $enableCsrfValidation = false;
     /**
      * {@inheritdoc}
      */
@@ -30,24 +29,6 @@ class PositionController extends Controller
                     'delete' => ['POST'],
                 ],
             ],
-//            'access'=>[
-//                'class'=>AccessControl::className(),
-//                'denyCallback' => function ($rule, $action) {
-//                    throw new ForbiddenHttpException('คุณไม่ได้รับอนุญาติให้เข้าใช้งาน!');
-//                },
-//                'rules'=>[
-//                    [
-//                        'allow'=>true,
-//                        'roles'=>['@'],
-//                        'matchCallback'=>function($rule,$action){
-//                            $currentRoute = \Yii::$app->controller->getRoute();
-//                            if(\Yii::$app->user->can($currentRoute)){
-//                                return true;
-//                            }
-//                        }
-//                    ]
-//                ]
-//            ],
         ];
     }
 
@@ -57,30 +38,18 @@ class PositionController extends Controller
      */
     public function actionIndex()
     {
-        $viewstatus = 1;
-
-        if(\Yii::$app->request->get('viewstatus')!=null){
-            $viewstatus = \Yii::$app->request->get('viewstatus');
-        }
-
         $pageSize = \Yii::$app->request->post("perpage");
-        $searchModel = new PositionSearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-        if($viewstatus ==1){
-            $dataProvider->query->andFilterWhere(['status'=>$viewstatus]);
-        }
-        if($viewstatus == 2){
-            $dataProvider->query->andFilterWhere(['status'=>0]);
-        }
 
-        $dataProvider->setSort(['defaultOrder' => ['id' => SORT_DESC]]);
+        $searchModel = new PositionSearch();
+        $dataProvider = $searchModel->search($this->request->queryParams);
+
         $dataProvider->pagination->pageSize = $pageSize;
+        $dataProvider->setSort(['defaultOrder' => ['id' => SORT_DESC]]);
 
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
             'perpage' => $pageSize,
-            'viewstatus'=>$viewstatus,
         ]);
     }
 
@@ -106,13 +75,8 @@ class PositionController extends Controller
     {
         $model = new Position();
 
-        if ($model->load(Yii::$app->request->post())) {
-            $model->company_id = 1;
-
-            if($model->save()){
-                return $this->redirect(['view', 'id' => $model->id]);
-            }
-
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            return $this->redirect(['view', 'id' => $model->id]);
         }
 
         return $this->render('create', [

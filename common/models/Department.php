@@ -10,8 +10,9 @@ use Yii;
  * @property int $id
  * @property string|null $code
  * @property string|null $name
- * @property int|null $status
+ * @property string|null $description
  * @property int|null $company_id
+ * @property int|null $status
  * @property int|null $created_at
  * @property int|null $created_by
  * @property int|null $updated_at
@@ -33,8 +34,8 @@ class Department extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['status', 'company_id', 'created_at', 'created_by', 'updated_at', 'updated_by'], 'integer'],
-            [['code', 'name'], 'string', 'max' => 255],
+            [['company_id', 'status', 'created_at', 'created_by', 'updated_at', 'updated_by'], 'integer'],
+            [['code', 'name', 'description'], 'string', 'max' => 255],
         ];
     }
 
@@ -45,10 +46,11 @@ class Department extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'code' => 'รหัสแผนก',
+            'code' => 'รหัส',
             'name' => 'ชื่อแผนก',
-            'status' => 'สถานะ',
+            'description' => 'รายละเอียด',
             'company_id' => 'บริษัท',
+            'status' => 'สถานะ',
             'created_at' => 'Created At',
             'created_by' => 'Created By',
             'updated_at' => 'Updated At',

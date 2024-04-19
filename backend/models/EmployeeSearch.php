@@ -11,12 +11,16 @@ use backend\models\Employee;
  */
 class EmployeeSearch extends Employee
 {
+    /**
+     * {@inheritdoc}
+     */
     public $globalSearch;
+
     public function rules()
     {
         return [
-            [['id', 'gender', 'position', 'salary_type', 'status', 'company_id', 'created_at', 'updated_at', 'created_by', 'updated_by'], 'integer'],
-            [['code', 'fname', 'lname', 'emp_start', 'description', 'photo'], 'safe'],
+            [['id', 'department_id', 'gender', 'position_id', 'status', 'created_at', 'created_by', 'updated_at', 'updated_by'], 'integer'],
+            [['code', 'fname', 'lname'], 'safe'],
             [['globalSearch'],'string']
         ];
     }
@@ -58,32 +62,19 @@ class EmployeeSearch extends Employee
         // grid filtering conditions
         $query->andFilterWhere([
             'id' => $this->id,
+            'department_id' => $this->department_id,
             'gender' => $this->gender,
-            'position' => $this->position,
-            'salary_type' => $this->salary_type,
-            'emp_start' => $this->emp_start,
+            'position_id' => $this->position_id,
             'status' => $this->status,
-            'company_id' => $this->company_id,
             'created_at' => $this->created_at,
-            'updated_at' => $this->updated_at,
             'created_by' => $this->created_by,
+            'updated_at' => $this->updated_at,
             'updated_by' => $this->updated_by,
         ]);
 
-        if (!empty(\Yii::$app->user->identity->company_id)) {
-            $query->andFilterWhere(['company_id' => \Yii::$app->user->identity->company_id]);
-        }
-        if (!empty(\Yii::$app->user->identity->branch_id)) {
-            $query->andFilterWhere(['branch_id' => \Yii::$app->user->identity->branch_id]);
-        }
-
-        if($this->globalSearch != ''){
-            $query->orFilterWhere(['like', 'code', $this->globalSearch])
-                ->orFilterWhere(['like', 'fname', $this->globalSearch])
-                ->orFilterWhere(['like', 'lname', $this->globalSearch])
-                ->orFilterWhere(['like', 'description', $this->globalSearch])
-                ->orFilterWhere(['like', 'photo', $this->globalSearch]);
-        }
+        $query->andFilterWhere(['like', 'code', $this->globalSearch])
+            ->andFilterWhere(['like', 'fname', $this->globalSearch])
+            ->andFilterWhere(['like', 'lname', $this->globalSearch]);
 
         return $dataProvider;
     }

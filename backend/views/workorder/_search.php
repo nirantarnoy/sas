@@ -3,9 +3,9 @@
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
-/** @var yii\web\View $this */
-/** @var backend\models\WorkorderSearch $model */
-/** @var yii\widgets\ActiveForm $form */
+/* @var $this yii\web\View */
+/* @var $model backend\models\WorkorderSearch */
+/* @var $form yii\widgets\ActiveForm */
 ?>
 
 <div class="workorder-search">
@@ -25,6 +25,7 @@ use yii\widgets\ActiveForm;
 
         </div>
     </div>
+
     <?php ActiveForm::end(); ?>
 
 </div>

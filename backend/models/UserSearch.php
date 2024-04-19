@@ -11,11 +11,16 @@ use backend\models\User;
  */
 class UserSearch extends User
 {
+    /**
+     * {@inheritdoc}
+     */
+
     public $globalSearch;
+
     public function rules()
     {
         return [
-            [['id', 'status', 'created_at', 'updated_at'], 'integer'],
+            [['id', 'status', 'created_at', 'updated_at', 'usergroup_id', 'emp_ref_id'], 'integer'],
             [['username', 'auth_key', 'password_hash', 'password_reset_token', 'email', 'verification_token'], 'safe'],
             [['globalSearch'],'string']
         ];
@@ -61,13 +66,16 @@ class UserSearch extends User
             'status' => $this->status,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
+            'usergroup_id' => $this->usergroup_id,
+            'emp_ref_id' => $this->emp_ref_id,
         ]);
 
-        if($this->globalSearch !=''){
-            $query->orFilterWhere(['like', 'username', $this->globalSearch])
-                ->orFilterWhere(['like', 'email', $this->globalSearch]);
-        }
-
+        $query->andFilterWhere(['like', 'username', $this->globalSearch])
+            ->andFilterWhere(['like', 'auth_key', $this->globalSearch])
+            ->andFilterWhere(['like', 'password_hash', $this->globalSearch])
+            ->andFilterWhere(['like', 'password_reset_token', $this->globalSearch])
+            ->andFilterWhere(['like', 'email', $this->globalSearch])
+            ->andFilterWhere(['like', 'verification_token', $this->globalSearch]);
 
         return $dataProvider;
     }

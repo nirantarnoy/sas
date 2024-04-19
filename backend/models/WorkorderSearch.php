@@ -11,16 +11,18 @@ use backend\models\Workorder;
  */
 class WorkorderSearch extends Workorder
 {
-    public $globalSearch;
     /**
      * {@inheritdoc}
      */
+
+    public $globalSearch;
+
     public function rules()
     {
         return [
-            [['id', 'emp_inform_id', 'car_id', 'mile_data', 'is_other', 'approval_emp_id', 'emp_notify_id', 'status', 'created_at', 'created_by', 'updated_at', 'updated_by', 'car_type_id'], 'integer'],
-            [['trans_date', 'workorder_no', 'other_text'], 'safe'],
-            [['globalSearch'],'string'],
+            [['id', 'asset_id', 'assign_emp_id', 'status', 'created_at', 'created_by', 'updated_at', 'updated_by'], 'integer'],
+            [['workorder_no', 'workorder_date', 'work_recieve_date', 'work_assign_date'], 'safe'],
+            [['globalSearch'],'string']
         ];
     }
 
@@ -61,26 +63,19 @@ class WorkorderSearch extends Workorder
         // grid filtering conditions
         $query->andFilterWhere([
             'id' => $this->id,
-            'trans_date' => $this->trans_date,
-            'emp_inform_id' => $this->emp_inform_id,
-            'car_id' => $this->car_id,
-            'mile_data' => $this->mile_data,
-            'is_other' => $this->is_other,
-            'approval_emp_id' => $this->approval_emp_id,
-            'emp_notify_id' => $this->emp_notify_id,
+            'workorder_date' => $this->workorder_date,
+            'asset_id' => $this->asset_id,
+            'assign_emp_id' => $this->assign_emp_id,
+            'work_recieve_date' => $this->work_recieve_date,
+            'work_assign_date' => $this->work_assign_date,
             'status' => $this->status,
             'created_at' => $this->created_at,
             'created_by' => $this->created_by,
             'updated_at' => $this->updated_at,
             'updated_by' => $this->updated_by,
-            'car_type_id' => $this->car_type_id,
         ]);
 
-        if($this->globalSearch!=''){
-            $query->orFilterWhere(['like', 'workorder_no', $this->globalSearch])
-                ->orFilterWhere(['like', 'other_text', $this->globalSearch]);
-        }
-
+        $query->andFilterWhere(['like', 'workorder_no', $this->globalSearch]);
 
         return $dataProvider;
     }

@@ -1,6 +1,6 @@
 <?php
 namespace backend\models;
-use Symfony\Component\Mime\Part\DataPart;
+use common\models\USRNVALCANIZEASSIGNLINE;
 use Yii;
 use yii\db\ActiveRecord;
 date_default_timezone_set('Asia/Bangkok');
@@ -24,20 +24,20 @@ class Department extends \common\models\Department
                 ],
                 'value'=> time(),
             ],
-//            'timestampcby'=>[
-//                'class'=> \yii\behaviors\AttributeBehavior::className(),
-//                'attributes'=>[
-//                    ActiveRecord::EVENT_BEFORE_INSERT=>'created_by',
-//                ],
-//                'value'=> Yii::$app->user->identity->id,
-//            ],
-//            'timestamuby'=>[
-//                'class'=> \yii\behaviors\AttributeBehavior::className(),
-//                'attributes'=>[
-//                    ActiveRecord::EVENT_BEFORE_UPDATE=>'updated_by',
-//                ],
-//                'value'=> Yii::$app->user->identity->id,
-//            ],
+            'timestampcby'=>[
+                'class'=> \yii\behaviors\AttributeBehavior::className(),
+                'attributes'=>[
+                    ActiveRecord::EVENT_BEFORE_INSERT=>'created_by',
+                ],
+                'value'=> Yii::$app->user->identity->id,
+            ],
+            'timestamuby'=>[
+                'class'=> \yii\behaviors\AttributeBehavior::className(),
+                'attributes'=>[
+                    ActiveRecord::EVENT_BEFORE_UPDATE=>'updated_by',
+                ],
+                'value'=> Yii::$app->user->identity->id,
+            ],
             'timestampupdate'=>[
                 'class'=> \yii\behaviors\AttributeBehavior::className(),
                 'attributes'=>[
@@ -48,17 +48,19 @@ class Department extends \common\models\Department
         ];
     }
 
-//    public function findUnitname($id){
-//        $model = Unit::find()->where(['id'=>$id])->one();
-//        return count($model)>0?$model->name:'';
-//    }
-    public static function findName($id){
-        $model = Department::find()->where(['id'=>$id])->one();
-        return $model!= null?$model->name:'';
+    public function findPersonNum($id){
+        $model = \backend\models\User::find()->where(['id'=>$id])->one();
+        return $model != null?$model->username:'';
+        // return 'niran';
     }
-//    public function findUnitid($code){
-//        $model = Unit::find()->where(['name'=>$code])->one();
+//    public function findId($code){
+//        $model = Costitem::find()->where(['name'=>$code])->one();
 //        return count($model)>0?$model->id:0;
 //    }
+//    public function findCode($code){
+//        $model = Vendor::find()->where(['name'=>$code])->one();
+//        return count($model)>0?$model->name:"";
+//    }
+
 
 }

@@ -1,22 +1,20 @@
 <?php
 
-use backend\models\Department;
 use yii\helpers\Html;
-use yii\helpers\Url;
-use yii\grid\ActionColumn;
 use yii\grid\GridView;
 use yii\widgets\Pjax;
 use yii\widgets\LinkPager;
-/** @var yii\web\View $this */
-/** @var backend\models\DepartmentSearch $searchModel */
-/** @var yii\data\ActiveDataProvider $dataProvider */
+use yii\helpers\Url;
+/* @var $this yii\web\View */
+/* @var $searchModel backend\models\DepartmentSearch */
+/* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'ข้อมูลแผนก';
-$this->params['breadcrumbs'][] = $this->title;
+$this->title = 'แผนก';
+$this->params['breadcrumbs'][] = '/ '.$this->title;
 ?>
-<div class="customer-index">
+<div class="department-index">
 
-
+    <br />
     <div class="row">
         <div class="col-lg-10">
             <p>
@@ -24,7 +22,7 @@ $this->params['breadcrumbs'][] = $this->title;
             </p>
         </div>
         <div class="col-lg-2" style="text-align: right">
-            <form id="form-perpage" class="form-inline" action="<?= Url::to(['customer/index'], true) ?>"
+            <form id="form-perpage" class="form-inline" action="<?= Url::to(['department/index'], true) ?>"
                   method="post">
                 <div class="form-group">
                     <label>แสดง </label>
@@ -40,12 +38,11 @@ $this->params['breadcrumbs'][] = $this->title;
     </div>
 
     <?php Pjax::begin(); ?>
-    <?php echo $this->render('_search', ['model' => $searchModel]); ?>
-
+    <?php  echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
-        'emptyCell' => '-',
+        //        'filterModel' => $searchModel,
         'layout' => "{items}\n{summary}\n<div class='text-center'>{pager}</div>",
         'summary' => "แสดง {begin} - {end} ของทั้งหมด {totalCount} รายการ",
         'showOnEmpty' => false,
@@ -55,34 +52,38 @@ $this->params['breadcrumbs'][] = $this->title;
         'id' => 'product-grid',
         //'tableOptions' => ['class' => 'table table-hover'],
         'emptyText' => '<div style="color: red;text-align: center;"> <b>ไม่พบรายการไดๆ</b> <span> เพิ่มรายการโดยการคลิกที่ปุ่ม </span><span class="text-success">"สร้างใหม่"</span></div>',
-//        'filterModel' => $searchModel,
+
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
+
+//            'id',
             'code',
             'name',
-            [
-                'attribute' => 'status',
-                'format' => 'raw',
-                'value' => function ($data) {
-                    if ($data->status == 1) {
-                        return '<div class="badge badge-success" >ใช้งาน</div>';
-                    } else {
-                        return '<div class="badge badge-secondary" >ไม่ใช้งาน</div>';
-                    }
-                }
-            ],
-            //'crated_at',
+            'description',
+            'company_id',
+            //'status',
+            //'created_at',
             //'created_by',
             //'updated_at',
-            //'udpated_by',
+            //'updated_by',
+
             [
 
                 'header' => 'ตัวเลือก',
                 'headerOptions' => ['style' => 'text-align:center;', 'class' => 'activity-view-link',],
                 'class' => 'yii\grid\ActionColumn',
                 'contentOptions' => ['style' => 'text-align: center'],
-                'template' => '{view} {update}{delete}',
+                'template' => '{paymentloan}{view}{update}{delete}',
                 'buttons' => [
+                    'paymentloan' => function ($url, $data, $index) {
+                        $options = [
+                            'title' => Yii::t('yii', 'View'),
+                            'aria-label' => Yii::t('yii', 'View'),
+                            'data-pjax' => '0',
+                        ];
+                        return Html::a(
+                            '<span class="fas fa-check-circle btn btn-xs btn-warning"></span>', $url, $options);
+                    },
                     'view' => function ($url, $data, $index) {
                         $options = [
                             'title' => Yii::t('yii', 'View'),
@@ -127,8 +128,6 @@ $this->params['breadcrumbs'][] = $this->title;
         ],
         'pager' => ['class' => LinkPager::className()],
     ]); ?>
-
-
 
     <?php Pjax::end(); ?>
 

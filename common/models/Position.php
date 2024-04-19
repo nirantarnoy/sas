@@ -12,7 +12,6 @@ use Yii;
  * @property string|null $name
  * @property string|null $description
  * @property int|null $status
- * @property int|null $company_id
  * @property int|null $created_at
  * @property int|null $created_by
  * @property int|null $updated_at
@@ -34,7 +33,7 @@ class Position extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['status', 'company_id', 'created_at', 'created_by', 'updated_at', 'updated_by'], 'integer'],
+            [['status', 'created_at', 'created_by', 'updated_at', 'updated_by'], 'integer'],
             [['code', 'name', 'description'], 'string', 'max' => 255],
         ];
     }
@@ -47,10 +46,9 @@ class Position extends \yii\db\ActiveRecord
         return [
             'id' => 'ID',
             'code' => 'รหัส',
-            'name' => 'ชื่อ',
+            'name' => 'ชื่อตำแหน่ง',
             'description' => 'รายละเอียด',
             'status' => 'สถานะ',
-            'company_id' => 'บริษัท',
             'created_at' => 'Created At',
             'created_by' => 'Created By',
             'updated_at' => 'Updated At',

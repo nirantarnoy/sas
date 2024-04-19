@@ -1,23 +1,20 @@
 <?php
 
-use backend\models\Workorder;
 use yii\helpers\Html;
-use yii\helpers\Url;
-use yii\grid\ActionColumn;
 use yii\grid\GridView;
 use yii\widgets\Pjax;
 use yii\widgets\LinkPager;
-
-/** @var yii\web\View $this */
-/** @var backend\models\WorkorderSearch $searchModel */
-/** @var yii\data\ActiveDataProvider $dataProvider */
+use yii\helpers\Url;
+/* @var $this yii\web\View */
+/* @var $searchModel backend\models\WorkorderSearch */
+/* @var $dataProvider yii\data\ActiveDataProvider */
 
 $this->title = 'ใบแจ้งซ่อม';
-$this->params['breadcrumbs'][] = $this->title;
+$this->params['breadcrumbs'][] = '/ '.$this->title;
 ?>
 <div class="workorder-index">
 
-    <?php Pjax::begin(); ?>
+    <br />
     <div class="row">
         <div class="col-lg-10">
             <p>
@@ -25,7 +22,7 @@ $this->params['breadcrumbs'][] = $this->title;
             </p>
         </div>
         <div class="col-lg-2" style="text-align: right">
-            <form id="form-perpage" class="form-inline" action="<?= Url::to(['employee/index'], true) ?>"
+            <form id="form-perpage" class="form-inline" action="<?= Url::to(['workorder/index'], true) ?>"
                   method="post">
                 <div class="form-group">
                     <label>แสดง </label>
@@ -39,12 +36,13 @@ $this->params['breadcrumbs'][] = $this->title;
             </form>
         </div>
     </div>
-    <?php echo $this->render('_search', ['model' => $searchModel, 'viewstatus' => $viewstatus]); ?>
+
+    <?php Pjax::begin(); ?>
+    <?php  echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
-        // 'filterModel' => $searchModel,
-        'emptyCell' => '-',
+        //        'filterModel' => $searchModel,
         'layout' => "{items}\n{summary}\n<div class='text-center'>{pager}</div>",
         'summary' => "แสดง {begin} - {end} ของทั้งหมด {totalCount} รายการ",
         'showOnEmpty' => false,
@@ -54,40 +52,22 @@ $this->params['breadcrumbs'][] = $this->title;
         'id' => 'product-grid',
         //'tableOptions' => ['class' => 'table table-hover'],
         'emptyText' => '<div style="color: red;text-align: center;"> <b>ไม่พบรายการไดๆ</b> <span> เพิ่มรายการโดยการคลิกที่ปุ่ม </span><span class="text-success">"สร้างใหม่"</span></div>',
+
         'columns' => [
-            [
-                'class' => 'yii\grid\SerialColumn',
-                'headerOptions' => ['style' => 'text-align:center;'],
-                'contentOptions' => ['style' => 'text-align: center'],
-            ],
-            [
-                'attribute' => 'trans_date',
-                'value' => function ($data) {
-                    return date('d-m-Y',strtotime($data->trans_date));
-                }
-            ],
+            ['class' => 'yii\grid\SerialColumn'],
+
+//            'id',
             'workorder_no',
-            [
-                'attribute' => 'emp_inform_id',
-                'value' => function ($data) {
-                    return \backend\models\Employee::findFullName($data->emp_inform_id);
-                }
-            ],
-            [
-                'attribute' => 'car_id',
-                'value' => function ($data) {
-                    return \backend\models\Car::findName($data->car_id);
-                }
-            ],
-            'mile_data',
-            [
-                'attribute' => 'status',
-                'headerOptions' => ['style' => 'text-align: center'],
-                'contentOptions' => ['style' => 'text-align: center'],
-                'value' => function ($data) {
-                   return \backend\helpers\WorkorderStatus::getTypeById($data->status);
-                }
-            ],
+            'workorder_date',
+            'asset_id',
+            'assign_emp_id',
+            //'work_recieve_date',
+            //'work_assign_date',
+            //'status',
+            //'created_at',
+            //'created_by',
+            //'updated_at',
+            //'updated_by',
 
             [
 
@@ -95,8 +75,17 @@ $this->params['breadcrumbs'][] = $this->title;
                 'headerOptions' => ['style' => 'text-align:center;', 'class' => 'activity-view-link',],
                 'class' => 'yii\grid\ActionColumn',
                 'contentOptions' => ['style' => 'text-align: center'],
-                'template' => '{view} {update}{delete}',
+                'template' => '{paymentloan}{view}{update}{delete}',
                 'buttons' => [
+                    'paymentloan' => function ($url, $data, $index) {
+                        $options = [
+                            'title' => Yii::t('yii', 'View'),
+                            'aria-label' => Yii::t('yii', 'View'),
+                            'data-pjax' => '0',
+                        ];
+                        return Html::a(
+                            '<span class="fas fa-check-circle btn btn-xs btn-warning"></span>', $url, $options);
+                    },
                     'view' => function ($url, $data, $index) {
                         $options = [
                             'title' => Yii::t('yii', 'View'),

@@ -10,6 +10,9 @@ $this->params['breadcrumbs'][] = ['label' => 'ตำแหน่ง', 'url' => [
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="position-create">
+
+    <br>
+
     <?= $this->render('_form', [
         'model' => $model,
     ]) ?>

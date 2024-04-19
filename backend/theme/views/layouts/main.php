@@ -35,7 +35,7 @@ $is_pos_user = 0;
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <?php $this->registerCsrfMetaTags() ?>
-    <title><?= "NARONO" ?></title>
+    <title><?= "SAS" ?></title>
     <link rel="shortcut icon" href="<?php echo Yii::$app->getUrlManager()->baseUrl; ?>/sst.ico" type="image/x-icon"/>
 
     <link rel="stylesheet" href="plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css">
@@ -53,22 +53,37 @@ $is_pos_user = 0;
     <link rel="stylesheet" href="css/sweetalert.css">
     <?php $this->head() ?>
     <style>
+        /*@font-face {*/
+        /*    font-family: 'Kanit-Regular';*/
+        /*    !*font-family: 'TH-Sarabun-New';*!*/
+        /*    !*src: url('fonts/THSarabunNew.ttf') format('truetype');*!*/
+        /*    src: url('fonts/Kanit-Regular.ttf') format('truetype');*/
+        /*    !*src: url('../../backend/web/fonts/Kanit-Regular.ttf') format('truetype');*!*/
+        /*    !* src: url('../fonts/thsarabunnew-webfont.eot?#iefix') format('embedded-opentype'),*/
+        /*          url('../fonts/thsarabunnew-webfont.woff') format('woff'),*/
+        /*          url('../fonts/EkkamaiStandard-Light.ttf') format('truetype');*!*/
+        /*    font-weight: normal;*/
+        /*    font-style: normal;*/
+        /*}*/
         @font-face {
-            font-family: 'Kanit-Regular';
-            /*font-family: 'TH-Sarabun-New';*/
-            /*src: url('fonts/THSarabunNew.ttf') format('truetype');*/
-            src: url('fonts/Kanit-Regular.ttf') format('truetype');
-            /*src: url('../../backend/web/fonts/Kanit-Regular.ttf') format('truetype');*/
-            /* src: url('../fonts/thsarabunnew-webfont.eot?#iefix') format('embedded-opentype'),
-                  url('../fonts/thsarabunnew-webfont.woff') format('woff'),
-                  url('../fonts/EkkamaiStandard-Light.ttf') format('truetype');*/
+            font-family: 'Prompt-Light';
+            src: url('../../backend/web/fonts/Prompt-Light.ttf') format('truetype');
             font-weight: normal;
             font-style: normal;
+
         }
+        /*body {*/
+        /*    font-family: "Kanit-Regular";*/
+        /*    font-size: 16px;*/
+        /*}*/
 
         body {
-            font-family: "Kanit-Regular";
-            font-size: 16px;
+            /*font-family: "Kanit-Regular";*/
+            /*font-family: 'THSarabunNew', sans-serif;*/
+            font-family: 'Prompt-Light', sans-serif;
+            /*font-family: 'OpenSans-Bold', sans-serif;*/
+            font-size: 15px;
+            /*font-weight: bold;*/
         }
 
         /*@media print {*/

@@ -1,16 +1,20 @@
 <?php
 
 use yii\helpers\Html;
-use kartik\grid\GridView;
+use yii\grid\GridView;
 use yii\widgets\Pjax;
+use yii\widgets\LinkPager;
 use yii\helpers\Url;
-use yii\bootstrap4\LinkPager;
+/* @var $this yii\web\View */
+/* @var $searchModel backend\models\UserSearch */
+/* @var $dataProvider yii\data\ActiveDataProvider */
 
 $this->title = 'ผู้ใช้งาน';
-$this->params['breadcrumbs'][] = $this->title;
+$this->params['breadcrumbs'][] = '/ '.$this->title;
 ?>
 <div class="user-index">
-    <?php Pjax::begin(); ?>
+
+    <br />
     <div class="row">
         <div class="col-lg-10">
             <p>
@@ -32,12 +36,13 @@ $this->params['breadcrumbs'][] = $this->title;
             </form>
         </div>
     </div>
-    <?php echo $this->render('_search', ['model' => $searchModel,'viewstatus'=>$viewstatus]); ?>
+
+    <?php Pjax::begin(); ?>
+    <?php  echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
-        // 'filterModel' => $searchModel,
-        'emptyCell' => '-',
+        //        'filterModel' => $searchModel,
         'layout' => "{items}\n{summary}\n<div class='text-center'>{pager}</div>",
         'summary' => "แสดง {begin} - {end} ของทั้งหมด {totalCount} รายการ",
         'showOnEmpty' => false,
@@ -48,49 +53,19 @@ $this->params['breadcrumbs'][] = $this->title;
         //'tableOptions' => ['class' => 'table table-hover'],
         'emptyText' => '<div style="color: red;text-align: center;"> <b>ไม่พบรายการไดๆ</b> <span> เพิ่มรายการโดยการคลิกที่ปุ่ม </span><span class="text-success">"สร้างใหม่"</span></div>',
         'columns' => [
-            [
-                'class' => 'yii\grid\SerialColumn',
-                'headerOptions' => ['style' => 'text-align: center'],
-                'contentOptions' => ['style' => 'text-align: center']],
+            ['class' => 'yii\grid\SerialColumn'],
+
             'username',
-            [
-                'attribute' => 'group_id',
-                'label'=>'กลุ่มผู้ใช้งาน',
-                'headerOptions' => ['style' => 'text-align: center'],
-                'contentOptions' => ['style' => 'text-align: center'],
-                'value' => function ($data) {
-                   return \backend\models\Usergroup::findName($data->group_id);
-                }
-            ],
-            [
-                'attribute' => 'employee_ref_id',
-                'label'=>'พนักงาน',
-                'headerOptions' => ['style' => 'text-align: center'],
-                'contentOptions' => ['style' => 'text-align: left'],
-                'value' => function ($data) {
-                    return \backend\models\Employee::findFullName($data->employee_ref_id);
-                }
-            ],
-            [
-                'attribute' => 'status',
-                'format' => 'raw',
-                'label'=>'สถานะ',
-                'headerOptions' => ['style' => 'text-align: center'],
-                'contentOptions' => ['style' => 'text-align: center'],
-                'value' => function ($data) {
-                    if ($data->status == 1) {
-                        return '<div class="badge badge-success">ใช้งาน</div>';
-                    } else {
-                        return '<div class="badge badge-dark">ไม่ใช้งาน</div>';
-                    }
-                }
-            ],
-            //'company_id',
-            //'branch_id',
+            'auth_key',
+            'password_hash',
+//            'password_reset_token',
+            //'email:email',
+            'status',
             //'created_at',
             //'updated_at',
-            //'created_by',
-            //'updated_by',
+            //'verification_token',
+            //'usergroup_id',
+            //'emp_ref_id',
 
             [
 
@@ -98,7 +73,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'headerOptions' => ['style' => 'text-align:center;', 'class' => 'activity-view-link',],
                 'class' => 'yii\grid\ActionColumn',
                 'contentOptions' => ['style' => 'text-align: center'],
-                'template' => '{view} {update}{delete}',
+                'template' => '{view}{update}{delete}',
                 'buttons' => [
                     'view' => function ($url, $data, $index) {
                         $options = [

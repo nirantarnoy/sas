@@ -1,5 +1,6 @@
 <?php
 namespace backend\models;
+use common\models\USRNVALCANIZEASSIGNLINE;
 use Yii;
 use yii\db\ActiveRecord;
 date_default_timezone_set('Asia/Bangkok');
@@ -23,55 +24,43 @@ class Position extends \common\models\Position
                 ],
                 'value'=> time(),
             ],
-            'timestampcby' => [
-                'class' => \yii\behaviors\AttributeBehavior::className(),
-                'attributes' => [
-                    ActiveRecord::EVENT_BEFORE_INSERT => 'created_by',
+            'timestampcby'=>[
+                'class'=> \yii\behaviors\AttributeBehavior::className(),
+                'attributes'=>[
+                    ActiveRecord::EVENT_BEFORE_INSERT=>'created_by',
                 ],
-                'value' => Yii::$app->user->id,
+                'value'=> Yii::$app->user->identity->id,
             ],
-            'timestamuby' => [
-                'class' => \yii\behaviors\AttributeBehavior::className(),
-                'attributes' => [
-                    ActiveRecord::EVENT_BEFORE_UPDATE => 'updated_by',
+            'timestamuby'=>[
+                'class'=> \yii\behaviors\AttributeBehavior::className(),
+                'attributes'=>[
+                    ActiveRecord::EVENT_BEFORE_UPDATE=>'updated_by',
                 ],
-                'value' => Yii::$app->user->id,
+                'value'=> Yii::$app->user->identity->id,
             ],
-//            'timestampcompany' => [
-//                'class' => \yii\behaviors\AttributeBehavior::className(),
-//                'attributes' => [
-//                    ActiveRecord::EVENT_BEFORE_INSERT => 'company_id',
-//                ],
-//                'value' => isset($_SESSION['user_company_id']) ? $_SESSION['user_company_id'] : 1,
-//            ],
-//            'timestampbranch' => [
-//                'class' => \yii\behaviors\AttributeBehavior::className(),
-//                'attributes' => [
-//                    ActiveRecord::EVENT_BEFORE_INSERT => 'branch_id',
-//                ],
-//                'value' => isset($_SESSION['user_branch_id']) ? $_SESSION['user_branch_id'] : 1,
-//            ],
-            'timestampupdate' => [
-                'class' => \yii\behaviors\AttributeBehavior::className(),
-                'attributes' => [
-                    ActiveRecord::EVENT_BEFORE_UPDATE => 'updated_at',
+            'timestampupdate'=>[
+                'class'=> \yii\behaviors\AttributeBehavior::className(),
+                'attributes'=>[
+                    ActiveRecord::EVENT_BEFORE_UPDATE=>'updated_at',
                 ],
-                'value' => time(),
+                'value'=> time(),
             ],
         ];
     }
 
-//    public function findUnitname($id){
-//        $model = Unit::find()->where(['id'=>$id])->one();
-//        return count($model)>0?$model->name:'';
-//    }
-    public static function findName($id){
-        $model = Position::find()->where(['id'=>$id])->one();
-        return $model!= null?$model->name:'';
+    public function findPersonNum($id){
+        $model = \backend\models\User::find()->where(['id'=>$id])->one();
+        return $model != null?$model->username:'';
+        // return 'niran';
     }
-//    public function findUnitid($code){
-//        $model = Unit::find()->where(['name'=>$code])->one();
+//    public function findId($code){
+//        $model = Costitem::find()->where(['name'=>$code])->one();
 //        return count($model)>0?$model->id:0;
 //    }
+//    public function findCode($code){
+//        $model = Vendor::find()->where(['name'=>$code])->one();
+//        return count($model)>0?$model->name:"";
+//    }
+
 
 }

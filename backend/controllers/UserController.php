@@ -2,50 +2,30 @@
 
 namespace backend\controllers;
 
-use backend\models\UsergroupSearch;
 use Yii;
 use backend\models\User;
 use backend\models\UserSearch;
-use yii\filters\AccessControl;
 use yii\web\Controller;
-use yii\web\ForbiddenHttpException;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
-use yii\web\Session;
 
 /**
  * UserController implements the CRUD actions for User model.
  */
 class UserController extends Controller
 {
-    public $enableCsrfValidation = false;
+    /**
+     * {@inheritdoc}
+     */
     public function behaviors()
     {
         return [
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
-                    'delete' => ['POST','GET'],
+                    'delete' => ['POST'],
                 ],
             ],
-//            'access'=>[
-//                'class'=>AccessControl::className(),
-//                'denyCallback' => function ($rule, $action) {
-//                    throw new ForbiddenHttpException('คุณไม่ได้รับอนุญาติให้เข้าใช้งาน!');
-//                },
-//                'rules'=>[
-//                    [
-//                        'allow'=>true,
-//                        'roles'=>['@'],
-//                        'matchCallback'=>function($rule,$action){
-//                            $currentRoute = \Yii::$app->controller->getRoute();
-//                            if(\Yii::$app->user->can($currentRoute)){
-//                                return true;
-//                            }
-//                        }
-//                    ]
-//                ]
-//            ],
         ];
     }
 
@@ -55,22 +35,9 @@ class UserController extends Controller
      */
     public function actionIndex()
     {
-        $viewstatus = 1;
-
-        if(\Yii::$app->request->get('viewstatus')!=null){
-            $viewstatus = \Yii::$app->request->get('viewstatus');
-        }
-
         $pageSize = \Yii::$app->request->post("perpage");
         $searchModel = new UserSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-        if($viewstatus ==1){
-            $dataProvider->query->andFilterWhere(['status'=>$viewstatus]);
-        }
-        if($viewstatus == 2){
-            $dataProvider->query->andFilterWhere(['status'=>0]);
-        }
-
         $dataProvider->setSort(['defaultOrder' => ['id' => SORT_DESC]]);
         $dataProvider->pagination->pageSize = $pageSize;
 
@@ -78,7 +45,6 @@ class UserController extends Controller
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
             'perpage' => $pageSize,
-            'viewstatus'=>$viewstatus,
         ]);
     }
 
@@ -104,17 +70,8 @@ class UserController extends Controller
     {
         $model = new User();
 
-        if ($model->load(Yii::$app->request->post())) {
-            $model->setPassword($model->pwd);
-            $model->generateAuthKey();
-            $model->email = $model->username . '@vorapat.com';
-            //$model->status = $model->status == 1?10:9;
-            if ($model->save()) {
-                //$model->assignment();
-                $session = Yii::$app->session;
-                $session->setFlash('msg', 'บันทึกรายการเรียบร้อย');
-                return $this->redirect(['index']);
-            }
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            return $this->redirect(['view', 'id' => $model->id]);
         }
 
         return $this->render('create', [
@@ -122,20 +79,19 @@ class UserController extends Controller
         ]);
     }
 
+    /**
+     * Updates an existing User model.
+     * If update is successful, the browser will be redirected to the 'view' page.
+     * @param integer $id
+     * @return mixed
+     * @throws NotFoundHttpException if the model cannot be found
+     */
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
-        $model->getRoleByUser();
 
-      //  print_r($model);return;
-        if ($model->load(Yii::$app->request->post())) {
-            //$model->status = $model->status == 1?10:9;
-            if ($model->save()) {
-                $model->assignment();
-                $session = \Yii::$app->session;
-                $session->setFlash('msg', 'บันทึกรายการเรียบร้อย');
-                return $this->redirect(['index']);
-            }
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            return $this->redirect(['view', 'id' => $model->id]);
         }
 
         return $this->render('update', [
@@ -171,15 +127,5 @@ class UserController extends Controller
         }
 
         throw new NotFoundHttpException('The requested page does not exist.');
-    }
-    public function actionPrintlogindaily(){
-        $id = \Yii::$app->request->post('find_customer_id');
-        $from_date = \Yii::$app->request->post('from_date');
-        $to_date = \Yii::$app->request->post('to_date');
-        return $this->render('_logindaily',[
-            'find_from_date' => $from_date,
-            'find_to_date'=> $to_date,
-            'find_customer_id'=>$id,
-        ]);
     }
 }

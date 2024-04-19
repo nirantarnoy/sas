@@ -3,16 +3,18 @@
 use yii\helpers\Html;
 use yii\grid\GridView;
 use yii\widgets\Pjax;
+use yii\widgets\LinkPager;
 use yii\helpers\Url;
-use yii\bootstrap4\LinkPager;
-
+/* @var $this yii\web\View */
+/* @var $searchModel backend\models\UsergroupSearch */
+/* @var $dataProvider yii\data\ActiveDataProvider */
 
 $this->title = 'กลุ่มผู้ใช้งาน';
-$this->params['breadcrumbs'][] = $this->title;
+$this->params['breadcrumbs'][] = '/ '.$this->title;
 ?>
 <div class="usergroup-index">
 
-    <?php Pjax::begin(); ?>
+    <br />
     <div class="row">
         <div class="col-lg-10">
             <p>
@@ -20,7 +22,7 @@ $this->params['breadcrumbs'][] = $this->title;
             </p>
         </div>
         <div class="col-lg-2" style="text-align: right">
-            <form id="form-perpage" class="form-inline" action="<?= Url::to(['warehouse/index'], true) ?>"
+            <form id="form-perpage" class="form-inline" action="<?= Url::to(['usergroup/index'], true) ?>"
                   method="post">
                 <div class="form-group">
                     <label>แสดง </label>
@@ -34,12 +36,13 @@ $this->params['breadcrumbs'][] = $this->title;
             </form>
         </div>
     </div>
-    <?php echo $this->render('_search', ['model' => $searchModel]); ?>
+
+    <?php Pjax::begin(); ?>
+    <?php  echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
-        // 'filterModel' => $searchModel,
-        'emptyCell' => '-',
+//        'filterModel' => $searchModel,
         'layout' => "{items}\n{summary}\n<div class='text-center'>{pager}</div>",
         'summary' => "แสดง {begin} - {end} ของทั้งหมด {totalCount} รายการ",
         'showOnEmpty' => false,
@@ -50,38 +53,16 @@ $this->params['breadcrumbs'][] = $this->title;
         //'tableOptions' => ['class' => 'table table-hover'],
         'emptyText' => '<div style="color: red;text-align: center;"> <b>ไม่พบรายการไดๆ</b> <span> เพิ่มรายการโดยการคลิกที่ปุ่ม </span><span class="text-success">"สร้างใหม่"</span></div>',
         'columns' => [
-            [
-                'class' => 'yii\grid\SerialColumn',
-                'headerOptions' => ['style' => 'text-align: center'],
-                'contentOptions' => ['style' => 'text-align: center']],
-           // 'code',
+            ['class' => 'yii\grid\SerialColumn'],
+
+//            'id',
+            'code',
             'name',
             'description',
-           // 'car_type_id',
-            //'status',
+            'status',
             //'created_at',
-            //'updated_at',
             //'created_by',
-            //'updated_by',
-
-            [
-                'attribute' => 'status',
-                'format' => 'raw',
-                'headerOptions' => ['style' => 'text-align: center'],
-                'contentOptions' => ['style' => 'text-align: center'],
-                'value' => function ($data) {
-                    if ($data->status == 1) {
-                        return '<div class="badge badge-success">ใช้งาน</div>';
-                    } else {
-                        return '<div class="badge badge-dark">ไม่ใช้งาน</div>';
-                    }
-                }
-            ],
-            //'company_id',
-            //'branch_id',
-            //'created_at',
             //'updated_at',
-            //'created_by',
             //'updated_by',
 
             [
@@ -90,8 +71,17 @@ $this->params['breadcrumbs'][] = $this->title;
                 'headerOptions' => ['style' => 'text-align:center;', 'class' => 'activity-view-link',],
                 'class' => 'yii\grid\ActionColumn',
                 'contentOptions' => ['style' => 'text-align: center'],
-                'template' => '{view} {update}{delete}',
+                'template' => '{paymentloan}{view}{update}{delete}',
                 'buttons' => [
+                    'paymentloan' => function ($url, $data, $index) {
+                        $options = [
+                            'title' => Yii::t('yii', 'View'),
+                            'aria-label' => Yii::t('yii', 'View'),
+                            'data-pjax' => '0',
+                        ];
+                        return Html::a(
+                            '<span class="fas fa-check-circle btn btn-xs btn-warning"></span>', $url, $options);
+                    },
                     'view' => function ($url, $data, $index) {
                         $options = [
                             'title' => Yii::t('yii', 'View'),

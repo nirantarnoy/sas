@@ -1,9 +1,8 @@
 <?php
 
 use yii\widgets\ActiveForm;
-use yii\captcha\Captcha;
-use yii\helpers\Html;
 
+//echo md5(1);
 ?>
 
 <!--<link rel="stylesheet" href="../../backend/web/plugins/fontawesome-free/css/all.min.css">-->
@@ -32,23 +31,17 @@ use yii\helpers\Html;
 <!--        }-->
 <!--    </style>-->
 
-
 <div class="hold-transition login-page">
     <div class="login-box" style="margin-top: 10px">
 
         <!-- /.login-logo -->
         <div class="card" style="margin-top: 0px;">
             <div class="card-body login-card-body">
-<!--                <div style="text-align: center">-->
-<!--                    <h1 style="color: #2b669a"><b>วรภัทร</b></h1>-->
-<!--                </div>-->
-
                 <div class="login-logo">
-                    <a href="#">
-                        <img src="../../backend/web/uploads/logo/narono_logo.png" width="90%" alt="">
-                    </a>
-<!--                    <h1 style="color: dodgerblue">BKT</h1>-->
-<!--                    <h1 style="color: dodgerblue">BP</h1>-->
+                    <h3>SAS</h3>
+<!--                    <a href="#">-->
+<!--                        <img src="../../backend/web/uploads/logo/Logo2.jpg" width="50%" alt="">-->
+<!--                    </a>-->
                 </div>
                 <p class="login-box-msg">ลงชื่อเข้าเพื่อเข้าใช้งานระบบของคุณ</p>
                 <?php $form = ActiveForm::begin(['id' => 'login-form']); ?>
@@ -62,6 +55,7 @@ use yii\helpers\Html;
                         <?= $form->field($model, 'password')->passwordInput(['class' => 'form-control', 'placeholder' => 'Password']) ?>
                     </div>
                 </div>
+                <br />
                 <div class="row">
                     <div class="col-8">
                         <div class="icheck-primary">
@@ -73,7 +67,7 @@ use yii\helpers\Html;
                     </div>
                     <!-- /.col -->
                     <div class="col-4">
-                        <button type="submit" class="btn btn-primary btn-block">เข้าใช้งาน</button>
+                        <button type="submit" class="btn btn-warning btn-block">เข้าใช้งาน</button>
                     </div>
                     <!-- /.col -->
                 </div>
@@ -90,9 +84,9 @@ use yii\helpers\Html;
                 </div>
                 <!-- /.social-auth-links -->
 
-                <p class="mb-1">
-                    <a href="forgot-password.html" style="color: #00A000">ลืมรหัสผ่าน ?</a>
-                </p>
+<!--                <p class="mb-1">-->
+<!--                    <a href="forgot-password.html">I forgot my password</a>-->
+<!--                </p>-->
                 <!--      <p class="mb-0">-->
                 <!--        <a href="register.html" class="text-center">Register a new membership</a>-->
                 <!--      </p>-->

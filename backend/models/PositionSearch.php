@@ -11,7 +11,11 @@ use backend\models\Position;
  */
 class PositionSearch extends Position
 {
+    /**
+     * {@inheritdoc}
+     */
     public $globalSearch;
+
     public function rules()
     {
         return [
@@ -65,18 +69,9 @@ class PositionSearch extends Position
             'updated_by' => $this->updated_by,
         ]);
 
-        if (!empty(\Yii::$app->user->identity->company_id)) {
-            $query->andFilterWhere(['company_id' => \Yii::$app->user->identity->company_id]);
-        }
-        if (!empty(\Yii::$app->user->identity->branch_id)) {
-            $query->andFilterWhere(['branch_id' => \Yii::$app->user->identity->branch_id]);
-        }
-
-        if($this->globalSearch != ''){
-            $query->orFilterWhere(['like', 'code', $this->globalSearch])
-                ->orFilterWhere(['like', 'name', $this->globalSearch])
-                ->orFilterWhere(['like', 'description', $this->globalSearch]);
-        }
+        $query->andFilterWhere(['like', 'code', $this->globalSearch])
+            ->andFilterWhere(['like', 'name', $this->globalSearch])
+            ->andFilterWhere(['like', 'description', $this->globalSearch]);
 
         return $dataProvider;
     }

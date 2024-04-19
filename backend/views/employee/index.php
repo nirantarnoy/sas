@@ -1,15 +1,20 @@
 <?php
 
 use yii\helpers\Html;
-use kartik\grid\GridView;
+use yii\grid\GridView;
 use yii\widgets\Pjax;
+use yii\widgets\LinkPager;
 use yii\helpers\Url;
-use yii\bootstrap4\LinkPager;
-$this->title = Yii::t('app', 'พนักงาน');
-$this->params['breadcrumbs'][] = $this->title;
+/* @var $this yii\web\View */
+/* @var $searchModel backend\models\EmployeeSearch */
+/* @var $dataProvider yii\data\ActiveDataProvider */
+
+$this->title = 'พนักงาน';
+$this->params['breadcrumbs'][] = '/ '.$this->title;
 ?>
 <div class="employee-index">
-    <?php Pjax::begin(); ?>
+
+    <br />
     <div class="row">
         <div class="col-lg-10">
             <p>
@@ -31,12 +36,13 @@ $this->params['breadcrumbs'][] = $this->title;
             </form>
         </div>
     </div>
-    <?php echo $this->render('_search', ['model' => $searchModel,'viewstatus'=>$viewstatus]); ?>
+
+    <?php Pjax::begin(); ?>
+    <?php  echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
-        // 'filterModel' => $searchModel,
-        'emptyCell' => '-',
+        //        'filterModel' => $searchModel,
         'layout' => "{items}\n{summary}\n<div class='text-center'>{pager}</div>",
         'summary' => "แสดง {begin} - {end} ของทั้งหมด {totalCount} รายการ",
         'showOnEmpty' => false,
@@ -47,41 +53,20 @@ $this->params['breadcrumbs'][] = $this->title;
         //'tableOptions' => ['class' => 'table table-hover'],
         'emptyText' => '<div style="color: red;text-align: center;"> <b>ไม่พบรายการไดๆ</b> <span> เพิ่มรายการโดยการคลิกที่ปุ่ม </span><span class="text-success">"สร้างใหม่"</span></div>',
         'columns' => [
-            [
-                'class' => 'yii\grid\SerialColumn',
-                'headerOptions' => ['style' => 'text-align:center;'],
-                'contentOptions' => ['style' => 'text-align: center'],
-            ],
+            ['class' => 'yii\grid\SerialColumn'],
 
-            //  'id',
+//            'id',
             'code',
             'fname',
             'lname',
-            [
-                'attribute' => 'gender',
-                'value' => function ($data) {
-                    return \backend\helpers\GenderType::getTypeById($data->gender);
-                }
-            ],
-            [
-                'attribute' => 'position',
-                'value' => function ($data) {
-                    return \backend\models\Position::findName($data->position);
-                }
-            ],
-            [
-                'attribute' => 'status',
-                'format' => 'raw',
-                'headerOptions' => ['style' => 'text-align: center'],
-                'contentOptions' => ['style' => 'text-align: center'],
-                'value' => function ($data) {
-                    if ($data->status == 1) {
-                        return '<div class="badge badge-success">ใช้งาน</div>';
-                    } else {
-                        return '<div class="badge badge-secondary">ไม่ใช้งาน</div>';
-                    }
-                }
-            ],
+            'department_id',
+            //'gender',
+            //'position_id',
+            //'status',
+            //'created_at',
+            //'created_by',
+            //'updated_at',
+            //'updated_by',
 
             [
 
@@ -89,8 +74,17 @@ $this->params['breadcrumbs'][] = $this->title;
                 'headerOptions' => ['style' => 'text-align:center;', 'class' => 'activity-view-link',],
                 'class' => 'yii\grid\ActionColumn',
                 'contentOptions' => ['style' => 'text-align: center'],
-                'template' => '{view} {update}{delete}',
+                'template' => '{paymentloan}{view}{update}{delete}',
                 'buttons' => [
+                    'paymentloan' => function ($url, $data, $index) {
+                        $options = [
+                            'title' => Yii::t('yii', 'View'),
+                            'aria-label' => Yii::t('yii', 'View'),
+                            'data-pjax' => '0',
+                        ];
+                        return Html::a(
+                            '<span class="fas fa-check-circle btn btn-xs btn-warning"></span>', $url, $options);
+                    },
                     'view' => function ($url, $data, $index) {
                         $options = [
                             'title' => Yii::t('yii', 'View'),

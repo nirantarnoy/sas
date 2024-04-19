@@ -2,7 +2,7 @@
 
 namespace backend\controllers;
 
-use backend\models\CustomerSearch;
+use Yii;
 use backend\models\Department;
 use backend\models\DepartmentSearch;
 use yii\web\Controller;
@@ -14,36 +14,32 @@ use yii\filters\VerbFilter;
  */
 class DepartmentController extends Controller
 {
+    public $enableCsrfValidation = false;
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function behaviors()
     {
-        return array_merge(
-            parent::behaviors(),
-            [
-                'verbs' => [
-                    'class' => VerbFilter::className(),
-                    'actions' => [
-                        'delete' => ['POST'],
-                    ],
+        return [
+            'verbs' => [
+                'class' => VerbFilter::className(),
+                'actions' => [
+                    'delete' => ['POST'],
                 ],
-            ]
-        );
+            ],
+        ];
     }
 
     /**
      * Lists all Department models.
-     *
-     * @return string
+     * @return mixed
      */
     public function actionIndex()
     {
         $pageSize = \Yii::$app->request->post("perpage");
-
         $searchModel = new DepartmentSearch();
-        $dataProvider = $searchModel->search($this->request->queryParams);
-
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        $dataProvider->setSort(['defaultOrder' => ['id' => SORT_DESC]]);
         $dataProvider->pagination->pageSize = $pageSize;
 
         return $this->render('index', [
@@ -55,8 +51,8 @@ class DepartmentController extends Controller
 
     /**
      * Displays a single Department model.
-     * @param int $id ID
-     * @return string
+     * @param integer $id
+     * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
      */
     public function actionView($id)
@@ -69,18 +65,14 @@ class DepartmentController extends Controller
     /**
      * Creates a new Department model.
      * If creation is successful, the browser will be redirected to the 'view' page.
-     * @return string|\yii\web\Response
+     * @return mixed
      */
     public function actionCreate()
     {
         $model = new Department();
 
-        if ($this->request->isPost) {
-            if ($model->load($this->request->post()) && $model->save()) {
-                return $this->redirect(['department/index']);
-            }
-        } else {
-            $model->loadDefaultValues();
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            return $this->redirect(['view', 'id' => $model->id]);
         }
 
         return $this->render('create', [
@@ -91,15 +83,15 @@ class DepartmentController extends Controller
     /**
      * Updates an existing Department model.
      * If update is successful, the browser will be redirected to the 'view' page.
-     * @param int $id ID
-     * @return string|\yii\web\Response
+     * @param integer $id
+     * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
      */
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
 
-        if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
         }
 
@@ -111,8 +103,8 @@ class DepartmentController extends Controller
     /**
      * Deletes an existing Department model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
-     * @param int $id ID
-     * @return \yii\web\Response
+     * @param integer $id
+     * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
      */
     public function actionDelete($id)
@@ -125,13 +117,13 @@ class DepartmentController extends Controller
     /**
      * Finds the Department model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
-     * @param int $id ID
+     * @param integer $id
      * @return Department the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = Department::findOne(['id' => $id])) !== null) {
+        if (($model = Department::findOne($id)) !== null) {
             return $model;
         }
 

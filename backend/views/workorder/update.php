@@ -2,18 +2,20 @@
 
 use yii\helpers\Html;
 
-/** @var yii\web\View $this */
-/** @var backend\models\Workorder $model */
+/* @var $this yii\web\View */
+/* @var $model backend\models\Workorder */
 
-$this->title = 'แก้ไขใบแจ้งซ่อม: ' . $model->workorder_no;
+$this->title = 'แก้ไชใบแจ้งซ่อม: ' . $model->id;
 $this->params['breadcrumbs'][] = ['label' => 'ใบแจ้งซ่อม', 'url' => ['index']];
-$this->params['breadcrumbs'][] = ['label' => $model->workorder_no, 'url' => ['view', 'id' => $model->id]];
+$this->params['breadcrumbs'][] = ['label' => $model->id, 'url' => ['view', 'id' => $model->id]];
 $this->params['breadcrumbs'][] = 'แก้ไข';
 ?>
 <div class="workorder-update">
+
+    <br>
+
     <?= $this->render('_form', [
         'model' => $model,
-        'model_line' => $model_line,
     ]) ?>
 
 </div>

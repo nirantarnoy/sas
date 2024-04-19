@@ -2,15 +2,17 @@
 
 use yii\helpers\Html;
 
-/** @var yii\web\View $this */
-/** @var backend\models\Department $model */
+/* @var $this yii\web\View */
+/* @var $model backend\models\Department */
 
-$this->title = 'แก้ไขข้อมูลแผนก: ' . $model->name;
-$this->params['breadcrumbs'][] = ['label' => 'ข้อมูลแผนก', 'url' => ['index']];
+$this->title = 'แก้ไขแผนก: ' . $model->name;
+$this->params['breadcrumbs'][] = ['label' => 'แผนก', 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => $model->name, 'url' => ['view', 'id' => $model->id]];
 $this->params['breadcrumbs'][] = 'แก้ไข';
 ?>
 <div class="department-update">
+
+    <br>
 
     <?= $this->render('_form', [
         'model' => $model,
