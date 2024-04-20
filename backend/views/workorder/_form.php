@@ -17,7 +17,12 @@ use yii\widgets\ActiveForm;
             <?= $form->field($model, 'workorder_no')->textInput(['maxlength' => true]) ?>
         </div>
         <div class="col-lg-4">
-            <?= $form->field($model, 'workorder_date')->textInput() ?>
+            <?= $form->field($model, 'workorder_date')->widget(\kartik\date\DatePicker::className(), [
+                'value' => date('Y-m-d'),
+                'pluginOptions' => [
+                    'format' => 'dd-mm-yyyy'
+                ]
+            ]) ?>
         </div>
         <div class="col-lg-4">
             <?= $form->field($model, 'assign_emp_id')->textInput() ?>
@@ -25,39 +30,38 @@ use yii\widgets\ActiveForm;
     </div>
 
 
-<div class="row">
-    <div class="col-lg-4">
-        <?= $form->field($model, 'asset_id')->textInput() ?>
-
-        <?= $form->field($model, 'asset_id')->Widget(\kartik\select2\Select2::className(), [
-            'data' => \yii\helpers\ArrayHelper::map(\backend\models\asset::find()->all(), 'id', function ($data) {
-                return $data->name;
-            }),
-            'options' => [
-                'placeholder' => '--เครื่องจักร--',
+    <div class="row">
+        <div class="col-lg-4">
+            <?= $form->field($model, 'asset_id')->Widget(\kartik\select2\Select2::className(), [
+                'data' => \yii\helpers\ArrayHelper::map(\backend\models\asset::find()->all(), 'id', function ($data) {
+                    return $data->name;
+                }),
+                'options' => [
+                    'placeholder' => '--เครื่องจักร--',
 //                        'onchange' => 'showid($(this))',
-            ]
-        ]) ?>
+                ]
+            ]) ?>
 
+        </div>
+        <div class="col-lg-4">
+            <?= $form->field($model, 'work_recieve_date')->widget(\kartik\date\DatePicker::className(), [
+                'value' => date('Y-m-d'),
+                'pluginOptions' => [
+                    'format' => 'dd-mm-yyyy'
+                ]
+            ]) ?>
+        </div>
+        <div class="col-lg-4">
+            <?= $form->field($model, 'work_assign_date')->widget(\kartik\date\DatePicker::className(), [
+                'value' => date('Y-m-d'),
+                'pluginOptions' => [
+                    'format' => 'dd-mm-yyyy'
+                ]
+            ]) ?>
+        </div>
     </div>
-    <div class="col-lg-4">
-        <?= $form->field($model, 'work_recieve_date')->textInput() ?>
-    </div>
-    <div class="col-lg-4">
-        <?= $form->field($model, 'work_assign_date')->textInput() ?>
-    </div>
-</div>
 
-
-
-
-
-
-
-
-    <?= $form->field($model, 'status')->textInput() ?>
-    <?php echo $form->field($model, 'status')->widget(\toxor88\switchery\Switchery::className(), ['options' => ['label' => '', 'class' => 'form-control']])->label() ?>
-
+    <?= $form->field($model, 'status')->widget(\toxor88\switchery\Switchery::className(), ['options' => ['label' => '', 'class' => 'form-control']])->label() ?>
 
 
     <div class="form-group">

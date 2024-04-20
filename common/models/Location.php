@@ -37,6 +37,7 @@ class Location extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
+            [['code','name'],'required'],
             [['department_id', 'status', 'created_at', 'created_by', 'updated_at', 'updated_by'], 'integer'],
             [['pos_x', 'pos_y'], 'number'],
             [['code', 'name', 'description', 'loc_photo'], 'string', 'max' => 255],

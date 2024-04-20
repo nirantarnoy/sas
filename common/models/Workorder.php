@@ -36,6 +36,7 @@ class Workorder extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
+            [['asset_id'],'required'],
             [['workorder_date', 'work_recieve_date', 'work_assign_date'], 'safe'],
             [['asset_id', 'assign_emp_id', 'status', 'created_at', 'created_by', 'updated_at', 'updated_by'], 'integer'],
             [['workorder_no'], 'string', 'max' => 255],

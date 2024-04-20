@@ -82,7 +82,7 @@ $is_pos_user = 0;
             /*font-family: 'THSarabunNew', sans-serif;*/
             font-family: 'Prompt-Light', sans-serif;
             /*font-family: 'OpenSans-Bold', sans-serif;*/
-            font-size: 15px;
+            font-size: 16px;
             /*font-weight: bold;*/
         }
 

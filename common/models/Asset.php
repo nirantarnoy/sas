@@ -48,6 +48,7 @@ class Asset extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
+            [['asset_no','name'],'required'],
             [['asset_cat_id', 'department_id', 'location_id', 'status', 'created_at', 'created_by', 'updated_at', 'updated_by'], 'integer'],
             [['cost', 'watt'], 'number'],
             [['recieve_date', 'waranty_exp_date'], 'safe'],
@@ -62,20 +63,20 @@ class Asset extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'asset_no' => 'เครื่องจักรเลขที่',
-            'name' => 'ชือเครื่องจักร',
+            'asset_no' => 'รหัสเครื่องจักร',
+            'name' => 'ชื่อเครื่องจักร',
             'description' => 'รายละเอียด',
             'asset_cat_id' => 'ประเภทเครื่องจักร',
             'asset_brand_name' => 'Asset Brand Name',
             'model_no' => 'Model No',
-            'serail_no' => 'Serail No',
+            'serail_no' => 'Serial No',
             'department_id' => 'แผนก',
             'location_id' => 'ที่ตั้งเครื่องจักร',
             'supplier_name' => 'Supplier Name',
             'supplier_contact' => 'Supplier Contact',
             'cost' => 'Cost',
-            'recieve_date' => 'Recieve Date',
-            'waranty_exp_date' => 'Waranty Exp Date',
+            'recieve_date' => 'วันที่รับ',
+            'waranty_exp_date' => 'วันที่หมดรับประกัน',
             'watt' => 'Watt',
             'electric_type' => 'Electric Type',
             'breaker_no' => 'Breaker No',

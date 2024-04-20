@@ -66,6 +66,12 @@
                                     <p>ที่ตั้ง (Location)</p>
                                 </a>
                             </li>
+                            <li class="nav-item">
+                                <a href="index.php?r=workordercause" class="nav-link workordercause">
+                                    <i class="far fa-file-import nav-icon"></i>
+                                    <p>สาเหตุปัญหา</p>
+                                </a>
+                            </li>
                         </ul>
                     </li>
                 <?php endif; ?>
