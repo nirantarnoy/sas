@@ -72,6 +72,12 @@
                                     <p>สาเหตุปัญหา</p>
                                 </a>
                             </li>
+                            <li class="nav-item">
+                                <a href="index.php?r=solvetitle" class="nav-link solvetitle">
+                                    <i class="far fa-file-import nav-icon"></i>
+                                    <p>วิธีแก้ปัญหา</p>
+                                </a>
+                            </li>
                         </ul>
                     </li>
                 <?php endif; ?>

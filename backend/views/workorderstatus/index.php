@@ -71,17 +71,9 @@ $this->params['breadcrumbs'][] = '/ '.$this->title;
                 'headerOptions' => ['style' => 'text-align:center;', 'class' => 'activity-view-link',],
                 'class' => 'yii\grid\ActionColumn',
                 'contentOptions' => ['style' => 'text-align: center'],
-                'template' => '{paymentloan}{view}{update}{delete}',
+                'template' => '{view}{update}{delete}',
                 'buttons' => [
-                    'paymentloan' => function ($url, $data, $index) {
-                        $options = [
-                            'title' => Yii::t('yii', 'View'),
-                            'aria-label' => Yii::t('yii', 'View'),
-                            'data-pjax' => '0',
-                        ];
-                        return Html::a(
-                            '<span class="fas fa-check-circle btn btn-xs btn-warning"></span>', $url, $options);
-                    },
+
                     'view' => function ($url, $data, $index) {
                         $options = [
                             'title' => Yii::t('yii', 'View'),

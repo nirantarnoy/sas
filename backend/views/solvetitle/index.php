@@ -1,18 +1,20 @@
 <?php
 
+use backend\models\Solvetitle;
 use yii\helpers\Html;
-use yii\grid\GridView;
-use yii\widgets\Pjax;
-use yii\widgets\LinkPager;
 use yii\helpers\Url;
-/* @var $this yii\web\View */
-/* @var $searchModel backend\models\DepartmentSearch */
-/* @var $dataProvider yii\data\ActiveDataProvider */
+use yii\grid\ActionColumn;
+use yii\grid\GridView;
+use yii\widgets\LinkPager;
+use yii\widgets\Pjax;
+/** @var yii\web\View $this */
+/** @var backend\models\SolvetitleSearch $searchModel */
+/** @var yii\data\ActiveDataProvider $dataProvider */
 
-$this->title = 'แผนก';
-$this->params['breadcrumbs'][] = '/ '.$this->title;
+$this->title = 'วิธีแก้ปัญหา';
+$this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="department-index">
+<div class="solvetitle-index">
 
     <br />
     <div class="row">
@@ -22,7 +24,7 @@ $this->params['breadcrumbs'][] = '/ '.$this->title;
             </p>
         </div>
         <div class="col-lg-2" style="text-align: right">
-            <form id="form-perpage" class="form-inline" action="<?= Url::to(['department/index'], true) ?>"
+            <form id="form-perpage" class="form-inline" action="<?= Url::to(['user/index'], true) ?>"
                   method="post">
                 <div class="form-group">
                     <label>แสดง </label>
@@ -52,21 +54,12 @@ $this->params['breadcrumbs'][] = '/ '.$this->title;
         'id' => 'product-grid',
         //'tableOptions' => ['class' => 'table table-hover'],
         'emptyText' => '<div style="color: red;text-align: center;"> <b>ไม่พบรายการไดๆ</b> <span> เพิ่มรายการโดยการคลิกที่ปุ่ม </span><span class="text-success">"สร้างใหม่"</span></div>',
-
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
-
-//            'id',
             'code',
             'name',
             'description',
-            'company_id',
-            //'status',
-            //'created_at',
-            //'created_by',
-            //'updated_at',
-            //'updated_by',
-
+            'status',
             [
 
                 'header' => 'ตัวเลือก',
@@ -75,7 +68,6 @@ $this->params['breadcrumbs'][] = '/ '.$this->title;
                 'contentOptions' => ['style' => 'text-align: center'],
                 'template' => '{view}{update}{delete}',
                 'buttons' => [
-
                     'view' => function ($url, $data, $index) {
                         $options = [
                             'title' => Yii::t('yii', 'View'),
@@ -124,3 +116,4 @@ $this->params['breadcrumbs'][] = '/ '.$this->title;
     <?php Pjax::end(); ?>
 
 </div>
+
