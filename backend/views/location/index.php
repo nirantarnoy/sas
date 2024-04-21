@@ -59,7 +59,12 @@ $this->params['breadcrumbs'][] = '/ '.$this->title;
             'code',
             'name',
             'description',
-            'department_id',
+            [
+                'attribute' => 'department_id',
+                'value' => function ($data) {
+                    return \backend\models\Department::findName($data->department_id);
+                },
+            ],
             'pos_x',
             'pos_y',
             //'loc_photo',
