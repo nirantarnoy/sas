@@ -59,7 +59,15 @@ $this->params['breadcrumbs'][] = '/ '.$this->title;
             'code',
             'name',
             'description',
-            'status',
+            ['attribute' => 'status',
+                'format' => 'html',
+                'value' => function ($data) {
+                    if($data->status == 0){
+                        return '<div class="badge badge-secondary">'.\backend\helpers\CommonStatus::getTypeById($data->status).'</div>';
+                    }else{
+                        return '<div class="badge badge-success">'.\backend\helpers\CommonStatus::getTypeById($data->status).'</div>';
+                    }
+                },],
             //'created_at',
             //'created_by',
             //'updated_at',
@@ -71,17 +79,9 @@ $this->params['breadcrumbs'][] = '/ '.$this->title;
                 'headerOptions' => ['style' => 'text-align:center;', 'class' => 'activity-view-link',],
                 'class' => 'yii\grid\ActionColumn',
                 'contentOptions' => ['style' => 'text-align: center'],
-                'template' => '{paymentloan}{view}{update}{delete}',
+                'template' => '{view}{update}{delete}',
                 'buttons' => [
-                    'paymentloan' => function ($url, $data, $index) {
-                        $options = [
-                            'title' => Yii::t('yii', 'View'),
-                            'aria-label' => Yii::t('yii', 'View'),
-                            'data-pjax' => '0',
-                        ];
-                        return Html::a(
-                            '<span class="fas fa-check-circle btn btn-xs btn-warning"></span>', $url, $options);
-                    },
+
                     'view' => function ($url, $data, $index) {
                         $options = [
                             'title' => Yii::t('yii', 'View'),

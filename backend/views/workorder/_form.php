@@ -33,7 +33,7 @@ use yii\widgets\ActiveForm;
     <div class="row">
         <div class="col-lg-4">
             <?= $form->field($model, 'asset_id')->Widget(\kartik\select2\Select2::className(), [
-                'data' => \yii\helpers\ArrayHelper::map(\backend\models\asset::find()->all(), 'id', function ($data) {
+                'data' => \yii\helpers\ArrayHelper::map(\backend\models\Asset::find()->all(), 'id', function ($data) {
                     return $data->name;
                 }),
                 'options' => [
