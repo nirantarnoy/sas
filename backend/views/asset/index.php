@@ -59,12 +59,22 @@ $this->params['breadcrumbs'][] = '/ '.$this->title;
             'asset_no',
             'name',
             'description',
-            'asset_cat_id',
+            [
+                'attribute' => 'asset_cat_id',
+                'value' => function ($data) {
+                    return \backend\models\Assetcategory::findName($data->asset_cat_id);
+                },
+            ],
             //'asset_brand_name',
             //'model_no',
-            //'serail_no',
+            'serail_no',
             //'department_id',
-            //'location_id',
+            [
+                'attribute' => 'location_id',
+                'value' => function ($data) {
+                    return \backend\models\Location::findName($data->location_id);
+                },
+            ],
             //'supplier_name',
             //'supplier_contact',
             //'cost',

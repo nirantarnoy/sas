@@ -5,16 +5,17 @@ use yii\grid\GridView;
 use yii\widgets\Pjax;
 use yii\widgets\LinkPager;
 use yii\helpers\Url;
+
 /* @var $this yii\web\View */
 /* @var $searchModel backend\models\EmployeeSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
 $this->title = 'พนักงาน';
-$this->params['breadcrumbs'][] = '/ '.$this->title;
+$this->params['breadcrumbs'][] = '/ ' . $this->title;
 ?>
 <div class="employee-index">
 
-    <br />
+    <br/>
     <div class="row">
         <div class="col-lg-10">
             <p>
@@ -38,7 +39,7 @@ $this->params['breadcrumbs'][] = '/ '.$this->title;
     </div>
 
     <?php Pjax::begin(); ?>
-    <?php  echo $this->render('_search', ['model' => $searchModel]); ?>
+    <?php echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
@@ -59,7 +60,12 @@ $this->params['breadcrumbs'][] = '/ '.$this->title;
             'code',
             'fname',
             'lname',
-            'department_id',
+            [
+                'attribute' => 'department_id',
+                'value' => function ($data) {
+                    return \backend\models\Department::findName($data->department_id);
+                },
+            ],
             //'gender',
             //'position_id',
             //'status',
