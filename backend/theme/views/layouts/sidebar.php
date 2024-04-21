@@ -160,7 +160,7 @@
                         <?php //endif; ?>
                         <?php //if (\Yii::$app->user->can('customergroup/index')): ?>
                         <li class="nav-item">
-                            <a href="index.php?r=asset" class="nav-link asset">
+                            <a href="index.php?r=workorderassign" class="nav-link workorderassign">
                                 <i class="far fa-circlez nav-icon"></i>
                                 <p>มอบหมายงาน</p>
                             </a>
@@ -168,7 +168,7 @@
                         <?php //endif; ?>
                         <?php //if (\Yii::$app->user->can('customergroup/index')): ?>
                         <li class="nav-item">
-                            <a href="index.php?r=asset" class="nav-link asset">
+                            <a href="index.php?r=workorderrate" class="nav-link workorderrate">
                                 <i class="far fa-circlez nav-icon"></i>
                                 <p>ประเมินงานซ่อม</p>
                             </a>
