@@ -10,7 +10,7 @@ use yii\widgets\ActiveForm;
 
 <div class="asset-form">
 
-    <?php $form = ActiveForm::begin(); ?>
+    <?php $form = ActiveForm::begin(['options' => ['enctype'=>'multipart/form-data']]); ?>
 
     <div class="row">
         <div class="col-lg-3">
@@ -36,7 +36,7 @@ use yii\widgets\ActiveForm;
             ]) ?>
         </div>
         <div class="col-lg-3">
-            <?= $form->field($model, 'asset_brand_name')->textInput(['maxlength' => true]) ?>
+            <?= $form->field($model, 'asset_brand_name')->textInput(['maxlength'=> true]) ?>
         </div>
         <div class="col-lg-3">
             <?= $form->field($model, 'model_no')->textInput(['maxlength' => true]) ?>
@@ -109,7 +109,7 @@ use yii\widgets\ActiveForm;
         </div>
     </div>
 
-    <?= $form->field($model, 'photo')->fileInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'photo')->fileInput(['multiple'=>'multiple','id'=>'asset-photo','accept'=>'image/*']) ?>
 
     <div class="row">
         <div class="col-lg-12">
@@ -148,3 +148,15 @@ use yii\widgets\ActiveForm;
     <?php ActiveForm::end(); ?>
 
 </div>
+
+<?php
+$js=<<<JS
+ $("#asset-photo").change(function(){
+    if (parseInt($(this).get(0).files.length) > 3){
+                  alert("You are only allowed to upload a maximum of 4 files");
+                  $(this).val(null);
+    }
+ });
+JS;
+$this->registerJs($js,static::POS_END);
+?>
