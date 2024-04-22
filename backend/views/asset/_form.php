@@ -136,28 +136,36 @@ use yii\widgets\ActiveForm;
         <?php else: ?>
             <div class="row" style="padding: 1px;">
                 <?php for ($x = 0; $x <= 3; $x++): ?>
+                    <?php $loop = -1; ?>
                     <?php foreach ($model_asset_photo as $valuex): ?>
-                        <?php if ($x == 0): ?>
+                        <?php $loop +=1; ?>
+                        <?php if ($x == 0 && $loop == 0): ?>
                             <div class="col-lg-3"
-                                 style="border: 1px dashed grey;border-right: none;height: 150px;text-align: center;">
-                                <img src="<?=\Yii::$app->getUrlManager()->baseUrl.'/uploads/asset_photo/'.$valuex->photo?>" style="width: 50%" alt="">
+                                 style="border: 1px dashed grey;border-right: none;height: 250px;text-align: center;">
+                                <img src="<?= \Yii::$app->getUrlManager()->baseUrl . '/uploads/asset_photo/' . $valuex->photo ?>"
+                                     style="width: 130px;margin-top: 5px;" alt="">
                             </div>
-                           <?php continue 2;?>
-                        <?php elseif ($x == 1): ?>
-                            <div class="col-lg-3" style="border: 1px dashed grey;border-right: none;height: 150px;text-align: center;">
-                                <img src="<?=\Yii::$app->getUrlManager()->baseUrl.'/uploads/asset_photo/'.$valuex->photo?>" style="width: 50%" alt="">
+                            <?php continue 2; ?>
+                        <?php elseif ($x == 1 && $loop == 1): ?>
+                            <div class="col-lg-3"
+                                 style="border: 1px dashed grey;border-right: none;height: 250px;text-align: center;">
+                                <img src="<?= \Yii::$app->getUrlManager()->baseUrl . '/uploads/asset_photo/' . $valuex->photo ?>"
+                                     style="width: 130px;margin-top: 5px;" alt="">
                             </div>
-                            <?php continue 2;?>
-                        <?php elseif ($x == 2): ?>
-                            <div class="col-lg-3" style="border: 1px dashed grey;border-right: none;height: 150px;text-align: center;">
-                                <img src="<?=\Yii::$app->getUrlManager()->baseUrl.'/uploads/asset_photo/'.$valuex->photo?>" style="width: 50%" alt="">
+                            <?php continue 2; ?>
+                        <?php elseif ($x == 2 && $loop == 2): ?>
+                            <div class="col-lg-3"
+                                 style="border: 1px dashed grey;border-right: none;height: 250px;text-align: center;">
+                                <img src="<?= \Yii::$app->getUrlManager()->baseUrl . '/uploads/asset_photo/' . $valuex->photo ?>"
+                                     style="width: 130px;margin-top: 5px;" alt="">
                             </div>
-                            <?php continue 2;?>
-                        <?php elseif ($x == 3): ?>
-                            <div class="col-lg-3" style="border: 1px dashed grey;height: 150px;text-align: center;">
-                                <img src="<?=\Yii::$app->getUrlManager()->baseUrl.'/uploads/asset_photo/'.$valuex->photo?>" style="width: 50%" alt="">
+                            <?php continue 2; ?>
+                        <?php elseif ($x == 3 && $loop == 3): ?>
+                            <div class="col-lg-3" style="border: 1px dashed grey;height: 250px;text-align: center;">
+                                <img src="<?= \Yii::$app->getUrlManager()->baseUrl . '/uploads/asset_photo/' . $valuex->photo ?>"
+                                     style="width: 130px;margin-top: 5px;" alt="">
                             </div>
-                            <?php continue 2;?>
+                            <?php continue 2; ?>
                         <?php endif; ?>
                     <?php endforeach; ?>
                 <?php endfor; ?>
