@@ -48,11 +48,17 @@ class Asset extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
+            [['asset_no'],'unique'],
             [['asset_no','name'],'required'],
             [['asset_cat_id', 'department_id', 'location_id', 'status', 'created_at', 'created_by', 'updated_at', 'updated_by'], 'integer'],
             [['cost', 'watt'], 'number'],
             [['recieve_date', 'waranty_exp_date'], 'safe'],
-            [['asset_no', 'name', 'description', 'asset_brand_name', 'model_no', 'serail_no', 'supplier_name', 'supplier_contact', 'electric_type', 'breaker_no', 'photo'], 'string', 'max' => 255],
+            [['asset_no', 'name', 'description', 'asset_brand_name', 'model_no', 'serail_no', 'supplier_name', 'supplier_contact', 'electric_type', 'breaker_no'], 'string', 'max' => 255],
+            [['photo'],'file',
+                'skipOnEmpty' => true,
+                'maxFiles' => 4,
+                'extensions' => 'png,jpg',
+                'message' => 'เลือกไฟล์ได้สูงสุด 4 ไฟล์',]
         ];
     }
 
@@ -80,7 +86,7 @@ class Asset extends \yii\db\ActiveRecord
             'watt' => 'Watt',
             'electric_type' => 'Electric Type',
             'breaker_no' => 'Breaker No',
-            'photo' => 'Photo',
+            'photo' => 'รูปภาพ',
             'status' => 'สถานะ',
             'created_at' => 'สร้างเมื่อ',
             'created_by' => 'สร้างโดย',

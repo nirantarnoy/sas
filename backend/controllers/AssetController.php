@@ -75,7 +75,7 @@ class AssetController extends Controller
 
         if ($model->load(Yii::$app->request->post())) {
             $uploaded = UploadedFile::getInstances($model,'photo');
-
+             $model->photo = '';
             if($model->save(false)){
                 if(!empty($uploaded)){
 //               for($i=0;$i<=count($uploaded)-1;$i++){
@@ -110,13 +110,14 @@ class AssetController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
-
+        $model_asset_photo = \common\models\AssetPhoto::find()->where(['asset_id'=>$id])->all();
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
         }
 
         return $this->render('update', [
             'model' => $model,
+            'model_asset_photo'=> $model_asset_photo,
         ]);
     }
 
