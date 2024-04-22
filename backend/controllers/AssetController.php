@@ -74,8 +74,23 @@ class AssetController extends Controller
         $model = new Asset();
 
         if ($model->load(Yii::$app->request->post())) {
-            if($model->save(false)){
+            $uploaded = UploadedFile::getInstances($model,'photo');
 
+            if($model->save(false)){
+                if(!empty($uploaded)){
+//               for($i=0;$i<=count($uploaded)-1;$i++){
+//
+//               }
+                    //     echo count($uploaded);return;
+                    foreach ($uploaded as $file) {
+                        if($file->saveAs('uploads/asset_photo/' . $file->baseName . '.' . $file->extension)){
+                            $model_photo = new \common\models\AssetPhoto();
+                            $model_photo->asset_id = $model->id;
+                            $model_photo->photo = $file->baseName . '.' . $file->extension;
+                            $model_photo->save(false);
+                        }
+                    }
+                }
             }
             return $this->redirect(['view', 'id' => $model->id]);
         }

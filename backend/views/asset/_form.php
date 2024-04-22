@@ -152,7 +152,7 @@ use yii\widgets\ActiveForm;
 <?php
 $js=<<<JS
  $("#asset-photo").change(function(){
-    if (parseInt($(this).get(0).files.length) > 3){
+    if (parseInt($(this).get(0).files.length) > 4){
                   alert("You are only allowed to upload a maximum of 4 files");
                   $(this).val(null);
     }
