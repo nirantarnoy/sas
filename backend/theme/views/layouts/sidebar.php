@@ -1,4 +1,4 @@
-<aside class="main-sidebar sidebar-light">
+<aside class="main-sidebar sidebar-light-dark elevation-1">
     <!-- Brand Logo -->
     <a href="index.php?r=site/index" class="brand-link">
 <!--        <img src="--><?php //echo Yii::$app->request->baseUrl; ?><!--/uploads/logo/narono_logo.png" alt="Narono" class="brand-image">-->
