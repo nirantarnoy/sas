@@ -1,7 +1,8 @@
 <?php
 
 use yii\helpers\Html;
-use yii\grid\GridView;
+//use yii\grid\GridView;
+use kartik\grid\GridView;
 use yii\widgets\Pjax;
 use yii\widgets\LinkPager;
 use yii\helpers\Url;
@@ -43,6 +44,15 @@ $this->params['breadcrumbs'][] = '/ '.$this->title;
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         //        'filterModel' => $searchModel,
+        'bordered' => true,
+        'striped' => false,
+        'responsive'=>false,
+        'floatHeader'=>false,
+        'responsiveWrap' => false,
+        'containerOptions'=>['style'=>'overflow: auto'], // only set when $responsive = false
+        'headerRowOptions'=>['class'=>'kartik-sheet-style'],
+        'filterRowOptions'=>['class'=>'kartik-sheet-style'],
+        'persistResize'=>false,
         'layout' => "{items}\n{summary}\n<div class='text-center'>{pager}</div>",
         'summary' => "แสดง {begin} - {end} ของทั้งหมด {totalCount} รายการ",
         'showOnEmpty' => false,
