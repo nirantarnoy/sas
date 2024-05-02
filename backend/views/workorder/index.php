@@ -83,6 +83,18 @@ $this->params['breadcrumbs'][] = '/ ' . $this->title;
                 }
             ],
             [
+                'attribute' => 'problem_text',
+                'format' => 'html',
+                'value' => function ($data) {
+                    if($data->problem_text != ''){
+                        return substr($data->problem_text,0,20).'<span style="color: red;">...</span>';
+                    }else{
+                        return '';
+                    }
+
+                }
+            ],
+            [
 
                 'attribute' => 'assign_emp_id',
                 'value' => function ($data) {
