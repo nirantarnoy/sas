@@ -82,7 +82,13 @@ $this->params['breadcrumbs'][] = '/ ' . $this->title;
                     return \backend\models\Asset::findLocationName($data->asset_id);
                 }
             ],
-            'assign_emp_id',
+            [
+
+                'attribute' => 'assign_emp_id',
+                'value' => function ($data) {
+                    return \backend\models\Employee::findName($data->assign_emp_id);
+                }
+            ],
             //'work_recieve_date',
             //'work_assign_date',
             [
