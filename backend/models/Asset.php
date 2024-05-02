@@ -69,6 +69,16 @@ class Asset extends \common\models\Asset
         return $model != null?$model->serail_no:'';
         // return 'niran';
     }
+    public function findAssetBrand($id){
+        $model = \backend\models\Asset::find()->where(['id'=>$id])->one();
+        return $model != null?$model->asset_brand_name:'';
+        // return 'niran';
+    }
+    public function findAssetmodel($id){
+        $model = \backend\models\Asset::find()->where(['id'=>$id])->one();
+        return $model != null?$model->model_no:'';
+        // return 'niran';
+    }
     public function findLocationName($id){
         $loc_name = '';
         $model = \backend\models\Asset::find()->where(['id'=>$id])->one();
@@ -78,7 +88,18 @@ class Asset extends \common\models\Asset
                 $loc_name = $loc_model->name;
             }
         }
-       return $loc_name;
+        return $loc_name;
+    }
+    public function findDeptName($id){
+        $loc_name = '';
+        $model = \backend\models\Asset::find()->where(['id'=>$id])->one();
+        if($model){
+            $loc_model = \backend\models\Department::find()->select(['name'])->where(['id'=>$model->department_id])->one();
+            if($loc_model){
+                $loc_name = $loc_model->name;
+            }
+        }
+        return $loc_name;
     }
 //    public function findId($code){
 //        $model = Costitem::find()->where(['name'=>$code])->one();
