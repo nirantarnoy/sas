@@ -8,6 +8,7 @@ use backend\models\WorkorderSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\web\UploadedFile;
 
 /**
  * WorkorderController implements the CRUD actions for Workorder model.
@@ -15,6 +16,7 @@ use yii\filters\VerbFilter;
 class WorkorderController extends Controller
 {
     public $enableCsrfValidation = false;
+
     /**
      * {@inheritdoc}
      */
@@ -73,10 +75,10 @@ class WorkorderController extends Controller
 
         if ($model->load(Yii::$app->request->post())) {
             $w_date = date('Y-m-d');
-            $xdate = explode('/',$model->workorder_date);
-            if($xdate!=null){
-                if(count($xdate)>1){
-                    $w_date = $xdate[2].'/'.$xdate[1].'/'.$xdate[0].' '.date('H:i:s');
+            $xdate = explode('/', $model->workorder_date);
+            if ($xdate != null) {
+                if (count($xdate) > 1) {
+                    $w_date = $xdate[2] . '/' . $xdate[1] . '/' . $xdate[0] . ' ' . date('H:i:s');
                 }
             }
 //            $work_created_by = \Yii::$app->request->post('work_created_by');
@@ -90,19 +92,19 @@ class WorkorderController extends Controller
 
 
             $model->workorder_no = $model::getLastNo();
-            $model->workorder_date = date('Y-m-d H:i:s',strtotime($w_date));
+            $model->workorder_date = date('Y-m-d H:i:s', strtotime($w_date));
             $model->status = 1; // open init
             $model->factor_risk_1 = $fac1;
             $model->factor_risk_2 = $fac2;
             $model->factor_risk_3 = $fac3;
             $model->factor_total = $fac_total;
             $model->factor_risk_final = $fac_final;
-            if($model->save(false)){
+            if ($model->save(false)) {
                 $session = \Yii::$app->session;
-                $session->setFlash('msg-success','บันทึกรายการเรียบร้อย');
+                $session->setFlash('msg-success', 'บันทึกรายการเรียบร้อย');
                 return $this->redirect(['index']);
             }
-          //  return $this->redirect(['view', 'id' => $model->id]);
+            //  return $this->redirect(['view', 'id' => $model->id]);
         }
 
         return $this->render('create', [
@@ -120,6 +122,18 @@ class WorkorderController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
+        $work_photo = '';
+        $work_vdo = '';
+        $model_work_photo = \common\models\WorkorderPhoto::find()->select(['photo'])->where(['workorder_id'=>$id])->one();
+        $model_work_vdo = \common\models\WorkorderVdo::find()->select(['file_name'])->where(['workorder_id'=>$id])->one();
+
+        if($model_work_photo){
+            $work_photo = $model_work_photo->photo;
+        }
+        if($model_work_vdo){
+            $work_vdo = $model_work_vdo->file_name;
+        }
+
 
         if ($model->load(Yii::$app->request->post())) {
             $work_created_by = \Yii::$app->request->post('work_created_by');
@@ -132,14 +146,14 @@ class WorkorderController extends Controller
             $fac_final = \Yii::$app->request->post('factor_final');
 
             $w_date = date('Y-m-d');
-            $xdate = explode('/',$model->workorder_date);
-            if($xdate!=null){
-                if(count($xdate)>1){
-                    $w_date = $xdate[2].'/'.$xdate[1].'/'.$xdate[0].' '.date('H:i:s');
+            $xdate = explode('/', $model->workorder_date);
+            if ($xdate != null) {
+                if (count($xdate) > 1) {
+                    $w_date = $xdate[2] . '/' . $xdate[1] . '/' . $xdate[0] . ' ' . date('H:i:s');
                 }
             }
 
-           // $model->workorder_date = date('Y-m-d H:i:s',strtotime($w_date));
+            // $model->workorder_date = date('Y-m-d H:i:s',strtotime($w_date));
             $model->created_by = $work_created_by;
             $model->status = $work_status;
             $model->factor_risk_1 = $fac1;
@@ -147,9 +161,35 @@ class WorkorderController extends Controller
             $model->factor_risk_3 = $fac3;
             $model->factor_total = $fac_total;
             $model->factor_risk_final = $fac_final;
-            if($model->save(false)){
+            if ($model->save(false)) {
+                $uploaded = UploadedFile::getInstanceByName('work_photo');
+                $uploaded2 = UploadedFile::getInstanceByName('work_video');
+
+                if (!empty($uploaded)) {
+                    $upfiles = "photo_".time() . "." . $uploaded->getExtension();
+                    if ($uploaded->saveAs('uploads/workorder_photo/' . $upfiles)) {
+                        $model_photo = new \common\models\WorkorderPhoto();
+                        $model_photo->workorder_id = $model->id;
+                        $model_photo->photo = $upfiles;
+                        $model_photo->save(false);
+                    }
+
+                }
+
+                if (!empty($uploaded2)) {
+                    $upfiles2 = "vdo_".time() . "." . $uploaded2->getExtension();
+                    if ($uploaded2->saveAs('uploads/workorder_vdo/' . $upfiles2)) {
+                        $model_vdo = new \common\models\WorkorderVdo();
+                        $model_vdo->workorder_id = $model->id;
+                        $model_vdo->file_name = $upfiles2;
+                        $model_vdo->save(false);
+                    }
+
+                }
+
+
                 $session = \Yii::$app->session;
-                $session->setFlash('msg-success','บันทึกรายการเรียบร้อย');
+                $session->setFlash('msg-success', 'บันทึกรายการเรียบร้อย');
                 return $this->redirect(['index']);
             }
 
@@ -157,6 +197,8 @@ class WorkorderController extends Controller
 
         return $this->render('update', [
             'model' => $model,
+            'work_photo' => $work_photo,
+            'work_vdo' => $work_vdo,
         ]);
     }
 

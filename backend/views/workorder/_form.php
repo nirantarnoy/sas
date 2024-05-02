@@ -15,7 +15,7 @@ if ($model->asset_id != null) {
 
     <div class="workorder-form">
 
-        <?php $form = ActiveForm::begin(); ?>
+        <?php $form = ActiveForm::begin(['options' => ['enctype' => 'multipart/form-data']]); ?>
 
         <div class="row">
             <div class="col-lg-4">
@@ -72,13 +72,51 @@ if ($model->asset_id != null) {
                 <?= $form->field($model, 'problem_text')->textarea(['maxlength' => true,]) ?>
             </div>
         </div>
+
+        <br/>
         <div class="row">
             <div class="col-lg-6">
                 <label for="">รูปภาพ</label>
+                <?php if ($model->isNewRecord): ?>
+                    <table style="width: 100%">
+                        <tr>
+                            <td style="border: 1px dashed grey;height: 150px;text-align: center;">
+
+                            </td>
+                        </tr>
+                    </table>
+                <?php else: ?>
+                    <table style="width: 100%">
+                        <tr>
+                            <td style="border: 1px dashed grey;height: 150px;text-align: center;">
+                                <img src="<?= \Yii::$app->getUrlManager()->baseUrl . '/uploads/workorder_photo/' . $work_photo ?>"
+                                     style="max-width: 130px;margin-top: 5px;" alt="">
+                            </td>
+                        </tr>
+                    </table>
+                <?php endif; ?>
                 <input type="file" name="work_photo" class="form-control">
             </div>
             <div class="col-lg-6">
                 <label for="">วิดีโอ</label>
+                <?php if ($model->isNewRecord): ?>
+                    <table style="width: 100%">
+                        <tr>
+                            <td style="border: 1px dashed grey;height: 150px;text-align: center;">
+
+                            </td>
+                        </tr>
+                    </table>
+                <?php else: ?>
+                    <table style="width: 100%">
+                        <tr>
+                            <td style="border: 1px dashed grey;height: 150px;text-align: center;">
+                                <img src="<?= \Yii::$app->getUrlManager()->baseUrl . '/uploads/workorder_vdo/' . $work_vdo ?>"
+                                     style="max-width: 130px;margin-top: 5px;" alt="">
+                            </td>
+                        </tr>
+                    </table>
+                <?php endif; ?>
                 <input type="file" name="work_video" class="form-control">
             </div>
         </div>
@@ -133,41 +171,46 @@ if ($model->asset_id != null) {
         </div>
         <br/>
         <div class="row">
-         <div class="col-lg-4">
-             <label for="">ความเสี่ยงก่อนการแก้ไข</label>
-             <table class="table table-bordered table-striped">
-                 <tr>
-                     <td>ความรุนแรง</td>
-                     <td>
-                         <input class="form-control factor-risk-1" type="number" min="0" name="factor_risk_1" value="<?=$model->factor_risk_1?>" onchange="calfactorrisk($(this))">
-                     </td>
-                 </tr>
-                 <tr>
-                     <td>ความถี่</td>
-                     <td>
-                         <input class="form-control factor-risk-2" type="number" min="0" name="factor_risk_2" value="<?=$model->factor_risk_2?>" onchange="calfactorrisk($(this))">
-                     </td>
-                 </tr>
-                 <tr>
-                     <td>มาตรการ Safety</td>
-                     <td>
-                         <input class="form-control factor-risk-3" type="number" min="0" name="factor_risk_3" value="<?=$model->factor_risk_3?>" onchange="calfactorrisk($(this))">
-                     </td>
-                 </tr>
-                 <tr>
-                     <td>(1)+(2)+(3)</td>
-                     <td>
-                         <input class="form-control factor-total" type="text" readonly name="factor_total" value="<?=$model->factor_total?>">
-                     </td>
-                 </tr>
-                 <tr>
-                     <td>สรุปความเสี่ยง</td>
-                     <td>
-                         <input class="form-control" type="text" name="factor_final" value="<?=$model->factor_risk_final?>">
-                     </td>
-                 </tr>
-             </table>
-         </div>
+            <div class="col-lg-4">
+                <label for="">ความเสี่ยงก่อนการแก้ไข</label>
+                <table class="table table-bordered table-striped">
+                    <tr>
+                        <td>ความรุนแรง</td>
+                        <td>
+                            <input class="form-control factor-risk-1" type="number" min="0" name="factor_risk_1"
+                                   value="<?= $model->factor_risk_1 ?>" onchange="calfactorrisk($(this))">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>ความถี่</td>
+                        <td>
+                            <input class="form-control factor-risk-2" type="number" min="0" name="factor_risk_2"
+                                   value="<?= $model->factor_risk_2 ?>" onchange="calfactorrisk($(this))">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>มาตรการ Safety</td>
+                        <td>
+                            <input class="form-control factor-risk-3" type="number" min="0" name="factor_risk_3"
+                                   value="<?= $model->factor_risk_3 ?>" onchange="calfactorrisk($(this))">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>(1)+(2)+(3)</td>
+                        <td>
+                            <input class="form-control factor-total" type="text" readonly name="factor_total"
+                                   value="<?= $model->factor_total ?>">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>สรุปความเสี่ยง</td>
+                        <td>
+                            <input class="form-control" type="text" name="factor_final"
+                                   value="<?= $model->factor_risk_final ?>">
+                        </td>
+                    </tr>
+                </table>
+            </div>
         </div>
 
 
