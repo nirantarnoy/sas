@@ -58,7 +58,7 @@ class Asset extends \yii\db\ActiveRecord
                 'maxFiles' => 4,
                 'extensions' => 'png,jpg',
                 'message' => 'เลือกไฟล์ได้สูงสุด 4 ไฟล์',],
-            [['asset_no'],'unique'],
+           // [['asset_no'],'unique'],
         ];
     }
 
