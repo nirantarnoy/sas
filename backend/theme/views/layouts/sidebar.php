@@ -173,23 +173,43 @@
                         </li>
                         <?php //endif; ?>
                         <?php //if (\Yii::$app->user->can('customergroup/index')): ?>
-                        <li class="nav-item">
-                            <a href="index.php?r=workorderrate" class="nav-link workorderrate">
-                                <i class="far fa-circlez nav-icon"></i>
-                                <p>ประเมินงานซ่อม</p>
-                            </a>
-                        </li>
+<!--                        <li class="nav-item">-->
+<!--                            <a href="index.php?r=workorderrate" class="nav-link workorderrate">-->
+<!--                                <i class="far fa-circlez nav-icon"></i>-->
+<!--                                <p>ประเมินงานซ่อม</p>-->
+<!--                            </a>-->
+<!--                        </li>-->
+<!--                        --><?php ////endif; ?>
+<!---->
+<!--                        --><?php ////if (\Yii::$app->user->can('customergroup/index')): ?>
+<!--                        <li class="nav-item">-->
+<!--                            <a href="index.php?r=asset" class="nav-link asset">-->
+<!--                                <i class="far fa-circlez nav-icon"></i>-->
+<!--                                <p>วิเคราะห์งานซ่อม</p>-->
+<!--                            </a>-->
+<!--                        </li>-->
                         <?php //endif; ?>
 
-                        <?php //if (\Yii::$app->user->can('customergroup/index')): ?>
+
+                    </ul>
+                </li>
+                <li class="nav-item has-treeview has-sub">
+                    <a href="#" class="nav-link">
+                        <i class="nav-icon fas fa-comments"></i>
+                        <p>
+                            แชต
+                            <i class="right fas fa-angle-left"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <?php //if (\Yii::$app->user->can('salecomreport/index')): ?>
                         <li class="nav-item">
-                            <a href="index.php?r=asset" class="nav-link asset">
+                            <a href="#" class="nav-link">
                                 <i class="far fa-circlez nav-icon"></i>
-                                <p>วิเคราะห์งานซ่อม</p>
+                                <p>แชต</p>
                             </a>
                         </li>
-                        <?php //endif; ?>
-
+                        <?php //endif;?>
 
                     </ul>
                 </li>
@@ -204,7 +224,7 @@
                     <ul class="nav nav-treeview">
                         <?php //if (\Yii::$app->user->can('salecomreport/index')): ?>
                         <li class="nav-item">
-                            <a href="index.php?r=report/workqueuedaily" class="nav-link workqueuedaily">
+                            <a href="index.php?r=#" class="nav-link">
                                 <i class="far fa-circlez nav-icon"></i>
                                 <p>รายงานประจำวัน</p>
                             </a>
@@ -245,7 +265,7 @@
 
                             <?php //if (\Yii::$app->user->can('authitem/index')): ?>
                                 <li class="nav-item">
-                                    <a href="index.php?r=authitem" class="nav-link auth">
+                                    <a href="index.php?r=authitem" class="nav-link authitem">
                                         <i class="far fa-circlez nav-icon"></i>
                                         <p>สิทธิ์การใช้งาน</p>
                                     </a>

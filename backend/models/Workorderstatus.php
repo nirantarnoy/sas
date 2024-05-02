@@ -48,9 +48,9 @@ class Workorderstatus extends \common\models\WorkorderStatus
         ];
     }
 
-    public function findPersonNum($id){
-        $model = \backend\models\User::find()->where(['id'=>$id])->one();
-        return $model != null?$model->username:'';
+    public function findName($id){
+        $model = \backend\models\Workorderstatus::find()->where(['id'=>$id])->one();
+        return $model != null?$model->name:'';
         // return 'niran';
     }
 //    public function findId($code){

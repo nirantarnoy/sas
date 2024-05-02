@@ -6,8 +6,8 @@ use yii\widgets\DetailView;
 /* @var $this yii\web\View */
 /* @var $model backend\models\Workorder */
 
-$this->title = $model->id;
-$this->params['breadcrumbs'][] = ['label' => 'Workorders', 'url' => ['index']];
+$this->title = $model->workorder_no;
+$this->params['breadcrumbs'][] = ['label' => 'ใบแจ้งซ่อม', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 \yii\web\YiiAsset::register($this);
 ?>
@@ -31,12 +31,40 @@ $this->params['breadcrumbs'][] = $this->title;
         'attributes' => [
 //            'id',
             'workorder_no',
-            'workorder_date',
-            'asset_id',
+            [
+                'attribute' => 'workorder_date',
+                'value' => function ($data) {
+                    return date('d/m/Y', strtotime($data->workorder_date));
+                },
+            ],
+            [
+                'attribute' => 'asset_id',
+                'value' => function ($data) {
+                    return \backend\models\Asset::findName($data->asset_id);
+                }
+            ],
             'assign_emp_id',
+            //'work_recieve_date',
+            //'work_assign_date',
+            [
+                'attribute' => 'created_by',
+                'value' => function ($data) {
+                    return \backend\models\User::findName($data->created_by);
+                }
+            ],
+            [
+                'attribute' => 'status',
+                'format' => 'html',
+                'value' => function ($data) {
+                    $status_name = \backend\models\Workorderstatus::findName($data->status);
+                    if($data->status == 1){
+                        return '<div class="badge badge-success">'.$status_name.'</div>';
+                    }
+                }
+            ],
             'work_recieve_date',
             'work_assign_date',
-            'status',
+ //           'status',
 //            'created_at',
 //            'created_by',
 //            'updated_at',

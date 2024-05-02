@@ -179,8 +179,6 @@ $is_pos_user = 0;
 <script>
     var cururl = $("#current-url").val();
     $(function () {
-
-
         //---- active menu
         $("#perpage").change(function () {
             $("#form-perpage").submit();

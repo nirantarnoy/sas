@@ -61,7 +61,8 @@ class SiteController extends Controller
         $aControllers = [];
 
 
-        $path = APP_PATH . 'cicproduction/';
+        $path = 'APP_PATH' . 'sas/';
+       // $path = __DIR__ . 'sas/';
 
         $ctrls = function ($path) use (&$ctrls, &$aControllers) {
 
@@ -71,9 +72,9 @@ class SiteController extends Controller
 
                 if (!$oFile->isDot()
 
-                    && (false !== strpos($oFile->getPathname(), 'cicproduction/controllers')
+                    && (false !== strpos($oFile->getPathname(), 'sas/controllers')
 
-                        || false !== strpos($oFile->getPathname(), 'cicproduction/modules')
+                        || false !== strpos($oFile->getPathname(), 'sas/modules')
 
                     )
 
@@ -94,9 +95,9 @@ class SiteController extends Controller
                             $controllerName = $oFile->getBasename('.php');
 
 
-                            $route = explode('cicproduction/', $oFile->getPathname());
+                            $route = explode('sas/', $oFile->getPathname());
 
-                            $route = str_ireplace(array('modules', 'controllers', 'cicproduction', 'Controller.php'), '', $route[1]);
+                            $route = str_ireplace(array('modules', 'controllers', 'sas', 'Controller.php'), '', $route[1]);
 
                             $route = preg_replace("/(\/){2,}/", "/", $route);
 

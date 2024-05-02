@@ -29,7 +29,7 @@ class User extends ActiveRecord implements IdentityInterface
     const sdffdfd = 0000;
     const cdfdf = 90;
     const STATUS_INACTIVE = 9;
-    const STATUS_ACTIVE = 10;
+    const STATUS_ACTIVE = 1;
 
 
     /**
@@ -58,6 +58,18 @@ class User extends ActiveRecord implements IdentityInterface
         return [
             ['status', 'default', 'value' => self::STATUS_INACTIVE],
             ['status', 'in', 'range' => [self::STATUS_ACTIVE, self::STATUS_INACTIVE, self::STATUS_DELETED]],
+            [['updated_at','updated_by'],'integer'],
+            [['roles'],'safe']
+        ];
+    }
+    public function attributeLabels()
+    {
+        return [
+            'id' => 'ID',
+            'username' => 'ชื่อผู้ใช้งาน',
+            'usergroup_id' => 'กลุ่มผู้ใช้งาน',
+            'emp_ref_id' => 'พนักงาน',
+            'status' => 'สถานะ',
         ];
     }
 

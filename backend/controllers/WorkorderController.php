@@ -71,8 +71,25 @@ class WorkorderController extends Controller
     {
         $model = new Workorder();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+        if ($model->load(Yii::$app->request->post())) {
+            $w_date = date('Y-m-d');
+            $xdate = explode('/',$model->workorder_date);
+            if($xdate!=null){
+                if(count($xdate)>1){
+                    $w_date = $xdate[2].'/'.$xdate[1].'/'.$xdate[0];
+                }
+            }
+
+
+            $model->workorder_no = $model::getLastNo();
+            $model->workorder_date = date('Y-m-d',strtotime($w_date));
+            $model->status = 1; // open init
+            if($model->save(false)){
+                $session = \Yii::$app->session;
+                $session->setFlash('msg-success','บันทึกรายการเรียบร้อย');
+                return $this->redirect(['index']);
+            }
+          //  return $this->redirect(['view', 'id' => $model->id]);
         }
 
         return $this->render('create', [
@@ -91,8 +108,26 @@ class WorkorderController extends Controller
     {
         $model = $this->findModel($id);
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+        if ($model->load(Yii::$app->request->post())) {
+            $work_created_by = \Yii::$app->request->post('work_created_by');
+            $work_status = \Yii::$app->request->post('work_status');
+            $w_date = date('Y-m-d');
+            $xdate = explode('/',$model->workorder_date);
+            if($xdate!=null){
+                if(count($xdate)>1){
+                    $w_date = $xdate[2].'/'.$xdate[1].'/'.$xdate[0];
+                }
+            }
+
+            $model->workorder_date = date('Y-m-d',strtotime($w_date));
+            $model->created_by = $work_created_by;
+            $model->status = $work_status;
+            if($model->save(false)){
+                $session = \Yii::$app->session;
+                $session->setFlash('msg-success','บันทึกรายการเรียบร้อย');
+                return $this->redirect(['index']);
+            }
+
         }
 
         return $this->render('update', [

@@ -5,16 +5,22 @@ use yii\grid\GridView;
 use yii\widgets\Pjax;
 use yii\widgets\LinkPager;
 use yii\helpers\Url;
+
 /* @var $this yii\web\View */
 /* @var $searchModel backend\models\WorkorderSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
 $this->title = 'ใบแจ้งซ่อม';
-$this->params['breadcrumbs'][] = '/ '.$this->title;
+$this->params['breadcrumbs'][] = '/ ' . $this->title;
 ?>
 <div class="workorder-index">
-
-    <br />
+    <?php if (!empty(\Yii::$app->session->getFlash('msg-success'))): ?>
+        <div class="alert alert-success alert-dismissible">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            <?= \Yii::$app->session->getFlash('msg-success') ?>
+        </div>
+    <?php endif; ?>
+    <br/>
     <div class="row">
         <div class="col-lg-10">
             <p>
@@ -38,7 +44,7 @@ $this->params['breadcrumbs'][] = '/ '.$this->title;
     </div>
 
     <?php Pjax::begin(); ?>
-    <?php  echo $this->render('_search', ['model' => $searchModel]); ?>
+    <?php echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
@@ -58,12 +64,52 @@ $this->params['breadcrumbs'][] = '/ '.$this->title;
 
 //            'id',
             'workorder_no',
-            'workorder_date',
-            'asset_id',
+            [
+                'attribute' => 'workorder_date',
+                'value' => function ($data) {
+                    return date('d/m/Y', strtotime($data->workorder_date));
+                },
+            ],
+            [
+                'attribute' => 'asset_id',
+                'value' => function ($data) {
+                    return \backend\models\Asset::findName($data->asset_id);
+                }
+            ],
+            [
+                'label' => 'ที่ตั้งเครื่องจักร',
+                'value' => function ($data) {
+                    return \backend\models\Asset::findLocationName($data->asset_id);
+                }
+            ],
             'assign_emp_id',
             //'work_recieve_date',
             //'work_assign_date',
-            //'status',
+            [
+                'attribute' => 'created_by',
+                'value' => function ($data) {
+                    return \backend\models\User::findName($data->created_by);
+                }
+            ],
+            [
+                'attribute' => 'status',
+                'format' => 'html',
+                'value' => function ($data) {
+                    $status_name = \backend\models\Workorderstatus::findName($data->status);
+                    if ($data->status == 1) {
+                        return '<div class="badge badge-secondary">' . $status_name . '</div>';
+                    }
+                    if ($data->status == 2) {
+                        return '<div class="badge badge-info">' . $status_name . '</div>';
+                    }
+                    if ($data->status == 3) {
+                        return '<div class="badge badge-danger">' . $status_name . '</div>';
+                    }
+                    if ($data->status == 4) {
+                        return '<div class="badge badge-success">' . $status_name . '</div>';
+                    }
+                }
+            ],
             //'created_at',
             //'created_by',
             //'updated_at',

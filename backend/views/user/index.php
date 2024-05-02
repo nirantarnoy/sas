@@ -56,16 +56,33 @@ $this->params['breadcrumbs'][] = '/ '.$this->title;
             ['class' => 'yii\grid\SerialColumn'],
 
             'username',
-            'auth_key',
-            'password_hash',
+       //     'auth_key',
+       //     'password_hash',
 //            'password_reset_token',
             //'email:email',
-            'status',
-            //'created_at',
-            //'updated_at',
-            //'verification_token',
-            //'usergroup_id',
-            //'emp_ref_id',
+            [
+                'attribute' => 'usergroup_id',
+                'value' => function ($data) {
+                    return \backend\models\Usergroup::findName($data->usergroup_id);
+                },
+            ],
+            [
+                'attribute' => 'emp_ref_id',
+                'value' => function ($data) {
+                    return \backend\models\Employee::findName($data->emp_ref_id);
+                },
+            ],
+            [
+                'attribute' => 'status',
+                'format' => 'html',
+                'value' => function ($data) {
+                    if($data->status == 1){
+                        return '<div class="badge badge-success">Active</div>';
+                    }else{
+                        return '<div class="badge badge-secondary">Inactive</div>';
+                    }
+                },
+            ],
 
             [
 

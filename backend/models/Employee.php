@@ -48,9 +48,9 @@ class Employee extends \common\models\Employee
         ];
     }
 
-    public function findPersonNum($id){
-        $model = \backend\models\User::find()->where(['id'=>$id])->one();
-        return $model != null?$model->username:'';
+    public function findName($id){
+        $model = \backend\models\Employee::find()->where(['id'=>$id])->one();
+        return $model != null?$model->fname.' '.$model->lname:'';
         // return 'niran';
     }
 //    public function findId($code){

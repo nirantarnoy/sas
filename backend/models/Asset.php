@@ -48,10 +48,37 @@ class Asset extends \common\models\Asset
         ];
     }
 
-    public function findPersonNum($id){
-        $model = \backend\models\User::find()->where(['id'=>$id])->one();
-        return $model != null?$model->username:'';
+    public function findName($id){
+        $model = \backend\models\Asset::find()->where(['id'=>$id])->one();
+        return $model != null?$model->name:'';
         // return 'niran';
+    }
+    public function findAssetCatName($id){
+        $cat_name = '';
+        $model = \backend\models\Asset::find()->where(['id'=>$id])->one();
+        if($model){
+            $cat_model = \backend\models\Assetcategory::find()->select(['name'])->where(['id'=>$model->asset_cat_id])->one();
+            if($cat_model){
+                $cat_name = $cat_model->name;
+            }
+        }
+        return $cat_name;
+    }
+    public function findAssetSerialNo($id){
+        $model = \backend\models\Asset::find()->where(['id'=>$id])->one();
+        return $model != null?$model->serail_no:'';
+        // return 'niran';
+    }
+    public function findLocationName($id){
+        $loc_name = '';
+        $model = \backend\models\Asset::find()->where(['id'=>$id])->one();
+        if($model){
+            $loc_model = \backend\models\Location::find()->select(['name'])->where(['id'=>$model->location_id])->one();
+            if($loc_model){
+                $loc_name = $loc_model->name;
+            }
+        }
+       return $loc_name;
     }
 //    public function findId($code){
 //        $model = Costitem::find()->where(['name'=>$code])->one();

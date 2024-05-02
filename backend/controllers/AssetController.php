@@ -150,4 +150,13 @@ class AssetController extends Controller
 
         throw new NotFoundHttpException('The requested page does not exist.');
     }
+
+    public function actionGetlocation(){
+        $name = '';
+        $asset_id = \Yii::$app->request->post('asset_id');
+        if($asset_id){
+            $name = \backend\models\Asset::findLocationName($asset_id);
+        }
+        echo $name;
+    }
 }
