@@ -40,7 +40,8 @@ class Workorder extends \yii\db\ActiveRecord
             [['workorder_date', 'work_recieve_date', 'work_assign_date'], 'safe'],
             [['asset_id', 'assign_emp_id', 'status', 'created_at', 'updated_at', 'updated_by','abnormal','view_point','work_cause_id','weak_point_analysis','cause_risk_id'], 'integer'],
             [['workorder_no'], 'string', 'max' => 255],
-            [['created_by','problem_text','stop6'],'safe']
+            [['factor_risk_1','factor_risk_2','factor_risk_3','factor_total'],'number'],
+            [['created_by','problem_text','stop6','factor_final_risk'],'safe']
         ];
     }
 

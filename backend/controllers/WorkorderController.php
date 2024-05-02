@@ -79,11 +79,24 @@ class WorkorderController extends Controller
                     $w_date = $xdate[2].'/'.$xdate[1].'/'.$xdate[0].' '.date('H:i:s');
                 }
             }
+//            $work_created_by = \Yii::$app->request->post('work_created_by');
+//            $work_status = \Yii::$app->request->post('work_status');
+
+            $fac1 = \Yii::$app->request->post('factor_risk_1');
+            $fac2 = \Yii::$app->request->post('factor_risk_2');
+            $fac3 = \Yii::$app->request->post('factor_risk_3');
+            $fac_total = \Yii::$app->request->post('factor_total');
+            $fac_final = \Yii::$app->request->post('factor_final');
 
 
             $model->workorder_no = $model::getLastNo();
             $model->workorder_date = date('Y-m-d H:i:s',strtotime($w_date));
             $model->status = 1; // open init
+            $model->factor_risk_1 = $fac1;
+            $model->factor_risk_2 = $fac2;
+            $model->factor_risk_3 = $fac3;
+            $model->factor_total = $fac_total;
+            $model->factor_risk_final = $fac_final;
             if($model->save(false)){
                 $session = \Yii::$app->session;
                 $session->setFlash('msg-success','บันทึกรายการเรียบร้อย');
@@ -111,6 +124,13 @@ class WorkorderController extends Controller
         if ($model->load(Yii::$app->request->post())) {
             $work_created_by = \Yii::$app->request->post('work_created_by');
             $work_status = \Yii::$app->request->post('work_status');
+
+            $fac1 = \Yii::$app->request->post('factor_risk_1');
+            $fac2 = \Yii::$app->request->post('factor_risk_2');
+            $fac3 = \Yii::$app->request->post('factor_risk_3');
+            $fac_total = \Yii::$app->request->post('factor_total');
+            $fac_final = \Yii::$app->request->post('factor_final');
+
             $w_date = date('Y-m-d');
             $xdate = explode('/',$model->workorder_date);
             if($xdate!=null){
@@ -122,6 +142,11 @@ class WorkorderController extends Controller
            // $model->workorder_date = date('Y-m-d H:i:s',strtotime($w_date));
             $model->created_by = $work_created_by;
             $model->status = $work_status;
+            $model->factor_risk_1 = $fac1;
+            $model->factor_risk_2 = $fac2;
+            $model->factor_risk_3 = $fac3;
+            $model->factor_total = $fac_total;
+            $model->factor_risk_final = $fac_final;
             if($model->save(false)){
                 $session = \Yii::$app->session;
                 $session->setFlash('msg-success','บันทึกรายการเรียบร้อย');

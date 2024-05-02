@@ -133,37 +133,37 @@ if ($model->asset_id != null) {
         </div>
         <br/>
         <div class="row">
-         <div class="col-lg-5">
+         <div class="col-lg-4">
              <label for="">ความเสี่ยงก่อนการแก้ไข</label>
              <table class="table table-bordered table-striped">
                  <tr>
                      <td>ความรุนแรง</td>
                      <td>
-                         <input class="form-control" type="number" min="0">
+                         <input class="form-control factor-risk-1" type="number" min="0" name="factor_risk_1" value="<?=$model->factor_risk_1?>" onchange="calfactorrisk($(this))">
                      </td>
                  </tr>
                  <tr>
                      <td>ความถี่</td>
                      <td>
-                         <input class="form-control" type="number" min="0">
+                         <input class="form-control factor-risk-2" type="number" min="0" name="factor_risk_2" value="<?=$model->factor_risk_2?>" onchange="calfactorrisk($(this))">
                      </td>
                  </tr>
                  <tr>
                      <td>มาตรการ Safety</td>
                      <td>
-                         <input class="form-control" type="number" min="0">
+                         <input class="form-control factor-risk-3" type="number" min="0" name="factor_risk_3" value="<?=$model->factor_risk_3?>" onchange="calfactorrisk($(this))">
                      </td>
                  </tr>
                  <tr>
                      <td>(1)+(2)+(3)</td>
                      <td>
-                         <input class="form-control" type="text" readonly>
+                         <input class="form-control factor-total" type="text" readonly name="factor_total" value="<?=$model->factor_total?>">
                      </td>
                  </tr>
                  <tr>
                      <td>สรุปความเสี่ยง</td>
                      <td>
-                         <input class="form-control" type="text">
+                         <input class="form-control" type="text" name="factor_final" value="<?=$model->factor_risk_final?>">
                      </td>
                  </tr>
              </table>
@@ -194,6 +194,13 @@ function getLocation(e){
             }
         }       
     });    
+}
+function calfactorrisk(e){
+    var fac1 = $(".factor-risk-1").val();
+    var fac2 = $(".factor-risk-2").val();
+    var fac3 = $(".factor-risk-3").val();
+    var total = parseFloat(fac1) + parseFloat(fac2) + parseFloat(fac3);
+    $(".factor-total").val(parseFloat(total).toFixed(2));
 }
 JS;
 $this->registerJs($js, static::POS_END);
