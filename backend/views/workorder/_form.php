@@ -13,100 +13,153 @@ if ($model->asset_id != null) {
 }
 ?>
 
-<div class="workorder-form">
+    <div class="workorder-form">
 
-    <?php $form = ActiveForm::begin(); ?>
+        <?php $form = ActiveForm::begin(); ?>
 
-    <div class="row">
-        <div class="col-lg-4">
-            <?= $form->field($model, 'workorder_no')->textInput(['maxlength' => true, 'readonly' => 'readonly', 'value' => $model->isNewRecord ? '' : $model->workorder_no]) ?>
+        <div class="row">
+            <div class="col-lg-4">
+                <?= $form->field($model, 'workorder_no')->textInput(['maxlength' => true, 'readonly' => 'readonly', 'value' => $model->isNewRecord ? '' : $model->workorder_no]) ?>
+            </div>
+            <div class="col-lg-4">
+                <?php $model->workorder_date = $model->isNewRecord ? date('d/m/Y') : date('d/m/Y', strtotime($model->workorder_date)); ?>
+                <?= $form->field($model, 'workorder_date')->widget(\kartik\date\DatePicker::className(), [
+                    'value' => date('Y-m-d'),
+                    'pluginOptions' => [
+                        'format' => 'dd-mm-yyyy'
+                    ]
+                ]) ?>
+            </div>
+            <div class="col-lg-4">
+                <?= $form->field($model, 'assign_emp_id')->widget(\kartik\select2\Select2::className(), [
+                    'data' => \yii\helpers\ArrayHelper::map(\backend\models\Employee::find()->all(), 'id', function ($data) {
+                        return $data->fname . ' ' . $data->lname;
+                    }),
+                    'options' => [
+                        'placeholder' => '--เลือกพนักงาน--'
+                    ]
+                ]) ?>
+            </div>
         </div>
-        <div class="col-lg-4">
-            <?php $model->workorder_date = $model->isNewRecord ? date('d/m/Y') : date('d/m/Y', strtotime($model->workorder_date)); ?>
-            <?= $form->field($model, 'workorder_date')->widget(\kartik\date\DatePicker::className(), [
-                'value' => date('Y-m-d'),
-                'pluginOptions' => [
-                    'format' => 'dd-mm-yyyy'
-                ]
-            ]) ?>
+
+
+        <div class="row">
+            <div class="col-lg-3">
+                <?= $form->field($model, 'asset_id')->Widget(\kartik\select2\Select2::className(), [
+                    'data' => \yii\helpers\ArrayHelper::map(\backend\models\Asset::find()->all(), 'id', function ($data) {
+                        return $data->name;
+                    }),
+                    'options' => [
+                        'placeholder' => '--เครื่องจักร--',
+                        'onchange' => 'getLocation($(this))',
+                    ]
+                ]) ?>
+
+            </div>
+            <div class="col-lg-3">
+                <label for="">ที่ตั้งเครื่องจักร</label>
+                <input type="text" class="form-control location-name" readonly value="<?= $loc_name ?>">
+            </div>
+            <div class="col-lg-3">
+                <?= $form->field($model, 'work_recieve_date')->widget(\kartik\date\DatePicker::className(), [
+                    'value' => date('Y-m-d'),
+                    'pluginOptions' => [
+                        'format' => 'dd-mm-yyyy'
+                    ]
+                ]) ?>
+            </div>
+            <div class="col-lg-3">
+                <?= $form->field($model, 'work_assign_date')->widget(\kartik\date\DatePicker::className(), [
+                    'value' => date('Y-m-d'),
+                    'pluginOptions' => [
+                        'format' => 'dd-mm-yyyy'
+                    ]
+                ]) ?>
+            </div>
         </div>
-        <div class="col-lg-4">
-            <?= $form->field($model, 'assign_emp_id')->widget(\kartik\select2\Select2::className(), [
-                'data' => \yii\helpers\ArrayHelper::map(\backend\models\Employee::find()->all(), 'id', function ($data) {
-                    return $data->fname . ' ' . $data->lname;
-                }),
-                'options' => [
-                    'placeholder' => '--เลือกพนักงาน--'
-                ]
-            ]) ?>
+        <div class="row">
+            <div class="col-lg-12">
+                <?= $form->field($model, 'problem_text')->textarea(['maxlength' => true,]) ?>
+            </div>
         </div>
+        <div class="row">
+            <div class="col-lg-6">
+                <label for="">รูปภาพ</label>
+                <input type="file" name="work_photo" class="form-control">
+            </div>
+            <div class="col-lg-6">
+                <label for="">วิดีโอ</label>
+                <input type="file" name="work_video" class="form-control">
+            </div>
+        </div>
+        <br/>
+        <div class="row">
+            <div class="col-lg-3">
+                <?= $form->field($model, 'stop6')->textInput(['maxlength' => true,]) ?>
+            </div>
+            <div class="col-lg-3">
+                <?= $form->field($model, 'abnormal')->widget(\kartik\select2\Select2::className(), [
+                    'data' => \yii\helpers\ArrayHelper::map(\backend\helpers\YesnoType::asArrayObject(), 'id', 'name'),
+                    'pluginOptions' => []
+                ]) ?>
+            </div>
+            <div class="col-lg-3">
+                <?= $form->field($model, 'view_point')->textInput(['maxlength' => true,]) ?>
+            </div>
+            <div class="col-lg-3">
+                <?= $form->field($model, 'work_cause_id')->widget(\kartik\select2\Select2::className(), [
+                    'data' => \yii\helpers\ArrayHelper::map(\common\models\WorkorderCause::find()->all(), 'id', 'name'),
+                    'pluginOptions' => []
+                ]) ?>
+            </div>
+        </div>
+        <br/>
+        <div class="row">
+            <div class="col-lg-3">
+                <?= $form->field($model, 'weak_point_analysis')->widget(\kartik\select2\Select2::className(), [
+                    'data' => \yii\helpers\ArrayHelper::map(\common\models\WorkorderWeakpoint::find()->all(), 'id', 'name'),
+                    'pluginOptions' => []
+                ]) ?>
+            </div>
+            <div class="col-lg-3">
+                <?= $form->field($model, 'cause_risk_id')->widget(\kartik\select2\Select2::className(), [
+                    'data' => \yii\helpers\ArrayHelper::map(\common\models\WorkorderCauseRisk::find()->all(), 'id', 'name'),
+                    'pluginOptions' => []
+                ]) ?>
+            </div>
+
+        </div>
+        <br/>
+        <div class="row">
+            <div class="col-lg-3">
+                <input type="hidden" name="work_created_by" value="<?= $model->created_by ?>">
+                <?= $form->field($model, 'created_by')->textInput(['maxlength' => true, 'readonly' => 'readonly', 'value' => \backend\models\User::findName($model->created_by)]) ?>
+            </div>
+            <div class="col-lg-3">
+                <input type="hidden" name="work_status" value="<?= $model->status ?>">
+                <?= $form->field($model, 'status')->widget(\kartik\select2\Select2::className(), [
+                    'data' => \yii\helpers\ArrayHelper::map(\backend\models\Workorderstatus::find()->all(), 'id', 'name'),
+                    'pluginOptions' => [
+                        'disabled' => true,
+                    ]
+                ])->label() ?>
+            </div>
+
+            <div class="col-lg-3"></div>
+            <div class="col-lg-3"></div>
+        </div>
+
+
+        <div class="form-group">
+            <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
+        </div>
+
+        <?php ActiveForm::end(); ?>
+
     </div>
-
-
-    <div class="row">
-        <div class="col-lg-3">
-            <?= $form->field($model, 'asset_id')->Widget(\kartik\select2\Select2::className(), [
-                'data' => \yii\helpers\ArrayHelper::map(\backend\models\Asset::find()->all(), 'id', function ($data) {
-                    return $data->name;
-                }),
-                'options' => [
-                    'placeholder' => '--เครื่องจักร--',
-                    'onchange' => 'getLocation($(this))',
-                ]
-            ]) ?>
-
-        </div>
-        <div class="col-lg-3">
-            <label for="">ที่ตั้งเครื่องจักร</label>
-            <input type="text" class="form-control location-name" readonly value="<?= $loc_name ?>">
-        </div>
-        <div class="col-lg-3">
-            <?= $form->field($model, 'work_recieve_date')->widget(\kartik\date\DatePicker::className(), [
-                'value' => date('Y-m-d'),
-                'pluginOptions' => [
-                    'format' => 'dd-mm-yyyy'
-                ]
-            ]) ?>
-        </div>
-        <div class="col-lg-3">
-            <?= $form->field($model, 'work_assign_date')->widget(\kartik\date\DatePicker::className(), [
-                'value' => date('Y-m-d'),
-                'pluginOptions' => [
-                    'format' => 'dd-mm-yyyy'
-                ]
-            ]) ?>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-lg-3">
-            <input type="hidden" name="work_created_by" value="<?= $model->created_by ?>">
-            <?= $form->field($model, 'created_by')->textInput(['maxlength' => true, 'readonly' => 'readonly', 'value' => \backend\models\User::findName($model->created_by)]) ?>
-        </div>
-        <div class="col-lg-3">
-            <input type="hidden" name="work_status" value="<?= $model->status ?>">
-            <?= $form->field($model, 'status')->widget(\kartik\select2\Select2::className(), [
-                'data' => \yii\helpers\ArrayHelper::map(\backend\models\Workorderstatus::find()->all(), 'id', 'name'),
-                'pluginOptions' => [
-                    'disabled' => true,
-                ]
-            ])->label() ?>
-        </div>
-
-        <div class="col-lg-3"></div>
-        <div class="col-lg-3"></div>
-    </div>
-
-
-    <div class="form-group">
-        <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
-    </div>
-
-    <?php ActiveForm::end(); ?>
-
-</div>
 <?php
-$url_to_get_location = \yii\helpers\Url::to(['asset/getlocation'],true);
-$js=<<<JS
+$url_to_get_location = \yii\helpers\Url::to(['asset/getlocation'], true);
+$js = <<<JS
 function getLocation(e){
     var asset_id = e.val();
     $.ajax({
@@ -122,5 +175,5 @@ function getLocation(e){
     });    
 }
 JS;
-$this->registerJs($js,static::POS_END);
+$this->registerJs($js, static::POS_END);
 ?>
