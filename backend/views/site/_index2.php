@@ -10,7 +10,7 @@ $work_closed_qty = 0;
 $work_receive_qty = 0;
 
 $model_outstanding = \backend\models\Workorder::find()->where(['status' => [1,2]])->all();
-$model_recevie_data = \backend\models\Workorder::find()->where(['status' => 2])->all();
+$model_recevie_data = \backend\models\Workorder::find()->where(['status' => [1,2]])->all();
 $model_closed_data = \backend\models\Workorder::find()->where(['status' => 4])->all();
 
 if ($model_recevie_data) {
