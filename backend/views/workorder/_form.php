@@ -117,10 +117,6 @@ if ($model->asset_id != null) {
                     'pluginOptions' => []
                 ]) ?>
             </div>
-
-        </div>
-        <br/>
-        <div class="row">
             <div class="col-lg-3">
                 <input type="hidden" name="work_created_by" value="<?= $model->created_by ?>">
                 <?= $form->field($model, 'created_by')->textInput(['maxlength' => true, 'readonly' => 'readonly', 'value' => \backend\models\User::findName($model->created_by)]) ?>
@@ -134,9 +130,44 @@ if ($model->asset_id != null) {
                     ]
                 ])->label() ?>
             </div>
-
-            <div class="col-lg-3"></div>
-            <div class="col-lg-3"></div>
+        </div>
+        <br/>
+        <div class="row">
+         <div class="col-lg-5">
+             <label for="">ความเสี่ยงก่อนการแก้ไข</label>
+             <table class="table table-bordered table-striped">
+                 <tr>
+                     <td>ความรุนแรง</td>
+                     <td>
+                         <input class="form-control" type="number" min="0">
+                     </td>
+                 </tr>
+                 <tr>
+                     <td>ความถี่</td>
+                     <td>
+                         <input class="form-control" type="number" min="0">
+                     </td>
+                 </tr>
+                 <tr>
+                     <td>มาตรการ Safety</td>
+                     <td>
+                         <input class="form-control" type="number" min="0">
+                     </td>
+                 </tr>
+                 <tr>
+                     <td>(1)+(2)+(3)</td>
+                     <td>
+                         <input class="form-control" type="text" readonly>
+                     </td>
+                 </tr>
+                 <tr>
+                     <td>สรุปความเสี่ยง</td>
+                     <td>
+                         <input class="form-control" type="text">
+                     </td>
+                 </tr>
+             </table>
+         </div>
         </div>
 
 
