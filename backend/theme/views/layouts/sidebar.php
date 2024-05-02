@@ -197,7 +197,7 @@
                     <a href="#" class="nav-link">
                         <i class="nav-icon fas fa-comments"></i>
                         <p>
-                            แชต
+                            แชท
                             <i class="right fas fa-angle-left"></i>
                         </p>
                     </a>
@@ -206,7 +206,7 @@
                         <li class="nav-item">
                             <a href="#" class="nav-link">
                                 <i class="far fa-circlez nav-icon"></i>
-                                <p>แชต</p>
+                                <p>แชท</p>
                             </a>
                         </li>
                         <?php //endif;?>
