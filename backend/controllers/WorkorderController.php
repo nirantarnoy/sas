@@ -76,13 +76,13 @@ class WorkorderController extends Controller
             $xdate = explode('/',$model->workorder_date);
             if($xdate!=null){
                 if(count($xdate)>1){
-                    $w_date = $xdate[2].'/'.$xdate[1].'/'.$xdate[0];
+                    $w_date = $xdate[2].'/'.$xdate[1].'/'.$xdate[0].' '.date('H:i:s');
                 }
             }
 
 
             $model->workorder_no = $model::getLastNo();
-            $model->workorder_date = date('Y-m-d',strtotime($w_date));
+            $model->workorder_date = date('Y-m-d H:i:s',strtotime($w_date));
             $model->status = 1; // open init
             if($model->save(false)){
                 $session = \Yii::$app->session;
