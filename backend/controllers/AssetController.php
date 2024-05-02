@@ -76,7 +76,7 @@ class AssetController extends Controller
         if ($model->load(Yii::$app->request->post())) {
             $uploaded = UploadedFile::getInstances($model,'photo');
              $model->photo = '';
-            if($model->save(false)){
+            if($model->save()){
                 if(!empty($uploaded)){
 //               for($i=0;$i<=count($uploaded)-1;$i++){
 //
