@@ -108,7 +108,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
                     <tr>
                         <td style="text-align: center;border: 1px dashed grey;"><b><?=$model->stop6?></b></td>
-                        <td style="text-align: center;border: 1px dashed grey;"><b><?=$model->abnormal?></b></td>
+                        <td style="text-align: center;border: 1px dashed grey;"><b><?=\backend\helpers\YesnoType::getTypeById($model->abnormal)?></b></td>
                         <td style="text-align: center;border: 1px dashed grey;"><b><?=$model->view_point?></b></td>
                     </tr>
                     <tr>
