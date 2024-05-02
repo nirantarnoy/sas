@@ -108,7 +108,7 @@ if ($model->asset_id != null) {
             </div>
             <div class="col-lg-3">
                 <?= $form->field($model, 'work_cause_id')->widget(\kartik\select2\Select2::className(), [
-                    'data' => \yii\helpers\ArrayHelper::map(\common\models\WorkorderCause::find()->all(), 'id', 'name'),
+                    'data' => \yii\helpers\ArrayHelper::map(\common\models\WorkorderCauseTitle::find()->all(), 'id', 'name'),
                     'pluginOptions' => []
                 ]) ?>
             </div>
