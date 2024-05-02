@@ -92,6 +92,8 @@ class AssetController extends Controller
                     }
                 }
             }
+            $session = \Yii::$app->session;
+            $session->setFlash('msg-success','บันทึกรายการเรียบร้อย');
             return $this->redirect(['asset/index']);
         }
 
@@ -111,8 +113,13 @@ class AssetController extends Controller
     {
         $model = $this->findModel($id);
         $model_asset_photo = \common\models\AssetPhoto::find()->where(['asset_id'=>$id])->all();
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+        if ($model->load(Yii::$app->request->post())) {
+            if($model->save(false)){
+                $session = \Yii::$app->session;
+                $session->setFlash('msg-success','บันทึกรายการเรียบร้อย');
+                return $this->redirect(['asset/index']);
+            }
+
         }
 
         return $this->render('update', [

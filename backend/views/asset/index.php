@@ -13,7 +13,12 @@ $this->title = 'เครื่องจักร';
 $this->params['breadcrumbs'][] = '/ '.$this->title;
 ?>
 <div class="asset-index">
-
+    <?php if (!empty(\Yii::$app->session->getFlash('msg-success'))): ?>
+        <div class="alert alert-success alert-dismissible">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            <?= \Yii::$app->session->getFlash('msg-success') ?>
+        </div>
+    <?php endif; ?>
     <br />
     <div class="row">
         <div class="col-lg-10">
