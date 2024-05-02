@@ -114,7 +114,9 @@ class AssetController extends Controller
         $model = $this->findModel($id);
         $model_asset_photo = \common\models\AssetPhoto::find()->where(['asset_id'=>$id])->all();
         if ($model->load(Yii::$app->request->post())) {
-            if($model->save(false)){
+            $uploaded = UploadedFile::getInstances($model,'photo');
+            $model->photo = '';
+            if($model->save()){
                 $session = \Yii::$app->session;
                 $session->setFlash('msg-success','บันทึกรายการเรียบร้อย');
                 return $this->redirect(['asset/index']);
