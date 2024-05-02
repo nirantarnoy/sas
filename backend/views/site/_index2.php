@@ -41,7 +41,7 @@ $data_series2 = [
                     <thead>
                     <tr>
                         <th colspan="7" style="text-align: center;background-color: #3F7F7F;color: white;">
-                            งานซ่อมที่ค้าง
+                            <span style="font-size: 25px;">งานซ่อมที่ค้าง</span>
                         </th>
                     </tr>
                     <tr>
@@ -93,7 +93,7 @@ $data_series2 = [
                 <table class="table table-bordered">
                     <thead>
                     <tr>
-                        <th colspan="6" style="text-align: center;background-color: #3F7F7F;color: white;">ToDoList</th>
+                        <th colspan="6" style="text-align: center;background-color: #3F7F7F;color: white;"> <span style="font-size: 25px;">ToDoList</span></th>
                     </tr>
                     <tr>
                         <th>ลำดับ</th>
