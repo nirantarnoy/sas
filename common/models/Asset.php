@@ -48,7 +48,6 @@ class Asset extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['asset_no'],'unique'],
             [['asset_no','name'],'required'],
             [['asset_cat_id', 'department_id', 'location_id', 'status', 'created_at', 'created_by', 'updated_at', 'updated_by'], 'integer'],
             [['cost', 'watt'], 'number'],
@@ -58,7 +57,8 @@ class Asset extends \yii\db\ActiveRecord
                 'skipOnEmpty' => true,
                 'maxFiles' => 4,
                 'extensions' => 'png,jpg',
-                'message' => 'เลือกไฟล์ได้สูงสุด 4 ไฟล์',]
+                'message' => 'เลือกไฟล์ได้สูงสุด 4 ไฟล์',],
+            [['asset_no'],'unique'],
         ];
     }
 
