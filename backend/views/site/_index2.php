@@ -40,9 +40,9 @@ $data_series2 = [
                 <table class="table table-bordered">
                     <thead>
                     <tr>
-                        <th colspan="7" style="text-align: center;background-color: #3F7F7F;color: white;">
+                        <td colspan="7" style="text-align: center;background-color: #3F7F7F;color: white;border-top-left-radius: 15px;border-top-right-radius: 15px;border-left: 1px solid transparent;border-top: 1px solid transparent;border-right: 1px solid transparent; ">
                             <span style="font-size: 25px;">งานซ่อมที่ค้าง</span>
-                        </th>
+                        </td>
                     </tr>
                     <tr>
                         <th style="text-align:center;">เลขใบแจ้งซ่อม</th>
@@ -88,20 +88,21 @@ $data_series2 = [
             </div>
         </div>
         <br/>
+        <br/>
         <div class="row">
             <div class="col-lg-12">
                 <table class="table table-bordered">
                     <thead>
                     <tr>
-                        <th colspan="6" style="text-align: center;background-color: #3F7F7F;color: white;"> <span style="font-size: 25px;">ToDoList</span></th>
+                        <td colspan="6" style="text-align: center;background-color: #3F7F7F;color: white;border-top-left-radius: 15px;border-top-right-radius: 15px;border-left: 1px solid transparent;border-top: 1px solid transparent;border-right: 1px solid transparent; "> <span style="font-size: 25px;">ToDoList</span></td>
                     </tr>
                     <tr>
-                        <th>ลำดับ</th>
-                        <th>ชื่องาน</th>
-                        <th>ผู้รับผิดชอบ</th>
-                        <th>วันที่ต้องทำ</th>
-                        <th>ชื่อผู้สร้าง</th>
-                        <th>วันที่สร้าง</th>
+                        <th style="text-align:center;">ลำดับ</th>
+                        <th style="text-align:center;">ชื่องาน</th>
+                        <th style="text-align:center;">ผู้รับผิดชอบ</th>
+                        <th style="text-align:center;">วันที่ต้องทำ</th>
+                        <th style="text-align:center;">ชื่อผู้สร้าง</th>
+                        <th style="text-align:center;">วันที่สร้าง</th>
                     </tr>
                     </thead>
                     <tr>
