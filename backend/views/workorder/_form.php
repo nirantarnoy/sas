@@ -30,16 +30,6 @@ if ($model->asset_id != null) {
                     ]
                 ]) ?>
             </div>
-            <div class="col-lg-4">
-                <?= $form->field($model, 'assign_emp_id')->widget(\kartik\select2\Select2::className(), [
-                    'data' => \yii\helpers\ArrayHelper::map(\backend\models\Employee::find()->all(), 'id', function ($data) {
-                        return $data->fname . ' ' . $data->lname;
-                    }),
-                    'options' => [
-                        'placeholder' => '--เลือกพนักงาน--'
-                    ]
-                ]) ?>
-            </div>
         </div>
 
 
