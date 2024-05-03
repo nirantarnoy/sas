@@ -178,8 +178,8 @@ if($model_work_vdo){
                     <table style="width: 100%">
                         <tr>
                             <td style="border: 1px dashed grey;height: 260px;text-align: center;padding: 5px;">
-                                <img src="<?= \Yii::$app->getUrlManager()->baseUrl . '/uploads/workorder_photo/' . $work_photo ?>"
-                                     style="max-width: 130px;margin-top: 5px;" alt="">
+                                <a href="<?= \Yii::$app->getUrlManager()->baseUrl . '/uploads/workorder_photo/' . $work_photo ?>" target="_blank"><img src="<?= \Yii::$app->getUrlManager()->baseUrl . '/uploads/workorder_photo/' . $work_photo ?>"
+                                     style="max-width: 130px;margin-top: 5px;" alt=""></a>
                             </td>
                         </tr>
                     </table>
