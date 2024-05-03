@@ -10,6 +10,19 @@ $this->title = $model->workorder_no;
 $this->params['breadcrumbs'][] = ['label' => 'ใบแจ้งซ่อม', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 \yii\web\YiiAsset::register($this);
+
+$work_photo = '';
+$work_vdo = '';
+
+$model_work_photo = \common\models\WorkorderPhoto::find()->select(['photo'])->where(['workorder_id'=>$model->id])->one();
+$model_work_vdo = \common\models\WorkorderVdo::find()->select(['file_name'])->where(['workorder_id'=>$model->id])->one();
+
+if($model_work_photo){
+    $work_photo = $model_work_photo->photo;
+}
+if($model_work_vdo){
+    $work_vdo = $model_work_vdo->file_name;
+}
 ?>
 <div class="workorder-view">
 
@@ -122,7 +135,30 @@ $this->params['breadcrumbs'][] = $this->title;
                     </tr>
                 </table>
             </div>
-            <div class="col-lg-4"></div>
+            <div class="col-lg-4">
+                <div class="row">
+                    <div class="col-lg-12" style="text-align: right">
+                     <div class="btn btn-warning">ความเสี่ยง</div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12">
+
+                     <table style="width: 100%">
+                         <tr>
+                             <td style="width: 20%;"></td>
+                             <td style="">   <label for="">รูปเครื่องจักร</label></td>
+                             <td style="width: 20%"></td>
+                         </tr>
+                         <tr>
+                             <td style="width: 20%;height: 100px;"></td>
+                             <td style="border: 1px dashed grey;"></td>
+                             <td style="width: 20%"></td>
+                         </tr>
+                     </table>
+                    </div>
+                </div>
+            </div>
         </div>
 
         <br/>
@@ -133,15 +169,16 @@ $this->params['breadcrumbs'][] = $this->title;
                     <table style="width: 100%">
                         <tr>
                             <td style="border: 1px dashed grey;height: 200px;text-align: center;">
-
+                                <img src="<?= \Yii::$app->getUrlManager()->baseUrl . '/uploads/workorder_photo/' . $work_photo ?>"
+                                     style="max-width: 130px;margin-top: 5px;" alt="">
                             </td>
                         </tr>
                     </table>
                 <?php else: ?>
                     <table style="width: 100%">
                         <tr>
-                            <td style="border: 1px dashed grey;height: 200px;text-align: center;">
-                                <img src="<?= \Yii::$app->getUrlManager()->baseUrl . '/uploads/workorder_photo/' . '' ?>"
+                            <td style="border: 1px dashed grey;height: 260px;text-align: center;padding: 5px;">
+                                <img src="<?= \Yii::$app->getUrlManager()->baseUrl . '/uploads/workorder_vdo/' . $work_vdo ?>"
                                      style="max-width: 130px;margin-top: 5px;" alt="">
                             </td>
                         </tr>
@@ -162,9 +199,11 @@ $this->params['breadcrumbs'][] = $this->title;
                 <?php else: ?>
                     <table style="width: 100%">
                         <tr>
-                            <td style="border: 1px dashed grey;height: 200px;text-align: center;">
-                                <img src="<?= \Yii::$app->getUrlManager()->baseUrl . '/uploads/workorder_vdo/' . '' ?>"
-                                     style="max-width: 130px;margin-top: 5px;" alt="">
+                            <td style="border: 1px dashed grey;height: 200px;text-align: center;padding: 5px;">
+                                <video width="320" height="240" controls autoplay>
+                                    <source src="Priyanka Chopra - Exotic ft. Pitbull - YouTube.MP4" type="video/mp4">
+                                    Sorry, your browser doesn't support the video element.
+                                </video>
                             </td>
                         </tr>
                     </table>
@@ -189,10 +228,10 @@ $this->params['breadcrumbs'][] = $this->title;
                 </table>
             </div>
             <div class="col-lg-4"></div>
-            <div class="col-lg-1" style="text-align: right">
+            <div class="col-lg-1" style="text-align: right;border: 1px dashed grey;border-right: none;padding: 10px;">
                 <div class="btn btn-success">รับงาน</div>
             </div>
-            <div class="col-lg-1">
+            <div class="col-lg-1" style="border: 1px dashed grey;border-left: none;padding: 10px;">
                 <div class="btn btn-danger">ไม่รับงาน</div>
             </div>
         </div>
