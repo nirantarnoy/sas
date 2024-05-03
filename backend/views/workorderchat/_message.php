@@ -4,8 +4,8 @@ $this->title = 'ข้อความแชท';
 <div class="row">
     <div class="col-lg-12">
         <table style="width: 100%;border: 1px;">
-            <tr style="background-color: royalblue">
-                <td colspan="2" style="width: 100%;height: 25px;color: white;padding: 15px;">ใบแจ้งซ่อม
+            <tr style="background-color: royalblue;">
+                <td colspan="2" style="width: 100%;height: 25px;color: white;padding: 15px;border-top-left-radius: 10px;border-top-right-radius: 10px;">ใบแจ้งซ่อม
                     <b><?= $model->workorder_no ?></b></td>
             </tr>
             <!--            <tr>-->
@@ -13,7 +13,7 @@ $this->title = 'ข้อความแชท';
             <!--            </tr>-->
             <tr>
                 <td colspan="2" style="padding: 15px;text-align: center">
-                    <div class="badge badge-secondary">03/05/2024</div>
+                    <div class="badge badge-secondary"><?=date('d/m/Y')?></div>
                 </td>
             </tr>
             <tr>
