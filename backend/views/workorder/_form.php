@@ -82,7 +82,7 @@ if ($model->asset_id != null) {
                 <?php if ($model->isNewRecord): ?>
                     <table style="width: 100%">
                         <tr>
-                            <td style="border: 1px dashed grey;height: 150px;text-align: center;">
+                            <td style="border: 1px dashed grey;height: 250px;text-align: center;">
                                 <i class="fa fa-ban fa-lg" style="color: grey"></i>
                                 <span style="color: lightgrey">ไม่พบไฟล์แนบ</span>
                             </td>
@@ -99,7 +99,7 @@ if ($model->asset_id != null) {
                                                 style="max-width: 130px;margin-top: 5px;" alt=""></a>
                                 </td>
                             <?php else: ?>
-                                <td style="border: 1px dashed grey;height: 150px;text-align: center;">
+                                <td style="border: 1px dashed grey;height: 250px;text-align: center;">
                                     <i class="fa fa-ban fa-lg" style="color: grey"></i>
                                     <span style="color: lightgrey">ไม่พบไฟล์แนบ</span>
                                 </td>
@@ -114,7 +114,7 @@ if ($model->asset_id != null) {
                 <?php if ($model->isNewRecord): ?>
                     <table style="width: 100%">
                         <tr>
-                            <td style="border: 1px dashed grey;height: 150px;text-align: center;">
+                            <td style="border: 1px dashed grey;height: 250px;text-align: center;">
                                 <i class="fa fa-ban fa-lg" style="color: grey"></i>
                                 <span style="color: lightgrey">ไม่พบไฟล์แนบ</span>
                             </td>
@@ -124,7 +124,7 @@ if ($model->asset_id != null) {
                     <table style="width: 100%">
                         <tr>
                             <?php if ($work_vdo != ''): ?>
-                                <td style="border: 1px dashed grey;height: 150px;text-align: center;">
+                                <td style="border: 1px dashed grey;height: 250px;text-align: center;">
                                     <video width="320" height="240" controls autoplay>
                                         <source src="<?= \Yii::$app->getUrlManager()->baseUrl . '/uploads/workorder_vdo/' . $work_vdo ?>"
                                                 type="video/mp4">
@@ -132,7 +132,7 @@ if ($model->asset_id != null) {
                                     </video>
                                 </td>
                             <?php else: ?>
-                                <td style="border: 1px dashed grey;height: 150px;text-align: center;">
+                                <td style="border: 1px dashed grey;height: 250px;text-align: center;">
                                     <i class="fa fa-ban fa-lg" style="color: grey"></i>
                                     <span style="color: lightgrey">ไม่พบไฟล์แนบ</span>
                                 </td>
