@@ -223,7 +223,7 @@ if($model_work_vdo){
                     </tr>
                     <tr>
                         <td>สถานที่</td>
-                        <td><b><?= $model->workorder_no ?></b></td>
+                        <td><b><?=\backend\models\Asset::findLocationName($model->asset_id) ?></b></td>
                     </tr>
                 </table>
             </div>
