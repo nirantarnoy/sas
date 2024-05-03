@@ -262,7 +262,12 @@ if ($model_asset) {
                     </tr>
                     <tr>
                         <td>ข้อความล่าสุด</td>
-                        <td><b><?= '' ?></b></td>
+                        <td><b><?= '' ?></b><button class="btn btn-primary"><i class="fa fa-comments"></i> <span>แชท</span></button></td>
+                    </tr>
+                    <tr>
+                        <td style="height: 20px;"></td>
+                        <td>
+                        </td>
                     </tr>
                     <tr>
                         <td colspan="2">
