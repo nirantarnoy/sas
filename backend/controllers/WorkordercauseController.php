@@ -14,6 +14,7 @@ use yii\filters\VerbFilter;
  */
 class WorkordercauseController extends Controller
 {
+    public $enableCsrfValidation = false;
     /**
      * @inheritDoc
      */

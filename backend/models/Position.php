@@ -53,6 +53,12 @@ class Position extends \common\models\Position
         return $model != null?$model->username:'';
         // return 'niran';
     }
+
+    public function findName($id){
+        $model = \backend\models\Position::find()->where(['id'=>$id])->one();
+        return $model != null?$model->name:'';
+        // return 'niran';
+    }
 //    public function findId($code){
 //        $model = Costitem::find()->where(['name'=>$code])->one();
 //        return count($model)>0?$model->id:0;

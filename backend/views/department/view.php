@@ -29,12 +29,21 @@ $this->params['breadcrumbs'][] = $this->title;
     <?= DetailView::widget([
         'model' => $model,
         'attributes' => [
-            'id',
+//            'id',
             'code',
             'name',
             'description',
             'company_id',
-            'status',
+//            'status',
+            ['attribute' => 'status',
+                'format' => 'html',
+                'value' => function ($data) {
+                    if($data->status == 0){
+                        return '<div class="badge badge-secondary">'.\backend\helpers\CommonStatus::getTypeById($data->status).'</div>';
+                    }else{
+                        return '<div class="badge badge-success">'.\backend\helpers\CommonStatus::getTypeById($data->status).'</div>';
+                    }
+                },],
 //            'created_at',
 //            'created_by',
 //            'updated_at',

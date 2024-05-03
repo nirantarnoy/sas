@@ -14,8 +14,8 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="solvetitle-view">
 
     <p>
-        <?= Html::a('Update', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a('Delete', ['delete', 'id' => $model->id], [
+        <?= Html::a('แก้ไข', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
+        <?= Html::a('ลบ', ['delete', 'id' => $model->id], [
             'class' => 'btn btn-danger',
             'data' => [
                 'confirm' => 'Are you sure you want to delete this item?',
@@ -30,11 +30,20 @@ $this->params['breadcrumbs'][] = $this->title;
             'code',
             'name',
             'description',
-            'status',
-            'created_at',
-            'created_by',
-            'updated_at',
-            'updated_by',
+//            'status',
+            ['attribute' => 'status',
+                'format' => 'html',
+                'value' => function ($data) {
+                    if($data->status == 0){
+                        return '<div class="badge badge-secondary">'.\backend\helpers\CommonStatus::getTypeById($data->status).'</div>';
+                    }else{
+                        return '<div class="badge badge-success">'.\backend\helpers\CommonStatus::getTypeById($data->status).'</div>';
+                    }
+                },],
+//            'created_at',
+//            'created_by',
+//            'updated_at',
+//            'updated_by',
         ],
     ]) ?>
 
