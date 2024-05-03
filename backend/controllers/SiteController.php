@@ -27,7 +27,7 @@ class SiteController extends Controller
                         'allow' => true,
                     ],
                     [
-                        'actions' => ['logout', 'index', 'index2'],
+                        'actions' => ['logout', 'index', 'index2','changepassword'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -53,6 +53,41 @@ class SiteController extends Controller
                 'class' => 'yii\web\ErrorAction',
             ],
         ];
+    }
+
+    public function actionChangepassword()
+    {
+        $model = new \backend\models\Resetform();
+        if ($model->load(Yii::$app->request->post())) {
+
+            $model_user = \backend\models\User::find()->where(['id' => Yii::$app->user->id])->one();
+            if ($model->oldpw != '' && $model->newpw != '' && $model->confirmpw != '') {
+                if ($model->confirmpw != $model->newpw) {
+                    $session = Yii::$app->session;
+                    $session->setFlash('msg_err', 'รหัสยืนยันไม่ตรงกับรหัสใหม่');
+                } else {
+                    if ($model_user->validatePassword($model->oldpw)) {
+                        $model_user->setPassword($model->confirmpw);
+                        if ($model_user->save()) {
+                            $session = Yii::$app->session;
+                            $session->setFlash('msg_success', 'ทำการเปลี่ยนรหัสผ่านเรียบร้อยแล้ว');
+                            return $this->redirect(['site_/logout']);
+                        }
+                    } else {
+                        $session = Yii::$app->session;
+                        $session->setFlash('msg_err', 'รหัสผ่านเดิมไม่ถูกต้อง');
+                    }
+                }
+
+            } else {
+                $session = Yii::$app->session;
+                $session->setFlash('msg_err', 'กรุณาป้อนข้อมูลให้ครบ');
+            }
+
+        }
+        return $this->render('_setpassword', [
+            'model' => $model
+        ]);
     }
 
     public function actionGrab()
