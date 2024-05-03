@@ -169,7 +169,7 @@ if($model_work_vdo){
                     <table style="width: 100%">
                         <tr>
                             <td style="border: 1px dashed grey;height: 200px;text-align: center;">
-                                <img src="<?= \Yii::$app->getUrlManager()->baseUrl . '/uploads/workorder_photo/' . $work_photo ?>"
+                                <img src=""
                                      style="max-width: 130px;margin-top: 5px;" alt="">
                             </td>
                         </tr>
@@ -178,7 +178,7 @@ if($model_work_vdo){
                     <table style="width: 100%">
                         <tr>
                             <td style="border: 1px dashed grey;height: 260px;text-align: center;padding: 5px;">
-                                <img src="<?= \Yii::$app->getUrlManager()->baseUrl . '/uploads/workorder_vdo/' . $work_vdo ?>"
+                                <img src="<?= \Yii::$app->getUrlManager()->baseUrl . '/uploads/workorder_photo/' . $work_photo ?>"
                                      style="max-width: 130px;margin-top: 5px;" alt="">
                             </td>
                         </tr>
@@ -201,7 +201,7 @@ if($model_work_vdo){
                         <tr>
                             <td style="border: 1px dashed grey;height: 200px;text-align: center;padding: 5px;">
                                 <video width="320" height="240" controls autoplay>
-                                    <source src="Priyanka Chopra - Exotic ft. Pitbull - YouTube.MP4" type="video/mp4">
+                                    <source src="<?= \Yii::$app->getUrlManager()->baseUrl . '/uploads/workorder_vdo/' . $work_vdo ?>" type="video/mp4">
                                     Sorry, your browser doesn't support the video element.
                                 </video>
                             </td>
