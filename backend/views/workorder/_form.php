@@ -70,6 +70,8 @@ if ($model->asset_id != null) {
         <div class="row">
             <div class="col-lg-12">
                 <?= $form->field($model, 'problem_text')->textarea(['maxlength' => true,]) ?>
+                <input type="hidden" name="work_old_photo" value="<?=$work_photo?>">
+                <input type="hidden" name="work_old_vdo" value="<?=$work_vdo?>">
             </div>
         </div>
 
