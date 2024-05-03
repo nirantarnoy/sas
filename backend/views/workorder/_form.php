@@ -88,7 +88,7 @@ if ($model->asset_id != null) {
                 <?php else: ?>
                     <table style="width: 100%">
                         <tr>
-                            <td style="border: 1px dashed grey;height: 150px;text-align: center;">
+                            <td style="border: 1px dashed grey;height: 250px;text-align: center;">
                                 <img src="<?= \Yii::$app->getUrlManager()->baseUrl . '/uploads/workorder_photo/' . $work_photo ?>"
                                      style="max-width: 130px;margin-top: 5px;" alt="">
                             </td>
@@ -111,8 +111,10 @@ if ($model->asset_id != null) {
                     <table style="width: 100%">
                         <tr>
                             <td style="border: 1px dashed grey;height: 150px;text-align: center;">
-                                <img src="<?= \Yii::$app->getUrlManager()->baseUrl . '/uploads/workorder_vdo/' . $work_vdo ?>"
-                                     style="max-width: 130px;margin-top: 5px;" alt="">
+                                <video width="320" height="240" controls autoplay>
+                                    <source src="<?= \Yii::$app->getUrlManager()->baseUrl . '/uploads/workorder_vdo/' . $work_vdo ?>" type="video/mp4">
+                                    Sorry, your browser doesn't support the video element.
+                                </video>
                             </td>
                         </tr>
                     </table>
