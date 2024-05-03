@@ -70,8 +70,8 @@ if ($model->asset_id != null) {
         <div class="row">
             <div class="col-lg-12">
                 <?= $form->field($model, 'problem_text')->textarea(['maxlength' => true,]) ?>
-                <input type="hidden" name="work_old_photo" value="<?=$work_photo?>">
-                <input type="hidden" name="work_old_vdo" value="<?=$work_vdo?>">
+                <input type="hidden" name="work_old_photo" value="<?= $work_photo ?>">
+                <input type="hidden" name="work_old_vdo" value="<?= $work_vdo ?>">
             </div>
         </div>
 
@@ -83,17 +83,27 @@ if ($model->asset_id != null) {
                     <table style="width: 100%">
                         <tr>
                             <td style="border: 1px dashed grey;height: 150px;text-align: center;">
-
+                                <i class="fa fa-ban fa-lg" style="color: grey"></i>
+                                <span style="color: lightgrey">ไม่พบไฟล์แนบ</span>
                             </td>
                         </tr>
                     </table>
                 <?php else: ?>
                     <table style="width: 100%">
                         <tr>
-                            <td style="border: 1px dashed grey;height: 250px;text-align: center;">
-                                <a href="<?= \Yii::$app->getUrlManager()->baseUrl . '/uploads/workorder_photo/' . $work_photo ?>" target="_blank"><img src="<?= \Yii::$app->getUrlManager()->baseUrl . '/uploads/workorder_photo/' . $work_photo ?>"
-                                     style="max-width: 130px;margin-top: 5px;" alt=""></a>
-                            </td>
+                            <?php if ($work_photo != ''): ?>
+                                <td style="border: 1px dashed grey;height: 250px;text-align: center;">
+                                    <a href="<?= \Yii::$app->getUrlManager()->baseUrl . '/uploads/workorder_photo/' . $work_photo ?>"
+                                       target="_blank"><img
+                                                src="<?= \Yii::$app->getUrlManager()->baseUrl . '/uploads/workorder_photo/' . $work_photo ?>"
+                                                style="max-width: 130px;margin-top: 5px;" alt=""></a>
+                                </td>
+                            <?php else: ?>
+                                <td style="border: 1px dashed grey;height: 150px;text-align: center;">
+                                    <i class="fa fa-ban fa-lg" style="color: grey"></i>
+                                    <span style="color: lightgrey">ไม่พบไฟล์แนบ</span>
+                                </td>
+                            <?php endif; ?>
                         </tr>
                     </table>
                 <?php endif; ?>
@@ -105,19 +115,28 @@ if ($model->asset_id != null) {
                     <table style="width: 100%">
                         <tr>
                             <td style="border: 1px dashed grey;height: 150px;text-align: center;">
-
+                                <i class="fa fa-ban fa-lg" style="color: grey"></i>
+                                <span style="color: lightgrey">ไม่พบไฟล์แนบ</span>
                             </td>
                         </tr>
                     </table>
                 <?php else: ?>
                     <table style="width: 100%">
                         <tr>
-                            <td style="border: 1px dashed grey;height: 150px;text-align: center;">
-                                <video width="320" height="240" controls autoplay>
-                                    <source src="<?= \Yii::$app->getUrlManager()->baseUrl . '/uploads/workorder_vdo/' . $work_vdo ?>" type="video/mp4">
-                                    Sorry, your browser doesn't support the video element.
-                                </video>
-                            </td>
+                            <?php if ($work_vdo != ''): ?>
+                                <td style="border: 1px dashed grey;height: 150px;text-align: center;">
+                                    <video width="320" height="240" controls autoplay>
+                                        <source src="<?= \Yii::$app->getUrlManager()->baseUrl . '/uploads/workorder_vdo/' . $work_vdo ?>"
+                                                type="video/mp4">
+                                        Sorry, your browser doesn't support the video element.
+                                    </video>
+                                </td>
+                            <?php else: ?>
+                                <td style="border: 1px dashed grey;height: 150px;text-align: center;">
+                                    <i class="fa fa-ban fa-lg" style="color: grey"></i>
+                                    <span style="color: lightgrey">ไม่พบไฟล์แนบ</span>
+                                </td>
+                            <?php endif; ?>
                         </tr>
                     </table>
                 <?php endif; ?>
