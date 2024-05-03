@@ -70,6 +70,8 @@ if ($model->asset_id != null) {
         <div class="row">
             <div class="col-lg-12">
                 <?= $form->field($model, 'problem_text')->textarea(['maxlength' => true,]) ?>
+                <input type="hidden" name="work_old_photo" value="<?=$work_photo?>">
+                <input type="hidden" name="work_old_vdo" value="<?=$work_vdo?>">
             </div>
         </div>
 
@@ -89,8 +91,8 @@ if ($model->asset_id != null) {
                     <table style="width: 100%">
                         <tr>
                             <td style="border: 1px dashed grey;height: 250px;text-align: center;">
-                                <img src="<?= \Yii::$app->getUrlManager()->baseUrl . '/uploads/workorder_photo/' . $work_photo ?>"
-                                     style="max-width: 130px;margin-top: 5px;" alt="">
+                                <a href="<?= \Yii::$app->getUrlManager()->baseUrl . '/uploads/workorder_photo/' . $work_photo ?>" target="_blank"><img src="<?= \Yii::$app->getUrlManager()->baseUrl . '/uploads/workorder_photo/' . $work_photo ?>"
+                                     style="max-width: 130px;margin-top: 5px;" alt=""></a>
                             </td>
                         </tr>
                     </table>

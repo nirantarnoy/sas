@@ -100,6 +100,31 @@ class WorkorderController extends Controller
             $model->factor_total = $fac_total;
             $model->factor_risk_final = $fac_final;
             if ($model->save(false)) {
+
+                $uploaded = UploadedFile::getInstanceByName('work_photo');
+                $uploaded2 = UploadedFile::getInstanceByName('work_video');
+
+                if (!empty($uploaded)) {
+                    $upfiles = "photo_".time() . "." . $uploaded->getExtension();
+                    if ($uploaded->saveAs('uploads/workorder_photo/' . $upfiles)) {
+                        $model_photo = new \common\models\WorkorderPhoto();
+                        $model_photo->workorder_id = $model->id;
+                        $model_photo->photo = $upfiles;
+                        $model_photo->save(false);
+                    }
+
+                }
+
+                if (!empty($uploaded2)) {
+                    $upfiles2 = "vdo_".time() . "." . $uploaded2->getExtension();
+                    if ($uploaded2->saveAs('uploads/workorder_vdo/' . $upfiles2)) {
+                        $model_vdo = new \common\models\WorkorderVdo();
+                        $model_vdo->workorder_id = $model->id;
+                        $model_vdo->file_name = $upfiles2;
+                        $model_vdo->save(false);
+                    }
+
+                }
                 $session = \Yii::$app->session;
                 $session->setFlash('msg-success', 'บันทึกรายการเรียบร้อย');
                 return $this->redirect(['index']);
@@ -138,6 +163,8 @@ class WorkorderController extends Controller
         if ($model->load(Yii::$app->request->post())) {
             $work_created_by = \Yii::$app->request->post('work_created_by');
             $work_status = \Yii::$app->request->post('work_status');
+            $work_old_photo = \Yii::$app->request->post('work_old_photo');
+            $work_old_vdo = \Yii::$app->request->post('work_old_vdo');
 
             $fac1 = \Yii::$app->request->post('factor_risk_1');
             $fac2 = \Yii::$app->request->post('factor_risk_2');
@@ -166,6 +193,9 @@ class WorkorderController extends Controller
                 $uploaded2 = UploadedFile::getInstanceByName('work_video');
 
                 if (!empty($uploaded)) {
+                    if(\common\models\WorkorderPhoto::deleteAll(['workorder_id'=>$model->id])){
+                      unlink('uploads/workorder_photo/' .$work_old_photo);
+                    }
                     $upfiles = "photo_".time() . "." . $uploaded->getExtension();
                     if ($uploaded->saveAs('uploads/workorder_photo/' . $upfiles)) {
                         $model_photo = new \common\models\WorkorderPhoto();
@@ -177,6 +207,9 @@ class WorkorderController extends Controller
                 }
 
                 if (!empty($uploaded2)) {
+                    if(\common\models\WorkorderVdo::deleteAll(['workorder_id'=>$model->id])){
+                        unlink('uploads/workorder_vdo/' .$work_old_vdo);
+                    }
                     $upfiles2 = "vdo_".time() . "." . $uploaded2->getExtension();
                     if ($uploaded2->saveAs('uploads/workorder_vdo/' . $upfiles2)) {
                         $model_vdo = new \common\models\WorkorderVdo();
