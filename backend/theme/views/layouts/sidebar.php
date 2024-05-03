@@ -3,8 +3,8 @@
     <a href="index.php?r=site/index" class="brand-link">
 <!--        <img src="--><?php //echo Yii::$app->request->baseUrl; ?><!--/uploads/logo/narono_logo.png" alt="Narono" class="brand-image">-->
 <!--        <span class="brand-text font-weight-light">VORAPAT</span>-->
-        <i class="fa fa-wrench text-success text-lg"> </i>
-        <span class="brand-text font-weight-bold" style="font-size: 20px;"> SAS <span style="color: royalblue">system</span></span>
+        <i class="fa fa-wrenchx text-success text-lg"> </i>
+        <span class="brand-text font-weight-bold" style="font-size: 20px;">  SAS <span style="color: royalblue">system</span></span>
     </a>
 
     <!-- Sidebar -->
