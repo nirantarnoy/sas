@@ -165,12 +165,12 @@ if($model_work_vdo){
         <div class="row">
             <div class="col-lg-6">
                 <label for="">รูปภาพ</label>
-                <?php if ($model->isNewRecord): ?>
+                <?php if ($work_photo == ''): ?>
                     <table style="width: 100%">
                         <tr>
-                            <td style="border: 1px dashed grey;height: 200px;text-align: center;">
-                                <img src=""
-                                     style="max-width: 130px;margin-top: 5px;" alt="">
+                            <td style="border: 1px dashed grey;height: 260px;text-align: center;">
+                                <i class="fa fa-ban fa-lg" style="color: grey"></i>
+                                <span style="color: lightgrey">ไม่พบไฟล์แนบ</span>
                             </td>
                         </tr>
                     </table>
@@ -188,11 +188,12 @@ if($model_work_vdo){
             </div>
             <div class="col-lg-6">
                 <label for="">วิดีโอ</label>
-                <?php if ($model->isNewRecord): ?>
+                <?php if ($work_vdo == ''): ?>
                     <table style="width: 100%">
                         <tr>
-                            <td style="border: 1px dashed grey;height: 200px;text-align: center;">
-
+                            <td style="border: 1px dashed grey;height: 260px;text-align: center;">
+                                  <i class="fa fa-ban fa-lg" style="color: grey"></i>
+                                  <span style="color: lightgrey">ไม่พบไฟล์แนบ</span>
                             </td>
                         </tr>
                     </table>
