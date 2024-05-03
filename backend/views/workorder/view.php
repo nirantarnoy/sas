@@ -13,15 +13,20 @@ $this->params['breadcrumbs'][] = $this->title;
 
 $work_photo = '';
 $work_vdo = '';
+$asset_photo = '';
 
-$model_work_photo = \common\models\WorkorderPhoto::find()->select(['photo'])->where(['workorder_id'=>$model->id])->one();
-$model_work_vdo = \common\models\WorkorderVdo::find()->select(['file_name'])->where(['workorder_id'=>$model->id])->one();
+$model_work_photo = \common\models\WorkorderPhoto::find()->select(['photo'])->where(['workorder_id' => $model->id])->one();
+$model_work_vdo = \common\models\WorkorderVdo::find()->select(['file_name'])->where(['workorder_id' => $model->id])->one();
+$model_asset = \common\models\AssetPhoto::find()->select(['photo'])->where(['asset_id' => $model->asset_id])->one();
 
-if($model_work_photo){
+if ($model_work_photo) {
     $work_photo = $model_work_photo->photo;
 }
-if($model_work_vdo){
+if ($model_work_vdo) {
     $work_vdo = $model_work_vdo->file_name;
+}
+if ($model_asset) {
+    $asset_photo = $model_asset->photo;
 }
 ?>
 <div class="workorder-view">
@@ -120,16 +125,18 @@ if($model_work_vdo){
                     </tr>
 
                     <tr>
-                        <td style="text-align: center;border: 1px dashed grey;"><b><?=$model->stop6?></b></td>
-                        <td style="text-align: center;border: 1px dashed grey;"><b><?=\backend\helpers\YesnoType::getTypeById($model->abnormal)?></b></td>
-                        <td style="text-align: center;border: 1px dashed grey;"><b><?=$model->view_point?></b></td>
+                        <td style="text-align: center;border: 1px dashed grey;"><b><?= $model->stop6 ?></b></td>
+                        <td style="text-align: center;border: 1px dashed grey;">
+                            <b><?= \backend\helpers\YesnoType::getTypeById($model->abnormal) ?></b></td>
+                        <td style="text-align: center;border: 1px dashed grey;"><b><?= $model->view_point ?></b></td>
                     </tr>
                     <tr>
                         <td colspan="3" style="height: 20px;">อาการ</td>
                     </tr>
                     <tr>
                         <td colspan="3">
-                            <textarea class="form-control" name="" id="" cols="30" rows="3"><?=$model->problem_text?></textarea>
+                            <textarea class="form-control" name="" id="" cols="30"
+                                      rows="3"><?= $model->problem_text ?></textarea>
                         </td>
 
                     </tr>
@@ -138,24 +145,29 @@ if($model_work_vdo){
             <div class="col-lg-4">
                 <div class="row">
                     <div class="col-lg-12" style="text-align: right">
-                     <div class="btn btn-warning">ความเสี่ยง</div>
+                        <div class="btn btn-warning">ความเสี่ยง</div>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-lg-12">
 
-                     <table style="width: 100%">
-                         <tr>
-                             <td style="width: 20%;"></td>
-                             <td style="">   <label for="">รูปเครื่องจักร</label></td>
-                             <td style="width: 20%"></td>
-                         </tr>
-                         <tr>
-                             <td style="width: 20%;height: 100px;"></td>
-                             <td style="border: 1px dashed grey;"></td>
-                             <td style="width: 20%"></td>
-                         </tr>
-                     </table>
+                        <table style="width: 100%">
+                            <tr>
+                                <td style="width: 25%;"></td>
+                                <td style=""><label for="">รูปเครื่องจักร</label></td>
+                                <td style="width: 25%"></td>
+                            </tr>
+                            <tr>
+                                <td style="width: 25%;height: 100px;"></td>
+                                <td style="border: 1px dashed grey;text-align: center;">
+                                    <a href="<?= \Yii::$app->getUrlManager()->baseUrl . '/uploads/asset_photo/' . $asset_photo ?>"
+                                       target="_blank"><img
+                                                src="<?= \Yii::$app->getUrlManager()->baseUrl . '/uploads/asset_photo/' . $asset_photo ?>"
+                                                style="max-width: 130px;margin-top: 5px;" alt=""></a>
+                                </td>
+                                <td style="width: 25%"></td>
+                            </tr>
+                        </table>
                     </div>
                 </div>
             </div>
@@ -178,8 +190,10 @@ if($model_work_vdo){
                     <table style="width: 100%">
                         <tr>
                             <td style="border: 1px dashed grey;height: 260px;text-align: center;padding: 5px;">
-                                <a href="<?= \Yii::$app->getUrlManager()->baseUrl . '/uploads/workorder_photo/' . $work_photo ?>" target="_blank"><img src="<?= \Yii::$app->getUrlManager()->baseUrl . '/uploads/workorder_photo/' . $work_photo ?>"
-                                     style="max-width: 130px;margin-top: 5px;" alt=""></a>
+                                <a href="<?= \Yii::$app->getUrlManager()->baseUrl . '/uploads/workorder_photo/' . $work_photo ?>"
+                                   target="_blank"><img
+                                            src="<?= \Yii::$app->getUrlManager()->baseUrl . '/uploads/workorder_photo/' . $work_photo ?>"
+                                            style="max-width: 130px;margin-top: 5px;" alt=""></a>
                             </td>
                         </tr>
                     </table>
@@ -192,8 +206,8 @@ if($model_work_vdo){
                     <table style="width: 100%">
                         <tr>
                             <td style="border: 1px dashed grey;height: 260px;text-align: center;">
-                                  <i class="fa fa-ban fa-lg" style="color: grey"></i>
-                                  <span style="color: lightgrey">ไม่พบไฟล์แนบ</span>
+                                <i class="fa fa-ban fa-lg" style="color: grey"></i>
+                                <span style="color: lightgrey">ไม่พบไฟล์แนบ</span>
                             </td>
                         </tr>
                     </table>
@@ -202,7 +216,8 @@ if($model_work_vdo){
                         <tr>
                             <td style="border: 1px dashed grey;height: 200px;text-align: center;padding: 5px;">
                                 <video width="320" height="240" controls autoplay>
-                                    <source src="<?= \Yii::$app->getUrlManager()->baseUrl . '/uploads/workorder_vdo/' . $work_vdo ?>" type="video/mp4">
+                                    <source src="<?= \Yii::$app->getUrlManager()->baseUrl . '/uploads/workorder_vdo/' . $work_vdo ?>"
+                                            type="video/mp4">
                                     Sorry, your browser doesn't support the video element.
                                 </video>
                             </td>
@@ -224,7 +239,7 @@ if($model_work_vdo){
                     </tr>
                     <tr>
                         <td>สถานที่</td>
-                        <td><b><?=\backend\models\Asset::findLocationName($model->asset_id) ?></b></td>
+                        <td><b><?= \backend\models\Asset::findLocationName($model->asset_id) ?></b></td>
                     </tr>
                 </table>
             </div>
@@ -236,18 +251,18 @@ if($model_work_vdo){
                 <div class="btn btn-danger">ไม่รับงาน</div>
             </div>
         </div>
-        <hr />
+        <hr/>
         <br/>
         <div class="row">
             <div class="col-lg-6">
                 <table style="width: 100%">
                     <tr>
                         <td style="width: 20%">วันที่คาดว่าจะเสร็จ</td>
-                        <td><b><?=date('d/m/Y')?></b></td>
+                        <td><b><?= date('d/m/Y') ?></b></td>
                     </tr>
                     <tr>
                         <td>ข้อความล่าสุด</td>
-                        <td><b><?= ''?></b></td>
+                        <td><b><?= '' ?></b></td>
                     </tr>
                     <tr>
                         <td colspan="2">
