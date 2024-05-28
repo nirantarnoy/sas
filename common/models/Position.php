@@ -34,7 +34,7 @@ class Position extends \yii\db\ActiveRecord
     {
         return [
             [['name'],'required'],
-            [['status', 'created_at', 'created_by', 'updated_at', 'updated_by'], 'integer'],
+            [['status', 'created_at', 'created_by', 'updated_at', 'updated_by','is_technician'], 'integer'],
             [['code', 'name', 'description'], 'string', 'max' => 255],
         ];
     }
@@ -50,6 +50,7 @@ class Position extends \yii\db\ActiveRecord
             'name' => 'ชื่อตำแหน่ง',
             'description' => 'รายละเอียด',
             'status' => 'สถานะ',
+            'is_technician' => 'เป็นช่าง',
             'created_at' => 'Created At',
             'created_by' => 'Created By',
             'updated_at' => 'Updated At',

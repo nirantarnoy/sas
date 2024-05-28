@@ -36,8 +36,15 @@ class WorkorderchatController extends Controller
      */
     public function actionChat($id)
     {
-        $model = \common\models\Workorder::find()->where(['id'=>$id])->one();
-        $model_chat = \common\models\WorkorderChat::find()->where(['workorder_id'=>$id])->all();
+        $user_id = \Yii::$app->user->identity->id;
+        $model = null;
+        $model_chat = null;
+        if($id!=null || $id != ''){
+            $model = \common\models\Workorder::find()->where(['id'=>$id])->one();
+        }else{
+            $model = \common\models\Workorder::find()->where(['id'=>$id])->one();
+        }
+
         return $this->render('_message', [
             'model'=> $model,
             'model_chat' => $model_chat,
@@ -98,7 +105,7 @@ class WorkorderchatController extends Controller
 
             }
         }
-        echo $html;
+        return $html;
     }
 
 

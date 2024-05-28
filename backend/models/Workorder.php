@@ -57,10 +57,10 @@ class Workorder extends \common\models\Workorder
 //        $model = Costitem::find()->where(['name'=>$code])->one();
 //        return count($model)>0?$model->id:0;
 //    }
-//    public function findCode($code){
-//        $model = Vendor::find()->where(['name'=>$code])->one();
-//        return count($model)>0?$model->name:"";
-//    }
+    public function findOrderNo($id){
+        $model = Workorder::find()->where(['id'=>$id])->one();
+        return $model!=null?$model->workorder_no:"";
+    }
 
     public static function getLastNo()
     {

@@ -9,6 +9,7 @@ $this->title = 'Dashboard';
 $work_closed_qty = 0;
 $work_receive_qty = 0;
 
+
 $model_outstanding = \backend\models\Workorder::find()->where(['status' => [1,2]])->all();
 $model_recevie_data = \backend\models\Workorder::find()->where(['status' => [1,2]])->all();
 $model_closed_data = \backend\models\Workorder::find()->where(['status' => 4])->all();
@@ -72,7 +73,7 @@ $data_series2 = [
                                             href="index.php?r=workorder/update&id=<?= $value->id ?>"><?= $value->workorder_no ?></a>
                                 </td>
                                 <td style="text-align:center;"><?= \backend\models\User::findName($value->created_by) ?></td>
-                                <td style="text-align:center;"></td>
+                                <td style="text-align:center;"><a href="index.php?r=workorderchat/chat&id=<?= $value->id ?>" target="_blank"><?=getLastMessage($value->id)?></a></td>
                                 <td style="text-align:center;"><span
                                             style="color: green;"><?= $line_time_use->format('%d days %h hours %i minute') ?></span>
                                 </td>
@@ -170,3 +171,14 @@ $data_series2 = [
         </div>
     </div>
 </div>
+
+<?php
+function getLastMessage($workorder_id){
+    $last_message = '';
+    $model_message = \common\models\WorkorderChat::find()->select(['message'])->where(['workorder_id' => $workorder_id])->orderBy(['id' => SORT_DESC])->one();
+    if($model_message){
+        $last_message = $model_message->message;
+    }
+   return $last_message;
+}
+?>

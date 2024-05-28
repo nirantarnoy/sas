@@ -268,7 +268,7 @@ if ($model_asset) {
                     </tr>
                     <tr>
                         <td>ข้อความล่าสุด</td>
-                        <td><b><?= $last_message ?></b> <button class="btn btn-primary"><i class="fa fa-comments"></i> <span>แชท</span></button></td>
+                        <td><b><?= $last_message ?></b> <a href="index.php?r=workorderchat%2Fchat&id=<?=$model->id?>" class="btn btn-primary"><i class="fa fa-comments"></i> <span>แชท</span></a></td>
                     </tr>
                     <tr>
                         <td style="height: 20px;"></td>

@@ -204,7 +204,7 @@
                     <ul class="nav nav-treeview">
                         <?php //if (\Yii::$app->user->can('salecomreport/index')): ?>
                         <li class="nav-item">
-                            <a href="index.php?r=workorderchat" class="nav-link">
+                            <a href="index.php?r=workorderchat/chat&id=" class="nav-link">
                                 <i class="far fa-circlez nav-icon"></i>
                                 <p>แชท</p>
                             </a>
