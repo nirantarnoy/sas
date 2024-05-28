@@ -234,6 +234,45 @@ if ($model->asset_id != null) {
                     </tr>
                 </table>
             </div>
+            <div class="col-lg-8">
+                <label for="">มอบหมายงาน</label>
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th style="width:5%;text-align: center;">#</th>
+                        <th style="width: 15%;">รหัสพนักงาน</th>
+                        <th>ชื่อ-นามสกุล</th>
+                        <th>ตำแหน่ง</th>
+                        <th style="width: 10%;text-align: center"></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td style="text-align: center;"></td>
+                        <td>
+                            <input type="hidden" name="line_emp_id[]" value="">
+                            <input type="text" class="form-control" readonly name="line_emp_code[]" value="">
+                        </td>
+                        <td>
+                            <input type="text" class="form-control" readonly name="line_emp_name[]" value="">
+                        </td>
+                        <td>
+                            <input type="text" class="form-control" readonly name="line_emp_position[]" value="">
+                        </td>
+                        <td>
+                            <div class="btn btn-sm btn-danger">ลบ</div>
+                        </td>
+                    </tr>
+                    </tbody>
+                    <tfoot>
+                    <tr>
+                        <td colspan="5" style="text-align: left;">
+                            <div class="btn btn-sm btn-primary">เพิ่มพนักงาน</div>
+                        </td>
+                    </tr>
+                    </tfoot>
+                </table>
+            </div>
         </div>
 
 

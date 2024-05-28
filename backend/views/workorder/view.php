@@ -14,10 +14,16 @@ $this->params['breadcrumbs'][] = $this->title;
 $work_photo = '';
 $work_vdo = '';
 $asset_photo = '';
+$last_message = '';
 
 $model_work_photo = \common\models\WorkorderPhoto::find()->select(['photo'])->where(['workorder_id' => $model->id])->one();
 $model_work_vdo = \common\models\WorkorderVdo::find()->select(['file_name'])->where(['workorder_id' => $model->id])->one();
 $model_asset = \common\models\AssetPhoto::find()->select(['photo'])->where(['asset_id' => $model->asset_id])->one();
+
+$model_message = \common\models\WorkorderChat::find()->select(['message'])->where(['workorder_id' => $model->id])->orderBy(['id' => SORT_DESC])->one();
+if($model_message){
+    $last_message = $model_message->message;
+}
 
 if ($model_work_photo) {
     $work_photo = $model_work_photo->photo;
@@ -262,7 +268,7 @@ if ($model_asset) {
                     </tr>
                     <tr>
                         <td>ข้อความล่าสุด</td>
-                        <td><b><?= '' ?></b><button class="btn btn-primary"><i class="fa fa-comments"></i> <span>แชท</span></button></td>
+                        <td><b><?= $last_message ?></b> <button class="btn btn-primary"><i class="fa fa-comments"></i> <span>แชท</span></button></td>
                     </tr>
                     <tr>
                         <td style="height: 20px;"></td>
