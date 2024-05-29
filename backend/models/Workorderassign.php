@@ -5,7 +5,7 @@ use Yii;
 use yii\db\ActiveRecord;
 date_default_timezone_set('Asia/Bangkok');
 
-class Workorder extends \common\models\Workorder
+class Workorderassign extends \common\models\WorkorderAssign
 {
     public function behaviors()
     {
@@ -67,9 +67,9 @@ class Workorder extends \common\models\Workorder
     public static function getLastNo()
     {
         //   $model = Orders::find()->MAX('order_no');
-        $model = Workorder::find()->MAX('workorder_no');
+        $model = Workorderassign::find()->MAX('assign_no');
 
-        $pre = "WO";
+        $pre = "AS";
 
         if ($model != null) {
 //            $prefix = $pre.substr(date("Y"),2,2);

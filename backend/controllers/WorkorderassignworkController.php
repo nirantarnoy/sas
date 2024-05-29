@@ -2,44 +2,45 @@
 
 namespace backend\controllers;
 
-use Yii;
-use backend\models\Usergroup;
 use backend\models\UsergroupSearch;
+use backend\models\Workorderassignwork;
+use backend\models\WorkorderassignworkSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
 /**
- * UsergroupController implements the CRUD actions for Usergroup model.
+ * WorkorderassignworkController implements the CRUD actions for Workorderassignwork model.
  */
-class UsergroupController extends Controller
-
-
+class WorkorderassignworkController extends Controller
 {
-    public $enableCsrfValidation = false;
     /**
-     * {@inheritdoc}
+     * @inheritDoc
      */
     public function behaviors()
     {
-        return [
-            'verbs' => [
-                'class' => VerbFilter::className(),
-                'actions' => [
-                    'delete' => ['POST'],
+        return array_merge(
+            parent::behaviors(),
+            [
+                'verbs' => [
+                    'class' => VerbFilter::className(),
+                    'actions' => [
+                        'delete' => ['POST'],
+                    ],
                 ],
-            ],
-        ];
+            ]
+        );
     }
 
     /**
-     * Lists all Usergroup models.
-     * @return mixed
+     * Lists all Workorderassignwork models.
+     *
+     * @return string
      */
     public function actionIndex()
     {
         $pageSize = \Yii::$app->request->post("perpage");
-        $searchModel = new UsergroupSearch();
+        $searchModel = new WorkorderassignworkSearch();
         $dataProvider = $searchModel->search(\Yii::$app->request->queryParams);
         $dataProvider->setSort(['defaultOrder' => ['id' => SORT_DESC]]);
         $dataProvider->pagination->pageSize = $pageSize;
@@ -52,9 +53,9 @@ class UsergroupController extends Controller
     }
 
     /**
-     * Displays a single Usergroup model.
-     * @param integer $id
-     * @return mixed
+     * Displays a single Workorderassignwork model.
+     * @param int $id ID
+     * @return string
      * @throws NotFoundHttpException if the model cannot be found
      */
     public function actionView($id)
@@ -65,16 +66,20 @@ class UsergroupController extends Controller
     }
 
     /**
-     * Creates a new Usergroup model.
+     * Creates a new Workorderassignwork model.
      * If creation is successful, the browser will be redirected to the 'view' page.
-     * @return mixed
+     * @return string|\yii\web\Response
      */
     public function actionCreate()
     {
-        $model = new Usergroup();
+        $model = new Workorderassignwork();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+        if ($this->request->isPost) {
+            if ($model->load($this->request->post()) && $model->save()) {
+                return $this->redirect(['view', 'id' => $model->id]);
+            }
+        } else {
+            $model->loadDefaultValues();
         }
 
         return $this->render('create', [
@@ -83,17 +88,17 @@ class UsergroupController extends Controller
     }
 
     /**
-     * Updates an existing Usergroup model.
+     * Updates an existing Workorderassignwork model.
      * If update is successful, the browser will be redirected to the 'view' page.
-     * @param integer $id
-     * @return mixed
+     * @param int $id ID
+     * @return string|\yii\web\Response
      * @throws NotFoundHttpException if the model cannot be found
      */
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
         }
 
@@ -103,10 +108,10 @@ class UsergroupController extends Controller
     }
 
     /**
-     * Deletes an existing Usergroup model.
+     * Deletes an existing Workorderassignwork model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
-     * @param integer $id
-     * @return mixed
+     * @param int $id ID
+     * @return \yii\web\Response
      * @throws NotFoundHttpException if the model cannot be found
      */
     public function actionDelete($id)
@@ -117,15 +122,15 @@ class UsergroupController extends Controller
     }
 
     /**
-     * Finds the Usergroup model based on its primary key value.
+     * Finds the Workorderassignwork model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
-     * @param integer $id
-     * @return Usergroup the loaded model
+     * @param int $id ID
+     * @return Workorderassignwork the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = Usergroup::findOne($id)) !== null) {
+        if (($model = Workorderassignwork::findOne(['id' => $id])) !== null) {
             return $model;
         }
 

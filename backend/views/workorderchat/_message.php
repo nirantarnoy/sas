@@ -2,9 +2,15 @@
 $this->title = 'ข้อความแชท';
 $workorder_id = 0;
 $workorder_no = '';
+$workorder_by = '';
+$workorder_date = '';
+$workorder_status = '';
 if ($model != null) {
     $workorder_id = $model->id;
     $workorder_no = $model->workorder_no;
+    $workorder_by = \backend\models\User::findName($model->created_by);
+    $workorder_date = date('d-m-Y H:i:s', strtotime($model->workorder_date));
+    $workorder_status = \backend\models\Workorderstatus::findName($model->status);
 
 }
 $model_order_message = \common\models\WorkorderChat::find()->select(['workorder_id'])->where(['created_by' => \Yii::$app->user->id])->groupBy(['workorder_id'])->all();
@@ -60,26 +66,27 @@ $model_order_message = \common\models\WorkorderChat::find()->select(['workorder_
                 <div class="row">
                     <div class="col-lg-2" style="border-right: 1px solid lightgrey">
                         <div style="height: 50px;"><b>รายการแชท</b></div>
-<!--                        <hr style="border: 1px solid gray;">-->
+                        <!--                        <hr style="border: 1px solid gray;">-->
                         <?php if ($model_order_message != null): ?>
                             <?php foreach ($model_order_message as $value): ?>
-                            <?php
-                            $bg_active = '';
-                            if($value->workorder_id == $workorder_id){
-                                $bg_active = 'background-color: lightblue;';
-                            }
-                            ?>
-                            <div class="row">
-                                <div class="col-lg-12">
-                                    <a href="index.php?r=workorderchat/chat&id=<?= $value->workorder_id ?>" class="chat-list" id="chat-list"
-                                       style="border-radius: 5px;">
-                                        <div style="width: 100%;<?=$bg_active?>padding: 10px;border-radius: 10px" >
-                                           <?= \backend\models\Workorder::findOrderNo($value->workorder_id) ?>
-                                        </div>
+                                <?php
+                                $bg_active = '';
+                                if ($value->workorder_id == $workorder_id) {
+                                    $bg_active = 'background-color: lightblue;';
+                                }
+                                ?>
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <a href="index.php?r=workorderchat/chat&id=<?= $value->workorder_id ?>"
+                                           class="chat-list" id="chat-list"
+                                           style="border-radius: 5px;">
+                                            <div style="width: 100%;<?= $bg_active ?>padding: 10px;border-radius: 10px">
+                                                <?= \backend\models\Workorder::findOrderNo($value->workorder_id) ?>
+                                            </div>
 
-                                    </a>
+                                        </a>
+                                    </div>
                                 </div>
-                            </div>
                             <?php endforeach; ?>
                         <?php else: ?>
                             <div style="text-align: center;color: lightgrey;">ไม่พบรายการ</div>
@@ -88,21 +95,34 @@ $model_order_message = \common\models\WorkorderChat::find()->select(['workorder_
                     </div>
                     <div class="col-lg-10">
                         <div style="height: 40px;padding: 8px;"><b
-                                    style="vertical-align: middle;">เลขใบแจ้งซ่อม #<?= $workorder_no ?></b></div>
+                                    style="vertical-align: middle;">เลขใบแจ้งซ่อม #<?= $workorder_no ?></b><span> แจ้งโดย: <b><?= $workorder_by ?></b></span><span> วันที่แจ้ง: <b><?= $workorder_date ?></b></span><span> สถานะ: <b><?= $workorder_status ?></b></span>
+                        </div>
                         <hr style="border: 1px solid lightgrey;">
                         <div id="chat-box" style="width: 100%;height: 750px;overflow-y: scroll;">
 
                         </div>
                         <br/>
                         <table style="width: 100%;">
-                            <tr>
-                                <td style="width:90%"><input type="text" class="form-control message-for-send"
-                                                             placeholder="กรอกข้อความของคุณที่นี่">
-                                </td>
-                                <td>
-                                    <div class="btn btn-primary" onclick="sendMessage()">ส่งข้อความ</div>
-                                </td>
-                            </tr>
+                            <form id="form-message" action="" method="post">
+                                <tr>
+                                    <td style="width:90%">
+                                        <div class="input-group">
+                                            <div class="btn btn-secondary btn-click-add-file">แนบไฟล์</div>
+                                            <input type="text" class="form-control message-for-send"
+                                                   placeholder="กรอกข้อความของคุณที่นี่">
+                                        </div>
+
+                                    </td>
+
+                                    <td>
+                                        <div class="btn btn-primary" onclick="sendMessage()">ส่งข้อความ</div>
+                                        <input type="file" class="form-control file-for-send" style="display: none">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2"> <span class="count-file-text"></span></td>
+                                </tr>
+                            </form>
                         </table>
                     </div>
                 </div>
@@ -158,7 +178,20 @@ $(function(){
     //    // console.log(pos);
     //    // chatboxScroll(); 
     // });
+    
+    $(".btn-click-add-file").click(function(){
+       $(".file-for-send").trigger('click'); 
+       setInterval(checkHasFile,3000);
+    });
 });
+function checkHasFile(){
+   var file_count = $(".file-for-send").get(0).files.length;
+   if(file_count > 0){
+       $(".count-file-text").text(file_count + " ไฟล์");
+   }else{
+       $(".count-file-text").text("");
+   }
+}
 function chatboxScroll(){
    // alert();
    console.log();

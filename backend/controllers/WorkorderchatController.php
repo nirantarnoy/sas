@@ -100,7 +100,7 @@ class WorkorderchatController extends Controller
                 if($user_id == $value->created_by){
                     $html .= '<div style="text-align: right;padding: 5px;"><div style="padding: 5px;font-size: 10px;">'.date('d-m-Y H:i:s',strtotime($value->message_date)).'</div><div style="margin-top:5px;"><span style="background-color: lightblue;padding: 10px;border-top-left-radius: 10px;border-bottom-right-radius: 10px;">'.$value->message.'</span></div></div>';
                 }else{
-                    $html .= '<div style="text-align: left;padding: 5px;"><div style="padding: 5px;font-size: 10px;">'.date('d-m-Y H:i:s',strtotime($value->message_date)).'</div><div style="margin-top:5px;"><span style="background-color: lightgrey;padding: 10px;border-top-left-radius: 10px;border-bottom-right-radius: 10px;">'.$value->message.'</span></div></div>';
+                    $html .= '<div style="text-align: left;padding: 5px;"><div style="padding: 5px;font-size: 10px;">'.date('d-m-Y H:i:s',strtotime($value->message_date)).'</div><div style="margin-top:5px;"><span style="background-color: lightgrey;padding: 10px;border-top-left-radius: 10px;border-bottom-right-radius: 10px;">'.$value->message.'</span></div><a href="'.\Yii::$app->getUrlManager()->baseUrl . '/uploads/chat_photo/demo.jpg'.'" target="_blank"><img src="'.\Yii::$app->getUrlManager()->baseUrl . '/uploads/chat_photo/demo.jpg'.'" alt="" style="width: 10%"></a></div>';
                 }
 
             }
