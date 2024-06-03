@@ -63,11 +63,17 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
             [
                 'label' => 'ผ่านมา(วัน)',
+                'value' => function ($data) {
+                    $date1 = date_create(date('Y-m-d H:i:s', strtotime($data->workorder_date)));
+                    $date2 = date_create(date('Y-m-d H:i:s'));
+                    $line_time_use = date_diff($date1, $date2);
+                    return $line_time_use->format('%d วัน');
+                }
             ],
             [
                 'attribute' => 'asset_id',
                 'value' => function ($data) {
-                    return \backend\models\Asset::findTypeName($data->asset_id);
+                    return \backend\models\Asset::findAssetCatName($data->asset_id);
                 }
             ],
             [
@@ -78,10 +84,26 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
             [
                 'attribute' => 'asset_id',
+                'label' => 'Serial No.',
                 'value' => function ($data) {
-                    return \backend\models\Asset::findSerialNo($data->asset_id);
+                    return \backend\models\Asset::findAssetSerialNo($data->asset_id);
                 }
             ],
+            [
+                'attribute' => 'asset_id',
+                'label' => 'สถานที่',
+                'value' => function ($data) {
+                    return \backend\models\Asset::findLocationName($data->asset_id);
+                }
+            ],
+            [
+                'attribute' => 'status',
+                'label' => 'สถานะ',
+                'value' => function ($data) {
+                    return \backend\models\Workorderstatus::findName($data->status);
+                }
+            ],
+
             // 'assign_emp_id',
             //'work_recieve_date',
             //'work_assign_date',
@@ -90,7 +112,24 @@ $this->params['breadcrumbs'][] = $this->title;
 
             //'updated_at',
             //'updated_by',
-            //'problem_text',
+            [
+                'attribute' => 'problem_text',
+                'contentOptions' => ['style' => 'text-align: center;'],
+                'headerOptions' => ['style' => 'text-align: center;'],
+                'format' => 'raw',
+                'value' => function ($data) {
+                    return '<div class="" data-var="' . $data->problem_text . '" data-var2="' . $data->workorder_no . '" onclick="showText($(this))"><i class="fa fa-question-circle"></i> </div>';
+                }
+            ],
+            [
+                'label' => 'ผู้ซ่อม',
+                'contentOptions' => ['style' => 'text-align: center;'],
+                'headerOptions' => ['style' => 'text-align: center;'],
+                'format' => 'raw',
+                'value' => function ($data) {
+                    return '<div class="" data-var="' . $data->id . '" onclick="showfindemployee($(this))"><i class="fa fa-user text-secondary"></i> </div>';
+                }
+            ],
             //'stop6',
             //'abnormal',
             //'view_point',
@@ -147,3 +186,374 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php Pjax::end(); ?>
 
 </div>
+<div id="findModal" class="modal fade" role="dialog">
+    <div class="modal-dialog modal-xl">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <b>รายชื่อพนักงาน</b>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-lg-12" style="text-align: right">
+                        <button class="btn btn-outline-success btn-emp-selected" data-dismiss="modalx" disabled><i
+                                    class="fa fa-check"></i> ตกลง
+                        </button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal"><i
+                                    class="fa fa-close text-danger"></i> ปิดหน้าต่าง
+                        </button>
+                    </div>
+                </div>
+                <div style="height: 10px;"></div>
+                <input type="hidden" name="line_qc_product" class="line_qc_product" value="">
+                <table class="table table-bordered table-striped table-find-list" width="100%">
+                    <thead>
+                    <tr>
+                        <th style="text-align: center">เลือก</th>
+                        <th>รหัสพนักงาน</th>
+                        <th>ชื่อ-นามสกุล</th>
+                        <th>ตำแหน่งงาน</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+
+                <br/>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-outline-success btn-emp-selected" data-dismiss="modalx" disabled><i
+                            class="fa fa-check"></i> ตกลง
+                </button>
+                <button type="button" class="btn btn-default" data-dismiss="modal"><i
+                            class="fa fa-close text-danger"></i> ปิดหน้าต่าง
+                </button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div id="problemModal" class="modal fade" role="dialog">
+    <div class="modal-dialog modal-lg">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <b>เลขที่ใบแจ้งซ่อม # <span class="show-workorder-no"></span></b>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-body">
+                <p class="problem-text"></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal"><i
+                            class="fa fa-close text-danger"></i> ปิดหน้าต่าง
+                </button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<form id="form-submit-select-employee" action="#" method="post" style="display: nonex;">
+    <input type="hidden" name="work_assign_submit_id" class="work-assign-submit-id" value="">
+    <table class="table-after-list">
+        <tbody>
+
+        </tbody>
+    </table>
+    <input type="submit" class="select-employee-submit" style="display: nonex;" value="ok">
+</form>
+
+<?php
+$url_to_find_employee = \yii\helpers\Url::to(['workorderassignwork/findemployee'], true);
+$url_to_save_assign_employee = \yii\helpers\Url::to(['workorderassignwork/saveassignemployee'], true);
+$url_to_delete_emp_item = '';
+$js = <<<JS
+var selecteditem = [];
+$(function(){
+   
+    var xx = $(".slip-print").val();
+     //   alert(xx);
+     if(xx !="empty"){
+         myPrint();
+     }
+     
+     
+     $("form#form-submit-select-employee").on("submit", function(e){
+         e.preventDefault();
+//         var formData = new FormData(this);
+//         alert('xx');
+//         var workorder_id = $(".work-assign-submit-id").val();
+//         alert(workorder_id);
+//         if (workorder_id) {
+//             alert();
+//              $.ajax({
+//                  dataType: 'html',
+//                  url: '$url_to_save_assign_employee',
+//                  type: 'POST',
+//                  contentType: false,
+//                  processData: false,
+//                        // data: {
+//                        //     workorder_id: workorder_id,
+//                        //     user_id: user_id,
+//                        //     message: message
+//                        // },
+//                  data: formData,
+//                  success: function(response) {
+//                      
+//                  }
+//              });
+//         }
+     });
+     
+     
+});
+function showText(e){
+    var text = e.attr("data-var");
+    var workorder_no = e.attr("data-var2");
+    if(text !='' && workorder_no!=''){
+        $(".problem-text").html(text);
+        $(".show-workorder-no").html(workorder_no);
+        $("#problemModal").modal("show");
+    }
+    
+}
+function myPrint(){
+        var getMyFrame = document.getElementById('iFramePdf');
+        getMyFrame.focus();
+        getMyFrame.contentWindow.print();
+}
+
+function showfindemployee(e){
+    var id = e.attr("data-var");
+  //alert(id);
+  if(id > 0){
+    $.ajax({
+      type: 'post',
+      dataType: 'html',
+      url:'$url_to_find_employee',
+      async: false,
+      data: {'work_assign_id': id },
+      success: function(data){
+       //   alert(data);
+          $(".table-find-list tbody").html(data);
+          $("#findModal").modal("show");
+          disableselectitemNew();
+      },
+      error: function(err){
+          alert(err);
+      }
+      
+    });  
+  }
+}
+
+function addselecteditem(e) {
+        var id = e.attr('data-var');
+        var work_assign_id = e.closest('tr').find('.line-find-work-assign-id').val();
+        var work_assign_line_id = e.closest('tr').find('.line-find-work-assign-line-id').val();
+        var emp_code = e.closest('tr').find('.line-find-emp-code').val();
+        var emp_name = e.closest('tr').find('.line-find-emp-name').val();
+        var emp_position_name = e.closest('tr').find('.line-find-emp-position').val();
+        if (id) {
+           // alert(id);
+            // if(checkhasempdaily(id)){
+            //     alert("คุณได้ทำการจัดรถให้พนักงานคนนี้ไปแล้ว");
+            //     return false;
+            // }
+            if (e.hasClass('btn-outline-success')) {
+                e.removeClass('btn-outline-success');
+                e.addClass('btn-success');
+                
+                
+                var obj = {};
+                obj['work_assign_id'] = work_assign_id;
+                obj['work_assign_line_id'] = work_assign_line_id;
+                obj['emp_id']  = id;
+                obj['emp_code'] = emp_code;
+                obj['emp_name'] = emp_name;
+                obj['emp_position_name'] = emp_position_name;
+                obj['selected'] = 1;
+                selecteditem.push(obj);
+                
+                disableselectitemNew();
+                console.log(selecteditem);
+            } else {
+                e.removeClass('btn-success');
+                e.addClass('btn-outline-success');
+                if(selecteditem.length > 0){
+                    selecteditem.forEach(function(item){
+                        if(item.emp_id == id){
+                            selecteditem.splice(selecteditem.indexOf(item), 1);
+                        }
+                    });
+                    
+                    // $.each(selecteditem, function (i, el) {
+                    //     if (this.id == id) {
+                    //         var qty = this.qty;
+                    //         var product_group_id = this.product_group_id;
+                    //         selecteditem.splice(i, 1);
+                    //         selectedorderlineid.splice(i,1);
+                    //         deleteorderlineselected(product_group_id, qty); // update data in selected list
+                    //         console.log(selecteditemgroup);
+                    //         caltablecontent(); // refresh table below
+                    //     }
+                    // });
+                }
+                disableselectitemNew();
+                 console.log(selecteditem);
+            }
+        }
+      
+    }
+    function deleteorderlineselected(id, qty){
+       $.each(selecteditemgroup, function(i, el){
+           if(this.product_group_id == id && this.qty > 0){
+               this.qty = (this.qty - qty);
+               if(this.qty <= 0){
+                   selecteditemgroup.splice(i,1);
+               }
+               
+           }
+       });
+    }
+    // function caltablecontent(){
+    // var html = '';
+    // $.each(selecteditem, function(i,el){    
+    //      html +='<tr>';
+    //      html +='<td><input type="hidden" name="work_assign_id[]" class="work-assign-id" value="'+ this.work_assign_id +'"></td>';
+    //      html +='<td><input type="hidden" name="employee_id[]" class="work-employee-id" value="'+ this.emp_id +'"></td>';
+    //      html +='<td><input type="hidden" name="employee_selected[]" class="work-employee-selected" value="'+ this.selected +'"></td>';
+    //      html +='</tr>';
+    // });
+    //        
+    //   $(".table-after-list tbody").html(html);
+    // }
+    function disableselectitem() {
+        if (selecteditem.length > 0) {
+            $(".btn-emp-selected").prop("disabled", "");
+            $(".btn-emp-selected").removeClass('btn-outline-success');
+            $(".btn-emp-selected").addClass('btn-success');
+        } else {
+            $(".btn-emp-selected").prop("disabled", "disabled");
+            $(".btn-emp-selected").removeClass('btn-success');
+            $(".btn-emp-selected").addClass('btn-outline-success');
+        }
+    }
+     function disableselectitemNew() {
+           
+           if(selecteditem.length >0){
+               $(".btn-emp-selected").prop("disabled", "");
+               $(".btn-emp-selected").removeClass('btn-outline-success');
+               $(".btn-emp-selected").addClass('btn-success');
+           }else{
+               $(".btn-emp-selected").prop("disabled", "disabled");
+               $(".btn-emp-selected").removeClass('btn-success');
+               $(".btn-emp-selected").addClass('btn-outline-success');
+           }
+    }
+    $(".btn-emp-selected").click(function () {
+        if(selecteditem.length > 0){
+            var work_assign_id = 0;
+             var html = '';
+                $.each(selecteditem, function(i,el){    
+                     work_assign_id = this.work_assign_id;
+                     html +='<tr>';
+                     html +='<td><input type="hidden" name="work_assign_id[]" class="work-assign-id" value="'+ this.work_assign_id +'"></td>';
+                     html +='<td><input type="hidden" name="employee_id[]" class="work-employee-id" value="'+ this.emp_id +'"></td>';
+                     html +='<td><input type="hidden" name="employee_selected[]" class="work-employee-selected" value="'+ this.selected +'"></td>';
+                     html +='</tr>';
+                });
+                  alert(html);
+                $(".table-after-list tbody").html(html);
+                
+                if($(".table-after-list tbody tr").length > 0){
+                    $("form#form-submit-select-employee").find(".work-assign-submit-id").val(work_assign_id);
+                    $("form#form-submit-select-employee").submit();
+                    $(".select-employee-submit").trigger('click');
+                }
+        }
+    });
+
+  
+  function check_dup(prod_id){
+      var _has = 0;
+      $("#table-list tbody tr").each(function(){
+          var p_id = $(this).closest('tr').find('.line-car-emp-id').val();
+         // alert(p_id + " = " + prod_id);
+          if(p_id == prod_id){
+              _has = 1;
+          }
+      });
+      return _has;
+  }
+  
+  function removeline(e){
+     
+          if(confirm('ต้องการลบรายการนี้ใช่หรือไม่ ?')){
+               if($("#table-list tbody tr").length == 1){
+                   e.closest("tr").find(".line-product-group-id").val('');
+                   e.closest("tr").find(".line-product-group-name").val('');
+                   e.closest("tr").find(".line-qty").val('');
+                   e.closest("tr").find(".line-price").val('');
+                   e.closest("tr").find(".line-total").val('');
+                   
+                    $(".table-after-list tbody tr").each(function(){
+                        $(this).closest("tr").find("td:eq(0)").html('');
+                        $(this).closest("tr").find("td:eq(1)").html('');
+                        $(this).closest("tr").find("td:eq(2)").html('');
+                        $(this).closest("tr").find("td:eq(3)").html('');
+                        $(this).closest("tr").find("td:eq(4)").html('');
+                        $(this).closest("tr").find(".product-group-line-id").val('');
+                    });
+                   
+                 }else{
+                   e.parent().parent().remove();
+               }
+               
+               var line_order_id = e.closest("tr").find(".line-order-selected-id").val();
+               if(line_order_id != ''){
+                   var result = line_order_id.split(',');
+                   for(var x= 0; x<= result.length -1 ;x++){
+                       for(var z=0;z<=selectedorderid.length-1;z++){
+                           if(selectedorderid[z] == result[x]){
+                                selectedorderid.splice(z, 1);
+                           }
+                       }
+                   }
+               }
+              
+               
+          }
+          
+          caltaxinvoice();
+          
+      var linenum = 0;
+       $("#table-list tbody tr").each(function () {
+            linenum += 1;
+       });
+       //$(".selected-emp-qty").val(linenum);
+  }  
+  
+  // function checkallreadyseleled(order_id){
+  //     selectedorderid.forEach((item){
+  //        if(item.code == order_id){
+  //            alert();
+  //        } 
+  //     });
+  // }
+
+JS;
+
+$this->registerJs($js, static::POS_END);
+?>

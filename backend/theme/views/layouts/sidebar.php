@@ -166,7 +166,7 @@
                         <?php //endif; ?>
                         <?php //if (\Yii::$app->user->can('customergroup/index')): ?>
                         <li class="nav-item">
-                            <a href="index.php?r=workorderassign" class="nav-link workorderassign">
+                            <a href="index.php?r=workorderassignwork" class="nav-link workorderassignwork">
                                 <i class="far fa-circlez nav-icon"></i>
                                 <p>มอบหมายงาน</p>
                             </a>

@@ -32,7 +32,7 @@ class WorkorderChat extends \yii\db\ActiveRecord
         return [
             [['workorder_id', 'created_by', 'read_status'], 'integer'],
             [['message_date'], 'safe'],
-            [['message'], 'string', 'max' => 255],
+            [['message','photo'], 'string', 'max' => 255],
         ];
     }
 

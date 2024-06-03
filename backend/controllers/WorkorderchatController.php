@@ -8,7 +8,7 @@ use backend\models\UserSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
-
+use yii\web\UploadedFile;
 /**
  * UserController implements the CRUD actions for User model.
  */
@@ -56,15 +56,36 @@ class WorkorderchatController extends Controller
         $workorder_id = \Yii::$app->request->post('workorder_id');
         $user_id = \Yii::$app->request->post('user_id');
         $message = \Yii::$app->request->post('message');
-        $model = new \common\models\WorkorderChat();
+       // $model = new \common\models\WorkorderChat();
 
         if($workorder_id != null && $user_id != null && $message != null){
+            $photo = '';
+
+//            $uploaded = \yii\web\UploadedFile::getInstanceByName('message-file');
+//            if (!empty($uploaded)) {
+//                $upfiles = "photo_".time() . "." . $uploaded->getExtension();
+//                if ($uploaded->saveAs('uploads/chat_photo/' . $upfiles)) {
+//                    $photo = $upfiles;
+//                }
+//
+//            }
+            if(isset($_FILES['message_file']) && $_FILES['message_file']['error'] ==0){
+                $temp = explode(".", $_FILES["message_file"]["name"]);
+                $new_filename = 'photo_'.time().'.'.$temp[1];
+                $uploadDir = 'uploads/chat_photo/';
+
+                if (move_uploaded_file($_FILES['message_file']['tmp_name'], $uploadDir . $new_filename)) {
+                    $photo = $new_filename;
+                }
+            }
+
             $model_new = new \common\models\WorkorderChat();
             $model_new->workorder_id = $workorder_id;
             $model_new->created_by = $user_id;
             $model_new->message = $message;
             $model_new->message_date = date('Y-m-d H:i:s');
             $model_new->read_status = 0;
+            $model_new->photo = $photo;
             $model_new->save(false);
            // echo 'success';
         }else{
@@ -98,9 +119,19 @@ class WorkorderchatController extends Controller
         if($model){
             foreach ($model as $value) {
                 if($user_id == $value->created_by){
-                    $html .= '<div style="text-align: right;padding: 5px;"><div style="padding: 5px;font-size: 10px;">'.date('d-m-Y H:i:s',strtotime($value->message_date)).'</div><div style="margin-top:5px;"><span style="background-color: lightblue;padding: 10px;border-top-left-radius: 10px;border-bottom-right-radius: 10px;">'.$value->message.'</span></div></div>';
+                    if($value->photo != null || $value->photo != ''){
+                        $html .= '<div style="text-align: right;padding: 5px;"><div style="padding: 5px;font-size: 10px;">'.date('d-m-Y H:i:s',strtotime($value->message_date)).'</div><div style="margin-top:5px;"><span style="background-color: lightblue;padding: 10px;border-top-left-radius: 10px;border-bottom-right-radius: 10px;">'.$value->message.'</span></div><a href="'.\Yii::$app->getUrlManager()->baseUrl . '/uploads/chat_photo/'.$value->photo.'" target="_blank"><img src="'.\Yii::$app->getUrlManager()->baseUrl . '/uploads/chat_photo/'.$value->photo.'" alt="" style="width: 10%"></a></div></div>';
+                    }else{
+                        $html .= '<div style="text-align: right;padding: 5px;"><div style="padding: 5px;font-size: 10px;">'.date('d-m-Y H:i:s',strtotime($value->message_date)).'</div><div style="margin-top:5px;"><span style="background-color: lightblue;padding: 10px;border-top-left-radius: 10px;border-bottom-right-radius: 10px;">'.$value->message.'</span></div></div>';
+                    }
+
                 }else{
-                    $html .= '<div style="text-align: left;padding: 5px;"><div style="padding: 5px;font-size: 10px;">'.date('d-m-Y H:i:s',strtotime($value->message_date)).'</div><div style="margin-top:5px;"><span style="background-color: lightgrey;padding: 10px;border-top-left-radius: 10px;border-bottom-right-radius: 10px;">'.$value->message.'</span></div><a href="'.\Yii::$app->getUrlManager()->baseUrl . '/uploads/chat_photo/demo.jpg'.'" target="_blank"><img src="'.\Yii::$app->getUrlManager()->baseUrl . '/uploads/chat_photo/demo.jpg'.'" alt="" style="width: 10%"></a></div>';
+                    if($value->photo != null || $value->photo != ''){
+                        $html .= '<div style="text-align: left;padding: 5px;"><div style="padding: 5px;font-size: 10px;">'.date('d-m-Y H:i:s',strtotime($value->message_date)).'</div><div style="margin-top:5px;"><span style="background-color: lightgrey;padding: 10px;border-top-left-radius: 10px;border-bottom-right-radius: 10px;">'.$value->message.'</span></div><a href="'.\Yii::$app->getUrlManager()->baseUrl . '/uploads/chat_photo/'.$value->photo.'" target="_blank"><img src="'.\Yii::$app->getUrlManager()->baseUrl . '/uploads/chat_photo/'.$value->photo.'" alt="" style="width: 10%"></a></div>';
+                    }else{
+                        $html .= '<div style="text-align: left;padding: 5px;"><div style="padding: 5px;font-size: 10px;">'.date('d-m-Y H:i:s',strtotime($value->message_date)).'</div><div style="margin-top:5px;"><span style="background-color: lightgrey;padding: 10px;border-top-left-radius: 10px;border-bottom-right-radius: 10px;">'.$value->message.'</span></div></div>';
+                    }
+
                 }
 
             }

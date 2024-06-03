@@ -103,20 +103,23 @@ $model_order_message = \common\models\WorkorderChat::find()->select(['workorder_
                         </div>
                         <br/>
                         <table style="width: 100%;">
-                            <form id="form-message" action="" method="post">
+                            <form id="form-message" action="" method="post" enctype="multipart/form-data">
                                 <tr>
                                     <td style="width:90%">
                                         <div class="input-group">
                                             <div class="btn btn-secondary btn-click-add-file">แนบไฟล์</div>
                                             <input type="text" class="form-control message-for-send"
-                                                   placeholder="กรอกข้อความของคุณที่นี่">
+                                                   placeholder="กรอกข้อความของคุณที่นี่" name="message">
                                         </div>
 
                                     </td>
 
                                     <td>
-                                        <div class="btn btn-primary" onclick="sendMessage()">ส่งข้อความ</div>
-                                        <input type="file" class="form-control file-for-send" style="display: none">
+<!--                                        <div class="btn btn-primary" onclick="sendMessage()">ส่งข้อความ</div>-->
+                                        <input type="submit" class="btn btn-primary" value="ส่งข้อความ">
+                                        <input type="file" name="message_file" class="form-control file-for-send" style="display: none">
+                                        <input type="hidden" name="workorder_id" value="<?= $workorder_id ?>">
+                                        <input type="hidden" name="user_id" value="<?= \Yii::$app->user->id ?>">
                                     </td>
                                 </tr>
                                 <tr>
@@ -181,7 +184,38 @@ $(function(){
     
     $(".btn-click-add-file").click(function(){
        $(".file-for-send").trigger('click'); 
-       setInterval(checkHasFile,3000);
+       setInterval(checkHasFile,2000);
+    });
+    
+    $("#form-message").on("submit", function(e){
+        e.preventDefault();
+        var formData = new FormData(this);
+        
+        var workorder_id = $(".workorder-id");
+        var user_id = $(".user-id");
+        var message = $(".message-for-send").val();
+
+    if (workorder_id && message) {
+        $.ajax({
+            dataType: 'html',
+            url: '$url_to_post_message',
+            type: 'POST',
+            contentType: false,
+            processData: false,
+            // data: {
+            //     workorder_id: workorder_id,
+            //     user_id: user_id,
+            //     message: message
+            // },
+            data: formData,
+            success: function(response) {
+                loadMessages();
+                document.getElementById('message').value = '';
+            }
+        });
+    } else {
+        alert('Please enter both username and message.');
+    }
     });
 });
 function checkHasFile(){
