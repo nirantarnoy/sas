@@ -17,6 +17,7 @@ class AssetController extends Controller
 {
 
     public $enableCsrfValidation = false;
+
     /**
      * {@inheritdoc}
      */
@@ -74,16 +75,16 @@ class AssetController extends Controller
         $model = new Asset();
 
         if ($model->load(Yii::$app->request->post())) {
-            $uploaded = UploadedFile::getInstances($model,'photo');
-             $model->photo = '';
-            if($model->save(false)){
-                if(!empty($uploaded)){
+            $uploaded = UploadedFile::getInstances($model, 'photo');
+            $model->photo = '';
+            if ($model->save(false)) {
+                if (!empty($uploaded)) {
 //               for($i=0;$i<=count($uploaded)-1;$i++){
 //
 //               }
                     //     echo count($uploaded);return;
                     foreach ($uploaded as $file) {
-                        if($file->saveAs('uploads/asset_photo/' . $file->baseName . '.' . $file->extension)){
+                        if ($file->saveAs('uploads/asset_photo/' . $file->baseName . '.' . $file->extension)) {
                             $model_photo = new \common\models\AssetPhoto();
                             $model_photo->asset_id = $model->id;
                             $model_photo->photo = $file->baseName . '.' . $file->extension;
@@ -93,7 +94,7 @@ class AssetController extends Controller
                 }
             }
             $session = \Yii::$app->session;
-            $session->setFlash('msg-success','บันทึกรายการเรียบร้อย');
+            $session->setFlash('msg-success', 'บันทึกรายการเรียบร้อย');
             return $this->redirect(['asset/index']);
         }
 
@@ -112,13 +113,13 @@ class AssetController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
-        $model_asset_photo = \common\models\AssetPhoto::find()->where(['asset_id'=>$id])->all();
+        $model_asset_photo = \common\models\AssetPhoto::find()->where(['asset_id' => $id])->all();
         if ($model->load(Yii::$app->request->post())) {
-            $uploaded = UploadedFile::getInstances($model,'photo');
+            $uploaded = UploadedFile::getInstances($model, 'photo');
             $model->photo = '';
-            if($model->save()){
+            if ($model->save()) {
                 $session = \Yii::$app->session;
-                $session->setFlash('msg-success','บันทึกรายการเรียบร้อย');
+                $session->setFlash('msg-success', 'บันทึกรายการเรียบร้อย');
                 return $this->redirect(['asset/index']);
             }
 
@@ -126,7 +127,18 @@ class AssetController extends Controller
 
         return $this->render('update', [
             'model' => $model,
-            'model_asset_photo'=> $model_asset_photo,
+            'model_asset_photo' => $model_asset_photo,
+        ]);
+    }
+
+    public function actionTasklist($id)
+    {
+
+        $model = \common\models\AssetTaskList::find()->where(['asset_id' => $id])->all();
+
+        return $this->render('tasklist', [
+            'model' => $model,
+            'asset_id' => $id
         ]);
     }
 
@@ -160,12 +172,60 @@ class AssetController extends Controller
         throw new NotFoundHttpException('The requested page does not exist.');
     }
 
-    public function actionGetlocation(){
+    public function actionGetlocation()
+    {
         $name = '';
         $asset_id = \Yii::$app->request->post('asset_id');
-        if($asset_id){
+        if ($asset_id) {
             $name = \backend\models\Asset::findLocationName($asset_id);
         }
         echo $name;
+    }
+
+    public function actionAddtasklist()
+    {
+        $asset_id = \Yii::$app->request->post('asset_id');
+        $line_rec_id = \Yii::$app->request->post('line_rec_id');
+        $line_seq_no = \Yii::$app->request->post('line_seq_no');
+        $line_todolist = \Yii::$app->request->post('line_todolist');
+        $line_detail = \Yii::$app->request->post('line_detail');
+        $removelist = \Yii::$app->request->post('remove_list');
+
+        if ($asset_id) {
+
+            if ($line_todolist!=null) {
+                //echo "ok";return;
+                for ($i = 0; $i <= count($line_todolist) - 1; $i++) {
+                    if ($line_todolist[$i] == "") {
+                        continue;
+                    }
+
+                    $model = \common\models\AssetTaskList::find()->where(['asset_id' => $asset_id, 'id' => $line_rec_id[$i]])->one();
+                    if ($model) {
+                        $model->seq_no = $line_seq_no[$i];
+                        $model->todo_name = $line_todolist[$i];
+                        $model->todo_description = $line_detail[$i];
+                        $model->save(false);
+                    } else {
+                        $model = new \common\models\AssetTaskList();
+                        $model->asset_id = $asset_id;
+                        $model->seq_no = $line_seq_no[$i];
+                        $model->todo_name = $line_todolist[$i];
+                        $model->todo_description = $line_detail[$i];
+                        $model->save(false);
+                    }
+                }
+
+
+            }
+
+            if ($removelist != null) {
+                $xvalue = explode(',', $removelist);
+                for ($i = 0; $i <= count($xvalue) - 1; $i++) {
+                    \common\models\AssetTaskList::deleteAll(['asset_id' => $asset_id, 'id' => $xvalue[$i]]);
+                }
+            }
+        }
+        return $this->redirect(['index']);
     }
 }

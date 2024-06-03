@@ -109,8 +109,17 @@ $this->params['breadcrumbs'][] = '/ '.$this->title;
                 'headerOptions' => ['style' => 'text-align:center;', 'class' => 'activity-view-link',],
                 'class' => 'yii\grid\ActionColumn',
                 'contentOptions' => ['style' => 'text-align: center'],
-                'template' => '{view}{update}{delete}',
+                'template' => '{tasklist}{view}{update}{delete}',
                 'buttons' => [
+                    'tasklist' => function ($url, $data, $index) {
+                        $options = [
+                            'title' => Yii::t('yii', 'Task List'),
+                            'aria-label' => Yii::t('yii', 'Task List'),
+                            'data-pjax' => '0',
+                        ];
+                        return Html::a(
+                            '<span class="fas fa-list-alt btn btn-xs btn-default"></span>', $url, $options);
+                    },
                     'view' => function ($url, $data, $index) {
                         $options = [
                             'title' => Yii::t('yii', 'View'),

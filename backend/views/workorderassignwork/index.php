@@ -12,12 +12,22 @@ use yii\widgets\LinkPager;
 /** @var backend\models\WorkorderassignworkSearch $searchModel */
 /** @var yii\data\ActiveDataProvider $dataProvider */
 
+
 $this->title = 'จ่ายงานซ่อม';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="workorderassignwork-index">
 
     <br/>
+    <?php
+      if(\Yii::$app->session->hasFlash('msg-success')) {
+        echo '<div class="alert alert-success alert-dismissable">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+            <h4><i class="icon fa fa-check"></i> สําเร็จ!</h4>';
+        echo \Yii::$app->session->getFlash('msg-success');
+        echo '</div>';
+      }
+    ?>
     <div class="row">
 
         <div class="col-lg-2" style="text-align: right">
@@ -197,27 +207,25 @@ $this->params['breadcrumbs'][] = $this->title;
                     </div>
                 </div>
             </div>
-
+            <form action="<?=Url::to(['workorderassignwork/saveassignemployee'],true)?>" method="post">
             <div class="modal-body">
-                <div class="row">
-                    <div class="col-lg-12" style="text-align: right">
-                        <button class="btn btn-outline-success btn-emp-selected" data-dismiss="modalx" disabled><i
-                                    class="fa fa-check"></i> ตกลง
-                        </button>
-                        <button type="button" class="btn btn-default" data-dismiss="modal"><i
-                                    class="fa fa-close text-danger"></i> ปิดหน้าต่าง
-                        </button>
-                    </div>
-                </div>
+<!--                <div class="row">-->
+<!--                    <div class="col-lg-12" style="text-align: right">-->
+<!--                        <button class="btn btn-outline-success btn-emp-selected" data-dismiss="modalx" disabled><i-->
+<!--                                    class="fa fa-check"></i> ตกลง-->
+<!--                        </button>-->
+<!--                        <button type="button" class="btn btn-default" data-dismiss="modal"><i-->
+<!--                                    class="fa fa-close text-danger"></i> ปิดหน้าต่าง-->
+<!--                        </button>-->
+<!--                    </div>-->
+<!--                </div>-->
                 <div style="height: 10px;"></div>
-                <input type="hidden" name="line_qc_product" class="line_qc_product" value="">
+                <input type="hidden" name="removelist" class="remove-list" value="">
                 <table class="table table-bordered table-striped table-find-list" width="100%">
                     <thead>
                     <tr>
-                        <th style="text-align: center">เลือก</th>
-                        <th>รหัสพนักงาน</th>
-                        <th>ชื่อ-นามสกุล</th>
-                        <th>ตำแหน่งงาน</th>
+                        <th>พนักงาน</th>
+                        <th style="text-align: center;">-</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -227,13 +235,14 @@ $this->params['breadcrumbs'][] = $this->title;
                 <br/>
             </div>
             <div class="modal-footer">
-                <button class="btn btn-outline-success btn-emp-selected" data-dismiss="modalx" disabled><i
-                            class="fa fa-check"></i> ตกลง
+                <button class="btn btn-outline-success" data-dismiss="modalx"><i
+                            class="fa fa-check"></i> บันทึก
                 </button>
                 <button type="button" class="btn btn-default" data-dismiss="modal"><i
                             class="fa fa-close text-danger"></i> ปิดหน้าต่าง
                 </button>
             </div>
+            </form>
         </div>
 
     </div>
@@ -264,15 +273,6 @@ $this->params['breadcrumbs'][] = $this->title;
     </div>
 </div>
 
-<form id="form-submit-select-employee" action="#" method="post" style="display: nonex;">
-    <input type="hidden" name="work_assign_submit_id" class="work-assign-submit-id" value="">
-    <table class="table-after-list">
-        <tbody>
-
-        </tbody>
-    </table>
-    <input type="submit" class="select-employee-submit" style="display: nonex;" value="ok">
-</form>
 
 <?php
 $url_to_find_employee = \yii\helpers\Url::to(['workorderassignwork/findemployee'], true);
@@ -280,6 +280,7 @@ $url_to_save_assign_employee = \yii\helpers\Url::to(['workorderassignwork/saveas
 $url_to_delete_emp_item = '';
 $js = <<<JS
 var selecteditem = [];
+var removelist = [];
 $(function(){
    
     var xx = $(".slip-print").val();
@@ -289,8 +290,8 @@ $(function(){
      }
      
      
-     $("form#form-submit-select-employee").on("submit", function(e){
-         e.preventDefault();
+     // $("form#form-submit-select-employee").on("submit", function(e){
+     //     e.preventDefault();
 //         var formData = new FormData(this);
 //         alert('xx');
 //         var workorder_id = $(".work-assign-submit-id").val();
@@ -314,7 +315,7 @@ $(function(){
 //                  }
 //              });
 //         }
-     });
+   //  });
      
      
 });
@@ -501,48 +502,26 @@ function addselecteditem(e) {
   function removeline(e){
      
           if(confirm('ต้องการลบรายการนี้ใช่หรือไม่ ?')){
-               if($("#table-list tbody tr").length == 1){
-                   e.closest("tr").find(".line-product-group-id").val('');
-                   e.closest("tr").find(".line-product-group-name").val('');
-                   e.closest("tr").find(".line-qty").val('');
-                   e.closest("tr").find(".line-price").val('');
-                   e.closest("tr").find(".line-total").val('');
+              if($("#table-find-list tbody tr").length > 0)
+              {
+                 if($("#table-find-list tbody tr").length == 1){
+                   e.closest("tr").find(".line-emp-id").val('-1').change();
+                   e.closest("tr").find(".line-work-assign-id").val('');
                    
-                    $(".table-after-list tbody tr").each(function(){
-                        $(this).closest("tr").find("td:eq(0)").html('');
-                        $(this).closest("tr").find("td:eq(1)").html('');
-                        $(this).closest("tr").find("td:eq(2)").html('');
-                        $(this).closest("tr").find("td:eq(3)").html('');
-                        $(this).closest("tr").find("td:eq(4)").html('');
-                        $(this).closest("tr").find(".product-group-line-id").val('');
-                    });
-                   
+                   var del_id = e.closest("tr").find(".line-emp-id").val();
+                   removelist.push(del_id);
                  }else{
+                   var del_id = e.closest("tr").find(".line-emp-id").val();
+                   removelist.push(del_id);
                    e.parent().parent().remove();
-               }
-               
-               var line_order_id = e.closest("tr").find(".line-order-selected-id").val();
-               if(line_order_id != ''){
-                   var result = line_order_id.split(',');
-                   for(var x= 0; x<= result.length -1 ;x++){
-                       for(var z=0;z<=selectedorderid.length-1;z++){
-                           if(selectedorderid[z] == result[x]){
-                                selectedorderid.splice(z, 1);
-                           }
-                       }
-                   }
-               }
-              
+               } 
+              }else{
+                   e.closest("tr").find(".line-emp-id").val('-1').change();
+              }
                
           }
           
-          caltaxinvoice();
-          
-      var linenum = 0;
-       $("#table-list tbody tr").each(function () {
-            linenum += 1;
-       });
-       //$(".selected-emp-qty").val(linenum);
+          $(".remove-list").val(removelist);
   }  
   
   // function checkallreadyseleled(order_id){

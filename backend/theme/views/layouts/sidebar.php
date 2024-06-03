@@ -197,11 +197,19 @@
                     <a href="#" class="nav-link">
                         <i class="nav-icon fas fa-comments"></i>
                         <p>
-                            แชท
+                            งานของฉัน
                             <i class="right fas fa-angle-left"></i>
                         </p>
                     </a>
                     <ul class="nav nav-treeview">
+                        <?php //if (\Yii::$app->user->can('salecomreport/index')): ?>
+                        <li class="nav-item">
+                            <a href="index.php?r=myworkassign/index" class="nav-link">
+                                <i class="far fa-circlez nav-icon"></i>
+                                <p>งานที่รับมอบหมาย</p>
+                            </a>
+                        </li>
+                        <?php //endif;?>
                         <?php //if (\Yii::$app->user->can('salecomreport/index')): ?>
                         <li class="nav-item">
                             <a href="index.php?r=workorderchat/chat&id=" class="nav-link">

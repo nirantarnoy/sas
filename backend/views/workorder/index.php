@@ -86,9 +86,9 @@ $this->params['breadcrumbs'][] = '/ ' . $this->title;
                 'attribute' => 'problem_text',
                 'format' => 'html',
                 'value' => function ($data) {
-                    if($data->problem_text != ''){
-                        return substr($data->problem_text,0,20).'<span style="color: red;">...</span>';
-                    }else{
+                    if ($data->problem_text != '') {
+                        return substr($data->problem_text, 0, 20) . '<span style="color: red;">...</span>';
+                    } else {
                         return '';
                     }
 
@@ -141,6 +141,7 @@ $this->params['breadcrumbs'][] = '/ ' . $this->title;
                 'contentOptions' => ['style' => 'text-align: center'],
                 'template' => '{view}{update}{delete}',
                 'buttons' => [
+
                     'view' => function ($url, $data, $index) {
                         $options = [
                             'title' => Yii::t('yii', 'View'),
