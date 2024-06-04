@@ -10,6 +10,9 @@ $itemcount = 0;
 if ($model != null) {
     $itemcount = count($model);
 }
+
+//$model_risk_title = \common\models\WorkorderRiskTitle::find()->where(['status' => 1])->all();
+
 ?>
 
     <br/>
@@ -100,7 +103,7 @@ if ($model != null) {
                     <div class="col-lg-4">
                         <div class="row">
                             <div class="col-lg-12" style="text-align: right">
-                                <div class="btn btn-warning">ความเสี่ยง</div>
+                                <div class="btn btn-warning btn-show-risk" data-var="<?= $value->workorder_id ?>">ความเสี่ยง</div>
                             </div>
                         </div>
                         <div class="row">
@@ -411,7 +414,8 @@ if ($model != null) {
                             <tr>
                                 <td style="width: 20%;text-align: right;vertical-align: middle;">รายละเอียด</td>
                                 <td>
-                                    <textarea class="form-control" name="accept_workorder_reason" id="" cols="30" rows="5"></textarea>
+                                    <textarea class="form-control" name="accept_workorder_reason" id="" cols="30"
+                                              rows="5"></textarea>
                                 </td>
                             </tr>
 
@@ -435,8 +439,46 @@ if ($model != null) {
         </div>
     </div>
 
+    <div id="riskafterModal" class="modal fade" role="dialog">
+        <div class="modal-dialog modal-xl">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <b>ความเสี่ยงหลังการแก้ไข</b>
+                        </div>
+                    </div>
+                </div>
+                <form action="<?= Url::to(['myworkassign/saveriskafter'], true) ?>" method="post">
+                    <input type="hidden" class="save-risk-workorder-id" name="workorder_id" value="">
+                    <div class="modal-body">
+                        <div style="height: 10px;"></div>
+                        <table class="table table-bordered table-striped table-risk-list" width="100%">
+                            <tbody>
+
+                            </tbody>
+                        </table>
+
+                        <br/>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-outline-success" data-dismiss="modalx"><i
+                                    class="fa fa-check"></i> บันทึก
+                        </button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal"><i
+                                    class="fa fa-close text-danger"></i> ปิดหน้าต่าง
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </div>
+
 <?php
 $this->registerJsFile('https://cdn.jsdelivr.net/npm/sweetalert2@11', ['depends' => [\yii\web\JqueryAsset::className()]]);
+$url_to_find_risk_after = Url::to(['myworkassign/findriskafter'],true);
 $js = <<<JS
 $(function(){
     $(".btn-close-workorder").on("click",function(){
@@ -488,7 +530,43 @@ $(function(){
         $(".work-accept-text").html("ไม่รับงาน").css("color","#fff","text-align:center");
         $("#acceptWorkModal").modal("show");
     });
+    $(".btn-show-risk").on("click",function(){
+        var workorder_id = $(this).attr("data-var");
+       // alert(workorder_id);
+        if(workorder_id > 0){
+            $.ajax({
+              'dataType': 'html',
+              'type': 'POST',
+              'url': '$url_to_find_risk_after',
+              'data': {
+                  'workorder_id': workorder_id
+              },
+              'success': function (data) {
+                $(".save-risk-workorder-id").val(workorder_id);  
+                $(".table-risk-list tbody").html(data);
+                $("#riskafterModal").modal("show");
+              }
+            });
+        }
+       
+    });
 });
+function calRiskAfter(e){
+    var total_risk_sum = 0;
+    //console.log($(".table-risk-list tbody tr").length);
+    $(".table-risk-list tbody tr").each(function(){
+        //alert();
+        var risk_id = $(this).closest("tr").find(".line-risk-id").val();
+        var risk_factor = $(this).closest("tr").find(".line-risk-factor").val();
+        if(risk_id <=3){
+            total_risk_sum = parseFloat(total_risk_sum) + parseFloat(risk_factor);
+        }
+        if(risk_id == 4){
+            $(this).find(".line-risk-factor").val(total_risk_sum);
+        }
+      
+    });
+}
 JS;
 
 $this->registerJs($js, static::POS_END);
