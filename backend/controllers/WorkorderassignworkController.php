@@ -157,7 +157,7 @@ class WorkorderassignworkController extends Controller
 
                     $html .= '<tr>';
                     $html .= '<td><select class="form-control line-emp-id" name="line_emp_id[]"><<option value="-1">--เลือกพนักงาน--</option>><option value="' . $value->id . '" ' . $selected . '>' . $value->fname . ' ' . $value->lname . '</option></select></td>';
-                    $html .= '<td style="text-align: center;"><input type="hidden" class="line-work-assign-id" value="' . $work_assign_id . '" name="line_work_assign_id[]"><div class="btn btn-danger" onclick="removeline($(this))"><i class="fa fa-trash"></i></div></td>';
+                    $html .= '<td style="text-align: center;"><input type="hidden" class="line-work-assign-id" value="' . $work_assign_id . '" name="line_work_assign_id[]"><div class="btn btn-danger" onclick="deleteline($(this))"><i class="fa fa-trash"></i></div></td>';
                     $html .= '</tr>';
                 }
             }

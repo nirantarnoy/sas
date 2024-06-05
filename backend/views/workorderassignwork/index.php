@@ -236,6 +236,12 @@ $this->params['breadcrumbs'][] = $this->title;
                         </thead>
                         <tbody>
                         </tbody>
+                        <tfoot>
+                        <tr>
+                            <td><div class="btn btn-primary" onclick="addempline($(this))">เพิ่ม</div></td>
+                            <td></td>
+                        </tr>
+                        </tfoot>
                     </table>
 
                     <br/>
@@ -325,6 +331,22 @@ $(function(){
      
      
 });
+function addempline(e){
+    var tr = $(".table-find-list tbody tr:last");
+    var clone = tr.clone();
+    clone.closest("tr").find(".line-emp-id").val('-1').change();
+    tr.after(clone);
+    
+}
+function deleteline(e){
+    if($(".table-find-list tbody tr").length == 1){
+        $(this).closest("tr").find(".line-emp-id").val('-1').change();
+    }else{
+        if(confirm("ต้องการลบรายการนี้ใช่หรือไม่ ?")){
+            $(this).parent().parent().remove();
+        }
+    }
+}
 function showText(e){
     var text = e.attr("data-var");
     var workorder_no = e.attr("data-var2");
