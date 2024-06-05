@@ -153,12 +153,18 @@ class WorkorderassignworkController extends Controller
                     $model_assing_emp = \common\models\WorkorderAssignLine::find()->where(['workorder_assign_id' => $work_assign_id, 'emp_id' => $value->id])->one();
                     if ($model_assing_emp) {
                         $selected = 'selected';
+                        $html .= '<tr>';
+                        $html .= '<td><select class="form-control line-emp-id" name="line_emp_id[]"><option value="-1">--เลือกพนักงาน--</option>><option value="' . $value->id . '" ' . $selected . '>' . $value->fname . ' ' . $value->lname . '</option></select></td>';
+                        $html .= '<td style="text-align: center;"><input type="hidden" class="line-work-assign-id" value="' . $work_assign_id . '" name="line_work_assign_id[]"><div class="btn btn-danger" onclick="deleteline($(this))"><i class="fa fa-trash"></i></div></td>';
+                        $html .= '</tr>';
+                    }else{
+                        $html .= '<tr>';
+                        $html .= '<td><select class="form-control line-emp-id" name="line_emp_id[]"><option value="-1">--เลือกพนักงาน--</option>><option value="' . $value->id . '">' . $value->fname . ' ' . $value->lname . '</option></select></td>';
+                        $html .= '<td style="text-align: center;"><input type="hidden" class="line-work-assign-id" value="' . $work_assign_id . '" name="line_work_assign_id[]"><div class="btn btn-danger" onclick="deleteline($(this))"><i class="fa fa-trash"></i></div></td>';
+                        $html .= '</tr>';
                     }
 
-                    $html .= '<tr>';
-                    $html .= '<td><select class="form-control line-emp-id" name="line_emp_id[]"><<option value="-1">--เลือกพนักงาน--</option>><option value="' . $value->id . '" ' . $selected . '>' . $value->fname . ' ' . $value->lname . '</option></select></td>';
-                    $html .= '<td style="text-align: center;"><input type="hidden" class="line-work-assign-id" value="' . $work_assign_id . '" name="line_work_assign_id[]"><div class="btn btn-danger" onclick="deleteline($(this))"><i class="fa fa-trash"></i></div></td>';
-                    $html .= '</tr>';
+
                 }
             }
         } else {
