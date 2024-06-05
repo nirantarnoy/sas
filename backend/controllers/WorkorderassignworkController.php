@@ -180,9 +180,10 @@ class WorkorderassignworkController extends Controller
 
     public function actionFindemployee()
     {
-        $work_assign_id = \Yii::$app->request->post('work_assign_id');
+        $workorder_id = \Yii::$app->request->post('workorder_id');
         $html = '';
-        if ($work_assign_id) {
+        if ($workorder_id) {
+            $work_assign_id = \common\models\WorkorderAssign::find()->where(['workorder_id'])->one()->id;
             $model_emp_data = \backend\models\Employee::find()->where(['status' => '1'])->all();
             $model_assign_emp = \common\models\WorkorderAssignLine::find()->where(['workorder_assign_id' => $work_assign_id])->all();
             if($model_assign_emp){

@@ -372,7 +372,7 @@ function showfindemployee(e){
       dataType: 'html',
       url:'$url_to_find_employee',
       async: false,
-      data: {'work_assign_id': id },
+      data: {'workorder_id': id },
       success: function(data){
        //   alert(data);
           $(".table-find-list tbody").html(data);
