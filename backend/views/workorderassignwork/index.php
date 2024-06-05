@@ -340,7 +340,7 @@ function addempline(e){
 }
 function deleteline(e){
     if($(".table-find-list tbody tr").length == 1){
-        $(this).closest("tr").find(".line-emp-id").val('-1').change();
+        e.closest("tr").find(".line-emp-id").val('-1').change();
     }else{
         if(confirm("ต้องการลบรายการนี้ใช่หรือไม่ ?")){
             e.parent().parent().remove();

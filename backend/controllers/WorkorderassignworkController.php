@@ -184,22 +184,45 @@ class WorkorderassignworkController extends Controller
         $html = '';
         if ($work_assign_id) {
             $model_emp_data = \backend\models\Employee::find()->where(['status' => '1'])->all();
-            $html .= '<tr>';
-            $html .= '<td><select class="form-control line-emp-id" name="line_emp_id[]">
+            $model_assign_emp = \backend\models\WorkorderAssignLine::find()->where(['workorder_assign_id' => $work_assign_id])->all();
+            if($model_assign_emp){
+               foreach($model_assign_emp as $valuex){
+                   $html .= '<tr data-var="'.$valuex->id.'">';
+                   $html .= '<td><select class="form-control line-emp-id" name="line_emp_id[]">
                       <option value="-1">--เลือกพนักงาน--</option>';
-                     foreach($model_emp_data as $value){
-                         $model_assign_emp = \common\models\WorkorderAssignLine::find()->where(['workorder_assign_id' => $work_assign_id, 'emp_id' => $value->id])->one();
-                         $selected = '';
-                         if($model_assign_emp){
-                             $selected = 'selected';
-                         }
-                         $html.='<option value="' . $value->id . '" ' . $selected . '>' . $value->fname . ' ' . $value->lname . '</option>';
-                     }
+                   foreach($model_emp_data as $value){
 
-             $html.='</select>
+                       $selected = '';
+                       if($valuex->emp_id == $value->id){
+                           $selected = 'selected';
+                       }
+                       $html.='<option value="' . $value->id . '" ' . $selected . '>' . $value->fname . ' ' . $value->lname . '</option>';
+                   }
+
+                   $html.='</select>
                      </td>';
-            $html .= '<td style="text-align: center;"><input type="hidden" class="line-work-assign-id" value="' . $work_assign_id . '" name="line_work_assign_id[]"><div class="btn btn-danger" onclick="deleteline($(this))"><i class="fa fa-trash"></i></div></td>';
-            $html .= '</tr>';
+                   $html .= '<td style="text-align: center;"><input type="hidden" class="line-work-assign-id" value="' . $work_assign_id . '" name="line_work_assign_id[]"><div class="btn btn-danger" onclick="deleteline($(this))"><i class="fa fa-trash"></i></div></td>';
+                   $html .= '</tr>';
+               }
+            }else{
+                $html .= '<tr data-var="">';
+                $html .= '<td><select class="form-control line-emp-id" name="line_emp_id[]">
+                      <option value="-1">--เลือกพนักงาน--</option>';
+                foreach($model_emp_data as $value){
+                    $model_assign_emp = \common\models\WorkorderAssignLine::find()->where(['workorder_assign_id' => $work_assign_id, 'emp_id' => $value->id])->one();
+                    $selected = '';
+                    if($model_assign_emp){
+                        $selected = 'selected';
+                    }
+                    $html.='<option value="' . $value->id . '" ' . $selected . '>' . $value->fname . ' ' . $value->lname . '</option>';
+                }
+
+                $html.='</select>
+                     </td>';
+                $html .= '<td style="text-align: center;"><input type="hidden" class="line-work-assign-id" value="' . $work_assign_id . '" name="line_work_assign_id[]"><div class="btn btn-danger" onclick="deleteline($(this))"><i class="fa fa-trash"></i></div></td>';
+                $html .= '</tr>';
+            }
+
 
 
             echo $html;
