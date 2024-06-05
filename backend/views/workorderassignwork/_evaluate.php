@@ -10,6 +10,12 @@ $asset_name = '';
 $location = '';
 $serial_no = '';
 
+
+$result = '';
+$risk_code = '';
+$evaluate_result = 0;
+$evaluate_photo = '';
+
 if ($id) {
     $model_risk_title = \common\models\WorkorderRiskTitle::find()->where(['status' => 1])->all();
     $model_work = \common\models\Workorder::find()->where(['id' => $id])->one();
@@ -20,6 +26,14 @@ if ($id) {
         $asset_name = \backend\models\Asset::findName($model_work->asset_id);
         $location = \backend\models\Asset::findLocationName($model_work->asset_id);
         $serial_no = \backend\models\Asset::findAssetSerialNo($model_work->asset_id);
+    }
+
+    $model_work_evaluate = \common\models\WorkorderEvaluate::find()->where(['workorder_id' => $id])->one();
+    if($model_work_evaluate){
+        $result = $model_work_evaluate->result;
+        $risk_code = $model_work_evaluate->risk_code;
+        $evaluate_result = $model_work_evaluate->evaluate_result;
+        $evaluate_photo = $model_work_evaluate->photo;
     }
 }
 ?>
@@ -64,7 +78,7 @@ if ($id) {
                 <tr>
                     <td style="text-align: right;vertical-align: middle;">ผลที่ได้</td>
                     <td>
-                        <input type="text" class="form-control" name="result" value="">
+                        <input type="text" class="form-control" name="result" value="<?=$result?>">
                     </td>
                 </tr>
                 <?php if ($model_risk_title): ?>
@@ -99,7 +113,7 @@ if ($id) {
                 <tr>
                     <td style="text-align: right;vertical-align: middle;">รหัสความเสี่ยง</td>
                     <td>
-                        <input type="text" class="form-control" name="risk_code" value="">
+                        <input type="text" class="form-control" name="risk_code" value="<?=$risk_code?>">
                     </td>
                 </tr>
                 <tr>
@@ -107,8 +121,12 @@ if ($id) {
                     <td>
                         <select name="evaluate_result" class="form-control">
                             <?php
-                            foreach ($pass_data as $key => $value) {
-                                echo '<option value="' . $value['id'] . '">' . $value['name'] . '</option>';
+                            foreach ($pass_data as $value) {
+                                $selected = '';
+                                if ($value['id'] == $evaluate_result) {
+                                    $selected = 'selected';
+                                }
+                                echo '<option value="' . $value['id'] . '" ' . $selected . '>' . $value['name'] . '</option>';
                             }
                             ?>
                         </select>
@@ -117,7 +135,10 @@ if ($id) {
                 <tr>
                     <td style="text-align: right;vertical-align: middle;"></td>
                     <td>
-
+                        <a href="<?= \Yii::$app->getUrlManager()->baseUrl . '/uploads/work_evaluate_photo/' . $evaluate_photo ?>"
+                           target="_blank"><img
+                                    src="<?= \Yii::$app->getUrlManager()->baseUrl . '/uploads/work_evaluate_photo/' . $evaluate_photo ?>"
+                                    style="max-width: 130px;margin-top: 5px;" alt=""></a>
                     </td>
                 </tr>
                 <tr>
@@ -129,5 +150,10 @@ if ($id) {
             </table>
         </div>
 
+    </div>
+    <div class="row">
+        <div class="col-lg-3">
+            <button type="submit" class="btn btn-success" >บันทึก</button>
+        </div>
     </div>
 </form>

@@ -144,7 +144,7 @@ class MyworkassignController extends Controller
 
                     $close_photo = '';
                     if(!empty($uploaded)){
-                        $new_file = 'photo_close_'.Time().$uploaded->getExtension();
+                        $new_file = 'photo_close_'.Time().'.'.$uploaded->getExtension();
                         if($uploaded->saveAs('uploads/workclose_photo/'.$new_file)){
                             $close_photo = $new_file;
                         }

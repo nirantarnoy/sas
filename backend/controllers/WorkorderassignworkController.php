@@ -5,6 +5,7 @@ namespace backend\controllers;
 use backend\models\UsergroupSearch;
 use backend\models\Workorderassignwork;
 use backend\models\WorkorderassignworkSearch;
+use common\models\WorkorderEvaluate;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -250,6 +251,49 @@ class WorkorderassignworkController extends Controller
         return $this->render('_evaluate',[
             'id' => $id
         ]);
+    }
+    public function actionAddevaluate(){
+        $workorder_id = \Yii::$app->request->post('workorder_id');
+        $result = \Yii::$app->request->post('result');
+        $evaluate_result = \Yii::$app->request->post('evaluate_result');
+        $risk_code = \Yii::$app->request->post('risk_code');
+        $line_risk_id = \Yii::$app->request->post('line_risk_id');
+        $line_risk_after = \Yii::$app->request->post('line_risk_factor');
+
+        if($line_risk_id != null || $line_risk_after != null){
+           // echo "OK";return;
+            $evaluate_photo = '';
+            $uploaded = \yii\web\UploadedFile::getInstanceByName('evaluate_photo');
+            if(!empty($uploaded)){
+                $new_file = 'photo_evaluate_'.Time().".".$uploaded->getExtension();
+                if($uploaded->saveAs('uploads/work_evaluate_photo/'.$new_file)){
+                    $evaluate_photo = $new_file;
+                }
+            }
+
+            $model_ev = new \common\models\WorkorderEvaluate();
+            $model_ev->workorder_id = $workorder_id;
+            $model_ev->trans_date = date('Y-m-d H:i:s');
+            $model_ev->risk_code = $risk_code;
+            $model_ev->evaluate_result = $evaluate_result;
+            $model_ev->result = $result;
+            $model_ev->photo = $evaluate_photo;
+            if($model_ev->save(false)){
+                \common\models\WorkorderRiskAfter::deleteAll(['workorder_id' => $workorder_id]);
+                if ($line_risk_id != null || $line_risk_after != null) {
+                    for ($i = 0; $i <= count($line_risk_id) - 1; $i++) {
+                        $model = new \common\models\WorkorderRiskAfter();
+                        $model->workorder_id = $workorder_id;
+                        $model->workorder_evaluate_id = $model_ev->id;
+                        $model->risk_id = $line_risk_id[$i];
+                        $model->risk_value = $line_risk_after[$i];
+                        $model->save(false);
+                    }
+                }
+            }
+
+        }
+        return $this->redirect(['workorderassignwork/index']);
     }
 }
 
