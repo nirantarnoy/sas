@@ -343,7 +343,7 @@ function deleteline(e){
         $(this).closest("tr").find(".line-emp-id").val('-1').change();
     }else{
         if(confirm("ต้องการลบรายการนี้ใช่หรือไม่ ?")){
-            $(this).parent().parent().remove();
+            e.parent().parent().remove();
         }
     }
 }
