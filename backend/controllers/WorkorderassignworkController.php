@@ -184,7 +184,7 @@ class WorkorderassignworkController extends Controller
         $html = '';
         if ($workorder_id) {
             $work_assign_id = 0;
-             $model_assign_data = \common\models\WorkorderAssign::find()->where(['workorder_id'])->one();
+             $model_assign_data = \common\models\WorkorderAssign::find()->where(['workorder_id'=>$workorder_id])->one();
              if($model_assign_data){
                  $work_assign_id = $model_assign_data->id;
              }
