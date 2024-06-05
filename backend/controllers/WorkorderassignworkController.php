@@ -183,7 +183,11 @@ class WorkorderassignworkController extends Controller
         $workorder_id = \Yii::$app->request->post('workorder_id');
         $html = '';
         if ($workorder_id) {
-            $work_assign_id = \common\models\WorkorderAssign::find()->where(['workorder_id'])->one()->id;
+            $work_assign_id = 0;
+             $model_assign_data = \common\models\WorkorderAssign::find()->where(['workorder_id'])->one();
+             if($model_assign_data){
+                 $work_assign_id = $model_assign_data->id;
+             }
             $model_emp_data = \backend\models\Employee::find()->where(['status' => '1'])->all();
             $model_assign_emp = \common\models\WorkorderAssignLine::find()->where(['workorder_assign_id' => $work_assign_id])->all();
             if($model_assign_emp){
