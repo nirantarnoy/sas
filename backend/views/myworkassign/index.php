@@ -212,7 +212,7 @@ $model_work_solve = \common\models\SolveTitle::find()->where(['status' => 1])->a
                     <input type="hidden" class="accept-workorder-location"
                            value="<?= \backend\models\Asset::findLocationName($value->asset_id) ?>">
                     <input type="hidden" class="accept-workorder-status"
-                           value="<?= \backend\models\WorkorderStatus::findName($value->workorder_status) ?>">
+                           value="<?= \backend\models\Workorderstatus::findName($value->workorder_status) ?>">
                     <?php if ($value->workorder_status == 1): ?>
                         <div class="col-lg-1"
                              style="text-align: right;border: 1px dashed grey;border-right: none;padding: 10px;">
