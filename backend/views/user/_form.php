@@ -20,6 +20,16 @@ use yii\widgets\ActiveForm;
                     <?= $form->field($model, 'username')->textInput() ?>
                 </div>
             </div>
+            <?php if($model->isNewRecord):?>
+            <div class="row">
+                <div class="col-lg-1"></div>
+                <div class="col-lg-11">
+
+                    <?= $form->field($model, 'pwd')->passwordInput()->label('Password') ?>
+
+                </div>
+            </div>
+            <?php endif;?>
             <div class="row">
                 <div class="col-lg-1"></div>
                 <div class="col-lg-11">

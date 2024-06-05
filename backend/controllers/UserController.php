@@ -71,6 +71,9 @@ class UserController extends Controller
         $model = new User();
 
         if ($model->load(Yii::$app->request->post())) {
+            $model->setPassword($model->pwd);
+            $model->generateAuthKey();
+            $model->email = $model->username.'@sas.com';
             if($model->save(false)){
                 return $this->redirect(['user/index']);
             }

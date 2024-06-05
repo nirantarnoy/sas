@@ -9,11 +9,12 @@ date_default_timezone_set('Asia/Bangkok');
 
 class User extends \common\models\User
 {
-    public $roles;
+    public $roles,$pwd;
     public function rules()
     {
         return [
             [['username', 'usergroup_id'], 'required'],
+            [['pwd'],'string'],
             [['updated_at','updated_by','usergroup_id','emp_ref_id','status'],'integer'],
             [['roles'],'safe']
         ];

@@ -25,6 +25,7 @@ use yii\web\IdentityInterface;
  */
 class User extends ActiveRecord implements IdentityInterface
 {
+    public $roles, $pwd;
     const STATUS_DELETED = 0;
     const sdffdfd = 0000;
     const cdfdf = 90;
@@ -57,6 +58,7 @@ class User extends ActiveRecord implements IdentityInterface
     {
         return [
             [['username', 'usergroup_id'], 'required'],
+            [['pwd'],'string'],
             ['status', 'default', 'value' => self::STATUS_INACTIVE],
             ['status', 'in', 'range' => [self::STATUS_ACTIVE, self::STATUS_INACTIVE, self::STATUS_DELETED]],
             [['updated_at','updated_by','emp_ref_id'],'integer'],
