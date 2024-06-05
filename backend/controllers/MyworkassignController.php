@@ -42,7 +42,8 @@ class MyworkassignController extends Controller
         $c_user = \Yii::$app->user->id;
         $model = null;
         if ($c_user) {
-            $model = \common\models\ViewEmpWorkAssign::find()->where(['emp_id' => $c_user])->all();
+            $emp_id = \backend\models\User::findEmpId($c_user);
+            $model = \common\models\ViewEmpWorkAssign::find()->where(['emp_id' => $emp_id])->all();
         }
 
         return $this->render('index', [
@@ -103,12 +104,12 @@ class MyworkassignController extends Controller
                 foreach ($model_risk_title as $value_titile) {
                     $line_value = 0;
                     $model_work_risk = \common\models\WorkorderRiskAfter::find()->where(['workorder_id' => $workorder_id, 'risk_id' => $value_titile->id])->orderBy(['id' => SORT_DESC])->one();
-                    if($model_work_risk){
+                    if ($model_work_risk) {
                         $line_value = $model_work_risk->risk_value;
                     }
                     $is_sum = '';
                     $line_sum_disabled = '';
-                    if($value_titile->id == 4){
+                    if ($value_titile->id == 4) {
                         $is_sum = 'line-sum-risk';
                         $line_sum_disabled = 'readonly';
                     }
@@ -118,7 +119,7 @@ class MyworkassignController extends Controller
                                             ' . $value_titile->name . '
                                         </td>';
                     $html .= '<td><input type="text" style="font-weight: bold;"
-                                                   class="form-control line-risk-factor '.$is_sum.'" '.$line_sum_disabled.' name="line_risk_factor[]" value="'.$line_value.'" onclick="calRiskAfter($(this))">
+                                                   class="form-control line-risk-factor ' . $is_sum . '" ' . $line_sum_disabled . ' name="line_risk_factor[]" value="' . $line_value . '" onclick="calRiskAfter($(this))">
                                         </td>';
                     $html .= '</tr>';
                 }
@@ -129,23 +130,75 @@ class MyworkassignController extends Controller
         echo $html;
     }
 
-    public function actionCloseworkorder(){
+    public function actionFindriskbefore()
+    {
+        $workorder_id = \Yii::$app->request->post('workorder_id');
+        $html = '';
+        if ($workorder_id) {
+            $model = \common\models\Workorder::find()->where(['id' => $workorder_id])->one();
+            if ($model) {
+                $html .=
+
+                    '<tr>
+                        <td>ความรุนแรง</td>
+                        <td>
+                            <input class="form-control factor-risk-1" type="number" min="0" name="factor_risk_1"
+                                   value="'.$model->factor_risk_1.'">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>ความถี่</td>
+                        <td>
+                            <input class="form-control factor-risk-2" type="number" min="0" name="factor_risk_2"
+                                   value="'.$model->factor_risk_2 .'">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>มาตรการ Safety</td>
+                        <td>
+                            <input class="form-control factor-risk-3" type="number" min="0" name="factor_risk_3"
+                                   value="'.$model->factor_risk_3 .'">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>(1)+(2)+(3)</td>
+                        <td>
+                            <input class="form-control factor-total" type="text" readonly name="factor_total"
+                                   value="'.$model->factor_total .'">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>สรุปความเสี่ยง</td>
+                        <td>
+                            <input class="form-control" type="text" name="factor_final"
+                                   value="'.$model->factor_risk_final.'">
+                        </td>
+                    </tr>';
+            }
+
+        }
+
+        echo $html;
+    }
+
+    public function actionCloseworkorder()
+    {
         $workorder_id = \Yii::$app->request->post('workorder_id');
         $work_cause = \Yii::$app->request->post('work_cause');
         $work_solve = \Yii::$app->request->post('work_solve');
         $preventive_text = \Yii::$app->request->post('preventive_text');
 
         $uploaded = \yii\web\UploadedFile::getInstanceByName('file_close');
-        if($workorder_id){
+        if ($workorder_id) {
             $model = \common\models\Workorder::find()->where(['id' => $workorder_id])->one();
-            if($model){
+            if ($model) {
                 $model->status = 4; // close order
-                if($model->save(false)){
+                if ($model->save(false)) {
 
                     $close_photo = '';
-                    if(!empty($uploaded)){
-                        $new_file = 'photo_close_'.Time().'.'.$uploaded->getExtension();
-                        if($uploaded->saveAs('uploads/workclose_photo/'.$new_file)){
+                    if (!empty($uploaded)) {
+                        $new_file = 'photo_close_' . Time() . '.' . $uploaded->getExtension();
+                        if ($uploaded->saveAs('uploads/workclose_photo/' . $new_file)) {
                             $close_photo = $new_file;
                         }
                     }

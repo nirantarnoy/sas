@@ -503,9 +503,44 @@ $model_work_solve = \common\models\SolveTitle::find()->where(['status' => 1])->a
         </div>
     </div>
 
+    <div id="riskBeforeModal" class="modal fade" role="dialog">
+        <div class="modal-dialog modal-xl">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <b>ความเสี่ยงก่อนการแก้ไข</b>
+                        </div>
+                    </div>
+                </div>
+
+                    <input type="hidden" class="save-risk-workorder-id" name="workorder_id" value="">
+                    <div class="modal-body">
+                        <div style="height: 10px;"></div>
+                        <table class="table table-bordered table-striped table-risk-before-list" width="100%">
+                            <tbody>
+
+                            </tbody>
+                        </table>
+
+                        <br/>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal"><i
+                                    class="fa fa-close text-danger"></i> ปิดหน้าต่าง
+                        </button>
+                    </div>
+
+            </div>
+
+        </div>
+    </div>
+
 <?php
 $this->registerJsFile('https://cdn.jsdelivr.net/npm/sweetalert2@11', ['depends' => [\yii\web\JqueryAsset::className()]]);
 $url_to_find_risk_after = Url::to(['myworkassign/findriskafter'],true);
+$url_to_find_risk_before = Url::to(['myworkassign/findriskbefore'],true);
 $js = <<<JS
 $(function(){
     $(".btn-close-workorder").on("click",function(){
@@ -568,14 +603,14 @@ $(function(){
             $.ajax({
               'dataType': 'html',
               'type': 'POST',
-              'url': '$url_to_find_risk_after',
+              'url': '$url_to_find_risk_before',
               'data': {
                   'workorder_id': workorder_id
               },
               'success': function (data) {
-                $(".save-risk-workorder-id").val(workorder_id);  
-                $(".table-risk-list tbody").html(data);
-                $("#riskafterModal").modal("show");
+               // $(".save-risk-workorder-id").val(workorder_id);  
+                $(".table-risk-before-list tbody").html(data);
+                $("#riskBeforeModal").modal("show");
               }
             });
         }
