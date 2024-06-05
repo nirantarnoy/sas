@@ -13,6 +13,7 @@ if ($model != null) {
     $workorder_status = \backend\models\Workorderstatus::findName($model->status);
 
 }
+$my_workorder = \common\models\ViewEmpWorkAssign::find()->where(['emp_id' => \Yii::$app->user->id])->all();
 $model_order_message = \common\models\WorkorderChat::find()->select(['workorder_id'])->where(['created_by' => \Yii::$app->user->id])->groupBy(['workorder_id'])->all();
 ?>
     <div class="row">
@@ -67,8 +68,8 @@ $model_order_message = \common\models\WorkorderChat::find()->select(['workorder_
                     <div class="col-lg-2" style="border-right: 1px solid lightgrey">
                         <div style="height: 50px;"><b>รายการแชท</b></div>
                         <!--                        <hr style="border: 1px solid gray;">-->
-                        <?php if ($model_order_message != null): ?>
-                            <?php foreach ($model_order_message as $value): ?>
+                        <?php if ($my_workorder != null): ?>
+                            <?php foreach ($my_workorder as $value): ?>
                                 <?php
                                 $bg_active = '';
                                 if ($value->workorder_id == $workorder_id) {
