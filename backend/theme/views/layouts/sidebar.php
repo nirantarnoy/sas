@@ -232,9 +232,17 @@
                     <ul class="nav nav-treeview">
                         <?php //if (\Yii::$app->user->can('salecomreport/index')): ?>
                         <li class="nav-item">
+                            <a href="index.php?r=workorderreport/index" class="nav-link">
+                                <i class="far fa-circlez nav-icon"></i>
+                                <p>รายงานซ่อมเครื่อง</p>
+                            </a>
+                        </li>
+                        <?php //endif;?>
+                        <?php //if (\Yii::$app->user->can('salecomreport/index')): ?>
+                        <li class="nav-item">
                             <a href="index.php?r=#" class="nav-link">
                                 <i class="far fa-circlez nav-icon"></i>
-                                <p>รายงานประจำวัน</p>
+                                <p>รายงาน TodoList</p>
                             </a>
                         </li>
                         <?php //endif;?>

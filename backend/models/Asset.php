@@ -31,13 +31,13 @@ class Asset extends \common\models\Asset
                 ],
                 'value'=> Yii::$app->user->identity->id,
             ],
-            'timestamuby'=>[
-                'class'=> \yii\behaviors\AttributeBehavior::className(),
-                'attributes'=>[
-                    ActiveRecord::EVENT_BEFORE_UPDATE=>'updated_by',
-                ],
-                'value'=> Yii::$app->user->identity->id,
-            ],
+//            'timestamuby'=>[
+//                'class'=> \yii\behaviors\AttributeBehavior::className(),
+//                'attributes'=>[
+//                    ActiveRefindAssetNocord::EVENT_BEFORE_UPDATE=>'updated_by',
+//                ],
+//                'value'=> Yii::$app->user->identity->id,
+//            ],
             'timestampupdate'=>[
                 'class'=> \yii\behaviors\AttributeBehavior::className(),
                 'attributes'=>[
@@ -51,6 +51,11 @@ class Asset extends \common\models\Asset
     public function findName($id){
         $model = \backend\models\Asset::find()->where(['id'=>$id])->one();
         return $model != null?$model->name:'';
+        // return 'niran';
+    }
+    public function findAssetNo($id){
+        $model = \backend\models\Asset::find()->where(['id'=>$id])->one();
+        return $model != null?$model->asset_no:'';
         // return 'niran';
     }
     public function findAssetCatName($id){

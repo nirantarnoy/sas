@@ -12,7 +12,8 @@ if ($model != null) {
 }
 
 //$model_risk_title = \common\models\WorkorderRiskTitle::find()->where(['status' => 1])->all();
-
+$model_work_cause = \common\models\WorkorderCauseTitle::find()->where(['status' => 1])->all();
+$model_work_solve = \common\models\SolveTitle::find()->where(['status' => 1])->all();
 ?>
 
     <br/>
@@ -245,8 +246,15 @@ if ($model != null) {
                                 </td>
                             </tr>
                             <?php if ($value->workorder_status == 2): ?>
+                                <?php
+                                $line_time_use = '';
+                                $date1 = date_create(date('Y-m-d H:i:s', strtotime($value->workorder_date)));
+                                $date2 = date_create(date('Y-m-d H:i:s'));
+                                $line_time_use = date_diff($date1, $date2);
+                                ?>
                                 <tr>
                                     <td colspan="2">
+                                        <input type="hidden" class="line-work-time-use" value="<?=$line_time_use->format('%d days %h hours %i minute')?>">
                                         <input type="hidden" class="line-workorder-no"
                                                value="<?= $value->workorder_no ?>">
                                         <input type="hidden" class="line-workorder-asset"
@@ -255,7 +263,7 @@ if ($model != null) {
                                                value="<?= \backend\models\Asset::findLocationName($value->asset_id) ?>">
                                         <input type="hidden" class="line-workorder-status"
                                                value="<?= \backend\models\WorkorderStatus::findName($value->workorder_status) ?>">
-                                        <div class="btn btn-success btn-close-workorder">
+                                        <div data-var="<?=$value->workorder_id?>" class="btn btn-success btn-close-workorder">
                                             ปิดงาน
                                         </div>
                                     </td>
@@ -304,10 +312,10 @@ if ($model != null) {
                         </div>
                     </div>
                 </div>
-                <form action="<?= Url::to(['myworkassign/closeworkorder'], true) ?>" method="post">
+                <form action="<?= Url::to(['myworkassign/closeworkorder'], true) ?>" method="post" enctype="multipart/form-data">
                     <div class="modal-body">
                         <div style="height: 10px;"></div>
-                        <input type="hidden" name="removelist" class="remove-list" value="">
+                        <input type="hidden" name="workorder_id" class="close-workorder-id" value="">
                         <table class="table table-bordered table-striped table-find-list" width="100%">
                             <tbody>
                             <tr>
@@ -316,35 +324,54 @@ if ($model != null) {
                                     <input type="text" style="font-weight: bold;"
                                            class="form-control line-close-workorder-no" value="" readonly>
                                 </td>
+                                <td style="vertical-align: middle;text-align: right;">
+                                    ใช้เวลา
+                                </td>
+                                <td>
+                                    <input type="text" class="form-control line-close-workorder-time-use" readonly value="">
+                                </td>
                             </tr>
                             <tr>
                                 <td style="width: 20%;text-align: right;vertical-align: middle;">เครื่องจักร</td>
-                                <td>
+                                <td colspan="3">
                                     <input type="text" class="form-control line-close-workorder-asset" value=""
                                            readonly>
                                 </td>
                             </tr>
                             <tr>
-                                <td style="width: 20%;text-align: right;vertical-align: middle;">ที่ตั้ง</td>
-                                <td>
-                                    <input type="text" class="form-control line-close-workorder-location" value=""
-                                           readonly>
+                                <td style="width: 20%;text-align: right;vertical-align: middle;">ต้นเหตุปัญหา</td>
+                                <td colspan="3">
+                                    <select name="line_work_cause" id="" class="form-control">
+                                        <option value="-1">--เลือก--</option>
+                                        <?php foreach ($model_work_cause as $value):?>
+                                            <option value="<?=$value->id?>"><?=$value->name?></option>
+                                        <?php endforeach;?>
+                                    </select>
                                 </td>
                             </tr>
                             <tr>
-                                <td style="width: 20%;text-align: right;vertical-align: middle;">สถานะ</td>
-                                <td>
-                                    <input type="text" class="form-control line-close-workorder-status" value=""
-                                           readonly>
+                                <td style="width: 20%;text-align: right;vertical-align: middle;">การแก้ปัญหา</td>
+                                <td colspan="3">
+                                    <select name="line_work_solve" id="" class="form-control">
+                                        <option value="-1">--เลือก--</option>
+                                        <?php foreach ($model_work_solve as $value):?>
+                                            <option value="<?=$value->id?>"><?=$value->name?></option>
+                                        <?php endforeach;?>
+                                    </select>
                                 </td>
                             </tr>
                             <tr>
-                                <td style="width: 20%;text-align: right;vertical-align: middle;">รายละเอียด</td>
-                                <td>
-                                    <textarea class="form-control" name="" id="" cols="30" rows="5"></textarea>
+                                <td style="width: 20%;text-align: right;vertical-align: middle;">มาตรการป้องกันทั้งชั่วคราว/ถาวร</td>
+                                <td colspan="3">
+                                    <textarea class="form-control" name="preventive_text" id="" cols="30" rows="5"></textarea>
                                 </td>
                             </tr>
-
+                            <tr>
+                                <td style="width: 20%;text-align: right;vertical-align: middle;">รูปภาพหลังซ่อม</td>
+                                <td colspan="3">
+                                    <input type="file" class="form-control" name="file_close" id="file_closeworkorder">
+                                </td>
+                            </tr>
 
                             </tbody>
                         </table>
@@ -482,15 +509,19 @@ $url_to_find_risk_after = Url::to(['myworkassign/findriskafter'],true);
 $js = <<<JS
 $(function(){
     $(".btn-close-workorder").on("click",function(){
+        var workorder_id = $(this).attr("data-var");
         var workorder_no = $(this).closest("tr").find(".line-workorder-no").val();
         var workorder_asset = $(this).closest("tr").find(".line-workorder-asset").val();
         var workorder_location = $(this).closest("tr").find(".line-workorder-location").val();
         var workorder_status = $(this).closest("tr").find(".line-workorder-status").val();
+        var time_use = $(this).closest("tr").find(".line-work-time-use").val();
       //  alert(workorder_no);
+        $(".close-workorder-id").val(workorder_id);
         $(".line-close-workorder-no").val(workorder_no);
         $(".line-close-workorder-asset").val(workorder_asset);
         $(".line-close-workorder-location").val(workorder_location);
         $(".line-close-workorder-status").val(workorder_status);
+        $(".line-close-workorder-time-use").val(time_use);
         $("#closeWorkModal").modal("show");
     });
     

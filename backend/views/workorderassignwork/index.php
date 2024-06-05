@@ -20,13 +20,13 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <br/>
     <?php
-      if(\Yii::$app->session->hasFlash('msg-success')) {
+    if (\Yii::$app->session->hasFlash('msg-success')) {
         echo '<div class="alert alert-success alert-dismissable">
             <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
             <h4><i class="icon fa fa-check"></i> สําเร็จ!</h4>';
         echo \Yii::$app->session->getFlash('msg-success');
         echo '</div>';
-      }
+    }
     ?>
     <div class="row">
 
@@ -63,7 +63,13 @@ $this->params['breadcrumbs'][] = $this->title;
         'emptyText' => '<div style="color: red;text-align: center;"> <b>ไม่พบรายการไดๆ</b> <span> เพิ่มรายการโดยการคลิกที่ปุ่ม </span><span class="text-success">"สร้างใหม่"</span></div>',
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
-            'workorder_no',
+            [
+                'attribute' => 'workorder_no',
+                'format' => 'raw',
+                'value' => function ($data) {
+                    return Html::a($data->workorder_no, ['workorderassignwork/view', 'id' => $data->id]);
+                }
+            ],
             'workorder_date',
             [
                 'attribute' => 'created_by',
@@ -153,39 +159,39 @@ $this->params['breadcrumbs'][] = $this->title;
             //'factor_risk_final',
             [
 
-                'header' => 'ตัวเลือก',
+                'header' => 'Action',
                 'headerOptions' => ['style' => 'text-align:center;', 'class' => 'activity-view-link',],
                 'class' => 'yii\grid\ActionColumn',
                 'contentOptions' => ['style' => 'text-align: center'],
-                'template' => '{view}{update}',
+                'template' => '{evaluatework}',
                 'buttons' => [
 
-                    'view' => function ($url, $data, $index) {
+                    'evaluatework' => function ($url, $data, $index) {
                         $options = [
-                            'title' => Yii::t('yii', 'View'),
-                            'aria-label' => Yii::t('yii', 'View'),
+                            'title' => Yii::t('yii', 'ประเมิณ'),
+                            'aria-label' => Yii::t('yii', 'ประเมิณ'),
                             'data-pjax' => '0',
                         ];
                         return Html::a(
-                            '<span class="fas fa-eye btn btn-xs btn-default"></span>', $url, $options);
+                            '<span class="fas fa-check-circle btn btn-xs btn-default"></span>', $url, $options);
                     },
-                    'update' => function ($url, $data, $index) {
-                        $options = array_merge([
-                            'title' => Yii::t('yii', 'Update'),
-                            'aria-label' => Yii::t('yii', 'Update'),
-                            'data-pjax' => '0',
-                            'id' => 'modaledit',
-                        ]);
-                        return Html::a(
-                            '<span class="fas fa-edit btn btn-xs btn-default"></span>', $url, [
-                            'id' => 'activity-view-link',
-                            //'data-toggle' => 'modal',
-                            // 'data-target' => '#modal',
-                            'data-id' => $index,
-                            'data-pjax' => '0',
-                            // 'style'=>['float'=>'rigth'],
-                        ]);
-                    },
+//                    'update' => function ($url, $data, $index) {
+//                        $options = array_merge([
+//                            'title' => Yii::t('yii', 'แก้ไข'),
+//                            'aria-label' => Yii::t('yii', 'แก้ไข'),
+//                            'data-pjax' => '0',
+//                            'id' => 'modaledit',
+//                        ]);
+//                        return Html::a(
+//                            '<span class="fas fa-edit btn btn-xs btn-default"></span>', $url, [
+//                            'id' => 'activity-view-link',
+//                            //'data-toggle' => 'modal',
+//                            // 'data-target' => '#modal',
+//                            'data-id' => $index,
+//                            'data-pjax' => '0',
+//                            // 'style'=>['float'=>'rigth'],
+//                        ]);
+//                    },
 
                 ]
             ],
@@ -207,41 +213,41 @@ $this->params['breadcrumbs'][] = $this->title;
                     </div>
                 </div>
             </div>
-            <form action="<?=Url::to(['workorderassignwork/saveassignemployee'],true)?>" method="post">
-            <div class="modal-body">
-<!--                <div class="row">-->
-<!--                    <div class="col-lg-12" style="text-align: right">-->
-<!--                        <button class="btn btn-outline-success btn-emp-selected" data-dismiss="modalx" disabled><i-->
-<!--                                    class="fa fa-check"></i> ตกลง-->
-<!--                        </button>-->
-<!--                        <button type="button" class="btn btn-default" data-dismiss="modal"><i-->
-<!--                                    class="fa fa-close text-danger"></i> ปิดหน้าต่าง-->
-<!--                        </button>-->
-<!--                    </div>-->
-<!--                </div>-->
-                <div style="height: 10px;"></div>
-                <input type="hidden" name="removelist" class="remove-list" value="">
-                <table class="table table-bordered table-striped table-find-list" width="100%">
-                    <thead>
-                    <tr>
-                        <th>พนักงาน</th>
-                        <th style="text-align: center;">-</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    </tbody>
-                </table>
+            <form action="<?= Url::to(['workorderassignwork/saveassignemployee'], true) ?>" method="post">
+                <div class="modal-body">
+                    <!--                <div class="row">-->
+                    <!--                    <div class="col-lg-12" style="text-align: right">-->
+                    <!--                        <button class="btn btn-outline-success btn-emp-selected" data-dismiss="modalx" disabled><i-->
+                    <!--                                    class="fa fa-check"></i> ตกลง-->
+                    <!--                        </button>-->
+                    <!--                        <button type="button" class="btn btn-default" data-dismiss="modal"><i-->
+                    <!--                                    class="fa fa-close text-danger"></i> ปิดหน้าต่าง-->
+                    <!--                        </button>-->
+                    <!--                    </div>-->
+                    <!--                </div>-->
+                    <div style="height: 10px;"></div>
+                    <input type="hidden" name="removelist" class="remove-list" value="">
+                    <table class="table table-bordered table-striped table-find-list" width="100%">
+                        <thead>
+                        <tr>
+                            <th>พนักงาน</th>
+                            <th style="text-align: center;">-</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
 
-                <br/>
-            </div>
-            <div class="modal-footer">
-                <button class="btn btn-outline-success" data-dismiss="modalx"><i
-                            class="fa fa-check"></i> บันทึก
-                </button>
-                <button type="button" class="btn btn-default" data-dismiss="modal"><i
-                            class="fa fa-close text-danger"></i> ปิดหน้าต่าง
-                </button>
-            </div>
+                    <br/>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-outline-success" data-dismiss="modalx"><i
+                                class="fa fa-check"></i> บันทึก
+                    </button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal"><i
+                                class="fa fa-close text-danger"></i> ปิดหน้าต่าง
+                    </button>
+                </div>
             </form>
         </div>
 

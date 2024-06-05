@@ -245,6 +245,12 @@ class WorkorderassignworkController extends Controller
         return $this->redirect(['workorderassignwork/index']);
 
     }
+
+    public function actionEvaluatework($id){
+        return $this->render('_evaluate',[
+            'id' => $id
+        ]);
+    }
 }
 
 

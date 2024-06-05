@@ -12,6 +12,7 @@ use Yii;
  * @property int|null $risk_id
  * @property float|null $risk_value
  * @property int|null $status
+ * @property int|null $workorder_evaluate_id
  */
 class WorkorderRiskAfter extends \yii\db\ActiveRecord
 {
@@ -29,7 +30,7 @@ class WorkorderRiskAfter extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['workorder_id', 'risk_id', 'status'], 'integer'],
+            [['workorder_id', 'risk_id', 'status', 'workorder_evaluate_id'], 'integer'],
             [['risk_value'], 'number'],
         ];
     }
@@ -45,6 +46,7 @@ class WorkorderRiskAfter extends \yii\db\ActiveRecord
             'risk_id' => 'Risk ID',
             'risk_value' => 'Risk Value',
             'status' => 'Status',
+            'workorder_evaluate_id' => 'Workorder Evaluate ID',
         ];
     }
 }
