@@ -13,7 +13,8 @@ class User extends \common\models\User
     public function rules()
     {
         return [
-            [['updated_at','updated_by','usergroup_id','emp_ref_id'],'integer'],
+            [['username', 'usergroup_id'], 'required'],
+            [['updated_at','updated_by','usergroup_id','emp_ref_id','status'],'integer'],
             [['roles'],'safe']
         ];
     }
