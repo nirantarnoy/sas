@@ -74,7 +74,10 @@ class UsergroupController extends Controller
         $model = new Usergroup();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+//            return $this->redirect(['view', 'id' => $model->id]);
+            $session = \Yii::$app->session;
+            $session->setFlash('msg-success', 'บันทึกรายการเรียบร้อย');
+            return $this->redirect(['index']);
         }
 
         return $this->render('create', [
@@ -94,7 +97,10 @@ class UsergroupController extends Controller
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+//            return $this->redirect(['view', 'id' => $model->id]);
+            $session = \Yii::$app->session;
+            $session->setFlash('msg-success', 'บันทึกรายการเรียบร้อย');
+            return $this->redirect(['index']);
         }
 
         return $this->render('update', [
