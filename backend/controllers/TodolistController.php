@@ -77,11 +77,65 @@ class TodolistController extends Controller
         $model = new Todolist();
 
         if ($this->request->isPost) {
-            if ($model->load($this->request->post()) && $model->save()) {
-                $session = \Yii::$app->session;
-                $session->setFlash('msg-success', 'บันทึกรายการเรียบร้อย');
-                return $this->redirect(['index']);
-                //return $this->redirect(['view', 'id' => $model->id]);
+            if ($model->load($this->request->post())) {
+                $line_emp_id = \Yii::$app->request->post('line_emp_id');
+
+                $save_trans_date = date('Y-m-d');
+                $save_target_date = date('Y-m-d');
+                $save_act_date = date('Y-m-d');
+                $save_end_date = date('Y-m-d');
+                $or_trans_date = explode('-',$model->trans_date);
+                $or_target_date = explode('-',$model->target_date);
+                $or_act_date = explode('-',$model->act_date);
+                $or_end_date = explode('-',$model->end_date);
+
+                if($or_trans_date !=null){
+                    if(count($or_trans_date)>1){
+                        $save_trans_date = $or_trans_date[2].'/'.$or_trans_date[1].'/'.$or_trans_date[0];
+                    }
+                }
+
+                if($or_target_date !=null){
+                    if(count($or_target_date)>1){
+                        $save_target_date = $or_target_date[2].'/'.$or_target_date[1].'/'.$or_target_date[0];
+                    }
+                }
+
+                if($or_act_date !=null){
+                    if(count($or_act_date)>1){
+                        $save_act_date = $or_act_date[2].'/'.$or_act_date[1].'/'.$or_act_date[0];
+                    }
+                }
+
+                if($or_end_date !=null){
+                    if(count($or_end_date)>1){
+                        $save_end_date = $or_end_date[2].'/'.$or_end_date[1].'/'.$or_end_date[0];
+                    }
+                }
+
+
+                $model->trans_date = date('Y-m-d',strtotime($save_trans_date));
+                $model->target_date = date('Y-m-d',strtotime($save_target_date));
+                $model->act_date = date('Y-m-d',strtotime($save_act_date));
+                $model->end_date = date('Y-m-d',strtotime($save_end_date));
+                $model->todolist_no = $model::getLastNo();
+
+                if($model->save(false)){
+
+                    if($line_emp_id !=null){
+                       for($i=0;$i<count($line_emp_id);$i++){
+                           $model2 = new \common\models\TodolistAssign();
+                           $model2->todolist_id = $model->id;
+                           $model2->emp_id = $line_emp_id[$i];
+                           $model2->remark = '';
+                           $model2->save(false);
+                       }
+                    }
+                    $session = \Yii::$app->session;
+                    $session->setFlash('msg-success', 'บันทึกรายการเรียบร้อย');
+                    return $this->redirect(['index']);
+                    //return $this->redirect(['view', 'id' => $model->id]);
+                }
             }
         } else {
             $model->loadDefaultValues();
@@ -102,16 +156,71 @@ class TodolistController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
+        $model_line = \common\models\TodolistAssign::find()->where(['todolist_id' => $id])->all();
 
-        if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
-            $session = \Yii::$app->session;
-            $session->setFlash('msg-success', 'บันทึกรายการเรียบร้อย');
-            return $this->redirect(['index']);
-           // return $this->redirect(['view', 'id' => $model->id]);
+        if ($this->request->isPost && $model->load($this->request->post())) {
+            $line_emp_id = \Yii::$app->request->post('line_emp_id');
+            $save_trans_date = date('Y-m-d');
+            $save_target_date = date('Y-m-d');
+            $save_act_date = date('Y-m-d');
+            $save_end_date = date('Y-m-d');
+            $or_trans_date = explode('-',$model->trans_date);
+            $or_target_date = explode('-',$model->target_date);
+            $or_act_date = explode('-',$model->act_date);
+            $or_end_date = explode('-',$model->end_date);
+
+            if($or_trans_date !=null){
+                if(count($or_trans_date)>1){
+                    $save_trans_date = $or_trans_date[2].'/'.$or_trans_date[1].'/'.$or_trans_date[0];
+                }
+            }
+
+            if($or_target_date !=null){
+                if(count($or_target_date)>1){
+                    $save_target_date = $or_target_date[2].'/'.$or_target_date[1].'/'.$or_target_date[0];
+                }
+            }
+
+            if($or_act_date !=null){
+                if(count($or_act_date)>1){
+                    $save_act_date = $or_act_date[2].'/'.$or_act_date[1].'/'.$or_act_date[0];
+                }
+            }
+
+            if($or_end_date !=null){
+                if(count($or_end_date)>1){
+                    $save_end_date = $or_end_date[2].'/'.$or_end_date[1].'/'.$or_end_date[0];
+                }
+            }
+
+
+            $model->trans_date = date('Y-m-d',strtotime($save_trans_date));
+            $model->target_date = date('Y-m-d',strtotime($save_target_date));
+            $model->act_date = date('Y-m-d',strtotime($save_act_date));
+            $model->end_date = date('Y-m-d',strtotime($save_end_date));
+            $model->todolist_no = $model::getLastNo();
+
+            if($model->save(false)){
+                if($line_emp_id !=null){
+                    \common\models\TodolistAssign::deleteAll(['todolist_id' => $model->id]);
+                    for($i=0;$i<count($line_emp_id);$i++){
+                        $model2 = new \common\models\TodolistAssign();
+                        $model2->todolist_id = $model->id;
+                        $model2->emp_id = $line_emp_id[$i];
+                        $model2->remark = '';
+                        $model2->save(false);
+                    }
+                }
+                $session = \Yii::$app->session;
+                $session->setFlash('msg-success', 'บันทึกรายการเรียบร้อย');
+                return $this->redirect(['index']);
+                //return $this->redirect(['view', 'id' => $model->id]);
+            }
         }
 
         return $this->render('update', [
             'model' => $model,
+            'model_line' => $model_line,
         ]);
     }
 
@@ -150,7 +259,14 @@ class TodolistController extends Controller
         $model = \backend\models\Employee::find()->where(['status'=>1])->all();
         if($model){
             foreach($model as $value){
-
+                $html .= '<tr>';
+                $html .= '<td style="text-align: center">
+                            <div class="btn btn-outline-success btn-sm" onclick="addselecteditem($(this))" data-var="' . $value->id . '">เลือก</div>
+                            <input type="hidden" class="line-find-emp-id" value="' . $value->id . '">                    
+                            <input type="hidden" class="line-find-emp-name" value="' . $value->fname. ' ' . $value->lname . '">
+                           </td>';
+                $html .= '<td style="text-align: left">' .$value->fname. ' ' . $value->lname. '</td>';
+                $html .= '</tr>';
             }
         }
 
