@@ -16,9 +16,9 @@ if ($to_date != null) {
 
 //$month_data = [['id'=>1,'name'=>'มค.'],['id'=>2,'name'=>'กพ.'],['id'=>3,'name'=>'มีค.'],['id'=>4,'name'=>'เมย.'],['id'=>5,'name'=>'พค.'],['id'=>6,'name'=>'มิย.'],['id'=>7,'name'=>'กค.'],['id'=>8,'name'=>'สค.'],['id'=>9,'name'=>'กย.'],['id'=>10,'name'=>'ตค.'],['id'=>11,'name'=>'พย.'],['id'=>12,'name'=>'ธค.']];
 
-$todolist_all = 0;
-$todolist_in_time = 0;
-$todolist_late_time = 0;
+$todolist_all = [];
+$todolist_in_time = [];
+$todolist_late_time = [];
 
 $sql = "SELECT month(trans_date) as month,count(*) as cnt  from todolist 
               WHERE (date(trans_date)>= " . "'" . date('Y-m-d', strtotime($from_date)) . "'" . " 
@@ -28,19 +28,70 @@ $sql .= " GROUP BY month(trans_date)";
 $query = \Yii::$app->db->createCommand($sql);
 $model = $query->queryAll();
 if ($model) {
+
+    $data_count = count($model);
     for($x=0;$x<=12-1;$x++){
-        for ($i = 0; $i <= count($model) - 1; $i++) {
+            for ($i = 0; $i <= count($model) - 1; $i++) {
+                if($model[$i]['month'] == $x+1){
+                    array_push($todolist_all,(int)$model[$i]['cnt']);
 
-        }
+                }else{
+                    array_push($todolist_all,0);
+                }
+            }
     }
-
 }
 
-//$data_series_for_graph_value = [
-//    $todolist_all,
-//    $todolist_in_time,
-//    $todolist_late_time
-//];
+$sql2 = "SELECT month(trans_date) as month,count(*) as cnt,date(target_date) as target_date  from todolist 
+              WHERE (date(trans_date)>= " . "'" . date('Y-m-d', strtotime($from_date)) . "'" . " 
+              AND date(trans_date)<= " . "'" . date('Y-m-d', strtotime($to_date)) . "'" . " )";
+
+$sql2 .= " GROUP BY month(trans_date) , date(trans_date)";
+$query2 = \Yii::$app->db->createCommand($sql2);
+$model2 = $query2->queryAll();
+if ($model2) {
+    $data_count2 = count($model2);
+    for($x=0;$x<=12-1;$x++){
+        for ($i = 0; $i <= count($model2) - 1; $i++) {
+            if($model2[$i]['month'] == $x+1){
+                if(date('Y-m-d', strtotime($model2[$i]['target_date'])) >= date('Y-m-d')){
+                    array_push($todolist_in_time,(int)$model2[$i]['cnt']);
+                }else{
+                    array_push($todolist_in_time,0);
+                }
+
+            }else{
+                array_push($todolist_in_time,0);
+            }
+        }
+    }
+}
+
+$sql3 = "SELECT month(trans_date) as month,count(*) as cnt,date(target_date) as target_date  from todolist 
+              WHERE (date(trans_date)>= " . "'" . date('Y-m-d', strtotime($from_date)) . "'" . " 
+              AND date(trans_date)<= " . "'" . date('Y-m-d', strtotime($to_date)) . "'" . " )";
+
+$sql3 .= " GROUP BY month(trans_date),date(target_date)";
+$query3 = \Yii::$app->db->createCommand($sql3);
+$model3 = $query3->queryAll();
+if ($model3) {
+    $data_count3 = count($model3);
+    for($x=0;$x<=12-1;$x++){
+        for ($i = 0; $i <= count($model3) - 1; $i++) {
+            if($model3[$i]['month'] == $x+1){
+                if(date('Y-m-d', strtotime($model3[$i]['target_date'])) < date('Y-m-d')){
+                    array_push($todolist_late_time,(int)$model3[$i]['cnt']);
+                }else{
+                    array_push($todolist_late_time,0);
+                }
+
+            }else{
+                array_push($todolist_late_time,0);
+            }
+        }
+    }
+}
+
 ?>
 <br/>
 <form action="index.php?r=todolistreport/index" method="post">
@@ -107,9 +158,9 @@ if ($model) {
                     'title' => ['text' => 'งาน']
                 ],
                 'series' => [
-                    ['name' => 'งานทั้งหมด', 'data' => [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]],
-                    ['name' => 'ตรงเวลา', 'data' => [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]],
-                    ['name' => 'ช้ากว่ากำหนด', 'data' => [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]],
+                    ['name' => 'งานทั้งหมด', 'data' => $todolist_all],
+                    ['name' => 'ตรงเวลา', 'data' => $todolist_in_time],
+                    ['name' => 'ช้ากว่ากำหนด', 'data' => $todolist_late_time],
                 ]
             ]
         ]);
