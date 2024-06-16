@@ -173,6 +173,14 @@
                         </li>
                         <?php //endif; ?>
                         <?php //if (\Yii::$app->user->can('customergroup/index')): ?>
+                        <li class="nav-item">
+                            <a href="index.php?r=todolist" class="nav-link todolist">
+                                <i class="far fa-circlez nav-icon"></i>
+                                <p>Todo List</p>
+                            </a>
+                        </li>
+                        <?php //endif; ?>
+                        <?php //if (\Yii::$app->user->can('customergroup/index')): ?>
 <!--                        <li class="nav-item">-->
 <!--                            <a href="index.php?r=workorderrate" class="nav-link workorderrate">-->
 <!--                                <i class="far fa-circlez nav-icon"></i>-->
@@ -240,7 +248,7 @@
                         <?php //endif;?>
                         <?php //if (\Yii::$app->user->can('salecomreport/index')): ?>
                         <li class="nav-item">
-                            <a href="index.php?r=#" class="nav-link">
+                            <a href="index.php?r=todolistreport" class="nav-link">
                                 <i class="far fa-circlez nav-icon"></i>
                                 <p>รายงาน TodoList</p>
                             </a>

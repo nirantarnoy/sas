@@ -198,7 +198,6 @@ class TodolistController extends Controller
             $model->target_date = date('Y-m-d',strtotime($save_target_date));
             $model->act_date = date('Y-m-d',strtotime($save_act_date));
             $model->end_date = date('Y-m-d',strtotime($save_end_date));
-            $model->todolist_no = $model::getLastNo();
 
             if($model->save(false)){
                 if($line_emp_id !=null){

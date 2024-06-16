@@ -57,7 +57,7 @@ class Todolist extends \yii\db\ActiveRecord
             'brand_name' => 'ยี่ห้อ',
             'todolist_name' => 'ชื่องาน',
             'assign_emp_id' => 'ผู้รับผิดชอบ',
-            'target_date' => 'วันที่ต้องงทำ',
+            'target_date' => 'วันที่ต้องทำ',
             'act_date'=>'วันที่ดําเนินงาน',
             'end_date'=>'วันที่สิ้นสุดงาน',
             'status'=>'สถานะ',

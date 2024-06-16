@@ -17,11 +17,14 @@ use yii\widgets\ActiveForm;
                 <?= $form->field($model, 'todolist_no')->textInput(['maxlength' => true, 'readonly' => 'readonly']) ?>
             </div>
             <div class="col-lg-3">
+                <?php $model->trans_date = $model->isNewRecord? date('Y-m-d') : date('d-m-Y',strtotime($model->trans_date)) ?>
                 <?= $form->field($model, 'trans_date')->widget(\kartik\date\DatePicker::className(), [
                     'value' => date('Y-m-d'),
                     'pluginOptions' => [
                         'autoclose' => true,
                         'format' => 'dd-mm-yyyy',
+                        'todayHighlight' => true,
+                        'todayBtn' => true,
                     ]
                 ]) ?>
             </div>
@@ -37,31 +40,40 @@ use yii\widgets\ActiveForm;
                 <?= $form->field($model, 'brand_name')->textInput(['maxlength' => true]) ?>
             </div>
             <div class="col-lg-3">
+                <?php $model->target_date = $model->isNewRecord? date('Y-m-d') : date('d-m-Y',strtotime($model->target_date)) ?>
                 <?= $form->field($model, 'target_date')->widget(\kartik\date\DatePicker::className(), [
                     'value' => date('Y-m-d'),
                     'pluginOptions' => [
                         'autoclose' => true,
                         'format' => 'dd-mm-yyyy',
+                        'todayHighlight' => true,
+                        'todayBtn' => true,
                     ]
                 ]) ?>
             </div>
         </div>
         <div class="row">
             <div class="col-lg-3">
+                <?php $model->act_date = $model->isNewRecord? date('Y-m-d') : date('d-m-Y',strtotime($model->act_date)) ?>
                 <?= $form->field($model, 'act_date')->widget(\kartik\date\DatePicker::className(), [
                     'value' => date('Y-m-d'),
                     'pluginOptions' => [
                         'autoclose' => true,
                         'format' => 'dd-mm-yyyy',
+                        'todayHighlight' => true,
+                        'todayBtn' => true,
                     ]
                 ]) ?>
             </div>
             <div class="col-lg-3">
+                <?php $model->end_date = $model->isNewRecord? date('Y-m-d') : date('d-m-Y',strtotime($model->end_date)) ?>
                 <?= $form->field($model, 'end_date')->widget(\kartik\date\DatePicker::className(), [
                     'value' => date('Y-m-d'),
                     'pluginOptions' => [
                         'autoclose' => true,
                         'format' => 'dd-mm-yyyy',
+                        'todayHighlight' => true,
+                        'todayBtn' => true,
                     ]
                 ]) ?>
             </div>
