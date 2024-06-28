@@ -14,6 +14,7 @@ use yii\filters\VerbFilter;
  */
 class TodolistController extends Controller
 {
+    public $enableCsrfValidation = false;
     /**
      * @inheritDoc
      */
