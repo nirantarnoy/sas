@@ -13,6 +13,7 @@ $this->params['breadcrumbs'][] = 'แก้ไข';
 <div class="location-update">
     <?= $this->render('_form', [
         'model' => $model,
+        'loc_photo' => $loc_photo,
     ]) ?>
 
 </div>

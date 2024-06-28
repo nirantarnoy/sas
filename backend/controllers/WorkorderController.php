@@ -104,6 +104,8 @@ class WorkorderController extends Controller
                 $uploaded = UploadedFile::getInstanceByName('work_photo');
                 $uploaded2 = UploadedFile::getInstanceByName('work_video');
 
+//                print_r($uploaded); return ;
+
                 if (!empty($uploaded)) {
                     $upfiles = "photo_".time() . "." . $uploaded->getExtension();
                     if ($uploaded->saveAs('uploads/workorder_photo/' . $upfiles)) {

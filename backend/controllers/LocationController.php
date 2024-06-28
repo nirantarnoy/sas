@@ -8,12 +8,15 @@ use backend\models\LocationSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\web\UploadedFile;
 
 /**
  * LocationController implements the CRUD actions for Location model.
  */
 class LocationController extends Controller
 {
+    public $enableCsrfValidation = false;
+
     /**
      * {@inheritdoc}
      */
@@ -70,7 +73,34 @@ class LocationController extends Controller
     {
         $model = new Location();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        if ($model->load(Yii::$app->request->post())) {
+
+            $uploaded = UploadedFile::getInstances($model, 'loc_photo');
+            $model->loc_photo = '';
+
+            if ($model->save(false)) {
+
+                if (!empty($uploaded)) {
+//               for($i=0;$i<=count($uploaded)-1;$i++){
+//
+//               }
+                    //     echo count($uploaded);return;
+                    foreach ($uploaded as $file) {
+                        if ($file->saveAs('uploads/location_photo/' . $file->baseName . '.' . $file->extension)) {
+                            $model_photo = new \common\models\LocationPhoto();
+                            $model_photo->location_id = $model->id;
+                            $model_photo->loc_photo = $file->baseName . '.' . $file->extension;
+                            $model->loc_photo = $file->baseName . '.' . $file->extension;
+                            if ($model->save(false)) {
+                                $model_photo->save(false);
+                            }
+
+                        }
+                    }
+                }
+
+            }
+
 //            return $this->redirect(['view', 'id' => $model->id]);
             $session = \Yii::$app->session;
             $session->setFlash('msg-success', 'บันทึกรายการเรียบร้อย');
@@ -92,8 +122,45 @@ class LocationController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
+        $loc_photo = '';
+        $model_loc_photo = \common\models\LocationPhoto::find()->select(['loc_photo'])->where(['location_id' => $id])->one();
+        if($loc_photo){
+            $loc_photo = $model_loc_photo->loc_photo;
+        }
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        if ($model->load(Yii::$app->request->post())) {
+
+            $uploaded = UploadedFile::getInstances($model, 'loc_photo');
+
+            $loc_old_photo = \Yii::$app->request->post('loc_old_photo');
+//            print_r($loc_photo); return ;
+
+            if ($model->save(false)) {
+
+                if (!empty($uploaded)) {
+//               for($i=0;$i<=count($uploaded)-1;$i++){
+//
+//               }
+                    //     echo count($uploaded);return;
+                    if (\common\models\LocationPhoto::deleteAll(['location_id' => $model->id])) {
+                        unlink('uploads/location_photo/' .$loc_old_photo);
+                    }
+                    foreach ($uploaded as $file) {
+                        if ($file->saveAs('uploads/location_photo/' . $file->baseName . '.' . $file->extension)) {
+                            $model_photo = new \common\models\LocationPhoto();
+                            $model_photo->location_id = $model->id;
+                            $model_photo->loc_photo = $file->baseName . '.' . $file->extension;
+                            $model->loc_photo = $model_photo->loc_photo;
+                            if ($model->save(false)) {
+                                $model_photo->save(false);
+                            }
+
+                        }
+                    }
+
+
+                }
+            }
 //            return $this->redirect(['view', 'id' => $model->id]);
             $session = \Yii::$app->session;
             $session->setFlash('msg-success', 'บันทึกรายการเรียบร้อย');
@@ -103,6 +170,7 @@ class LocationController extends Controller
 
         return $this->render('update', [
             'model' => $model,
+            'loc_photo' => $loc_photo,
         ]);
     }
 

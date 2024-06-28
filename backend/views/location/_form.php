@@ -53,7 +53,9 @@ use kartik\widgets\SwitchInput;
             </div>
         </div>
         <div class="col-lg-4">
-            <?= $form->field($model, 'loc_photo')->fileInput(['maxlength' => true]) ?>
+<!--            <input type="file" name="location_photo" class="form-control">-->
+            <input type="hidden" name="loc_old_photo" value="<?= $loc_photo ?>">
+            <?php echo $form->field($model, 'loc_photo')->fileInput(['maxlength' => true]) ?>
         </div>
         <div class="col-lg-6">
             <?php echo $form->field($model, 'status')->widget(Switchery::className())->label(false) ?>
