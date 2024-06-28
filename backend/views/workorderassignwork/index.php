@@ -143,7 +143,12 @@ $this->params['breadcrumbs'][] = $this->title;
                 'headerOptions' => ['style' => 'text-align: center;'],
                 'format' => 'raw',
                 'value' => function ($data) {
-                    return '<div class="" data-var="' . $data->id . '" onclick="showfindemployee($(this))"><i class="fa fa-user text-secondary"></i> </div>';
+                    $is_has = checkHasAssignEmployee($data->id);
+                    $text_style = 'text-danger';
+                    if ($is_has) {
+                        $text_style = 'text-success';
+                    }
+                    return '<div class="" data-var="' . $data->id . '" onclick="showfindemployee($(this))"><i class="fa fa-user '.$text_style.'"></i> </div>';
                 }
             ],
             //'stop6',
@@ -226,6 +231,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     <!--                    </div>-->
                     <!--                </div>-->
                     <div style="height: 10px;"></div>
+                    <input type="hidden" name="work_order_id" class="assign-workorder-id" value="">
                     <input type="hidden" name="removelist" class="remove-list" value="">
                     <table class="table table-bordered table-striped table-find-list" width="100%">
                         <thead>
@@ -238,7 +244,9 @@ $this->params['breadcrumbs'][] = $this->title;
                         </tbody>
                         <tfoot>
                         <tr>
-                            <td><div class="btn btn-primary" onclick="addempline($(this))">เพิ่ม</div></td>
+                            <td>
+                                <div class="btn btn-primary" onclick="addempline($(this))">เพิ่ม</div>
+                            </td>
                             <td></td>
                         </tr>
                         </tfoot>
@@ -285,6 +293,19 @@ $this->params['breadcrumbs'][] = $this->title;
     </div>
 </div>
 
+
+<?php
+function checkHasAssignEmployee($workorder_id)
+{
+    $res = 0;
+    $model = \common\models\WorkorderAssign::find()->where(['workorder_id' => $workorder_id])->count();
+    if ($model) {
+        $res = $model;
+    }
+    return $res;
+}
+
+?>
 
 <?php
 $url_to_find_employee = \yii\helpers\Url::to(['workorderassignwork/findemployee'], true);
@@ -376,6 +397,7 @@ function showfindemployee(e){
       success: function(data){
        //   alert(data);
           $(".table-find-list tbody").html(data);
+          $(".assign-workorder-id").val(id);
           $("#findModal").modal("show");
           disableselectitemNew();
       },
@@ -530,20 +552,22 @@ function addselecteditem(e) {
   function removeline(e){
      
           if(confirm('ต้องการลบรายการนี้ใช่หรือไม่ ?')){
-              if($("#table-find-list tbody tr").length > 0)
+              if($(".table-find-list tbody tr").length > 0)
               {
-                 if($("#table-find-list tbody tr").length == 1){
+                 if($(".table-find-list tbody tr").length == 1){
+                  
+                   var del_id = e.parent().parent().attr("data-var");
+                   removelist.push(del_id);
                    e.closest("tr").find(".line-emp-id").val('-1').change();
                    e.closest("tr").find(".line-work-assign-id").val('');
-                   
-                   var del_id = e.closest("tr").find(".line-emp-id").val();
-                   removelist.push(del_id);
                  }else{
-                   var del_id = e.closest("tr").find(".line-emp-id").val();
+                    var del_id = e.parent().parent().attr("data-var");
+                   alert(del_id);
                    removelist.push(del_id);
                    e.parent().parent().remove();
                } 
               }else{
+                   alert();
                    e.closest("tr").find(".line-emp-id").val('-1').change();
               }
                
