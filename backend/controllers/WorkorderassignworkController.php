@@ -206,7 +206,7 @@ class WorkorderassignworkController extends Controller
 
                    $html.='</select>
                      </td>';
-                   $html .= '<td style="text-align: center;"><input type="hidden" class="line-work-assign-id" value="' . $work_assign_id . '" name="line_work_assign_id[]"><div class="btn btn-danger" onclick="deleteline($(this))"><i class="fa fa-trash"></i></div></td>';
+                   $html .= '<td style="text-align: center;"><input type="hidden" class="line-work-assign-id" value="' . $work_assign_id . '" name="line_work_assign_id[]"><div class="btn btn-danger" onclick="removeline($(this))"><i class="fa fa-trash"></i></div></td>';
                    $html .= '</tr>';
                }
             }else{
@@ -224,7 +224,7 @@ class WorkorderassignworkController extends Controller
 
                 $html.='</select>
                      </td>';
-                $html .= '<td style="text-align: center;"><input type="hidden" class="line-work-assign-id" value="' . $work_assign_id . '" name="line_work_assign_id[]"><div class="btn btn-danger" onclick="deleteline($(this))"><i class="fa fa-trash"></i></div></td>';
+                $html .= '<td style="text-align: center;"><input type="hidden" class="line-work-assign-id" value="' . $work_assign_id . '" name="line_work_assign_id[]"><div class="btn btn-danger" onclick="removeline($(this))"><i class="fa fa-trash"></i></div></td>';
                 $html .= '</tr>';
             }
 
@@ -238,7 +238,9 @@ class WorkorderassignworkController extends Controller
         function actionSaveassignemployee()
         {
             $emp_id = \Yii::$app->request->post('line_emp_id');
+            $work_order_id = \Yii::$app->request->post('work_order_id');
             $work_assign_id_list = \Yii::$app->request->post('line_work_assign_id');
+            $removelist = \Yii::$app->request->post('removelist');
             $res = 0;
 
             if ($emp_id != null && $work_assign_id_list != null) {
@@ -267,33 +269,55 @@ class WorkorderassignworkController extends Controller
                         }
                     }
                 } else {
-                    $model_new = new \backend\models\Workorderassign();
-                    $model_new->workorder_id = $work_assign_id;
-                    $model_new->assign_date = date('Y-m-d H:i:s');
-                    $model_new->assign_no = '';
-                    $model_new->status = 0;
-                    if ($model_new->save(false)) {
-                        if ($emp_id != null) {
-                            for ($i = 0; $i <= count($emp_id) - 1; $i++) {
-                                if ($emp_id[$i] == -1) {
-                                    continue;
-                                }
-                                $check_has = \common\models\WorkorderAssignLine::find()->where(['workorder_assign_id' => $model_new->id, 'emp_id' => $emp_id[$i]])->one();
-                                if ($check_has) {
-                                    $check_has->emp_message = '';
-                                    if ($check_has->save(false)) {
-                                        $res = 1;
-                                    }
-                                } else {
-                                    $model_line = new \common\models\Workorderassignline();
-                                    $model_line->workorder_assign_id = $model_new->id;
-                                    $model_line->emp_id = $emp_id[$i];
-                                    if ($model_line->save(false)) {
-                                        $res = 1;
-                                    }
-                                }
+                  //  print_r($emp_id);return;
+                   if($emp_id[0] > 0){
+                       $model_new = new \backend\models\Workorderassign();
+                       $model_new->workorder_id = $work_order_id;
+                       $model_new->assign_date = date('Y-m-d H:i:s');
+                       $model_new->assign_no = '';
+                       $model_new->status = 0;
+                       if ($model_new->save(false)) {
+                           if ($emp_id != null) {
+                               for ($i = 0; $i <= count($emp_id) - 1; $i++) {
+                                   if ($emp_id[$i] == -1) {
+                                       continue;
+                                   }
+                                   $check_has = \common\models\WorkorderAssignLine::find()->where(['workorder_assign_id' => $model_new->id, 'emp_id' => $emp_id[$i]])->one();
+                                   if ($check_has) {
+                                       $check_has->emp_message = '';
+                                       if ($check_has->save(false)) {
+                                           $res = 1;
+                                       }
+                                   } else {
+                                       $model_line = new \common\models\Workorderassignline();
+                                       $model_line->workorder_assign_id = $model_new->id;
+                                       $model_line->emp_id = $emp_id[$i];
+                                       if ($model_line->save(false)) {
+                                           $res = 1;
+                                       }
+                                   }
 
+                               }
+                           }
+                       }
+                   }
+                }
+
+                if($removelist !=null){
+                    $assign_id = 0;
+                    $xp = explode(',', $removelist);
+                    if($xp !=null){
+                        for($i=0;$i<=count($xp)-1;$i++){
+                            if($i==0){
+                                $assign_id = $this->getWorkassignid($xp[$i]);
                             }
+                           \common\models\WorkorderAssignLine::deleteAll(['id'=>$xp[$i]]);
+                            $res = 1;
+                        }
+                        $check_has_line = \common\models\WorkorderAssignLine::find()->where(['workorder_assign_id' => $assign_id])->count();
+                        if($check_has_line==0){
+                            \common\models\Workorderassign::deleteAll(['id'=>$assign_id]);
+                            $res =1;
                         }
                     }
                 }
@@ -308,6 +332,15 @@ class WorkorderassignworkController extends Controller
             }
             return $this->redirect(['workorderassignwork/index']);
 
+        }
+
+        public function getWorkassignid($assign_line_id){
+        $id=0;
+        $model = \common\models\WorkorderAssignLine::find()->where(['workorder_assign_id'=>$assign_line_id])->one();
+            if($model){
+                $id = $model->id;
+            }
+            return $id;
         }
 
         public
