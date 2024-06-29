@@ -72,8 +72,8 @@ use kartik\widgets\SwitchInput;
                 <!--                </div>-->
                 <?php if ($model->isNewRecord): ?>
                 <div class="row" style="padding: 1px;">
-                    <div class="col-lg-3"
-                         style="border: 1px dashed grey;border-right: none;height: 150px;text-align: center;">
+                    <div class="col-lg-6"
+                         style="border: 1px dashed grey;border;height: 150px;text-align: center;">
 
                     </div>
                     <!--                        <div class="col-lg-3" style="border: 1px dashed grey;border-right: none;height: 150px;">-->
@@ -82,21 +82,21 @@ use kartik\widgets\SwitchInput;
                     <!--                        <div class="col-lg-3" style="border: 1px dashed grey;border-right: none;height: 150px;">-->
                     <!---->
                     <!--                        </div>-->
-                    <!--                        <div class="col-lg-3" style="border: 1px dashed grey;height: 150px;">-->
-
-                </div>
+<!--                    <div class="col-lg-3" style="border: 1px dashed grey;height: 150px;">-->
+<!---->
+<!--                    </div>-->
             </div>
             <?php else: ?>
                 <div class="row" style="padding: 1px;">
                     <?php //echo print_r($loc_photo); return; ?>
                     <?php if ($loc_photo != ''): ?>
-                        <div class="col-lg-12"
-                             style="border: 1px dashed grey;border-right: none;height: 250px;text-align: center;">
+                        <div class="col-lg-9"
+                             style="border: 1px dashed grey;border;height: 250px;text-align: center;">
 
                             <a href="<?= \Yii::$app->getUrlManager()->baseUrl . '/uploads/location_photo/' . $loc_photo ?>"
                                target="_blank"><img
                                         src="<?= \Yii::$app->getUrlManager()->baseUrl . '/uploads/location_photo/' . $loc_photo ?>"
-                                        style="max-width: 350px;margin-top: 5px;" alt=""></a>
+                                        style="max-width: 150px;margin-top: 5px;" alt=""></a>
 
                         </div>
                     <?php else: ?>

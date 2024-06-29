@@ -81,18 +81,20 @@ use yii\widgets\ActiveForm;
                 <?= $form->field($model, 'cost')->textInput() ?>
             </div>
             <div class="col-lg-4">
+                <?php $model->recieve_date = $model->isNewRecord ? date('d/m/Y') : date('d/m/Y', strtotime($model->recieve_date)); ?>
                 <?= $form->field($model, 'recieve_date')->widget(\kartik\date\DatePicker::className(), [
                     'value' => date('Y-m-d'),
                     'pluginOptions' => [
-                        'format' => 'dd-mm-yyyy'
+                        'format' => 'dd/mm/yyyy'
                     ]
                 ]) ?>
             </div>
             <div class="col-lg-4">
+                <?php $model->waranty_exp_date = $model->isNewRecord ? date('d/m/Y') : date('d/m/Y', strtotime($model->waranty_exp_date)); ?>
                 <?= $form->field($model, 'waranty_exp_date')->widget(\kartik\date\DatePicker::className(), [
                     'value' => date('Y-m-d'),
                     'pluginOptions' => [
-                        'format' => 'dd-mm-yyyy'
+                        'format' => 'dd/mm/yyyy'
                     ]
                 ]) ?>
             </div>
@@ -110,7 +112,16 @@ use yii\widgets\ActiveForm;
         </div>
 
         <?php //echo $form->field($model, 'photo')->fileInput(['multiple'=>'multiple','id'=>'asset-photo','accept'=>'image/*']) ?>
-        <?= $form->field($model, 'photo[]')->fileInput(['multiple' => 'multiple', 'id' => 'asset-photo', 'accept' => 'image/*']) ?>
+
+        <div class="row">
+            <div class="col-lg-6">
+                <?= $form->field($model, 'photo[]')->fileInput(['multiple' => 'multiple', 'id' => 'asset-photo', 'accept' => 'image/*']) ?>
+            </div>
+            <div class="col-lg-6">
+                <?php echo $form->field($model, 'status')->widget(\toxor88\switchery\Switchery::className(), ['options' => ['label' => '', 'class' => 'form-control']])->label() ?>
+
+            </div>
+        </div>
 
         <div class="row">
             <div class="col-lg-12">
@@ -141,9 +152,12 @@ use yii\widgets\ActiveForm;
                         <?php $loop += 1; ?>
                         <?php if ($x == 0 && $loop == 0): ?>
                             <div class="col-lg-3"
-                                 style="border: 1px dashed grey;border-right: none;height: 250px;text-align: center;">
+                                 style="border: 1px dashed grey;border;height: 250px;text-align: center;">
+                                <input type="hidden" name="old_photo" value=" <?= $valuex->photo ?>">
+                                <a href="<?= \Yii::$app->getUrlManager()->baseUrl . '/uploads/location_photo/' . $valuex->photo ?>"
+                                   target="_blank">
                                 <img src="<?= \Yii::$app->getUrlManager()->baseUrl . '/uploads/asset_photo/' . $valuex->photo ?>"
-                                     style="max-width: 130px;margin-top: 5px;" alt="">
+                                     style="max-width: 150px;margin-top: 5px;" alt=""></a>
                             </div>
                             <?php continue 2; ?>
                         <?php elseif ($x == 1 && $loop == 1): ?>
@@ -172,12 +186,7 @@ use yii\widgets\ActiveForm;
             </div>
         <?php endif; ?>
         <br/>
-        <div class="row">
-            <div class="col-lg-3">
-                <?php echo $form->field($model, 'status')->widget(\toxor88\switchery\Switchery::className(), ['options' => ['label' => '', 'class' => 'form-control']])->label() ?>
 
-            </div>
-        </div>
 
 
         <div class="form-group">

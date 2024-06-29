@@ -40,7 +40,14 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
             'pos_x',
             'pos_y',
-            'loc_photo',
+//            'loc_photo',
+            [
+                'attribute' => 'loc_photo',
+                'format' => 'raw',
+                'value' => function ($data) {
+                    return
+                }
+            ],
 //            'status',
             ['attribute' => 'status',
                 'format' => 'html',

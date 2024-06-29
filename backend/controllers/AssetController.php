@@ -78,7 +78,7 @@ class AssetController extends Controller
             $uploaded = UploadedFile::getInstances($model, 'photo');
 
             $r_date = date('Y-m-d');
-            $fr_date = explode('-', $model->recieve_date);
+            $fr_date = explode('/', $model->recieve_date);
             if ($fr_date != null) {
                 if (count($fr_date) > 1) {
                     $r_date = $fr_date[2] . '/' . $fr_date[1] . '/' . $fr_date[0] . ' ' . date('H:i:s');
@@ -86,7 +86,7 @@ class AssetController extends Controller
             }
 
             $w_date = date('Y-m-d');
-            $fw_date = explode('-', $model->waranty_exp_date);
+            $fw_date = explode('/', $model->waranty_exp_date);
             if ($fw_date != null) {
                 if (count($fw_date) > 1) {
                     $w_date = $fw_date[2] . '/' . $fw_date[1] . '/' . $fw_date[0] . ' ' . date('H:i:s');
@@ -108,7 +108,10 @@ class AssetController extends Controller
                             $model_photo = new \common\models\AssetPhoto();
                             $model_photo->asset_id = $model->id;
                             $model_photo->photo = $file->baseName . '.' . $file->extension;
-                            $model_photo->save(false);
+                            $model->photo = $model_photo->photo;
+                            if ($model->save(false)) {
+                                $model_photo->save(false);
+                            }
                         }
                     }
                 }
@@ -140,7 +143,7 @@ class AssetController extends Controller
 
 
             $r_date = date('Y-m-d');
-            $fr_date = explode('-', $model->recieve_date);
+            $fr_date = explode('/', $model->recieve_date);
 
             if ($fr_date != null) {
 
@@ -154,7 +157,7 @@ class AssetController extends Controller
             }
 
             $w_date = date('Y-m-d');
-            $fw_date = explode('-', $model->waranty_exp_date);
+            $fw_date = explode('/', $model->waranty_exp_date);
             if ($fw_date != null) {
                 if (count($fw_date) > 1) {
                     $w_date = $fw_date[2] . '/' . $fw_date[1] . '/' . $fw_date[0] . ' ' . date('H:i:s');
@@ -162,10 +165,41 @@ class AssetController extends Controller
             }
 //            print_r($w_date); return;
 
+            $old_photo = \Yii::$app->request->post('old_photo');
+//            print_r($old_photo); return;
+
             $model->recieve_date = date('Y-m-d H:i:s', strtotime($r_date));
             $model->waranty_exp_date = date('Y-m-d H:i:s', strtotime($w_date));
 
             if ($model->save()) {
+
+                if (!empty($uploaded)) {
+//               for($i=0;$i<=count($uploaded)-1;$i++){
+//
+//               }
+                    //     echo count($uploaded);return;
+                    if (str_ireplace(' ','','uploads/asset_photo/'.$old_photo)) {
+//                        print_r(str_ireplace(' ','','uploads/asset_photo/'.$old_photo)); return ;
+                        if (\common\models\AssetPhoto::deleteAll(['asset_id' => $model->id])) {
+                            unlink(str_ireplace(' ','','uploads/asset_photo/'.$old_photo));
+                        }
+                    }
+                    foreach ($uploaded as $file) {
+                        if ($file->saveAs('uploads/asset_photo/' . $file->baseName . '.' . $file->extension)) {
+                            $model_photo = new \common\models\AssetPhoto();
+                            $model_photo->asset_id = $model->id;
+                            $model_photo->photo = $file->baseName . '.' . $file->extension;
+                            $model->photo = $model_photo->photo;
+                            if ($model->save(false)) {
+                                $model_photo->save(false);
+                            }
+                        }
+                    }
+
+
+                }
+
+
                 $session = \Yii::$app->session;
                 $session->setFlash('msg-success', 'บันทึกรายการเรียบร้อย');
                 return $this->redirect(['asset/index']);

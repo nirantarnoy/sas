@@ -127,6 +127,7 @@ class TodolistController extends Controller
                 if($model->save(false)){
 
                     if($line_emp_id !=null){
+//                        print_r($line_emp_id); return ;
                        for($i=0;$i<count($line_emp_id);$i++){
                            $model2 = new \common\models\TodolistAssign();
                            $model2->todolist_id = $model->id;
@@ -173,6 +174,10 @@ class TodolistController extends Controller
             $or_act_date = explode('-',$model->act_date);
             $or_end_date = explode('-',$model->end_date);
 
+            $removelist = \Yii::$app->request->post('removelist');
+
+//            print_r($line_emp_id); return ;
+
             if($or_trans_date !=null){
                 if(count($or_trans_date)>1){
                     $save_trans_date = $or_trans_date[2].'/'.$or_trans_date[1].'/'.$or_trans_date[0];
@@ -214,6 +219,16 @@ class TodolistController extends Controller
                         $model2->save(false);
                     }
                 }
+
+                if ($removelist != '') {
+                    $x = explode(',', $removelist);
+                    if (count($x) > 0) {
+                        for ($m = 0; $m <= count($x) - 1; $m++) {
+                            \common\models\TodolistAssign::deleteAll(['id' => $x[$m]]);
+                        }
+                    }
+                }
+
                 $session = \Yii::$app->session;
                 $session->setFlash('msg-success', 'บันทึกรายการเรียบร้อย');
                 return $this->redirect(['index']);

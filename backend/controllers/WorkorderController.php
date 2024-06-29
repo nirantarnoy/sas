@@ -81,6 +81,26 @@ class WorkorderController extends Controller
                     $w_date = $xdate[2] . '/' . $xdate[1] . '/' . $xdate[0] . ' ' . date('H:i:s');
                 }
             }
+
+            $r_date = date('Y-m-d');
+            $fr_date = explode('/', $model->work_recieve_date);
+            if ($fr_date != null) {
+                if (count($fr_date) > 1) {
+                    $r_date = $fr_date[2] . '/' . $fr_date[1] . '/' . $fr_date[0] . ' ' . date('H:i:s');
+                }
+            }
+
+            $as_date = date('Y-m-d');
+            $fas_date = explode('/', $model->work_assign_date);
+            if ($fas_date != null) {
+                if (count($fas_date) > 1) {
+                    $as_date = $fas_date[2] . '/' . $fas_date[1] . '/' . $fas_date[0] . ' ' . date('H:i:s');
+                }
+            }
+
+//            print_r($as_date); return;
+
+
 //            $work_created_by = \Yii::$app->request->post('work_created_by');
 //            $work_status = \Yii::$app->request->post('work_status');
 
@@ -93,6 +113,8 @@ class WorkorderController extends Controller
 
             $model->workorder_no = $model::getLastNo();
             $model->workorder_date = date('Y-m-d H:i:s', strtotime($w_date));
+            $model->work_recieve_date = date('Y-m-d H:i:s', strtotime($r_date));
+            $model->work_assign_date = date('Y-m-d H:i:s', strtotime($as_date));
             $model->status = 1; // open init
             $model->factor_risk_1 = $fac1;
             $model->factor_risk_2 = $fac2;
@@ -174,15 +196,46 @@ class WorkorderController extends Controller
             $fac_total = \Yii::$app->request->post('factor_total');
             $fac_final = \Yii::$app->request->post('factor_final');
 
+            $old_date = \Yii::$app->request->post('old_date');
+
+//            print_r($old_date
+//            );return;
+
             $w_date = date('Y-m-d');
-            $xdate = explode('/', $model->workorder_date);
+            $xdate = explode('/', $old_date);
             if ($xdate != null) {
                 if (count($xdate) > 1) {
                     $w_date = $xdate[2] . '/' . $xdate[1] . '/' . $xdate[0] . ' ' . date('H:i:s');
                 }
             }
 
-            // $model->workorder_date = date('Y-m-d H:i:s',strtotime($w_date));
+
+            $r_date = date('Y-m-d');
+            $fr_date = explode('/', $model->work_recieve_date);
+            if ($fr_date != null) {
+                if (count($fr_date) > 1) {
+                    $r_date = $fr_date[2] . '/' . $fr_date[1] . '/' . $fr_date[0] . ' ' . date('H:i:s');
+                }
+            }
+//            print_r($r_date
+//            );return;
+
+            $as_date = date('Y-m-d');
+            $fas_date = explode('/', $model->work_assign_date);
+            if ($fas_date != null) {
+                if (count($fas_date) > 1) {
+                    $as_date = $fas_date[2] . '/' . $fas_date[1] . '/' . $fas_date[0] . ' ' . date('H:i:s');
+                }
+            }
+
+
+
+
+             $model->workorder_date = date('Y-m-d H:i:s',strtotime($w_date));
+
+            $model->work_recieve_date = date('Y-m-d H:i:s', strtotime($r_date));
+            $model->work_assign_date = date('Y-m-d H:i:s', strtotime($as_date));
+
             $model->created_by = $work_created_by;
             $model->status = $work_status;
             $model->factor_risk_1 = $fac1;
