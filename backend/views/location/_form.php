@@ -10,52 +10,104 @@ use kartik\widgets\SwitchInput;
 /* @var $form yii\widgets\ActiveForm */
 ?>
 
-<div class="location-form">
+    <div class="location-form">
 
-    <?php $form = ActiveForm::begin(); ?>
-    <div class="row">
-        <div class="col-lg-3">
-            <?= $form->field($model, 'code')->textInput(['maxlength' => true]) ?>
-        </div>
-        <div class="col-lg-9">
-            <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
-        </div>
-    </div>
-
-    <div class="row">
-        <div class="col-lg-12">
-            <?= $form->field($model, 'description')->textarea(['maxlength' => true]) ?>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-lg-4">
-            <?= $form->field($model, 'department_id')->widget(\kartik\select2\Select2::className(),[
-                    'data'=>\yii\helpers\ArrayHelper::map(\backend\models\Department::find()->all(),'id','name'),
-                    'options' => [
-                            'placeholder'=>'--เลือกแผนก--'
-                    ],
-                    'pluginOptions' => [
-                            'allowClear'=>true,
-                    ]
-            ]) ?>
-        </div>
-        <div class="col-lg-4">
-            <?= $form->field($model, 'pos_x')->textInput(['class'=>'form-control loc-pos-x']) ?>
-        </div>
-        <div class="col-lg-4">
-            <?= $form->field($model, 'pos_y')->textInput(['class'=>'form-control loc-pos-y']) ?>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-lg-2">
-            <div class="well text-center">
-                <?= Html::img('',['style'=>'width:100px;','class'=>'img-rounded']); ?>
+        <?php $form = ActiveForm::begin(); ?>
+        <div class="row">
+            <div class="col-lg-3">
+                <?= $form->field($model, 'code')->textInput(['maxlength' => true]) ?>
+            </div>
+            <div class="col-lg-9">
+                <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
             </div>
         </div>
-        <div class="col-lg-4">
-<!--            <input type="file" name="location_photo" class="form-control">-->
-            <input type="hidden" name="loc_old_photo" value="<?= $loc_photo ?>">
-            <?php echo $form->field($model, 'loc_photo')->fileInput(['maxlength' => true]) ?>
+
+        <div class="row">
+            <div class="col-lg-12">
+                <?= $form->field($model, 'description')->textarea(['maxlength' => true]) ?>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-4">
+                <?= $form->field($model, 'department_id')->widget(\kartik\select2\Select2::className(), [
+                    'data' => \yii\helpers\ArrayHelper::map(\backend\models\Department::find()->all(), 'id', 'name'),
+                    'options' => [
+                        'placeholder' => '--เลือกแผนก--'
+                    ],
+                    'pluginOptions' => [
+                        'allowClear' => true,
+                    ]
+                ]) ?>
+            </div>
+            <div class="col-lg-4">
+                <?= $form->field($model, 'pos_x')->textInput(['class' => 'form-control loc-pos-x']) ?>
+            </div>
+            <div class="col-lg-4">
+                <?= $form->field($model, 'pos_y')->textInput(['class' => 'form-control loc-pos-y']) ?>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-2">
+                <div class="well text-center">
+                    <?= Html::img('', ['style' => 'width:100px;', 'class' => 'img-rounded']); ?>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <!--            <input type="file" name="location_photo" class="form-control">-->
+                <!--            <input type="hidden" name="loc_old_photo" value="--><? //= $loc_photo ?><!--">-->
+
+
+                <?php if ($model->isNewRecord): ?>
+                    <input type="hidden" name="loc_old_photo" value="">
+                <?php else: ?>
+                    <input type="hidden" name="loc_old_photo" value="<?= $loc_photo ?>">
+                <?php endif; ?>
+                <?php echo $form->field($model, 'loc_photo')->fileInput(['maxlength' => true]) ?>
+
+
+                <!--                <div class="row">-->
+                <!--                    <div class="col-lg-12">-->
+                <!--                        <h5><b>รูปภาพเครื่องจักร</b></h5>-->
+                <!--                    </div>-->
+                <!--                </div>-->
+                <?php if ($model->isNewRecord): ?>
+                <div class="row" style="padding: 1px;">
+                    <div class="col-lg-3"
+                         style="border: 1px dashed grey;border-right: none;height: 150px;text-align: center;">
+
+                    </div>
+                    <!--                        <div class="col-lg-3" style="border: 1px dashed grey;border-right: none;height: 150px;">-->
+                    <!---->
+                    <!--                        </div>-->
+                    <!--                        <div class="col-lg-3" style="border: 1px dashed grey;border-right: none;height: 150px;">-->
+                    <!---->
+                    <!--                        </div>-->
+                    <!--                        <div class="col-lg-3" style="border: 1px dashed grey;height: 150px;">-->
+
+                </div>
+            </div>
+            <?php else: ?>
+                <div class="row" style="padding: 1px;">
+                    <?php //echo print_r($loc_photo); return; ?>
+                    <?php if ($loc_photo != ''): ?>
+                        <div class="col-lg-12"
+                             style="border: 1px dashed grey;border-right: none;height: 250px;text-align: center;">
+
+                            <a href="<?= \Yii::$app->getUrlManager()->baseUrl . '/uploads/location_photo/' . $loc_photo ?>"
+                               target="_blank"><img
+                                        src="<?= \Yii::$app->getUrlManager()->baseUrl . '/uploads/location_photo/' . $loc_photo ?>"
+                                        style="max-width: 350px;margin-top: 5px;" alt=""></a>
+
+                        </div>
+                    <?php else: ?>
+                        <td style="border: 1px dashed grey;height: 250px;text-align: center;">
+                            <i class="fa fa-ban fa-lg" style="color: grey"></i>
+                            <span style="color: lightgrey">ไม่พบไฟล์แนบ</span>
+                        </td>
+                    <?php endif; ?>
+                </div>
+            <?php endif; ?>
+
         </div>
         <div class="col-lg-6">
             <?php echo $form->field($model, 'status')->widget(Switchery::className())->label(false) ?>
@@ -66,32 +118,35 @@ use kartik\widgets\SwitchInput;
         <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
     </div>
 
-    <?php ActiveForm::end(); ?>
+<?php ActiveForm::end(); ?>
 
 
-    <br />
+    <br/>
     <div class="row">
         <div class="col-lg-12" style="text-align: center;">
             <h3><b>ระบุตำแหน่งที่ตั้งเครื่องจักร</b></h3>
         </div>
     </div>
 
-    <div id="location-canvas" style="text-align: center;background-color: lightgrey;padding-bottom: 50px;vertical-align: middle;border-radius: 10px;">
-<!--        <div id="loc-marker" style="width: 50px;height: 50px;background-color: red;text-align: center;padding-top:10px;color: white;position: relative;z-index: 10000;top:140px;left: 250px;border-radius: 50px">-->
-<!--            ที่ตั้ง-->
-<!--        </div>-->
-        <div id="loc-marker" style="width: 50px;height: 50px;position: relative;z-index: 10000;top:140px;left: 250px">
+    <div id="location-canvas"
+         style="text-align: center;background-color: lightgrey;padding-bottom: 50px;vertical-align: middle;border-radius: 10px;">
+        <!--        <div id="loc-marker" style="width: 50px;height: 50px;background-color: red;text-align: center;padding-top:10px;color: white;position: relative;z-index: 10000;top:140px;left: 250px;border-radius: 50px">-->
+        <!--            ที่ตั้ง-->
+        <!--        </div>-->
+        <div id="loc-marker"
+             style="width: 50px;height: 50px;position: relative;z-index: 10000;top:140px;left: 250px">
             <i class="fa fa-map-marker fa-2x" style="color: red;" aria-hidden="true"></i>
         </div>
-        <img id="image-canvas" style="position: relative" src="<?=Yii::$app->request->baseUrl.'/uploads/images/loc_image.png'?>" alt="">
+        <img id="image-canvas" style="position: relative"
+             src="<?= Yii::$app->request->baseUrl . '/uploads/images/loc_image.png' ?>" alt="">
     </div>
     <div>
         <span class="xy-position"></span>
     </div>
 
-</div>
+    </div>
 <?php
-$js=<<<JS
+$js = <<<JS
   $(function(){
       var init_pos = $("#image-canvas").position();
       $("#loc-marker").offset({top: init_pos.top ,left: init_pos.left});
@@ -141,5 +196,5 @@ $js=<<<JS
       });
   });
 JS;
-$this->registerJs($js,static::POS_END);
+$this->registerJs($js, static::POS_END);
 ?>

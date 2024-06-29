@@ -90,12 +90,15 @@ class TodolistController extends Controller
                 $or_act_date = explode('-',$model->act_date);
                 $or_end_date = explode('-',$model->end_date);
 
+//                print_r($model->trans_date); return ;
+
                 if($or_trans_date !=null){
                     if(count($or_trans_date)>1){
                         $save_trans_date = $or_trans_date[2].'/'.$or_trans_date[1].'/'.$or_trans_date[0];
                     }
                 }
 
+//                print_r($or_trans_date); return ;
                 if($or_target_date !=null){
                     if(count($or_target_date)>1){
                         $save_target_date = $or_target_date[2].'/'.$or_target_date[1].'/'.$or_target_date[0];

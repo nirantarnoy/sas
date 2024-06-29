@@ -76,6 +76,26 @@ class AssetController extends Controller
 
         if ($model->load(Yii::$app->request->post())) {
             $uploaded = UploadedFile::getInstances($model, 'photo');
+
+            $r_date = date('Y-m-d');
+            $fr_date = explode('-', $model->recieve_date);
+            if ($fr_date != null) {
+                if (count($fr_date) > 1) {
+                    $r_date = $fr_date[2] . '/' . $fr_date[1] . '/' . $fr_date[0] . ' ' . date('H:i:s');
+                }
+            }
+
+            $w_date = date('Y-m-d');
+            $fw_date = explode('-', $model->waranty_exp_date);
+            if ($fw_date != null) {
+                if (count($fw_date) > 1) {
+                    $w_date = $fw_date[2] . '/' . $fw_date[1] . '/' . $fw_date[0] . ' ' . date('H:i:s');
+                }
+            }
+
+            $model->recieve_date = date('Y-m-d H:i:s', strtotime($r_date));
+            $model->waranty_exp_date = date('Y-m-d H:i:s', strtotime($w_date));
+
             $model->photo = '';
             if ($model->save(false)) {
                 if (!empty($uploaded)) {
@@ -117,6 +137,34 @@ class AssetController extends Controller
         if ($model->load(Yii::$app->request->post())) {
             $uploaded = UploadedFile::getInstances($model, 'photo');
             $model->photo = '';
+
+
+            $r_date = date('Y-m-d');
+            $fr_date = explode('-', $model->recieve_date);
+
+            if ($fr_date != null) {
+
+                if (count($fr_date) > 0) {
+//                    echo "hello error";
+//                    print_r($model->recieve_date);
+//                    return;
+//
+                    $r_date = $fr_date[2] . '/' . $fr_date[1] . '/' . $fr_date[0] . ' ' . date('H:i:s');
+                }
+            }
+
+            $w_date = date('Y-m-d');
+            $fw_date = explode('-', $model->waranty_exp_date);
+            if ($fw_date != null) {
+                if (count($fw_date) > 1) {
+                    $w_date = $fw_date[2] . '/' . $fw_date[1] . '/' . $fw_date[0] . ' ' . date('H:i:s');
+                }
+            }
+//            print_r($w_date); return;
+
+            $model->recieve_date = date('Y-m-d H:i:s', strtotime($r_date));
+            $model->waranty_exp_date = date('Y-m-d H:i:s', strtotime($w_date));
+
             if ($model->save()) {
                 $session = \Yii::$app->session;
                 $session->setFlash('msg-success', 'บันทึกรายการเรียบร้อย');
@@ -193,7 +241,7 @@ class AssetController extends Controller
 
         if ($asset_id) {
 
-            if ($line_todolist!=null) {
+            if ($line_todolist != null) {
                 //echo "ok";return;
                 for ($i = 0; $i <= count($line_todolist) - 1; $i++) {
                     if ($line_todolist[$i] == "") {

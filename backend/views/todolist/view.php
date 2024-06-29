@@ -6,7 +6,7 @@ use yii\widgets\DetailView;
 /** @var yii\web\View $this */
 /** @var backend\models\Todolist $model */
 
-$this->title = $model->id;
+$this->title = $model->todolist_no;
 $this->params['breadcrumbs'][] = ['label' => 'Todolists', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 \yii\web\YiiAsset::register($this);
@@ -14,8 +14,8 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="todolist-view">
 
     <p>
-        <?= Html::a('Update', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a('Delete', ['delete', 'id' => $model->id], [
+        <?= Html::a('แก้ไข', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
+        <?= Html::a('ลบ', ['delete', 'id' => $model->id], [
             'class' => 'btn btn-danger',
             'data' => [
                 'confirm' => 'Are you sure you want to delete this item?',
@@ -37,9 +37,21 @@ $this->params['breadcrumbs'][] = $this->title;
             'assign_emp_id',
             'target_date',
             'created_at',
-            'created_by',
+//            'created_by',
+            [
+                'attribute' => 'created_by',
+                'value' => function ($data) {
+                    return \backend\models\User::findName($data->created_by);
+                }
+            ],
             'updated_at',
-            'updated_by',
+//            'updated_by',
+            [
+                'attribute' => 'updated_by',
+                'value' => function ($data) {
+                    return \backend\models\User::findName($data->updated_by);
+                }
+            ],
         ],
     ]) ?>
 

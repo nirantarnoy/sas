@@ -124,9 +124,11 @@ class LocationController extends Controller
         $model = $this->findModel($id);
         $loc_photo = '';
         $model_loc_photo = \common\models\LocationPhoto::find()->select(['loc_photo'])->where(['location_id' => $id])->one();
-        if($loc_photo){
+        if($model_loc_photo){
             $loc_photo = $model_loc_photo->loc_photo;
         }
+
+//        print_r($loc_photo); return ;
 
         if ($model->load(Yii::$app->request->post())) {
 
@@ -142,9 +144,12 @@ class LocationController extends Controller
 //
 //               }
                     //     echo count($uploaded);return;
-                    if (\common\models\LocationPhoto::deleteAll(['location_id' => $model->id])) {
-                        unlink('uploads/location_photo/' .$loc_old_photo);
+                    if('uploads/location_photo/' .$loc_old_photo ){
+                        if (\common\models\LocationPhoto::deleteAll(['location_id' => $model->id])) {
+                            unlink('uploads/location_photo/' .$loc_old_photo);
+                        }
                     }
+
                     foreach ($uploaded as $file) {
                         if ($file->saveAs('uploads/location_photo/' . $file->baseName . '.' . $file->extension)) {
                             $model_photo = new \common\models\LocationPhoto();
