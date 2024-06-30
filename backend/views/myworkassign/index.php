@@ -396,6 +396,18 @@ $btn_inactive = 'btn-secondary';
                                 </td>
                             </tr>
                             <tr>
+                                <td style="width: 20%;text-align: right;vertical-align: middle;">ค่าแรง</td>
+                                <td colspan="3">
+                                    <input type="text" class="form-control line-close-labour-cost" value="" name="labour_cost">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="width: 20%;text-align: right;vertical-align: middle;">ค่าอะไหร่</td>
+                                <td colspan="3">
+                                    <input type="text" class="form-control line-close-spare-cost" value="" name="spare_cost">
+                                </td>
+                            </tr>
+                            <tr>
                                 <td style="width: 20%;text-align: right;vertical-align: middle;">
                                     มาตรการป้องกันทั้งชั่วคราว/ถาวร
                                 </td>
