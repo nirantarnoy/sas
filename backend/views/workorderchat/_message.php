@@ -13,8 +13,8 @@ if ($model != null) {
     $workorder_status = \backend\models\Workorderstatus::findName($model->status);
 
 }
-$user_emp_link = \common\models\ViewEmployeeData::find()->select(['emp_ref_id'])->where(['user_id' => \Yii::$app->user->id])->one();
-$my_workorder = \common\models\ViewEmpWorkAssign::find()->select(['workorder_id','workorder_status'])->where(['workorder_created_by' => \Yii::$app->user->id])->orFilterWhere(['emp_ref_id' => $user_emp_link->emp_ref_id])->groupBy(['workorder_id'])->all();
+$current_emp_id = \backend\models\User::findEmpId(\Yii::$app->user->id);
+$my_workorder = \common\models\ViewEmpWorkAssign::find()->select(['workorder_id','workorder_status'])->where(['workorder_created_by' => \Yii::$app->user->id])->orFilterWhere(['emp_id' => $current_emp_id])->groupBy(['workorder_id'])->all();
 $model_order_message = \common\models\WorkorderChat::find()->select(['workorder_id'])->where(['created_by' => \Yii::$app->user->id])->groupBy(['workorder_id'])->all();
 ?>
     <div class="row">
@@ -76,6 +76,16 @@ $model_order_message = \common\models\WorkorderChat::find()->select(['workorder_
                                 if ($value->workorder_id == $workorder_id) {
                                     $bg_active = 'background-color: lightblue;';
                                 }
+                                $workstatus_bg = 'badge-secondary';
+                                if($value->workorder_status == 1){
+                                    $workstatus_bg = 'badge-secondary';
+                                }else if($value->workorder_status == 3){
+                                    $workstatus_bg = 'badge-info';
+                                }else if($value->workorder_status == 4){
+                                    $workstatus_bg = 'badge-success';
+                                }else if($value->workorder_status >= 5){
+                                    $workstatus_bg = 'badge-danger';
+                                }
                                 ?>
                                 <div class="row">
                                     <div class="col-lg-12">
@@ -88,7 +98,7 @@ $model_order_message = \common\models\WorkorderChat::find()->select(['workorder_
                                                     <div class="col-lg-8">
                                                         <?= \backend\models\Workorder::findOrderNo($value->workorder_id) ?>
                                                     </div>
-                                                    <div class="col-lg-4"><div class="badge badge-success"><?=\backend\models\workorderstatus::findName($value->workorder_status)?></div></div>
+                                                    <div class="col-lg-4"><div class="badge <?= $workstatus_bg ?>"><?=\backend\models\workorderstatus::findName($value->workorder_status)?></div></div>
                                                 </div>
 
                                             </div>
