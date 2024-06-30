@@ -98,7 +98,8 @@ class SiteController extends Controller
 
 
        // $path = 'APP_PATH' . 'sas/';
-        $path = __DIR__ . 'sas/';
+      //  $path = __DIR__ . 'sas/';
+        $path = \Yii::$app->basePath;
 
         $ctrls = function ($path) use (&$ctrls, &$aControllers) {
 
