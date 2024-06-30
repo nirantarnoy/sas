@@ -69,7 +69,7 @@ $btn_inactive = 'btn-secondary';
         ?>
         <div class="workorder-view">
 
-            <div style="border: 1px solid grey;padding: 15px;border-radius: 10px;">
+            <div style="border: 1px solid lightgrey;padding: 15px;border-radius: 10px;">
                 <div class="row">
                     <div class="col-lg-4">
                         <table style="width: 100%;">
