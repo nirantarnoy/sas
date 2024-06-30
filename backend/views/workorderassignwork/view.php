@@ -38,7 +38,7 @@ if ($model_asset) {
 <div class="workorder-view">
 
     <br>
-
+<?php if($model->status < 4): ?>
     <p>
         <?= Html::a('แก้ไข', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
         <?= Html::a('ลบ', ['delete', 'id' => $model->id], [
@@ -49,7 +49,7 @@ if ($model_asset) {
             ],
         ]) ?>
     </p>
-
+<?php endif;?>
     <!--    --><?php //= DetailView::widget([
     //        'model' => $model,
     //        'attributes' => [
@@ -251,10 +251,10 @@ if ($model_asset) {
             </div>
             <div class="col-lg-4"></div>
             <div class="col-lg-1" style="text-align: right;border: 1px dashed grey;border-right: none;padding: 10px;">
-                <div class="btn btn-success">รับงาน</div>
+<!--                <div class="btn btn-success">รับงาน</div>-->
             </div>
             <div class="col-lg-1" style="border: 1px dashed grey;border-left: none;padding: 10px;">
-                <div class="btn btn-danger">ไม่รับงาน</div>
+<!--                <div class="btn btn-danger">ไม่รับงาน</div>-->
             </div>
         </div>
         <hr/>
@@ -277,9 +277,9 @@ if ($model_asset) {
                     </tr>
                     <tr>
                         <td colspan="2">
-                            <div class="btn btn-success">
-                                ปิดงาน
-                            </div>
+<!--                            <div class="btn btn-success">-->
+<!--                                ปิดงาน-->
+<!--                            </div>-->
                         </td>
 
                     </tr>

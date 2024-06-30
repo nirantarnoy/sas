@@ -34,6 +34,9 @@ use yii\widgets\ActiveForm;
             <div class="col-lg-3">
                 <?= $form->field($model, 'machine_name')->textInput(['maxlength' => true]) ?>
             </div>
+            <div class="col-lg-3">
+                <?= $form->field($model, 'todolist_name')->textInput(['maxlength' => true]) ?>
+            </div>
         </div>
         <div class="row">
             <div class="col-lg-3">

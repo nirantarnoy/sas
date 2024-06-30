@@ -7,6 +7,7 @@ use yii\grid\ActionColumn;
 use yii\grid\GridView;
 use yii\widgets\Pjax;
 use yii\widgets\LinkPager;
+
 /** @var yii\web\View $this */
 /** @var backend\models\TodolistSearch $searchModel */
 /** @var yii\data\ActiveDataProvider $dataProvider */
@@ -22,7 +23,7 @@ $this->params['breadcrumbs'][] = $this->title;
             <?= \Yii::$app->session->getFlash('msg-success') ?>
         </div>
     <?php endif; ?>
-    <br />
+    <br/>
     <div class="row">
         <div class="col-lg-10">
             <p>
@@ -46,7 +47,7 @@ $this->params['breadcrumbs'][] = $this->title;
     </div>
 
     <?php Pjax::begin(); ?>
-    <?php  echo $this->render('_search', ['model' => $searchModel]); ?>
+    <?php echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
@@ -67,6 +68,23 @@ $this->params['breadcrumbs'][] = $this->title;
             'trans_date',
             'machine_name',
             'machine_type_name',
+            [
+                'attribute' => 'status',
+                'format' => 'raw',
+                'value' => function ($data) {
+                    $status_name = '';
+                    $workstatus_bg = 'badge-secondary';
+                    if ($data->status == 0) {
+                        $workstatus_bg = 'badge-secondary';
+                        $status_name = 'Open';
+
+                    } else if ($data->status == 1) {
+                        $workstatus_bg = 'badge-success';
+                        $status_name = 'Closed';
+                    }
+                    return '<div class="badge ' . $workstatus_bg . '">' . $status_name . '</div>';
+                }
+            ],
             //'brand_name',
             //'todolist_name',
             //'assign_emp_id',

@@ -123,6 +123,7 @@ class TodolistController extends Controller
                 $model->act_date = date('Y-m-d',strtotime($save_act_date));
                 $model->end_date = date('Y-m-d',strtotime($save_end_date));
                 $model->todolist_no = $model::getLastNo();
+                $model->status = 0;
 
                 if($model->save(false)){
 

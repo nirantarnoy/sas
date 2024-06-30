@@ -34,7 +34,7 @@ $data_series2 = [
 ];
 
 //$todolist_data = \backend\models\Todolist::find()->where(['status' => 0,'assign_to' => $c_user])->all();
-$todolist_data = \common\models\ViewTodolistEmp::find()->where(['status' => 0,'emp_id' => $c_emp_map])->all();
+$todolist_data = \common\models\ViewTodolistEmp::find()->where(['status' => 0, 'emp_id' => $c_emp_map])->all();
 
 
 ?>
@@ -117,21 +117,26 @@ $todolist_data = \common\models\ViewTodolistEmp::find()->where(['status' => 0,'e
                             <th style="text-align:center;">วันที่สร้าง</th>
                         </tr>
                         </thead>
-                        <?php $ix = 0; ?>
-                        <?php foreach ($todolist_data as $value): ?>
-                            <?php $ix++; ?>
+                        <?php if ($todolist_data != null): ?>
+                            <?php $ix = 0; ?>
+                            <?php foreach ($todolist_data as $value): ?>
+                                <?php $ix++; ?>
+                                <tr>
+                                    <td style="text-align:center;"><?= $ix ?></td>
+                                    <td style="text-align:center;"><a
+                                                href="index.php?r=todolist/update&id=<?= $value->id ?>"
+                                                target="_parent"><?= $value->todolist_name ?></a></td>
+                                    <td style="text-align:center;"><?= getTodolistemp($value->id) ?></td>
+                                    <td style="text-align:center;"><?= date('d-m-Y', strtotime($value->target_date)) ?></td>
+                                    <td style="text-align:center;"><?= \backend\models\User::findName($value->created_by) ?></td>
+                                    <td style="text-align:center;"><?= date('d-m-Y H:i:s', $value->created_at) ?></td>
+                                </tr>
+                            <?php endforeach; ?>
+                        <?php else: ?>
                             <tr>
-                                <td style="text-align:center;"><?= $ix ?></td>
-                                <td style="text-align:center;"><a href="index.php?r=todolist/update&id=<?= $value->id ?>" target="_parent"><?= $value->todolist_name ?></a></td>
-                                <td style="text-align:center;"><?= getTodolistemp($value->id) ?></td>
-                                <td style="text-align:center;"><?= date('d-m-Y', strtotime($value->target_date)) ?></td>
-                                <td style="text-align:center;"><?= \backend\models\User::findName($value->created_by) ?></td>
-                                <td style="text-align:center;"><?= date('d-m-Y H:i:s', $value->created_at) ?></td>
+                                <td colspan="7" style="text-align: center;color: red;">ไม่พบข้อมูล</td>
                             </tr>
-                        <?php endforeach; ?>
-                        <tr>
-                            <td colspan="7" style="text-align: center;color: red;">ไม่พบข้อมูล</td>
-                        </tr>
+                        <?php endif; ?>
                     </table>
                 </div>
             </div>
