@@ -13,7 +13,7 @@ if ($model != null) {
     $workorder_status = \backend\models\Workorderstatus::findName($model->status);
 
 }
-$my_workorder = \common\models\ViewEmpWorkAssign::find()->where(['emp_id' => \Yii::$app->user->id])->all();
+$my_workorder = \common\models\ViewEmpWorkAssign::find()->where(['workorder_created_by' => \Yii::$app->user->id])->all();
 $model_order_message = \common\models\WorkorderChat::find()->select(['workorder_id'])->where(['created_by' => \Yii::$app->user->id])->groupBy(['workorder_id'])->all();
 ?>
     <div class="row">
