@@ -91,27 +91,27 @@ class SiteController extends Controller
         ]);
     }
 
-    public function actionGrab()
+    public
+    function actionGrab()
     {
 
         $aControllers = [];
 
 
-       // $path = 'APP_PATH' . 'sas/';
-      //  $path = __DIR__ . 'sas/';
+        // $path = \Yii::$app->getBasePath() . 'icesystem/';
         $path = \Yii::$app->basePath;
 
         $ctrls = function ($path) use (&$ctrls, &$aControllers) {
 
-            $oIterator = new DirectoryIterator($path);
+            $oIterator = new \DirectoryIterator($path);
 
             foreach ($oIterator as $oFile) {
 
                 if (!$oFile->isDot()
 
-                    && (false !== strpos($oFile->getPathname(), 'sas/controllers')
+                    && (false !== strpos($oFile->getPathname(), 'controllers')
 
-                        || false !== strpos($oFile->getPathname(), 'sas/modules')
+                        || false !== strpos($oFile->getPathname(), 'modules')
 
                     )
 
@@ -132,9 +132,9 @@ class SiteController extends Controller
                             $controllerName = $oFile->getBasename('.php');
 
 
-                            $route = explode('sas/', $oFile->getPathname());
+                            $route = explode(\Yii::$app->basePath, $oFile->getPathname());
 
-                            $route = str_ireplace(array('modules', 'controllers', 'sas', 'Controller.php'), '', $route[1]);
+                            $route = str_ireplace(array('modules', 'controllers', 'Controller.php'), '', $route[1]);
 
                             $route = preg_replace("/(\/){2,}/", "/", $route);
 
@@ -193,7 +193,32 @@ class SiteController extends Controller
 
         echo '<pre>';
 
-        print_r($aControllers);
+        //   print_r($aControllers);
+
+        foreach ($aControllers as $value) {
+
+            //  $route_name = substr($value['route'],2);
+            $route_name = substr($value['route'], 1);
+            for ($x = 0; $x <= count($value['actions']) - 1; $x++) {
+                $fullname = $route_name . '/' . $value['actions'][$x];
+                if ($fullname != '') {
+                    $chk = \common\models\AuthItem::find()->where(['name' => $fullname])->one();
+                    if ($chk) continue;
+
+                    $model = new \common\models\AuthItem();
+                    $model->name = $fullname;
+                    $model->type = 2;
+                    $model->description = '';
+                    $model->created_at = time();
+                    $model->save(false);
+                }
+                echo $fullname . '<br/>';
+
+            }
+            //echo $route_name;
+            // print_r($value['route']);
+        }
+        // print_r($aControllers['AdjustmentController']);
 
     }
 
