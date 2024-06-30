@@ -97,8 +97,8 @@ class SiteController extends Controller
         $aControllers = [];
 
 
-        $path = 'APP_PATH' . 'sas/';
-       // $path = __DIR__ . 'sas/';
+       // $path = 'APP_PATH' . 'sas/';
+        $path = __DIR__ . 'sas/';
 
         $ctrls = function ($path) use (&$ctrls, &$aControllers) {
 
