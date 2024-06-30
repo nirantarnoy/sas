@@ -105,26 +105,29 @@ $model_order_message = \common\models\WorkorderChat::find()->select(['workorder_
                         <br/>
                         <table style="width: 100%;">
                             <form id="form-message" action="" method="post" enctype="multipart/form-data">
-                                <tr>
-                                    <td style="width:90%">
-                                        <div class="input-group">
-                                            <div class="btn btn-secondary btn-click-add-file">แนบไฟล์</div>
-                                            <input type="text" class="form-control message-for-send"
-                                                   placeholder="กรอกข้อความของคุณที่นี่" name="message">
-                                        </div>
+                                <?php if ($workorder_no !='' || $workorder_by !=null): ?>
+                                    <tr>
+                                        <td style="width:90%">
+                                            <div class="input-group">
+                                                <div class="btn btn-secondary btn-click-add-file">แนบไฟล์</div>
+                                                <input type="text" class="form-control message-for-send"
+                                                       placeholder="กรอกข้อความของคุณที่นี่" name="message">
+                                            </div>
 
-                                    </td>
+                                        </td>
 
-                                    <td>
-<!--                                        <div class="btn btn-primary" onclick="sendMessage()">ส่งข้อความ</div>-->
-                                        <input type="submit" class="btn btn-primary" value="ส่งข้อความ">
-                                        <input type="file" name="message_file" class="form-control file-for-send" style="display: none">
-                                        <input type="hidden" name="workorder_id" value="<?= $workorder_id ?>">
-                                        <input type="hidden" name="user_id" value="<?= \Yii::$app->user->id ?>">
-                                    </td>
-                                </tr>
+                                        <td>
+                                            <!--                                        <div class="btn btn-primary" onclick="sendMessage()">ส่งข้อความ</div>-->
+                                            <input type="submit" class="btn btn-primary" value="ส่งข้อความ">
+                                            <input type="file" name="message_file" class="form-control file-for-send"
+                                                   style="display: none">
+                                            <input type="hidden" name="workorder_id" value="<?= $workorder_id ?>">
+                                            <input type="hidden" name="user_id" value="<?= \Yii::$app->user->id ?>">
+                                        </td>
+                                    </tr>
+                                <?php endif; ?>
                                 <tr>
-                                    <td colspan="2"> <span class="count-file-text"></span></td>
+                                    <td colspan="2"><span class="count-file-text"></span></td>
                                 </tr>
                             </form>
                         </table>
@@ -194,7 +197,7 @@ $(function(){
         
         var workorder_id = $(".workorder-id");
         var user_id = $(".user-id");
-        var message = $(".message-for-send").val();
+        var message = $(".message-for-send").val("");
 
     if (workorder_id && message) {
         $.ajax({
