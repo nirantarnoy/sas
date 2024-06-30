@@ -59,7 +59,7 @@ class AuthItem extends \yii\db\ActiveRecord
             'type' => Yii::t('app', 'ประเภท'),
             'description' => Yii::t('app', 'รายละเอียด'),
             'rule_name' => Yii::t('app', 'Rule Name'),
-            'child_list'=>Yii::t('app','สิทธิ์อื่นๆ'),
+            'child_list'=>Yii::t('app','Action Menu'),
             'data' => Yii::t('app', 'Data'),
             'created_at' => Yii::t('app', 'Created At'),
             'updated_at' => Yii::t('app', 'Updated At'),

@@ -48,7 +48,7 @@ use yii\helpers\ArrayHelper;
                     'tags' => true,
                     'tokenSeparators' => [',', ' '],
                     'maximumInputLength' => 100,
-                    'width' => 400,
+                    'width' => 1500,
                 ],
             ]) ?>
 
