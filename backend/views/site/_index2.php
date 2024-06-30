@@ -9,6 +9,9 @@ $this->title = 'Dashboard';
 $work_closed_qty = 0;
 $work_receive_qty = 0;
 
+$c_user = \Yii::$app->user->id;
+$c_emp_map = \backend\models\User::findEmpId($c_user);
+
 
 $model_outstanding = \backend\models\Workorder::find()->where(['status' => [1, 2]])->all();
 $model_recevie_data = \backend\models\Workorder::find()->where(['status' => [1, 2]])->all();
@@ -30,7 +33,8 @@ $data_series2 = [
     ['name' => 'จำนวน ToDoList', 'data' => [['name' => '30 ที่ผ่านมา', 'y' => 0, 'color' => '#00e272'], ['name' => '30 วันข้างหน้า', 'y' => 0, 'color' => '#fa4b42']]],
 ];
 
-$todolist_data = \backend\models\Todolist::find()->where(['status' => 0])->all();
+//$todolist_data = \backend\models\Todolist::find()->where(['status' => 0,'assign_to' => $c_user])->all();
+$todolist_data = \common\models\ViewTodolistEmp::find()->where(['status' => 0,'emp_id' => $c_emp_map])->all();
 
 
 ?>
