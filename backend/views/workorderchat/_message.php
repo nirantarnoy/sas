@@ -98,7 +98,7 @@ $model_order_message = \common\models\WorkorderChat::find()->select(['workorder_
                                                     <div class="col-lg-8">
                                                         <?= \backend\models\Workorder::findOrderNo($value->workorder_id) ?>
                                                     </div>
-                                                    <div class="col-lg-4"><div class="badge <?= $workstatus_bg ?>"><?=\backend\models\workorderstatus::findName($value->workorder_status)?></div></div>
+                                                    <div class="col-lg-4"><div class="badge <?= $workstatus_bg ?>"><?=\backend\models\Workorderstatus::findName($value->workorder_status)?></div></div>
                                                 </div>
 
                                             </div>
