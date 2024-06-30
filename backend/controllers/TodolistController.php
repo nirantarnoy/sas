@@ -210,8 +210,12 @@ class TodolistController extends Controller
 
             if($model->save(false)){
                 if($line_emp_id !=null){
+
                     \common\models\TodolistAssign::deleteAll(['todolist_id' => $model->id]);
                     for($i=0;$i<count($line_emp_id);$i++){
+
+                        if($line_emp_id[$i]==0)continue;
+
                         $model2 = new \common\models\TodolistAssign();
                         $model2->todolist_id = $model->id;
                         $model2->emp_id = $line_emp_id[$i];
