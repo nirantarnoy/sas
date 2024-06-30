@@ -225,8 +225,14 @@ class MyworkassignController extends Controller
                     $model_close->photo = $close_photo;
                     $model_close->save(false);
                 }
+                $session = \Yii::$app->session;
+                $session->setFlash('msg-success', 'บันทึกรายการเรียบร้อย');
+//        return $this->redirect(['index']);
+
+                return $this->redirect(['myworkassign/index', 'type' => 1 ]);
             }
         }
+
         return $this->redirect(['myworkassign/index', 'type' => 1 ]);
     }
 

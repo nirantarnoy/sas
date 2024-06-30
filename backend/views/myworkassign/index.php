@@ -15,6 +15,13 @@ if ($model != null) {
 $model_work_cause = \common\models\WorkorderCauseTitle::find()->where(['status' => 1])->all();
 $model_work_solve = \common\models\SolveTitle::find()->where(['status' => 1])->all();
 ?>
+<?php if (!empty(\Yii::$app->session->getFlash('msg-success'))): ?>
+    <div class="alert alert-success alert-dismissible">
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+        <?= \Yii::$app->session->getFlash('msg-success') ?>
+    </div>
+<?php endif; ?>
+    <br />
 
     <br/>
     <h4>รายการใบงาน <span style="font-weight: bold"><?= $itemcount ?> </span>รายการ</h4>
@@ -607,7 +614,7 @@ $(function(){
         var work_order_asset = $(this).parent().parent().find(".accept-workorder-asset").val();
         var work_order_location = $(this).parent().parent().find(".accept-workorder-location").val();
         var work_order_status = $(this).parent().parent().find(".accept-workorder-status").val();
-     alert(work_order_id);
+     // alert(work_order_id);
         $(".accept-workorder-id").val(work_order_id);
         $(".accept-workorder-no").val(work_order_no);
         $(".accept-workorder-asset").val(work_order_asset);

@@ -584,7 +584,7 @@ function addselecteditem(e) {
                    e.closest("tr").find(".line-work-assign-id").val('');
                  }else{
                     var del_id = e.parent().parent().attr("data-var");
-                   alert(del_id);
+                   // alert(del_id);
                    removelist.push(del_id);
                    e.parent().parent().remove();
                } 
