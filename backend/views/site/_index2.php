@@ -13,8 +13,8 @@ $c_user = \Yii::$app->user->id;
 $c_emp_map = \backend\models\User::findEmpId($c_user);
 
 
-$model_outstanding = \backend\models\Workorder::find()->where(['status' => [1, 2]])->all();
-$model_recevie_data = \backend\models\Workorder::find()->where(['status' => [1, 2]])->all();
+$model_outstanding = \backend\models\Workorder::find()->where(['status' => [1, 3]])->all();
+$model_recevie_data = \backend\models\Workorder::find()->where(['status' => [1, 3]])->all();
 $model_closed_data = \backend\models\Workorder::find()->where(['status' => 4])->all();
 
 if ($model_recevie_data) {

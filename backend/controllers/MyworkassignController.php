@@ -206,6 +206,7 @@ class MyworkassignController extends Controller
             $model = \common\models\Workorder::find()->where(['id' => $workorder_id])->one();
             if ($model) {
                 $model->status = 4; // close order
+
                 if ($model->save(false)) {
 
                     $close_photo = '';
