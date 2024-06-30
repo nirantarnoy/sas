@@ -98,7 +98,7 @@ if ($id) {
                         ?>
                         <tr>
                             <td style="width: 20%;text-align: right;vertical-align: middle;">
-                                <input type="hidden" class="line-risk-id" name="line_risk_id[]"
+                                <input type="hidden" class="line-risk-id" name="line_risk_id"
                                        value="<?= $value_titile->id ?>">
                                 <?= $value_titile->name ?>
                             </td>

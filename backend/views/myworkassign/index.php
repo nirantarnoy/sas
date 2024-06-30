@@ -18,6 +18,20 @@ $model_work_solve = \common\models\SolveTitle::find()->where(['status' => 1])->a
 
     <br/>
     <h4>รายการใบงาน <span style="font-weight: bold"><?= $itemcount ?> </span>รายการ</h4>
+    <br/>
+<?php
+$btn_active = 'btn-success';
+$btn_inactive = 'btn-secondary';
+
+?>
+    <div class="btn-group">
+        <a href="index.php?r=myworkassign/index&type=all" class="btn <?= $type == 'all' ? $btn_active : $btn_inactive ?>">All</a>
+        <a href="index.php?r=myworkassign/index&type=1" class="btn <?= $type == '1' ? $btn_active : $btn_inactive ?>">รอรับงาน</a>
+        <a href="index.php?r=myworkassign/index&type=3" class="btn <?= $type == '3' ? $btn_active : $btn_inactive ?>">ระหว่างซ่อม</a>
+        <a href="index.php?r=myworkassign/index&type=4" class="btn <?= $type == '4' ? $btn_active : $btn_inactive ?>">ซ่อมเสร็จ</a>
+        <a href="index.php?r=myworkassign/index&type=5" class="btn <?= $type == '5' ? $btn_active : $btn_inactive ?>">ยกเลิก</a>
+        <a href="index.php?r=myworkassign/index&type=6" class="btn <?= $type == '6' ? $btn_active : $btn_inactive ?>">ไม่รับงาน</a>
+    </div>
     <hr/>
 <?php if ($model): ?>
     <?php foreach ($model as $value): ?>
@@ -104,7 +118,9 @@ $model_work_solve = \common\models\SolveTitle::find()->where(['status' => 1])->a
                     <div class="col-lg-4">
                         <div class="row">
                             <div class="col-lg-12" style="text-align: right">
-                                <div class="btn btn-warning btn-show-risk" data-var="<?= $value->workorder_id ?>">ความเสี่ยง</div>
+                                <div class="btn btn-warning btn-show-risk" data-var="<?= $value->workorder_id ?>">
+                                    ความเสี่ยง
+                                </div>
                             </div>
                         </div>
                         <div class="row">
@@ -245,7 +261,7 @@ $model_work_solve = \common\models\SolveTitle::find()->where(['status' => 1])->a
                                 <td>
                                 </td>
                             </tr>
-                            <?php if ($value->workorder_status == 2): ?>
+                            <?php if ($value->workorder_status == 3): ?>
                                 <?php
                                 $line_time_use = '';
                                 $date1 = date_create(date('Y-m-d H:i:s', strtotime($value->workorder_date)));
@@ -254,7 +270,8 @@ $model_work_solve = \common\models\SolveTitle::find()->where(['status' => 1])->a
                                 ?>
                                 <tr>
                                     <td colspan="2">
-                                        <input type="hidden" class="line-work-time-use" value="<?=$line_time_use->format('%d days %h hours %i minute')?>">
+                                        <input type="hidden" class="line-work-time-use"
+                                               value="<?= $line_time_use->format('%d days %h hours %i minute') ?>">
                                         <input type="hidden" class="line-workorder-no"
                                                value="<?= $value->workorder_no ?>">
                                         <input type="hidden" class="line-workorder-asset"
@@ -263,7 +280,8 @@ $model_work_solve = \common\models\SolveTitle::find()->where(['status' => 1])->a
                                                value="<?= \backend\models\Asset::findLocationName($value->asset_id) ?>">
                                         <input type="hidden" class="line-workorder-status"
                                                value="<?= \backend\models\WorkorderStatus::findName($value->workorder_status) ?>">
-                                        <div data-var="<?=$value->workorder_id?>" class="btn btn-success btn-close-workorder">
+                                        <div data-var="<?= $value->workorder_id ?>"
+                                             class="btn btn-success btn-close-workorder">
                                             ปิดงาน
                                         </div>
                                     </td>
@@ -312,7 +330,8 @@ $model_work_solve = \common\models\SolveTitle::find()->where(['status' => 1])->a
                         </div>
                     </div>
                 </div>
-                <form action="<?= Url::to(['myworkassign/closeworkorder'], true) ?>" method="post" enctype="multipart/form-data">
+                <form action="<?= Url::to(['myworkassign/closeworkorder'], true) ?>" method="post"
+                      enctype="multipart/form-data">
                     <div class="modal-body">
                         <div style="height: 10px;"></div>
                         <input type="hidden" name="workorder_id" class="close-workorder-id" value="">
@@ -328,7 +347,8 @@ $model_work_solve = \common\models\SolveTitle::find()->where(['status' => 1])->a
                                     ใช้เวลา
                                 </td>
                                 <td>
-                                    <input type="text" class="form-control line-close-workorder-time-use" readonly value="">
+                                    <input type="text" class="form-control line-close-workorder-time-use" readonly
+                                           value="">
                                 </td>
                             </tr>
                             <tr>
@@ -343,9 +363,9 @@ $model_work_solve = \common\models\SolveTitle::find()->where(['status' => 1])->a
                                 <td colspan="3">
                                     <select name="line_work_cause" id="" class="form-control">
                                         <option value="-1">--เลือก--</option>
-                                        <?php foreach ($model_work_cause as $value):?>
-                                            <option value="<?=$value->id?>"><?=$value->name?></option>
-                                        <?php endforeach;?>
+                                        <?php foreach ($model_work_cause as $value): ?>
+                                            <option value="<?= $value->id ?>"><?= $value->name ?></option>
+                                        <?php endforeach; ?>
                                     </select>
                                 </td>
                             </tr>
@@ -354,16 +374,19 @@ $model_work_solve = \common\models\SolveTitle::find()->where(['status' => 1])->a
                                 <td colspan="3">
                                     <select name="line_work_solve" id="" class="form-control">
                                         <option value="-1">--เลือก--</option>
-                                        <?php foreach ($model_work_solve as $value):?>
-                                            <option value="<?=$value->id?>"><?=$value->name?></option>
-                                        <?php endforeach;?>
+                                        <?php foreach ($model_work_solve as $value): ?>
+                                            <option value="<?= $value->id ?>"><?= $value->name ?></option>
+                                        <?php endforeach; ?>
                                     </select>
                                 </td>
                             </tr>
                             <tr>
-                                <td style="width: 20%;text-align: right;vertical-align: middle;">มาตรการป้องกันทั้งชั่วคราว/ถาวร</td>
+                                <td style="width: 20%;text-align: right;vertical-align: middle;">
+                                    มาตรการป้องกันทั้งชั่วคราว/ถาวร
+                                </td>
                                 <td colspan="3">
-                                    <textarea class="form-control" name="preventive_text" id="" cols="30" rows="5"></textarea>
+                                    <textarea class="form-control" name="preventive_text" id="" cols="30"
+                                              rows="5"></textarea>
                                 </td>
                             </tr>
                             <tr>
@@ -515,22 +538,22 @@ $model_work_solve = \common\models\SolveTitle::find()->where(['status' => 1])->a
                     </div>
                 </div>
 
-                    <input type="hidden" class="save-risk-workorder-id" name="workorder_id" value="">
-                    <div class="modal-body">
-                        <div style="height: 10px;"></div>
-                        <table class="table table-bordered table-striped table-risk-before-list" width="100%">
-                            <tbody>
+                <input type="hidden" class="save-risk-workorder-id" name="workorder_id" value="">
+                <div class="modal-body">
+                    <div style="height: 10px;"></div>
+                    <table class="table table-bordered table-striped table-risk-before-list" width="100%">
+                        <tbody>
 
-                            </tbody>
-                        </table>
+                        </tbody>
+                    </table>
 
-                        <br/>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal"><i
-                                    class="fa fa-close text-danger"></i> ปิดหน้าต่าง
-                        </button>
-                    </div>
+                    <br/>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal"><i
+                                class="fa fa-close text-danger"></i> ปิดหน้าต่าง
+                    </button>
+                </div>
 
             </div>
 
@@ -539,8 +562,8 @@ $model_work_solve = \common\models\SolveTitle::find()->where(['status' => 1])->a
 
 <?php
 $this->registerJsFile('https://cdn.jsdelivr.net/npm/sweetalert2@11', ['depends' => [\yii\web\JqueryAsset::className()]]);
-$url_to_find_risk_after = Url::to(['myworkassign/findriskafter'],true);
-$url_to_find_risk_before = Url::to(['myworkassign/findriskbefore'],true);
+$url_to_find_risk_after = Url::to(['myworkassign/findriskafter'], true);
+$url_to_find_risk_before = Url::to(['myworkassign/findriskbefore'], true);
 $js = <<<JS
 $(function(){
     $(".btn-close-workorder").on("click",function(){

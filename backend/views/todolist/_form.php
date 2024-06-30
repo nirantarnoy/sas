@@ -6,6 +6,8 @@ use yii\widgets\ActiveForm;
 /** @var yii\web\View $this */
 /** @var backend\models\Todolist $model */
 /** @var yii\widgets\ActiveForm $form */
+
+
 ?>
 
     <div class="todolist-form">

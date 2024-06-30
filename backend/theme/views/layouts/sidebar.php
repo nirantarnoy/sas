@@ -212,7 +212,7 @@
                     <ul class="nav nav-treeview">
                         <?php //if (\Yii::$app->user->can('salecomreport/index')): ?>
                         <li class="nav-item">
-                            <a href="index.php?r=myworkassign/index" class="nav-link">
+                            <a href="index.php?r=myworkassign/index&type=1" class="nav-link">
                                 <i class="far fa-circlez nav-icon"></i>
                                 <p>งานที่รับมอบหมาย</p>
                             </a>

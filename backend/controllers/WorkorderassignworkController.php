@@ -189,6 +189,7 @@ class WorkorderassignworkController extends Controller
                  $work_assign_id = $model_assign_data->id;
              }
             $model_emp_data = \backend\models\Employee::find()->where(['status' => '1'])->all();
+//            $model_emp_data = \common\models\ViewEmployeeData::find()->where(['status' => 1,'is_technician' => 1])->all();
             $model_assign_emp = \common\models\WorkorderAssignLine::find()->where(['workorder_assign_id' => $work_assign_id])->all();
             if($model_assign_emp){
                foreach($model_assign_emp as $valuex){
@@ -231,6 +232,19 @@ class WorkorderassignworkController extends Controller
 
 
             echo $html;
+        }
+    }
+    function findTechnician($emp_id)
+    {
+        if ($emp_id) {
+            $model = \common\models\ViewEmployeeData::find()->where(['id' => $emp_id])->one();
+            if ($model) {
+                if ($model->is_technician == 1) {
+                    return true;
+                } else {
+                    return false;
+                }
+            }
         }
     }
 
@@ -307,6 +321,7 @@ class WorkorderassignworkController extends Controller
                     $assign_id = 0;
                     $xp = explode(',', $removelist);
                     if($xp !=null){
+//                        print_r($xp); return ;
                         for($i=0;$i<=count($xp)-1;$i++){
                             if($i==0){
                                 $assign_id = $this->getWorkassignid($xp[$i]);
@@ -314,6 +329,7 @@ class WorkorderassignworkController extends Controller
                            \common\models\WorkorderAssignLine::deleteAll(['id'=>$xp[$i]]);
                             $res = 1;
                         }
+//                        echo $assign_id; return;
                         $check_has_line = \common\models\WorkorderAssignLine::find()->where(['workorder_assign_id' => $assign_id])->count();
                         if($check_has_line==0){
                             \common\models\Workorderassign::deleteAll(['id'=>$assign_id]);
@@ -336,9 +352,9 @@ class WorkorderassignworkController extends Controller
 
         public function getWorkassignid($assign_line_id){
         $id=0;
-        $model = \common\models\WorkorderAssignLine::find()->where(['workorder_assign_id'=>$assign_line_id])->one();
+        $model = \common\models\WorkorderAssignLine::find()->where(['id'=>$assign_line_id])->one();
             if($model){
-                $id = $model->id;
+                $id = $model->workorder_assign_id;
             }
             return $id;
         }
@@ -361,8 +377,8 @@ class WorkorderassignworkController extends Controller
             $line_risk_id = \Yii::$app->request->post('line_risk_id');
             $line_risk_after = \Yii::$app->request->post('line_risk_factor');
 
-            if ($line_risk_id != null || $line_risk_after != null) {
-                // echo "OK";return;
+            if ($result != null || $result != '') {
+//                 echo "OK";return;
                 $evaluate_photo = '';
                 $uploaded = \yii\web\UploadedFile::getInstanceByName('evaluate_photo');
                 if (!empty($uploaded)) {

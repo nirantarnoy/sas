@@ -72,7 +72,13 @@ $this->params['breadcrumbs'][] = '/ ' . $this->title;
                 },
             ],
             //'gender',
-            //'position_id',
+//            'position_id',
+            [
+                'attribute' => 'position_id',
+                'value' => function ($data) {
+                    return \backend\models\Position::findName($data->position_id);
+                },
+            ],
             ['attribute' => 'status',
                 'format' => 'html',
                 'value' => function ($data) {

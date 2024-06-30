@@ -70,7 +70,14 @@ $this->params['breadcrumbs'][] = $this->title;
                     return Html::a($data->workorder_no, ['workorderassignwork/view', 'id' => $data->id]);
                 }
             ],
-            'workorder_date',
+//            'workorder_date',
+            [
+                'attribute' => 'workorder_date',
+                'value' => function ($data) {
+                    return date('d-m-Y H:i:s', strtotime($data->workorder_date));
+                }
+            ],
+
             [
                 'attribute' => 'created_by',
                 'value' => function ($data) {
@@ -177,8 +184,13 @@ $this->params['breadcrumbs'][] = $this->title;
                             'aria-label' => Yii::t('yii', 'ประเมิณ'),
                             'data-pjax' => '0',
                         ];
+                        $_has = checkHasEvaluatework($data->id);
+                        $btn_style = 'btn-default';
+                        if ($_has) {
+                            $btn_style = 'btn-success';
+                        }
                         return Html::a(
-                            '<span class="fas fa-check-circle btn btn-xs btn-default"></span>', $url, $options);
+                            '<span class="fas fa-check-circle btn btn-xs ' . $btn_style . '"></span>', $url, $options);
                     },
 //                    'update' => function ($url, $data, $index) {
 //                        $options = array_merge([
@@ -299,6 +311,16 @@ function checkHasAssignEmployee($workorder_id)
 {
     $res = 0;
     $model = \common\models\WorkorderAssign::find()->where(['workorder_id' => $workorder_id])->count();
+    if ($model) {
+        $res = $model;
+    }
+    return $res;
+}
+
+function checkHasEvaluatework($workorder_id)
+{
+    $res = 0;
+    $model = \common\models\WorkorderEvaluate::find()->where(['workorder_id' => $workorder_id])->count();
     if ($model) {
         $res = $model;
     }

@@ -60,7 +60,7 @@ class WorkorderassignworkSearch extends Workorderassignwork
         // grid filtering conditions
         $query->andFilterWhere([
             'id' => $this->id,
-            'workorder_date' => $this->workorder_date,
+//            'workorder_date' => $this->workorder_date,
             'asset_id' => $this->asset_id,
             'assign_emp_id' => $this->assign_emp_id,
             'work_recieve_date' => $this->work_recieve_date,
@@ -80,6 +80,16 @@ class WorkorderassignworkSearch extends Workorderassignwork
             'factor_risk_3' => $this->factor_risk_3,
             'factor_total' => $this->factor_total,
         ]);
+
+        if ($this->workorder_date != null ){
+            $x_date = explode('-', $this->workorder_date);
+            if ($x_date != null ){
+                if (count($x_date) > 1 ){
+                    $f_date = $x_date[2] . '-' . $x_date[1] . '-' . $x_date[0];
+                    $query->andFilterWhere(['like', 'workorder_date', date('Y-m-d',strtotime($f_date))]);
+                }
+            }
+        }
 
         $query->andFilterWhere(['like', 'workorder_no', $this->workorder_no])
             ->andFilterWhere(['like', 'problem_text', $this->problem_text])

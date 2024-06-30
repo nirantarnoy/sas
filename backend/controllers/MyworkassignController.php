@@ -39,15 +39,22 @@ class MyworkassignController extends Controller
      */
     public function actionIndex()
     {
+        $type = \Yii::$app->request->get('type');
         $c_user = \Yii::$app->user->id;
         $model = null;
         if ($c_user) {
             $emp_id = \backend\models\User::findEmpId($c_user);
-            $model = \common\models\ViewEmpWorkAssign::find()->where(['emp_id' => $emp_id])->all();
+            if ($type == 'all' || $type == null) {
+                $model = \common\models\ViewEmpWorkAssign::find()->where(['emp_id' => $emp_id])->all();
+            } else {
+                $model = \common\models\ViewEmpWorkAssign::find()->where(['emp_id' => $emp_id, 'workorder_status' => $type])->all();
+            }
+
         }
 
         return $this->render('index', [
             'model' => $model,
+            'type' => $type,
         ]);
     }
 
@@ -57,20 +64,26 @@ class MyworkassignController extends Controller
         $workorder_accept_type = \Yii::$app->request->post('workorder_accept_type');
         $workorder_reason = \Yii::$app->request->post('accept_workorder_reason');
 
-        if ($workorder_id && $workorder_accept_type) {
+//        echo $workorder_id; return ;
+
+        if ($workorder_id && $workorder_accept_type != null) {
+//            echo $workorder_accept_type; return ;
             $model = \common\models\Workorder::find()->where(['id' => $workorder_id])->one();
             if ($model) {
                 if ($workorder_accept_type == 1) {
-                    $model->status = 2; // accept order
+                    $model->status = 3; // accept order
                 } else if ($workorder_accept_type == 0) {
-                    $model->status = 5; // accept order
+
+                    $model->status = 6; // reject order
                 }
                 $model->reason = $workorder_reason;
+                $model->work_recieve_date = date('Y-m-d H:i:s');
                 $model->save(false);
+
             }
 
         }
-        return $this->redirect(['myworkassign/index']);
+        return $this->redirect(['myworkassign/index', 'type' => 1]);
     }
 
     public function actionSaveriskafter()
@@ -143,35 +156,35 @@ class MyworkassignController extends Controller
                         <td>ความรุนแรง</td>
                         <td>
                             <input class="form-control factor-risk-1" type="number" min="0" name="factor_risk_1"
-                                   value="'.$model->factor_risk_1.'">
+                                   value="' . $model->factor_risk_1 . '">
                         </td>
                     </tr>
                     <tr>
                         <td>ความถี่</td>
                         <td>
                             <input class="form-control factor-risk-2" type="number" min="0" name="factor_risk_2"
-                                   value="'.$model->factor_risk_2 .'">
+                                   value="' . $model->factor_risk_2 . '">
                         </td>
                     </tr>
                     <tr>
                         <td>มาตรการ Safety</td>
                         <td>
                             <input class="form-control factor-risk-3" type="number" min="0" name="factor_risk_3"
-                                   value="'.$model->factor_risk_3 .'">
+                                   value="' . $model->factor_risk_3 . '">
                         </td>
                     </tr>
                     <tr>
                         <td>(1)+(2)+(3)</td>
                         <td>
                             <input class="form-control factor-total" type="text" readonly name="factor_total"
-                                   value="'.$model->factor_total .'">
+                                   value="' . $model->factor_total . '">
                         </td>
                     </tr>
                     <tr>
                         <td>สรุปความเสี่ยง</td>
                         <td>
                             <input class="form-control" type="text" name="factor_final"
-                                   value="'.$model->factor_risk_final.'">
+                                   value="' . $model->factor_risk_final . '">
                         </td>
                     </tr>';
             }
@@ -214,7 +227,7 @@ class MyworkassignController extends Controller
                 }
             }
         }
-        return $this->redirect(['myworkassign/index']);
+        return $this->redirect(['myworkassign/index', 'type' => 1 ]);
     }
 
 }
