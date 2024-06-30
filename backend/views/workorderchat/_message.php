@@ -81,8 +81,15 @@ $model_order_message = \common\models\WorkorderChat::find()->select(['workorder_
                                         <a href="index.php?r=workorderchat/chat&id=<?= $value->workorder_id ?>"
                                            class="chat-list" id="chat-list"
                                            style="border-radius: 5px;">
+
                                             <div style="width: 100%;<?= $bg_active ?>padding: 10px;border-radius: 10px">
-                                                <?= \backend\models\Workorder::findOrderNo($value->workorder_id) ?>
+                                                <div class="row">
+                                                    <div class="col-lg-8">
+                                                        <?= \backend\models\Workorder::findOrderNo($value->workorder_id) ?>
+                                                    </div>
+                                                    <div class="col-lg-4"><div class="badge badge-success"></div></div>
+                                                </div>
+
                                             </div>
 
                                         </a>
