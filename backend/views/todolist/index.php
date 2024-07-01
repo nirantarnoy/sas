@@ -144,7 +144,10 @@ $this->params['breadcrumbs'][] = $this->title;
                         ]);
                         $is_owner = $data->created_by == \Yii::$app->user->id;
                         if ($is_owner) {
-                            return Html::a('<span class="fas fa-trash-alt btn btn-xs btn-default"></span>', 'javascript:void(0)', $options);
+                            if($data->status == 0){
+                                return Html::a('<span class="fas fa-trash-alt btn btn-xs btn-default"></span>', 'javascript:void(0)', $options);
+                            }
+
                         }
 
                     }
