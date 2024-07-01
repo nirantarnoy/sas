@@ -87,7 +87,7 @@ $this->params['breadcrumbs'][] = '/ ' . $this->title;
                 'format' => 'raw',
                 'value' => function ($data) {
                     if ($data->problem_text != '') {
-                        return substr($data->problem_text, 0, 20) . '<span style="color: red;">...</span>';
+                        return mb_substr($data->problem_text, 0, 20) . '<span style="color: red;">...</span>';
                     } else {
                         return '';
                     }
