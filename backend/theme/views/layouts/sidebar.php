@@ -9,7 +9,7 @@
 
     <!-- Sidebar -->
     <div class="sidebar">
-        <?php if (!isset($_SESSION['driver_login'])): ?>
+
         <!-- Sidebar Menu -->
         <nav class="mt-2">
             <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu"
@@ -339,7 +339,7 @@
         </nav>
         <!-- /.sidebar-menu -->
 
-        <?php endif; ?>
+
 
     </div>
     <!-- /.sidebar -->
