@@ -37,7 +37,7 @@ class Workorder extends \yii\db\ActiveRecord
     {
         return [
             [['asset_id'],'required'],
-            [['workorder_date', 'work_recieve_date', 'work_assign_date'], 'safe'],
+            [['workorder_date', 'work_recieve_date', 'work_assign_date','work_estimate_finish_date'], 'safe'],
             [['asset_id', 'assign_emp_id', 'status', 'created_at', 'updated_at', 'updated_by','abnormal','view_point','work_cause_id','weak_point_analysis','cause_risk_id'], 'integer'],
             [['workorder_no','reason'], 'string', 'max' => 255],
             [['factor_risk_1','factor_risk_2','factor_risk_3','factor_total'],'number'],
@@ -66,6 +66,7 @@ class Workorder extends \yii\db\ActiveRecord
             'work_cause_id'=> 'Cause',
             'weak_point_analysis'=> 'Weak point analysis',
             'cause_risk_id'=> 'สาเหตุของอันตราย',
+            'work_estimate_finish_date'=> 'วันที่คาดว่าจะซ่อมเสร็จ',
             'reason'=> 'หมายเหตุ',
             'created_at' => 'สร้างเมื่อ',
             'created_by' => 'สร้างโดย',

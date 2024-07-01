@@ -262,7 +262,7 @@ $btn_inactive = 'btn-secondary';
                         <table style="width: 100%">
                             <tr>
                                 <td style="width: 20%">วันที่คาดว่าจะเสร็จ</td>
-                                <td><b><?= date('d/m/Y') ?></b></td>
+                                <td><b><?= date('d/m/Y', strtotime($value->work_estimate_finish_date)) ?></b></td>
                             </tr>
                             <tr>
                                 <td>ข้อความล่าสุด</td>
@@ -496,6 +496,25 @@ $btn_inactive = 'btn-secondary';
                                 </td>
                             </tr>
 
+                            <tr>
+                                <td style="width: 20%;text-align: right;vertical-align: middle;">วันที่คาดว่าจะซ่อมเสร็จ</td>
+                                <td>
+                                    <?php
+                                      echo \kartik\date\DatePicker::widget([
+                                          'name' => 'estimate_finish_date',
+                                          'value' => date('Y-m-d'),
+                                          'pluginOptions' => [
+                                              'format' => 'dd-mm-yyyy',
+                                              'todayHighlight' => true,
+                                              'autoclose' => true,
+                                              'todayBtn' => true
+                                          ]
+                                      ])
+                                    ?>
+                                </td>
+                            </tr>
+
+
 
                             </tbody>
                         </table>
@@ -666,7 +685,7 @@ $(function(){
         $(".workorder-accept-type").val(1);
         
         $(".modal-header").css("background-color","#00a65a");
-        $(".work-accept-text").html("รับงาน").css("color","#fff","text-align:center");
+        $(".work-accept-text").html("รับงานซ่อม").css("color","#fff","text-align:center");
         $("#acceptWorkModal").modal("show");
     });
     $(".btn-deny-workorder").on("click",function(){
@@ -684,7 +703,7 @@ $(function(){
         $(".workorder-accept-type").val(0);
        
         $(".modal-header").css("background-color","red");
-        $(".work-accept-text").html("ไม่รับงาน").css("color","#fff","text-align:center");
+        $(".work-accept-text").html("ไม่รับงานซ่อม").css("color","#fff","text-align:center");
         $("#acceptWorkModal").modal("show");
     });
     $(".btn-show-risk").on("click",function(){

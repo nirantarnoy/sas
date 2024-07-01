@@ -45,7 +45,7 @@ class ViewEmpWorkAssign extends \yii\db\ActiveRecord
     {
         return [
             [['assign_id', 'workorder_id', 'created_at', 'created_by', 'status', 'asset_id', 'workorder_status', 'position_name', 'emp_id'], 'integer'],
-            [['assign_date', 'assign_accept_date', 'workorder_date'], 'safe'],
+            [['assign_date', 'assign_accept_date', 'workorder_date','work_estimate_finish_date'], 'safe'],
             [['assign_no', 'workorder_no', 'code', 'fname', 'lname', 'name', 'asset_no', 'asset_name'], 'string', 'max' => 255],
         ];
     }
