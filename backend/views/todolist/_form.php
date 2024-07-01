@@ -72,18 +72,18 @@ $todolist_status = [['id' => 0, 'name' => 'Open'], ['id' => 1, 'name' => 'Close'
                     ]
                 ]) ?>
             </div>
-            <div class="col-lg-3">
-                <?php $model->end_date = $model->isNewRecord ? date('d-m-Y') : date('d-m-Y', strtotime($model->end_date)) ?>
-                <?= $form->field($model, 'end_date')->widget(\kartik\date\DatePicker::className(), [
-                    'value' => date('Y-m-d'),
-                    'pluginOptions' => [
-                        'autoclose' => true,
-                        'format' => 'dd-mm-yyyy',
-                        'todayHighlight' => true,
-                        'todayBtn' => true,
-                    ]
-                ]) ?>
-            </div>
+<!--            <div class="col-lg-3">-->
+<!--                --><?php //$model->end_date = $model->isNewRecord ? date('d-m-Y') : date('d-m-Y', strtotime($model->end_date)) ?>
+<!--                --><?php //= $form->field($model, 'end_date')->widget(\kartik\date\DatePicker::className(), [
+//                    'value' => date('Y-m-d'),
+//                    'pluginOptions' => [
+//                        'autoclose' => true,
+//                        'format' => 'dd-mm-yyyy',
+//                        'todayHighlight' => true,
+//                        'todayBtn' => true,
+//                    ]
+//                ]) ?>
+<!--            </div>-->
             <div class="col-lg-3">
                 <?= $form->field($model, 'status')->widget(\kartik\select2\Select2::className(), [
                     'data' => \yii\helpers\ArrayHelper::map($todolist_status, 'id', 'name'),
