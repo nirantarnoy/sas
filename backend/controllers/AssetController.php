@@ -310,4 +310,21 @@ class AssetController extends Controller
         }
         return $this->redirect(['index']);
     }
+
+    public function actionFindassettask(){
+        $asset_id = \Yii::$app->request->post('asset_id');
+        $html = '';
+        if ($asset_id) {
+            $model = \common\models\AssetTaskList::find()->where(['asset_id' => $asset_id])->all();
+            if($model){
+
+                foreach ($model as $key => $value) {
+                    $html .= '<tr><td>'.($key + 1).'</td><td>'.$value->todo_name.'</td><td>'.$value->todo_description.'</td></tr>';
+                }
+            }else{
+                $html .= '<tr><td colspan="3" style="text-align: center;color: red;">ไม่มีข้อมูล</td></tr>';
+            }
+        }
+        echo $html;
+    }
 }

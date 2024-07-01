@@ -69,7 +69,7 @@ $btn_inactive = 'btn-secondary';
         ?>
         <div class="workorder-view">
 
-            <div style="border: 1px solid grey;padding: 15px;border-radius: 10px;">
+            <div style="border: 1px solid lightgrey;padding: 15px;border-radius: 10px;">
                 <div class="row">
                     <div class="col-lg-4">
                         <table style="width: 100%;">
@@ -92,6 +92,14 @@ $btn_inactive = 'btn-secondary';
                             <tr>
                                 <td>แผนก</td>
                                 <td><b><?= \backend\models\Asset::findDeptName($value->asset_id) ?></b></td>
+                            </tr>
+                            <tr>
+                                <td>Task List</td>
+                                <td>
+                                    <div class="btn btn-info btn-show-tasklist" data-var="<?= $value->asset_id ?>">
+                                        View
+                                    </div>
+                                </td>
                             </tr>
                         </table>
                     </div>
@@ -388,6 +396,18 @@ $btn_inactive = 'btn-secondary';
                                 </td>
                             </tr>
                             <tr>
+                                <td style="width: 20%;text-align: right;vertical-align: middle;">ค่าแรง</td>
+                                <td colspan="3">
+                                    <input type="text" class="form-control line-close-labour-cost" value="" name="labour_cost">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="width: 20%;text-align: right;vertical-align: middle;">ค่าอะไหร่</td>
+                                <td colspan="3">
+                                    <input type="text" class="form-control line-close-spare-cost" value="" name="spare_cost">
+                                </td>
+                            </tr>
+                            <tr>
                                 <td style="width: 20%;text-align: right;vertical-align: middle;">
                                     มาตรการป้องกันทั้งชั่วคราว/ถาวร
                                 </td>
@@ -567,10 +587,51 @@ $btn_inactive = 'btn-secondary';
         </div>
     </div>
 
+    <div id="assettaskModal" class="modal fade" role="dialog">
+        <div class="modal-dialog modal-xl">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <b>งานที่ต้องทำ (Task List) สำหรับเครื่องจักร </b>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-body">
+                    <div style="height: 10px;"></div>
+                    <table class="table table-bordered table-striped table-asset-task-list" width="100%">
+                        <thead>
+                        <tr>
+                            <td style="text-align: center;width: 5px;"><b>#</b></td>
+                            <td><b>ชื่องาน</b></td>
+                            <td><b>รายละเอียด</b></td>
+                        </tr>
+                        </thead>
+                        <tbody>
+
+                        </tbody>
+                    </table>
+
+                    <br/>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal"><i
+                                class="fa fa-close text-danger"></i> ปิดหน้าต่าง
+                    </button>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
 <?php
 $this->registerJsFile('https://cdn.jsdelivr.net/npm/sweetalert2@11', ['depends' => [\yii\web\JqueryAsset::className()]]);
 $url_to_find_risk_after = Url::to(['myworkassign/findriskafter'], true);
 $url_to_find_risk_before = Url::to(['myworkassign/findriskbefore'], true);
+$url_to_find_asset_task = Url::to(['asset/findassettask'], true);
 $js = <<<JS
 $(function(){
     $(".btn-close-workorder").on("click",function(){
@@ -641,6 +702,26 @@ $(function(){
                // $(".save-risk-workorder-id").val(workorder_id);  
                 $(".table-risk-before-list tbody").html(data);
                 $("#riskBeforeModal").modal("show");
+              }
+            });
+        }
+       
+    });
+    $(".btn-show-tasklist").on("click",function(){
+        var asset_id = $(this).attr("data-var");
+       // alert(workorder_id);
+        if(asset_id > 0){
+            $.ajax({
+              'dataType': 'html',
+              'type': 'POST',
+              'url': '$url_to_find_asset_task',
+              'data': {
+                  'asset_id': asset_id
+              },
+              'success': function (data) {
+               // $(".save-risk-workorder-id").val(workorder_id);  
+                $(".table-asset-task-list tbody").html(data);
+                $("#assettaskModal").modal("show");
               }
             });
         }

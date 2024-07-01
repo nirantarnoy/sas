@@ -87,10 +87,10 @@ $this->registerJsFile(
                                     'attribute' => 'description',
                                     'contentOptions' => ['style' => 'vertical-align: middle'],
                                 ],
-                                [
-                                    'attribute' => 'rule_name',
-                                    'contentOptions' => ['style' => 'vertical-align: middle'],
-                                ],
+//                                [
+//                                    'attribute' => 'rule_name',
+//                                    'contentOptions' => ['style' => 'vertical-align: middle'],
+//                                ],
                                 [
                                     'attribute' => 'type',
                                     'contentOptions' => ['style' => 'vertical-align: middle'],

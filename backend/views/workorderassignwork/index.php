@@ -122,8 +122,19 @@ $this->params['breadcrumbs'][] = $this->title;
             [
                 'attribute' => 'status',
                 'label' => 'สถานะ',
+                'format' => 'raw',
                 'value' => function ($data) {
-                    return \backend\models\Workorderstatus::findName($data->status);
+                    $workstatus_bg = 'badge-secondary';
+                    if($data->status == 1){
+                        $workstatus_bg = 'badge-secondary';
+                    }else if($data->status == 3){
+                        $workstatus_bg = 'badge-info';
+                    }else if($data->status == 4){
+                        $workstatus_bg = 'badge-success';
+                    }else if($data->status >= 5){
+                        $workstatus_bg = 'badge-danger';
+                    }
+                    return '<div class="badge ' . $workstatus_bg . '">' . \backend\models\Workorderstatus::findName($data->status) . '</div>';
                 }
             ],
 
@@ -189,8 +200,11 @@ $this->params['breadcrumbs'][] = $this->title;
                         if ($_has) {
                             $btn_style = 'btn-success';
                         }
-                        return Html::a(
-                            '<span class="fas fa-check-circle btn btn-xs ' . $btn_style . '"></span>', $url, $options);
+                        if($data->status == 4){
+                            return Html::a(
+                                '<span class="fas fa-check-circle btn btn-xs ' . $btn_style . '"></span>', $url, $options);
+                        }
+
                     },
 //                    'update' => function ($url, $data, $index) {
 //                        $options = array_merge([

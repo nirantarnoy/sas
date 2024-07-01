@@ -199,6 +199,8 @@ class MyworkassignController extends Controller
         $workorder_id = \Yii::$app->request->post('workorder_id');
         $work_cause = \Yii::$app->request->post('work_cause');
         $work_solve = \Yii::$app->request->post('work_solve');
+        $labour_cost = \Yii::$app->request->post('labour_cost');
+        $spare_cost = \Yii::$app->request->post('spare_cost');
         $preventive_text = \Yii::$app->request->post('preventive_text');
 
         $uploaded = \yii\web\UploadedFile::getInstanceByName('file_close');
@@ -206,6 +208,7 @@ class MyworkassignController extends Controller
             $model = \common\models\Workorder::find()->where(['id' => $workorder_id])->one();
             if ($model) {
                 $model->status = 4; // close order
+
                 if ($model->save(false)) {
 
                     $close_photo = '';
@@ -222,6 +225,8 @@ class MyworkassignController extends Controller
                     $model_close->cause_id = $work_cause;
                     $model_close->solve_id = $work_solve;
                     $model_close->preventive_text = $preventive_text;
+                    $model_close->labour_cost = $labour_cost;
+                    $model_close->spare_cost = $spare_cost;
                     $model_close->photo = $close_photo;
                     $model_close->save(false);
                 }

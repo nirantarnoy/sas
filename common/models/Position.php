@@ -50,7 +50,7 @@ class Position extends \yii\db\ActiveRecord
             'name' => 'ชื่อตำแหน่ง',
             'description' => 'รายละเอียด',
             'status' => 'สถานะ',
-            'is_technician' => 'เป็นช่าง',
+            'is_technician' => 'ตำแหน่งช่าง',
             'created_at' => 'Created At',
             'created_by' => 'Created By',
             'updated_at' => 'Updated At',
