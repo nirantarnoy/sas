@@ -63,6 +63,7 @@ class MyworkassignController extends Controller
         $workorder_id = \Yii::$app->request->post('workorder_id');
         $workorder_accept_type = \Yii::$app->request->post('workorder_accept_type');
         $workorder_reason = \Yii::$app->request->post('accept_workorder_reason');
+        $estimate_finish_date = \Yii::$app->request->post('estimate_finish_date');
 
 //        echo $workorder_id; return ;
 
@@ -76,6 +77,14 @@ class MyworkassignController extends Controller
 
                     $model->status = 6; // reject order
                 }
+
+                $est_date = date('Y-m-d');
+                $xdate = explode('-',$estimate_finish_date);
+                if(count($xdate)>1){
+                    $est_date = $xdate[2].'/'.$xdate[1].'/'.$xdate[0];
+                }
+
+                $model->work_estimate_finish_date = date('Y-m-d', strtotime($est_date));
                 $model->reason = $workorder_reason;
                 $model->work_recieve_date = date('Y-m-d H:i:s');
                 $model->save(false);
