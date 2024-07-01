@@ -259,11 +259,16 @@ $btn_inactive = 'btn-secondary';
                 <br/>
                 <div class="row">
                     <div class="col-lg-6">
-
+                        <?php
+                           $estimate_completed = 'ยังไม่กำหนดวันเสร็จ';
+                           if ($value->work_estimate_finish_date != null) {
+                               $estimate_completed = date('d/m/Y', strtotime($value->work_estimate_finish_date));
+                           }
+                        ?>
                         <table style="width: 100%">
                             <tr>
                                 <td style="width: 20%">วันที่คาดว่าจะเสร็จ</td>
-                                <td><b><?= $value->work_estimate_finish_date ==null ?'': date('d/m/Y', strtotime($value->work_estimate_finish_date)) ?></b></td>
+                                <td><b><i><?=$estimate_completed?></i></b></td>
                             </tr>
                             <tr>
                                 <td>ข้อความล่าสุด</td>
