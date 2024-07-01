@@ -188,8 +188,8 @@ class WorkorderassignworkController extends Controller
              if($model_assign_data){
                  $work_assign_id = $model_assign_data->id;
              }
-            $model_emp_data = \backend\models\Employee::find()->where(['status' => '1'])->all();
-//            $model_emp_data = \common\models\ViewEmployeeData::find()->where(['status' => 1,'is_technician' => 1])->all();
+//            $model_emp_data = \backend\models\Employee::find()->where(['status' => '1'])->all();
+            $model_emp_data = \common\models\ViewEmployeeData::find()->where(['status' => 1,'is_technician' => 1])->all();
             $model_assign_emp = \common\models\WorkorderAssignLine::find()->where(['workorder_assign_id' => $work_assign_id])->all();
             if($model_assign_emp){
                foreach($model_assign_emp as $valuex){
