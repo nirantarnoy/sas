@@ -44,7 +44,7 @@
 <!--                        --><?php ////endif; ?>
 <!--                    </ul>-->
 <!--                </li>-->
-                <?php if (\Yii::$app->user->can('mainconfig/index')): ?>
+                <?php if (\Yii::$app->user->can('mainconfig/index') || \Yii::$app->user->can('workorderstatus/index') || \Yii::$app->user->can('workordercause/index') || \Yii::$app->user->can('location/index') || \Yii::$app->user->can('solvetitle/index') ): ?>
                     <li class="nav-item has-treeview has-sub">
                         <a href="#" class="nav-link">
                             <i class="nav-icon fas fa-cog"></i>
