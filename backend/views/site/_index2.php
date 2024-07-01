@@ -12,10 +12,20 @@ $work_receive_qty = 0;
 $c_user = \Yii::$app->user->id;
 $c_emp_map = \backend\models\User::findEmpId($c_user);
 
+$model_outstanding = null;
+$model_recevie_data = null;
+$model_closed_data = null;
+if(\Yii::$app->user->can('mainconfig/index')) {
 
-$model_outstanding = \backend\models\Workorder::find()->where(['status' => [1, 3]])->all();
-$model_recevie_data = \backend\models\Workorder::find()->where(['status' => [1, 3]])->all();
-$model_closed_data = \backend\models\Workorder::find()->where(['status' => 4])->all();
+    $model_outstanding = \backend\models\Workorder::find()->where(['status' => [1, 3]])->all();
+    $model_recevie_data = \backend\models\Workorder::find()->where(['status' => [1, 3]])->all();
+    $model_closed_data = \backend\models\Workorder::find()->where(['status' => 4])->all();
+}else{
+    $model_outstanding = \backend\models\Workorder::find()->where(['status' => [1, 3]])->andWhere(['emp_id' => $c_emp_map])->all();
+    $model_recevie_data = \backend\models\Workorder::find()->where(['status' => [1, 3]])->andWhere(['emp_id' => $c_emp_map])->all();
+    $model_closed_data = \backend\models\Workorder::find()->where(['status' => 4])->andWhere(['emp_id' => $c_emp_map])->all();
+}
+
 
 if ($model_recevie_data) {
     $work_receive_qty = count($model_recevie_data);
