@@ -19,13 +19,13 @@ $model_recevie_data =null;
 $model_closed_data =null;
 
 if($from_date !=null && $to_date != null){
-    $model_outstanding = \backend\models\Workorder::find()->where(['status' => [1, 3]])->andFilterWhere(['between', 'workorder_date', date('Y-m-d H:i',strtotime($from_date)), date('Y-m-d H:i',strtotime($to_date))])->all();
+    $model_outstanding = \backend\models\Workorder::find()->where(['<','status',4])->andFilterWhere(['between', 'workorder_date', date('Y-m-d H:i',strtotime($from_date)), date('Y-m-d H:i',strtotime($to_date))])->all();
     $model_recevie_data = \backend\models\Workorder::find()->where(['status' => [3]])->andFilterWhere(['between', 'workorder_date', date('Y-m-d H:i',strtotime($from_date)), date('Y-m-d H:i',strtotime($to_date))])->all();
     $model_closed_data = \backend\models\Workorder::find()->where(['status' => 4])->andFilterWhere(['between', 'workorder_date', date('Y-m-d H:i',strtotime($from_date)), date('Y-m-d H:i',strtotime($to_date))])->all();
 }else{
     $from_date = date('Y-m-d H:i');
     $to_date = date('Y-m-d H:i');
-    $model_outstanding = \backend\models\Workorder::find()->where(['status' => [1, 3]])->andFilterWhere(['between', 'workorder_date', date('Y-m-d H:i',strtotime($from_date)), date('Y-m-d H:i',strtotime($to_date))])->all();
+    $model_outstanding = \backend\models\Workorder::find()->where(['<','status',4])->andFilterWhere(['between', 'workorder_date', date('Y-m-d H:i',strtotime($from_date)), date('Y-m-d H:i',strtotime($to_date))])->all();
     $model_recevie_data = \backend\models\Workorder::find()->where(['status' => [3]])->andFilterWhere(['between', 'workorder_date', date('Y-m-d H:i',strtotime($from_date)), date('Y-m-d H:i',strtotime($to_date))])->all();
     $model_closed_data = \backend\models\Workorder::find()->where(['status' => 4])->andFilterWhere(['between', 'workorder_date', date('Y-m-d H:i',strtotime($from_date)), date('Y-m-d H:i',strtotime($to_date))])->all();
 }
