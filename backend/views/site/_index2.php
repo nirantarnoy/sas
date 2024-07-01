@@ -94,7 +94,7 @@ $todolist_data = \common\models\ViewTodolistEmp::find()->where(['status' => 0, '
                                         <td style="text-align:center;"><?= \backend\models\Asset::findAssetSerialNo($value->asset_id) ?></td>
                                     </tr>
                                 <?php else: ?>
-                               
+
                                     <?php if (checkMyAssignwork($value->id, $c_emp_map) == 1): ?>
                                         <tr>
                                             <td style="text-align:center;"><a
@@ -230,7 +230,7 @@ $todolist_data = \common\models\ViewTodolistEmp::find()->where(['status' => 0, '
 function checkMyAssignwork($workorder_id, $emp_id)
 {
     $res = 0;
-    $model = \common\models\ViewEmpWorkAssign::find()->where(['workorder_idx' => $workorder_id, 'emp_id' => $emp_id])->count();
+    $model = \common\models\ViewEmpWorkAssign::find()->where(['workorder_id' => $workorder_id, 'emp_id' => $emp_id])->count();
     if ($model) {
         $res = $model;
     }
