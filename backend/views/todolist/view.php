@@ -36,7 +36,13 @@ $this->params['breadcrumbs'][] = $this->title;
             'todolist_name',
             'assign_emp_id',
             'target_date',
-            'created_at',
+//            'created_at',
+            [
+                'attribute' => 'created_at',
+                'value' => function ($data) {
+                    return date('Y-m-d H:i:s', $data->created_at);
+                }
+            ],
 //            'created_by',
             [
                 'attribute' => 'created_by',
@@ -44,7 +50,13 @@ $this->params['breadcrumbs'][] = $this->title;
                     return \backend\models\User::findName($data->created_by);
                 }
             ],
-            'updated_at',
+//            'updated_at',
+            [
+                'attribute' => 'updated_at',
+                'value' => function ($data) {
+                    return date('Y-m-d H:i:s', $data->updated_at);
+                }
+            ],
 //            'updated_by',
             [
                 'attribute' => 'updated_by',

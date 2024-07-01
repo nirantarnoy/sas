@@ -139,18 +139,18 @@ $this->params['breadcrumbs'][] = '/ ' . $this->title;
                 'headerOptions' => ['style' => 'text-align:center;', 'class' => 'activity-view-link',],
                 'class' => 'yii\grid\ActionColumn',
                 'contentOptions' => ['style' => 'text-align: center'],
-                'template' => '{view}{update}{delete}',
+                'template' => '{update}{delete}',
                 'buttons' => [
 
-                    'view' => function ($url, $data, $index) {
-                        $options = [
-                            'title' => Yii::t('yii', 'View'),
-                            'aria-label' => Yii::t('yii', 'View'),
-                            'data-pjax' => '0',
-                        ];
-                        return Html::a(
-                            '<span class="fas fa-eye btn btn-xs btn-default"></span>', $url, $options);
-                    },
+//                    'view' => function ($url, $data, $index) {
+//                        $options = [
+//                            'title' => Yii::t('yii', 'View'),
+//                            'aria-label' => Yii::t('yii', 'View'),
+//                            'data-pjax' => '0',
+//                        ];
+//                        return Html::a(
+//                            '<span class="fas fa-eye btn btn-xs btn-default"></span>', $url, $options);
+//                    },
                     'update' => function ($url, $data, $index) {
                         $options = array_merge([
                             'title' => Yii::t('yii', 'Update'),
@@ -158,15 +158,19 @@ $this->params['breadcrumbs'][] = '/ ' . $this->title;
                             'data-pjax' => '0',
                             'id' => 'modaledit',
                         ]);
-                        return Html::a(
-                            '<span class="fas fa-edit btn btn-xs btn-default"></span>', $url, [
-                            'id' => 'activity-view-link',
-                            //'data-toggle' => 'modal',
-                            // 'data-target' => '#modal',
-                            'data-id' => $index,
-                            'data-pjax' => '0',
-                            // 'style'=>['float'=>'rigth'],
-                        ]);
+                        $is_owner = $data->created_by == \Yii::$app->user->id;
+                        if ($is_owner) {
+                            return Html::a(
+                                '<span class="fas fa-edit btn btn-xs btn-default"></span>', $url, [
+                                'id' => 'activity-view-link',
+                                //'data-toggle' => 'modal',
+                                // 'data-target' => '#modal',
+                                'data-id' => $index,
+                                'data-pjax' => '0',
+                                // 'style'=>['float'=>'rigth'],
+                            ]);
+                        }
+
                     },
                     'delete' => function ($url, $data, $index) {
                         $options = array_merge([
@@ -179,7 +183,11 @@ $this->params['breadcrumbs'][] = '/ ' . $this->title;
                             'data-var' => $data->id,
                             'onclick' => 'recDelete($(this));'
                         ]);
-                        return Html::a('<span class="fas fa-trash-alt btn btn-xs btn-default"></span>', 'javascript:void(0)', $options);
+                        $is_owner = $data->created_by == \Yii::$app->user->id;
+                        if ($is_owner) {
+                            return Html::a('<span class="fas fa-trash-alt btn btn-xs btn-default"></span>', 'javascript:void(0)', $options);
+                        }
+
                     }
                 ]
             ],
