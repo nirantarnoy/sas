@@ -126,6 +126,12 @@ $this->params['breadcrumbs'][] = '/ ' . $this->title;
                     if ($data->status == 4) {
                         return '<div class="badge badge-success">' . $status_name . '</div>';
                     }
+                    if ($data->status == 5) {
+                        return '<div class="badge badge-warning">' . $status_name . '</div>';
+                    }
+                    if ($data->status == 6) {
+                        return '<div class="badge badge-dark">' . $status_name . '</div>';
+                    }
                 }
             ],
             //'created_at',
