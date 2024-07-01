@@ -7,6 +7,7 @@ use yii\widgets\ActiveForm;
 /** @var backend\models\Todolist $model */
 /** @var yii\widgets\ActiveForm $form */
 
+$todolist_status = [['id'=>1,'name'=>'Open'],['id'=>2,'name'=>'Close']];
 
 ?>
 
@@ -84,7 +85,12 @@ use yii\widgets\ActiveForm;
                 ]) ?>
             </div>
             <div class="col-lg-3">
-                <?= $form->field($model, 'status')->textInput(['readonly' => 'readonly']) ?>
+                <?= $form->field($model, 'status')->widget(\kartik\select2\Select2::className(),[
+                        'data'=>\yii\helpers\ArrayHelper::map($todolist_status,'id','name'),
+                        'options' => [
+
+                        ],
+                ]) ?>
             </div>
 
         </div>
@@ -163,6 +169,18 @@ use yii\widgets\ActiveForm;
                     </tfoot>
                 </table>
 
+            </div>
+            <div class="col-lg-6">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <h4><b>ปิดงาน TodoList</b></h4>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <?= $form->field($model, 'remark')->textInput() ?>
+                    </div>
+                </div>
             </div>
         </div>
 
