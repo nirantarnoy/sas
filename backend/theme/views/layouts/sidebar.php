@@ -44,7 +44,7 @@
 <!--                        --><?php ////endif; ?>
 <!--                    </ul>-->
 <!--                </li>-->
-                <?php if (1>0): ?>
+                <?php if (\Yii::$app->user->can('mainconfig/index')): ?>
                     <li class="nav-item has-treeview has-sub">
                         <a href="#" class="nav-link">
                             <i class="nav-icon fas fa-cog"></i>
