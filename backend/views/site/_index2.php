@@ -75,7 +75,7 @@ $todolist_data = \common\models\ViewTodolistEmp::find()->where(['status' => 0, '
                                 $date1 = date_create(date('Y-m-d H:i:s', strtotime($value->workorder_date)));
                                 $date2 = date_create(date('Y-m-d H:i:s'));
                                 $line_time_use = date_diff($date1, $date2);
-
+                                 echo "dfdf";
                                 ?>
                                 <?php if (\Yii::$app->user->can('user/index')): ?>
                                     <tr>
