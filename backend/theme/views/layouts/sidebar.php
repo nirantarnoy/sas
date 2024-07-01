@@ -81,7 +81,7 @@
                         </ul>
                     </li>
                 <?php endif; ?>
-
+                <?php if (\Yii::$app->user->can('department/index') || \Yii::$app->user->can('position/index') || \Yii::$app->user->can('employee/index')): ?>
                 <li class="nav-item has-treeview has-sub">
                     <a href="#" class="nav-link">
                         <i class="nav-icon fas fa-users-cog"></i>
@@ -91,32 +91,33 @@
                         </p>
                     </a>
                     <ul class="nav nav-treeview">
-                        <?php //if (\Yii::$app->user->can('position/index')): ?>
+                        <?php if (\Yii::$app->user->can('department/index')): ?>
                         <li class="nav-item">
                             <a href="index.php?r=department/index" class="nav-link department">
                                 <i class="far fa-circlez nav-icon"></i>
                                 <p>แผนก</p>
                             </a>
                         </li>
-                        <?php //endif; ?>
-                        <?php //if (\Yii::$app->user->can('position/index')): ?>
+                        <?php endif; ?>
+                        <?php if (\Yii::$app->user->can('position/index')): ?>
                         <li class="nav-item">
                             <a href="index.php?r=position/index" class="nav-link position">
                                 <i class="far fa-circlez nav-icon"></i>
                                 <p>ตำแหน่ง</p>
                             </a>
                         </li>
-                        <?php //endif; ?>
-                        <?php //if (\Yii::$app->user->can('employee/index')): ?>
+                        <?php endif; ?>
+                        <?php if (\Yii::$app->user->can('employee/index')): ?>
                             <li class="nav-item">
                                 <a href="index.php?r=employee/index" class="nav-link employee">
                                     <i class="far fa-circlez nav-icon"></i>
                                     <p>พนักงาน</p>
                                 </a>
                             </li>
-                        <?php //endif; ?>
+                        <?php endif; ?>
                     </ul>
                 </li>
+                <?php endif;?>
 
                 <li class="nav-item has-treeview has-sub">
                     <a href="#" class="nav-link">
