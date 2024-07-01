@@ -171,14 +171,10 @@ $todolist_status = [['id'=>1,'name'=>'Open'],['id'=>2,'name'=>'Close']];
 
             </div>
             <div class="col-lg-6">
+
                 <div class="row">
                     <div class="col-lg-12">
-                        <h4><b>ปิดงาน TodoList</b></h4>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-lg-12">
-                        <?= $form->field($model, 'remark')->textInput() ?>
+                        <?= $form->field($model, 'remark')->textarea() ?>
                     </div>
                 </div>
             </div>

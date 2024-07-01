@@ -61,7 +61,7 @@ class Todolist extends \yii\db\ActiveRecord
             'target_date' => 'วันที่ต้องทำ',
             'act_date'=>'วันที่ดําเนินงาน',
             'end_date'=>'วันที่สิ้นสุดงาน',
-            'remark'=>'หมายเหตุ',
+            'remark'=>'หมายเหตุสำหรับปิดงาน Todo List',
             'status'=>'สถานะ',
             'created_at' => 'สร้างเมื่อ',
             'created_by' => 'สร้างโดย',
