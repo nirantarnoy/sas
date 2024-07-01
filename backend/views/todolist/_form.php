@@ -7,7 +7,7 @@ use yii\widgets\ActiveForm;
 /** @var backend\models\Todolist $model */
 /** @var yii\widgets\ActiveForm $form */
 
-$todolist_status = [['id'=>1,'name'=>'Open'],['id'=>2,'name'=>'Close']];
+$todolist_status = [['id'=>0,'name'=>'Open'],['id'=>1,'name'=>'Close']];
 
 ?>
 
