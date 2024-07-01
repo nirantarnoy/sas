@@ -222,13 +222,12 @@ $data_series = [
         ?>
     </div>
 </div>
-ื<br />
+<br />
 <div class="row">
     <div class="col-lg-12">
         <h3>รายละเอียดงานค้าง</h3>
     </div>
 </div>
-
 <br />
 <div class="row">
     <div class="col-lg-12">
