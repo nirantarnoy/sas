@@ -232,7 +232,7 @@
                             </a>
                         </li>
                         <?php endif;?>
-                        <?php if (\Yii::$app->user->can('workorderchat/index')): ?>
+                        <?php if (\Yii::$app->user->can('workorderchat/chat')): ?>
                         <li class="nav-item">
                             <a href="index.php?r=workorderchat/chat&id=" class="nav-link">
                                 <i class="far fa-circlez nav-icon"></i>
