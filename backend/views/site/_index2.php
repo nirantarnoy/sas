@@ -12,19 +12,11 @@ $work_receive_qty = 0;
 $c_user = \Yii::$app->user->id;
 $c_emp_map = \backend\models\User::findEmpId($c_user);
 
-$model_outstanding = null;
-$model_recevie_data = null;
-$model_closed_data = null;
-if(\Yii::$app->user->can('mainconfig/index')) {
 
     $model_outstanding = \backend\models\Workorder::find()->where(['status' => [1, 3]])->all();
     $model_recevie_data = \backend\models\Workorder::find()->where(['status' => [1, 3]])->all();
     $model_closed_data = \backend\models\Workorder::find()->where(['status' => 4])->all();
-}else{
-    $model_outstanding = \backend\models\Workorder::find()->where(['status' => [1, 3]])->andWhere(['emp_id' => $c_emp_map])->all();
-    $model_recevie_data = \backend\models\Workorder::find()->where(['status' => [1, 3]])->andWhere(['emp_id' => $c_emp_map])->all();
-    $model_closed_data = \backend\models\Workorder::find()->where(['status' => 4])->andWhere(['emp_id' => $c_emp_map])->all();
-}
+
 
 
 if ($model_recevie_data) {
@@ -80,6 +72,7 @@ $todolist_data = \common\models\ViewTodolistEmp::find()->where(['status' => 0, '
                         <?php else: ?>
                             <?php foreach ($model_outstanding as $value): ?>
                                 <?php
+                                if(checkMyAssignwork($value->id,$c_user) == 0)continue;
                                 // $date1 = date_create(date('Y-m-d H:i:s',strtotime($value->workorder_date)));
                                 $date1 = date_create(date('Y-m-d H:i:s', strtotime($value->workorder_date)));
                                 $date2 = date_create(date('Y-m-d H:i:s'));
@@ -211,6 +204,15 @@ $todolist_data = \common\models\ViewTodolistEmp::find()->where(['status' => 0, '
     </div>
 
 <?php
+
+function checkMyAssignwork($workorder_id,$emp_id){
+    $res = 0;
+    $model = \common\models\ViewEmpWorkAssign::find()->where(['workorder_id' => $workorder_id,'emp_id' => $emp_id])->count();
+    if($model){
+        $res = $model;
+    }
+    return $res;
+}
 function getTodolistemp($todolist_id)
 {
     $name = '';
