@@ -72,7 +72,10 @@ $todolist_data = \common\models\ViewTodolistEmp::find()->where(['status' => 0, '
                         <?php else: ?>
                             <?php foreach ($model_outstanding as $value): ?>
                                 <?php
-                                if(checkMyAssignwork($value->id,$c_user) == 0)continue;
+                                if(checkMyAssignwork($value->id,$c_user) == 0 && !\Yii::$app->user->can('user/index')){
+                                    continue;
+                                }
+                               
                                 // $date1 = date_create(date('Y-m-d H:i:s',strtotime($value->workorder_date)));
                                 $date1 = date_create(date('Y-m-d H:i:s', strtotime($value->workorder_date)));
                                 $date2 = date_create(date('Y-m-d H:i:s'));
