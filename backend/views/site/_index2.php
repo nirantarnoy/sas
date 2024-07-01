@@ -230,7 +230,7 @@ $todolist_data = \common\models\ViewTodolistEmp::find()->where(['status' => 0, '
 function checkMyAssignwork($workorder_id, $emp_id)
 {
     $res = 0;
-    $model = \common\models\ViewEmpWorkAssign::find()->where(['workorder_id' => $workorder_id, 'emp_id' => $emp_id])->count();
+    $model = \common\models\ViewEmpWorkAssign::find()->where(['workorder_idx' => $workorder_id, 'emp_id' => $emp_id])->count();
     if ($model) {
         $res = $model;
     }
