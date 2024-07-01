@@ -104,7 +104,7 @@ $data_series_cause = [
 ];
 
 $data_series = [
-    ['name' => 'สถานะงานซ่อม', 'data' => [['name' => 'ซ่อมเสร็จแล้ว', 'y' => (int)$work_closed_qty, 'color' => '#544fc5'], ['name' => 'ซ่อมอยู่', 'y' => (int)$work_receive_qty, 'color' => '#91e8e1']]],
+    ['name' => 'สถานะงานซ่อม', 'data' => [['name' => 'ซ่อมเสร็จแล้ว', 'y' => (int)$work_closed_qty, 'color' => '#544fc5'], ['name' => 'ซ่อมอยู่', 'y' => 10, 'color' => '#91e8e1']]],
 ];
 
 ?>
