@@ -222,3 +222,77 @@ $data_series = [
         ?>
     </div>
 </div>
+ื<br />
+<div class="row">
+    <div class="col-lg-12">
+        <h3>รายละเอียดงานค้าง</h3>
+    </div>
+</div>
+
+<br />
+<div class="row">
+    <div class="col-lg-12">
+        <table class="table table-bordered" style="width: 100%;">
+            <thead>
+            <tr>
+                <th style="text-align: center;width: 5%">#</th>
+                <th style="text-align: center;">เลขที่ใบแจ้ง</th>
+                <th style="text-align: center;">วันที่แจ้ง</th>
+                <th style="text-align: center;">วันที่รับงาน</th>
+                <th style="text-align: center;">ใช้เวลาไปแล้ว</th>
+                <th style="text-align: center;">ผู้รับผิดชอบ</th>
+                <th style="text-align: center;">สถานะ</th>
+            </tr>
+            </thead>
+            <tbody>
+
+            <?php
+            $i = 1;
+            foreach ($model_outstanding as $value) {
+                $workstatus_bg = 'badge-secondary';
+                if($value->status == 1){
+                    $workstatus_bg = 'badge-secondary';
+                }else if($value->status == 3){
+                    $workstatus_bg = 'badge-info';
+                }else if($value->status == 4){
+                    $workstatus_bg = 'badge-success';
+                }else if($value->status >= 5){
+                    $workstatus_bg = 'badge-danger';
+                }
+
+                $date1 = date_create(date('Y-m-d H:i:s', strtotime($value->workorder_date)));
+                $date2 = date_create(date('Y-m-d H:i:s'));
+                $line_time_use = date_diff($date1, $date2);
+                ?>
+                <tr>
+                    <td style="text-align: center;width: 5%"><?= $i ?></td>
+                    <td style="text-align: center;"><?= $value->workorder_no ?></td>
+                    <td style="text-align: center;"><?= date('d-m-Y H:i:s',strtotime($value->workorder_date)) ?></td>
+                    <td style="text-align: center;"><?= date('d-m-Y H:i:s',strtotime($value->work_recieve_date)) ?></td>
+                    <td style="text-align: center;"><?= $line_time_use->format('%d days %h hours %i minute') ?></td>
+                    <td style="text-align: center;"><?=findAssignEmp($value->id)?></td>
+                    <td style="text-align: center;"><div class="badge <?= $workstatus_bg ?>"><?=\backend\models\Workorderstatus::findName($value->status) ?></div></td>
+                </tr>
+                <?php
+                $i++;
+            }
+            ?>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<?php
+function findAssignEmp($workorder_id){
+    $name = '';
+    if($workorder_id > 0){
+        $model = \common\models\ViewEmpWorkAssign::find()->where(['workorder_id' => $workorder_id])->all();
+        if($model){
+            foreach ($model as $value){
+                $name .= $value->fname . ',';
+            }
+        }
+    }
+    return $name;
+}
+?>
