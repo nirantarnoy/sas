@@ -97,7 +97,7 @@ $btn_inactive = 'btn-secondary';
                             <tr>
                                 <td>Task List</td>
                                 <td>
-                                    <div class="btn btn-info btn-show-tasklist" data-var="<?= $value->asset_id ?>">
+                                    <div class="btn btn-info btn-sm btn-show-tasklist" data-var="<?= $value->asset_id ?>">
                                         View
                                     </div>
                                 </td>
