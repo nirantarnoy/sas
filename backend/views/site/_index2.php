@@ -94,8 +94,8 @@ $todolist_data = \common\models\ViewTodolistEmp::find()->where(['status' => 0, '
                                         <td style="text-align:center;"><?= \backend\models\Asset::findAssetSerialNo($value->asset_id) ?></td>
                                     </tr>
                                 <?php else: ?>
-                                <?php echo "not admin"; ?>
-                                    <?php if (checkMyAssignwork($value->id, $c_user) == 1): ?>
+                               
+                                    <?php if (checkMyAssignwork($value->id, $c_emp_map) == 1): ?>
                                         <tr>
                                             <td style="text-align:center;"><a
                                                         href="index.php?r=workorder/update&id=<?= $value->id ?>"><?= $value->workorder_no ?></a>
