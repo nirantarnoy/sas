@@ -13,10 +13,9 @@ $c_user = \Yii::$app->user->id;
 $c_emp_map = \backend\models\User::findEmpId($c_user);
 
 
-    $model_outstanding = \backend\models\Workorder::find()->where(['status' => [1, 3]])->all();
-    $model_recevie_data = \backend\models\Workorder::find()->where(['status' => [1, 3]])->all();
-    $model_closed_data = \backend\models\Workorder::find()->where(['status' => 4])->all();
-
+$model_outstanding = \backend\models\Workorder::find()->where(['status' => [1, 3]])->all();
+$model_recevie_data = \backend\models\Workorder::find()->where(['status' => [1, 3]])->all();
+$model_closed_data = \backend\models\Workorder::find()->where(['status' => 4])->all();
 
 
 if ($model_recevie_data) {
@@ -72,30 +71,49 @@ $todolist_data = \common\models\ViewTodolistEmp::find()->where(['status' => 0, '
                         <?php else: ?>
                             <?php foreach ($model_outstanding as $value): ?>
                                 <?php
-                                if(checkMyAssignwork($value->id,$c_user) == 0 && !\Yii::$app->user->can('user/index')){
-                                    continue;
-                                }
-                               
                                 // $date1 = date_create(date('Y-m-d H:i:s',strtotime($value->workorder_date)));
                                 $date1 = date_create(date('Y-m-d H:i:s', strtotime($value->workorder_date)));
                                 $date2 = date_create(date('Y-m-d H:i:s'));
                                 $line_time_use = date_diff($date1, $date2);
+
                                 ?>
-                                <tr>
-                                    <td style="text-align:center;"><a
-                                                href="index.php?r=workorder/update&id=<?= $value->id ?>"><?= $value->workorder_no ?></a>
-                                    </td>
-                                    <td style="text-align:center;"><?= \backend\models\User::findName($value->created_by) ?></td>
-                                    <td style="text-align:center;"><a
-                                                href="index.php?r=workorderchat/chat&id=<?= $value->id ?>"
-                                                target="_blank"><?= getLastMessage($value->id) ?></a></td>
-                                    <td style="text-align:center;"><span
-                                                style="color: green;"><?= $line_time_use->format('%d days %h hours %i minute') ?></span>
-                                    </td>
-                                    <td style="text-align:center;"><?= \backend\models\Asset::findAssetCatName($value->asset_id) ?></td>
-                                    <td style="text-align:center;"><?= \backend\models\Asset::findName($value->asset_id) ?></td>
-                                    <td style="text-align:center;"><?= \backend\models\Asset::findAssetSerialNo($value->asset_id) ?></td>
-                                </tr>
+                                <?php if (\Yii::$app->user->can('user/index')): ?>
+                                    <tr>
+                                        <td style="text-align:center;"><a
+                                                    href="index.php?r=workorder/update&id=<?= $value->id ?>"><?= $value->workorder_no ?></a>
+                                        </td>
+                                        <td style="text-align:center;"><?= \backend\models\User::findName($value->created_by) ?></td>
+                                        <td style="text-align:center;"><a
+                                                    href="index.php?r=workorderchat/chat&id=<?= $value->id ?>"
+                                                    target="_blank"><?= getLastMessage($value->id) ?></a></td>
+                                        <td style="text-align:center;"><span
+                                                    style="color: green;"><?= $line_time_use->format('%d days %h hours %i minute') ?></span>
+                                        </td>
+                                        <td style="text-align:center;"><?= \backend\models\Asset::findAssetCatName($value->asset_id) ?></td>
+                                        <td style="text-align:center;"><?= \backend\models\Asset::findName($value->asset_id) ?></td>
+                                        <td style="text-align:center;"><?= \backend\models\Asset::findAssetSerialNo($value->asset_id) ?></td>
+                                    </tr>
+                                <?php else: ?>
+                                    <?php if (checkMyAssignwork($value->id, $c_user) == 1): ?>
+                                        <tr>
+                                            <td style="text-align:center;"><a
+                                                        href="index.php?r=workorder/update&id=<?= $value->id ?>"><?= $value->workorder_no ?></a>
+                                            </td>
+                                            <td style="text-align:center;"><?= \backend\models\User::findName($value->created_by) ?></td>
+                                            <td style="text-align:center;"><a
+                                                        href="index.php?r=workorderchat/chat&id=<?= $value->id ?>"
+                                                        target="_blank"><?= getLastMessage($value->id) ?></a></td>
+                                            <td style="text-align:center;"><span
+                                                        style="color: green;"><?= $line_time_use->format('%d days %h hours %i minute') ?></span>
+                                            </td>
+                                            <td style="text-align:center;"><?= \backend\models\Asset::findAssetCatName($value->asset_id) ?></td>
+                                            <td style="text-align:center;"><?= \backend\models\Asset::findName($value->asset_id) ?></td>
+                                            <td style="text-align:center;"><?= \backend\models\Asset::findAssetSerialNo($value->asset_id) ?></td>
+                                        </tr>
+                                    <?php endif; ?>
+                                <?php endif; ?>
+
+
                             <?php endforeach; ?>
                         <?php endif; ?>
 
@@ -208,14 +226,16 @@ $todolist_data = \common\models\ViewTodolistEmp::find()->where(['status' => 0, '
 
 <?php
 
-function checkMyAssignwork($workorder_id,$emp_id){
+function checkMyAssignwork($workorder_id, $emp_id)
+{
     $res = 0;
-    $model = \common\models\ViewEmpWorkAssign::find()->where(['workorder_id' => $workorder_id,'emp_id' => $emp_id])->count();
-    if($model){
+    $model = \common\models\ViewEmpWorkAssign::find()->where(['workorder_id' => $workorder_id, 'emp_id' => $emp_id])->count();
+    if ($model) {
         $res = $model;
     }
     return $res;
 }
+
 function getTodolistemp($todolist_id)
 {
     $name = '';
