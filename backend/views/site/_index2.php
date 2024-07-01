@@ -49,7 +49,7 @@ $todolist_data = \common\models\ViewTodolistEmp::find()->where(['status' => 0, '
                         <thead>
                         <tr>
                             <td colspan="7"
-                                style="text-align: center;background-color: #3F7F7F;color: white;border-top-left-radius: 15px;border-top-right-radius: 15px;border-left: 1px solid transparent;border-top: 1px solid transparent;border-right: 1px solid transparent; ">
+                                style="text-align: center;background-color: #3F7F7F;color: white;border-top-left-radius: 5px;border-top-right-radius: 5px;border-left: 1px solid transparent;border-top: 1px solid transparent;border-right: 1px solid transparent; ">
                                 <span style="font-size: 25px;">งานซ่อมที่ค้าง</span>
                             </td>
                         </tr>
@@ -130,7 +130,7 @@ $todolist_data = \common\models\ViewTodolistEmp::find()->where(['status' => 0, '
                         <thead>
                         <tr>
                             <td colspan="6"
-                                style="text-align: center;background-color: #3F7F7F;color: white;border-top-left-radius: 15px;border-top-right-radius: 15px;border-left: 1px solid transparent;border-top: 1px solid transparent;border-right: 1px solid transparent; ">
+                                style="text-align: center;background-color: #3F7F7F;color: white;border-top-left-radius: 5px;border-top-right-radius: 5px;border-left: 1px solid transparent;border-top: 1px solid transparent;border-right: 1px solid transparent; ">
                                 <span style="font-size: 25px;">ToDoList</span></td>
                         </tr>
                         <tr>
