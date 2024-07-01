@@ -21,7 +21,7 @@ $model_work_solve = \common\models\SolveTitle::find()->where(['status' => 1])->a
         <?= \Yii::$app->session->getFlash('msg-success') ?>
     </div>
 <?php endif; ?>
-    <br />
+    <br/>
 
     <br/>
     <h4>รายการใบงาน <span style="font-weight: bold"><?= $itemcount ?> </span>รายการ</h4>
@@ -32,7 +32,8 @@ $btn_inactive = 'btn-secondary';
 
 ?>
     <div class="btn-group">
-        <a href="index.php?r=myworkassign/index&type=all" class="btn <?= $type == 'all' ? $btn_active : $btn_inactive ?>">All</a>
+        <a href="index.php?r=myworkassign/index&type=all"
+           class="btn <?= $type == 'all' ? $btn_active : $btn_inactive ?>">All</a>
         <a href="index.php?r=myworkassign/index&type=1" class="btn <?= $type == '1' ? $btn_active : $btn_inactive ?>">รอรับงาน</a>
         <a href="index.php?r=myworkassign/index&type=3" class="btn <?= $type == '3' ? $btn_active : $btn_inactive ?>">ระหว่างซ่อม</a>
         <a href="index.php?r=myworkassign/index&type=4" class="btn <?= $type == '4' ? $btn_active : $btn_inactive ?>">ซ่อมเสร็จ</a>
@@ -398,13 +399,15 @@ $btn_inactive = 'btn-secondary';
                             <tr>
                                 <td style="width: 20%;text-align: right;vertical-align: middle;">ค่าแรง</td>
                                 <td colspan="3">
-                                    <input type="text" class="form-control line-close-labour-cost" value="" name="labour_cost">
+                                    <input type="text" class="form-control line-close-labour-cost" value=""
+                                           name="labour_cost">
                                 </td>
                             </tr>
                             <tr>
                                 <td style="width: 20%;text-align: right;vertical-align: middle;">ค่าอะไหร่</td>
                                 <td colspan="3">
-                                    <input type="text" class="form-control line-close-spare-cost" value="" name="spare_cost">
+                                    <input type="text" class="form-control line-close-spare-cost" value=""
+                                           name="spare_cost">
                                 </td>
                             </tr>
                             <tr>
@@ -456,6 +459,7 @@ $btn_inactive = 'btn-secondary';
                 <form action="<?= Url::to(['myworkassign/acceptworkorder'], true) ?>" method="post">
                     <div class="modal-body">
                         <div style="height: 10px;"></div>
+                        <!--                        <input type="hidden" name="btn_reject" class="btn-reject" value="">-->
                         <input type="hidden" name="workorder_id" class="accept-workorder-id" value="">
                         <input type="hidden" name="workorder_accept_type" class="workorder-accept-type" value="">
                         <table class="table table-bordered table-striped table-find-list" width="100%">
@@ -495,25 +499,46 @@ $btn_inactive = 'btn-secondary';
                                               rows="5"></textarea>
                                 </td>
                             </tr>
+                                <tr>
+                                    <td style="width: 20%;text-align: right;vertical-align: middle;">
+                                        วันที่คาดว่าจะซ่อมเสร็จ
+                                    </td>
+                                    <td>
+                                        <?php
+                                        echo \kartik\date\DatePicker::widget([
+                                            'name' => 'estimate_finish_date',
+                                            'value' => date('Y-m-d'),
+                                            'pluginOptions' => [
+                                                'format' => 'dd-mm-yyyy',
+                                                'todayHighlight' => true,
+                                                'autoclose' => true,
+                                                'todayBtn' => true
+                                            ]
+                                        ])
+                                        ?>
+                                    </td>
+                                </tr>
 
-                            <tr>
-                                <td style="width: 20%;text-align: right;vertical-align: middle;">วันที่คาดว่าจะซ่อมเสร็จ</td>
-                                <td>
-                                    <?php
-                                      echo \kartik\date\DatePicker::widget([
-                                          'name' => 'estimate_finish_date',
-                                          'value' => date('Y-m-d'),
-                                          'pluginOptions' => [
-                                              'format' => 'dd-mm-yyyy',
-                                              'todayHighlight' => true,
-                                              'autoclose' => true,
-                                              'todayBtn' => true
-                                          ]
-                                      ])
-                                    ?>
-                                </td>
-                            </tr>
-
+<!--                                <tr>-->
+<!--                                    <td style="width: 20%;text-align: right;vertical-align: middle;">-->
+<!--                                        วันที่คาดว่าจะซ่อมเสร็จ-->
+<!--                                    </td>-->
+<!--                                    <td>-->
+<!--                                        --><?php
+//                                        echo \kartik\date\DatePicker::widget([
+//                                            'name' => 'estimate_finish_date',
+//                                            'value' => date('Y-m-d'),
+//                                            'pluginOptions' => [
+//                                                'format' => 'dd-mm-yyyy',
+//                                                'todayHighlight' => true,
+//                                                'autoclose' => true,
+//                                                'todayBtn' => true
+//                                            ]
+//                                        ])
+//                                        ?>
+<!--                                    </td>-->
+<!--                                </tr>-->
+                            <?php endif; ?>
 
 
                             </tbody>
@@ -689,6 +714,8 @@ $(function(){
         $("#acceptWorkModal").modal("show");
     });
     $(".btn-deny-workorder").on("click",function(){
+        // var reject = 0;
+        
         var work_order_id = $(this).parent().parent().find(".accept-workorder-id").val();
         var work_order_no = $(this).parent().parent().find(".accept-workorder-no").val();
         var work_order_asset = $(this).parent().parent().find(".accept-workorder-asset").val();
