@@ -96,10 +96,12 @@ class UserController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
+        $model->getRoleByUser();
 
         if ($model->load(\Yii::$app->request->post())) {
             if($model->save(false)){
-                return $this->redirect(['view', 'id' => $model->id]);
+                $model->assignment();
+                return $this->redirect(['index']);
             }
 
         }
