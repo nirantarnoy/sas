@@ -263,7 +263,7 @@ $btn_inactive = 'btn-secondary';
                         <table style="width: 100%">
                             <tr>
                                 <td style="width: 20%">วันที่คาดว่าจะเสร็จ</td>
-                                <td><b><?= date('d/m/Y', strtotime($value->work_estimate_finish_date)) ?></b></td>
+                                <td><b><?= $value->work_estimate_finish_date ==null ?'': date('d/m/Y', strtotime($value->work_estimate_finish_date)) ?></b></td>
                             </tr>
                             <tr>
                                 <td>ข้อความล่าสุด</td>
