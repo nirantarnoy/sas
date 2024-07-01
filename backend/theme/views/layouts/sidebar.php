@@ -54,30 +54,38 @@
                             </p>
                         </a>
                         <ul class="nav nav-treeview">
+                            <?php if (\Yii::$app->user->can('workorderstatus/index')): ?>
                             <li class="nav-item">
                                 <a href="index.php?r=workorderstatus" class="nav-link workorderstatus">
                                     <i class="far fa-file-import nav-icon"></i>
                                     <p>สถานะแจ้งซ่อม</p>
                                 </a>
                             </li>
+                            <?php endif; ?>
+                            <?php if (\Yii::$app->user->can('location/index')): ?>
                             <li class="nav-item">
                                 <a href="index.php?r=location" class="nav-link location">
                                     <i class="far fa-file-import nav-icon"></i>
                                     <p>ที่ตั้ง (Location)</p>
                                 </a>
                             </li>
+                            <?php endif;?>
+                            <?php if (\Yii::$app->user->can('workordercause/index')): ?>
                             <li class="nav-item">
                                 <a href="index.php?r=workordercause" class="nav-link workordercause">
                                     <i class="far fa-file-import nav-icon"></i>
                                     <p>สาเหตุปัญหา</p>
                                 </a>
                             </li>
+                            <?php endif;?>
+                            <?php if (\Yii::$app->user->can('solvetitle/index')): ?>
                             <li class="nav-item">
                                 <a href="index.php?r=solvetitle" class="nav-link solvetitle">
                                     <i class="far fa-file-import nav-icon"></i>
                                     <p>วิธีแก้ปัญหา</p>
                                 </a>
                             </li>
+                            <?php endif;?>
                         </ul>
                     </li>
                 <?php endif; ?>
