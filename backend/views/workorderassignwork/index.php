@@ -182,7 +182,7 @@ $this->params['breadcrumbs'][] = $this->title;
             //'factor_risk_final',
             [
 
-                'header' => 'Action',
+                'header' => 'ประเมินงานซ่อม',
                 'headerOptions' => ['style' => 'text-align:center;', 'class' => 'activity-view-link',],
                 'class' => 'yii\grid\ActionColumn',
                 'contentOptions' => ['style' => 'text-align: center'],
