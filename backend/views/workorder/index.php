@@ -60,7 +60,7 @@ $this->params['breadcrumbs'][] = '/ ' . $this->title;
         'emptyText' => '<div style="color: red;text-align: center;"> <b>ไม่พบรายการไดๆ</b> <span> เพิ่มรายการโดยการคลิกที่ปุ่ม </span><span class="text-success">"สร้างใหม่"</span></div>',
 
         'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
+            ['class' => 'yii\grid\SerialColumn','headerOptions' => ['style' => 'text-align:center;'],'contentOptions' => ['style' => 'text-align:center;']],
 
 //            'id',
             'workorder_no',
@@ -87,7 +87,7 @@ $this->params['breadcrumbs'][] = '/ ' . $this->title;
                 'format' => 'raw',
                 'value' => function ($data) {
                     if ($data->problem_text != '') {
-                        return substr($data->problem_text, 0, 20) . '<span style="color: red;">...</span>';
+                        return mb_substr($data->problem_text, 0, 20) . '<span style="color: red;">...</span>';
                     } else {
                         return '';
                     }

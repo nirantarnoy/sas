@@ -7,6 +7,7 @@ use yii\widgets\ActiveForm;
 /** @var backend\models\Todolist $model */
 /** @var yii\widgets\ActiveForm $form */
 
+$todolist_status = [['id' => 0, 'name' => 'Open'], ['id' => 1, 'name' => 'Close']];
 
 ?>
 
@@ -20,7 +21,7 @@ use yii\widgets\ActiveForm;
                 <?= $form->field($model, 'todolist_no')->textInput(['maxlength' => true, 'readonly' => 'readonly']) ?>
             </div>
             <div class="col-lg-3">
-                <?php $model->trans_date = $model->isNewRecord? date('d-m-Y') : date('d-m-Y',strtotime($model->trans_date)) ?>
+                <?php $model->trans_date = $model->isNewRecord ? date('d-m-Y') : date('d-m-Y', strtotime($model->trans_date)) ?>
                 <?= $form->field($model, 'trans_date')->widget(\kartik\date\DatePicker::className(), [
                     'value' => date('Y-m-d'),
                     'pluginOptions' => [
@@ -46,7 +47,7 @@ use yii\widgets\ActiveForm;
                 <?= $form->field($model, 'brand_name')->textInput(['maxlength' => true]) ?>
             </div>
             <div class="col-lg-3">
-                <?php $model->target_date = $model->isNewRecord? date('d-m-Y') : date('d-m-Y',strtotime($model->target_date)) ?>
+                <?php $model->target_date = $model->isNewRecord ? date('d-m-Y') : date('d-m-Y', strtotime($model->target_date)) ?>
                 <?= $form->field($model, 'target_date')->widget(\kartik\date\DatePicker::className(), [
                     'value' => date('Y-m-d'),
                     'pluginOptions' => [
@@ -60,7 +61,7 @@ use yii\widgets\ActiveForm;
         </div>
         <div class="row">
             <div class="col-lg-3">
-                <?php $model->act_date = $model->isNewRecord? date('d-m-Y') : date('d-m-Y',strtotime($model->act_date)) ?>
+                <?php $model->act_date = $model->isNewRecord ? date('d-m-Y') : date('d-m-Y', strtotime($model->act_date)) ?>
                 <?= $form->field($model, 'act_date')->widget(\kartik\date\DatePicker::className(), [
                     'value' => date('Y-m-d'),
                     'pluginOptions' => [
@@ -71,20 +72,25 @@ use yii\widgets\ActiveForm;
                     ]
                 ]) ?>
             </div>
+<!--            <div class="col-lg-3">-->
+<!--                --><?php //$model->end_date = $model->isNewRecord ? date('d-m-Y') : date('d-m-Y', strtotime($model->end_date)) ?>
+<!--                --><?php //= $form->field($model, 'end_date')->widget(\kartik\date\DatePicker::className(), [
+//                    'value' => date('Y-m-d'),
+//                    'pluginOptions' => [
+//                        'autoclose' => true,
+//                        'format' => 'dd-mm-yyyy',
+//                        'todayHighlight' => true,
+//                        'todayBtn' => true,
+//                    ]
+//                ]) ?>
+<!--            </div>-->
             <div class="col-lg-3">
-                <?php $model->end_date = $model->isNewRecord? date('d-m-Y') : date('d-m-Y',strtotime($model->end_date)) ?>
-                <?= $form->field($model, 'end_date')->widget(\kartik\date\DatePicker::className(), [
-                    'value' => date('Y-m-d'),
-                    'pluginOptions' => [
-                        'autoclose' => true,
-                        'format' => 'dd-mm-yyyy',
-                        'todayHighlight' => true,
-                        'todayBtn' => true,
-                    ]
+                <?= $form->field($model, 'status')->widget(\kartik\select2\Select2::className(), [
+                    'data' => \yii\helpers\ArrayHelper::map($todolist_status, 'id', 'name'),
+                    'options' => [
+
+                    ],
                 ]) ?>
-            </div>
-            <div class="col-lg-3">
-                <?= $form->field($model, 'status')->textInput(['readonly' => 'readonly']) ?>
             </div>
 
         </div>
@@ -96,7 +102,8 @@ use yii\widgets\ActiveForm;
                     <thead>
                     <tr>
                         <th style="
-                        width: 5%;text-align: center;">#</th>
+                        width: 5%;text-align: center;">#
+                        </th>
                         <th style="width: 20%">ผู้รับผิดชอบ</th>
                         <th style="width: 5%;text-align: center;">-</th>
                     </tr>
@@ -104,7 +111,7 @@ use yii\widgets\ActiveForm;
                     <tbody>
                     <?php if ($model->isNewRecord): ?>
                         <tr data-var="">
-                            <td style="text-align: center;vertical-align: middle;" >
+                            <td style="text-align: center;vertical-align: middle;">
                             </td>
                             <td>
                                 <input type="hidden" class="form-control line-emp-id" name="line_emp_id[]" value="">
@@ -118,17 +125,19 @@ use yii\widgets\ActiveForm;
                     <?php else: ?>
 
                         <?php if ($model_line != null): ?>
-                        <?php $loop_no =0;?>
+                            <?php $loop_no = 0; ?>
                             <?php foreach ($model_line as $value): ?>
-                            <?php $loop_no++;?>
-                                <tr data-var="<?=$value->id?>">
+                                <?php $loop_no++; ?>
+                                <tr data-var="<?= $value->id ?>">
                                     <td style="text-align: center;vertical-align: middle;">
-                                        <?=$loop_no?>
+                                        <?= $loop_no ?>
                                     </td>
                                     <td>
-                                        <input type="hidden" class="form-control line-emp-id" name="line_emp_id[]" value="<?=$value->emp_id?>">
-                                        <input type="text" class="form-control line-emp-name" readonly name="line_emp_name[]"
-                                               value="<?=\backend\models\Employee::findName($value->emp_id)?>">
+                                        <input type="hidden" class="form-control line-emp-id" name="line_emp_id[]"
+                                               value="<?= $value->emp_id ?>">
+                                        <input type="text" class="form-control line-emp-name" readonly
+                                               name="line_emp_name[]"
+                                               value="<?= \backend\models\Employee::findName($value->emp_id) ?>">
                                     </td>
                                     <td style="text-align: center;">
                                         <div class="btn btn-sm btn-danger" onclick="removeline($(this))">ลบ</div>
@@ -164,13 +173,22 @@ use yii\widgets\ActiveForm;
                 </table>
 
             </div>
+            <div class="col-lg-6">
+
+                <div class="row">
+                    <div class="col-lg-12">
+                        <?= $form->field($model, 'remark')->textarea() ?>
+                    </div>
+                </div>
+            </div>
         </div>
 
         <br/>
-
-        <div class="form-group">
-            <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
-        </div>
+        <?php if ($model->status == 0 || $model->isNewRecord): ?>
+            <div class="form-group">
+                <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
+            </div>
+        <?php endif; ?>
         <?php ActiveForm::end(); ?>
     </div>
 
@@ -189,16 +207,16 @@ use yii\widgets\ActiveForm;
                 <!--            <div class="modal-body" style="white-space:nowrap;overflow-y: auto;scrollbar-x-position: top">-->
 
                 <div class="modal-body">
-<!--                    <div class="row">-->
-<!--                        <div class="col-lg-12" style="text-align: right">-->
-<!--                            <button class="btn btn-outline-success btn-emp-selected" data-dismiss="modalx" disabled><i-->
-<!--                                        class="fa fa-check"></i> ตกลง-->
-<!--                            </button>-->
-<!--                            <button type="button" class="btn btn-default" data-dismiss="modal"><i-->
-<!--                                        class="fa fa-close text-danger"></i> ปิดหน้าต่าง-->
-<!--                            </button>-->
-<!--                        </div>-->
-<!--                    </div>-->
+                    <!--                    <div class="row">-->
+                    <!--                        <div class="col-lg-12" style="text-align: right">-->
+                    <!--                            <button class="btn btn-outline-success btn-emp-selected" data-dismiss="modalx" disabled><i-->
+                    <!--                                        class="fa fa-check"></i> ตกลง-->
+                    <!--                            </button>-->
+                    <!--                            <button type="button" class="btn btn-default" data-dismiss="modal"><i-->
+                    <!--                                        class="fa fa-close text-danger"></i> ปิดหน้าต่าง-->
+                    <!--                            </button>-->
+                    <!--                        </div>-->
+                    <!--                    </div>-->
                     <div style="height: 10px;"></div>
                     <input type="hidden" name="line_qc_product" class="line_qc_product" value="">
                     <table class="table table-bordered table-striped table-find-list" width="100%" id="table-find-list">

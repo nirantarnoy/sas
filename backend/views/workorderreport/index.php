@@ -14,18 +14,20 @@ $this->params['breadcrumbs'][] = $this->title;
 $work_closed_qty = 0;
 $work_receive_qty = 0;
 
-
+$model_outstanding =null;
+$model_recevie_data =null;
+$model_closed_data =null;
 
 if($from_date !=null && $to_date != null){
-    $model_outstanding = \backend\models\Workorder::find()->where(['status' => [1, 3]])->andFilterWhere(['between', 'workorder_date', date('Y-m-d H:i',strtotime($from_date)), date('Y-m-d H:i',strtotime($to_date))])->all();
-    $model_recevie_data = \backend\models\Workorder::find()->where(['status' => [1, 3]])->andFilterWhere(['between', 'workorder_date', date('Y-m-d H:i',strtotime($from_date)), date('Y-m-d H:i',strtotime($to_date))])->all();
+    $model_outstanding = \backend\models\Workorder::find()->where(['<','status',4])->andFilterWhere(['between', 'workorder_date', date('Y-m-d H:i',strtotime($from_date)), date('Y-m-d H:i',strtotime($to_date))])->all();
+    $model_recevie_data = \backend\models\Workorder::find()->where(['status' => [3]])->andFilterWhere(['between', 'workorder_date', date('Y-m-d H:i',strtotime($from_date)), date('Y-m-d H:i',strtotime($to_date))])->all();
     $model_closed_data = \backend\models\Workorder::find()->where(['status' => 4])->andFilterWhere(['between', 'workorder_date', date('Y-m-d H:i',strtotime($from_date)), date('Y-m-d H:i',strtotime($to_date))])->all();
 }else{
     $from_date = date('Y-m-d H:i');
     $to_date = date('Y-m-d H:i');
-    $model_outstanding = \backend\models\Workorder::find()->where(['status' => [1, 3]])->all();
-    $model_recevie_data = \backend\models\Workorder::find()->where(['status' => [1, 3]])->all();
-    $model_closed_data = \backend\models\Workorder::find()->where(['status' => 4])->all();
+    $model_outstanding = \backend\models\Workorder::find()->where(['<','status',4])->andFilterWhere(['between', 'workorder_date', date('Y-m-d H:i',strtotime($from_date)), date('Y-m-d H:i',strtotime($to_date))])->all();
+    $model_recevie_data = \backend\models\Workorder::find()->where(['status' => [3]])->andFilterWhere(['between', 'workorder_date', date('Y-m-d H:i',strtotime($from_date)), date('Y-m-d H:i',strtotime($to_date))])->all();
+    $model_closed_data = \backend\models\Workorder::find()->where(['status' => 4])->andFilterWhere(['between', 'workorder_date', date('Y-m-d H:i',strtotime($from_date)), date('Y-m-d H:i',strtotime($to_date))])->all();
 }
 
 
@@ -102,7 +104,7 @@ $data_series_cause = [
 ];
 
 $data_series = [
-    ['name' => 'สถานะงานซ่อม', 'data' => [['name' => 'ซ่อมเสร็จแล้ว', 'y' => $work_closed_qty, 'color' => '#544fc5'], ['name' => 'ซ่อมอยู่', 'y' => $work_receive_qty, 'color' => '#91e8e1']]],
+    ['name' => 'สถานะงานซ่อม', 'data' => [['name' => 'ซ่อมเสร็จแล้ว', 'y' => (int)$work_closed_qty, 'color' => '#544fc5'], ['name' => 'ซ่อมอยู่', 'y' => (int)$work_receive_qty, 'color' => '#91e8e1']]],
 ];
 
 ?>
@@ -225,7 +227,7 @@ $data_series = [
 <br />
 <div class="row">
     <div class="col-lg-12">
-        <h3>รายละเอียดงานค้าง</h3>
+        <h3>รายละเอียดงานระหว่างซ่อม</h3>
     </div>
 </div>
 <br />
@@ -247,7 +249,7 @@ $data_series = [
 
             <?php
             $i = 1;
-            foreach ($model_outstanding as $value) {
+            foreach ($model_recevie_data as $value) {
                 $workstatus_bg = 'badge-secondary';
                 if($value->status == 1){
                     $workstatus_bg = 'badge-secondary';
@@ -280,6 +282,64 @@ $data_series = [
         </table>
     </div>
 </div>
+    <br />
+    <div class="row">
+        <div class="col-lg-12">
+            <h3>รายละเอียดงานซ่อมเสร็จแล้ว</h3>
+        </div>
+    </div>
+    <br />
+    <div class="row">
+        <div class="col-lg-12">
+            <table class="table table-bordered" style="width: 100%;">
+                <thead>
+                <tr>
+                    <th style="text-align: center;width: 5%">#</th>
+                    <th style="text-align: center;">เลขที่ใบแจ้ง</th>
+                    <th style="text-align: center;">วันที่แจ้ง</th>
+                    <th style="text-align: center;">วันที่รับงาน</th>
+                    <th style="text-align: center;">ใช้เวลาไปแล้ว</th>
+                    <th style="text-align: center;">ผู้รับผิดชอบ</th>
+                    <th style="text-align: center;">สถานะ</th>
+                </tr>
+                </thead>
+                <tbody>
+
+                <?php
+                $i = 1;
+                foreach ($model_closed_data as $value) {
+                    $workstatus_bg = 'badge-secondary';
+                    if($value->status == 1){
+                        $workstatus_bg = 'badge-secondary';
+                    }else if($value->status == 3){
+                        $workstatus_bg = 'badge-info';
+                    }else if($value->status == 4){
+                        $workstatus_bg = 'badge-success';
+                    }else if($value->status >= 5){
+                        $workstatus_bg = 'badge-danger';
+                    }
+
+                    $date1 = date_create(date('Y-m-d H:i:s', strtotime($value->workorder_date)));
+                    $date2 = date_create(date('Y-m-d H:i:s'));
+                    $line_time_use = date_diff($date1, $date2);
+                    ?>
+                    <tr>
+                        <td style="text-align: center;width: 5%"><?= $i ?></td>
+                        <td style="text-align: center;"><?= $value->workorder_no ?></td>
+                        <td style="text-align: center;"><?= date('d-m-Y H:i:s',strtotime($value->workorder_date)) ?></td>
+                        <td style="text-align: center;"><?= date('d-m-Y H:i:s',strtotime($value->work_recieve_date)) ?></td>
+                        <td style="text-align: center;"><?= $line_time_use->format('%d days %h hours %i minute') ?></td>
+                        <td style="text-align: center;"><?=findAssignEmp($value->id)?></td>
+                        <td style="text-align: center;"><div class="badge <?= $workstatus_bg ?>"><?=\backend\models\Workorderstatus::findName($value->status) ?></div></td>
+                    </tr>
+                    <?php
+                    $i++;
+                }
+                ?>
+                </tbody>
+            </table>
+        </div>
+    </div>
 
 <?php
 function findAssignEmp($workorder_id){

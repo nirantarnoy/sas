@@ -62,7 +62,7 @@ $this->params['breadcrumbs'][] = $this->title;
         //'tableOptions' => ['class' => 'table table-hover'],
         'emptyText' => '<div style="color: red;text-align: center;"> <b>ไม่พบรายการไดๆ</b> <span> เพิ่มรายการโดยการคลิกที่ปุ่ม </span><span class="text-success">"สร้างใหม่"</span></div>',
         'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
+            ['class' => 'yii\grid\SerialColumn','headerOptions' => ['style' => 'text-align:center;'],'contentOptions' => ['style' => 'text-align:center;']],
             [
                 'attribute' => 'workorder_no',
                 'format' => 'raw',
@@ -182,7 +182,7 @@ $this->params['breadcrumbs'][] = $this->title;
             //'factor_risk_final',
             [
 
-                'header' => 'Action',
+                'header' => 'ประเมินงานซ่อม',
                 'headerOptions' => ['style' => 'text-align:center;', 'class' => 'activity-view-link',],
                 'class' => 'yii\grid\ActionColumn',
                 'contentOptions' => ['style' => 'text-align: center'],

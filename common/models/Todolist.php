@@ -40,6 +40,7 @@ class Todolist extends \yii\db\ActiveRecord
             [['trans_date', 'target_date','act_date','end_date'], 'safe'],
             [['assign_emp_id', 'created_at', 'created_by', 'updated_at', 'updated_by','status'], 'integer'],
             [['todolist_no', 'machine_name', 'machine_type_name', 'brand_name', 'todolist_name'], 'string', 'max' => 255],
+            [['remark'],'string'],
         ];
     }
 
@@ -60,6 +61,7 @@ class Todolist extends \yii\db\ActiveRecord
             'target_date' => 'วันที่ต้องทำ',
             'act_date'=>'วันที่ดําเนินงาน',
             'end_date'=>'วันที่สิ้นสุดงาน',
+            'remark'=>'หมายเหตุสำหรับปิดงาน Todo List',
             'status'=>'สถานะ',
             'created_at' => 'สร้างเมื่อ',
             'created_by' => 'สร้างโดย',

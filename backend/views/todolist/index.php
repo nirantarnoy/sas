@@ -63,7 +63,7 @@ $this->params['breadcrumbs'][] = $this->title;
         'emptyText' => '<div style="color: red;text-align: center;"> <b>ไม่พบรายการไดๆ</b> <span> เพิ่มรายการโดยการคลิกที่ปุ่ม </span><span class="text-success">"สร้างใหม่"</span></div>',
 
         'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
+            ['class' => 'yii\grid\SerialColumn','headerOptions' => ['style' => 'text-align:center;'],'contentOptions' => ['style' => 'text-align:center;']],
             'todolist_no',
             'trans_date',
             'machine_name',
@@ -144,7 +144,10 @@ $this->params['breadcrumbs'][] = $this->title;
                         ]);
                         $is_owner = $data->created_by == \Yii::$app->user->id;
                         if ($is_owner) {
-                            return Html::a('<span class="fas fa-trash-alt btn btn-xs btn-default"></span>', 'javascript:void(0)', $options);
+                            if($data->status == 0){
+                                return Html::a('<span class="fas fa-trash-alt btn btn-xs btn-default"></span>', 'javascript:void(0)', $options);
+                            }
+
                         }
 
                     }

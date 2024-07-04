@@ -5,7 +5,9 @@ namespace backend\controllers;
 use backend\models\PositionSearch;
 use backend\models\Todolist;
 use backend\models\TodolistSearch;
+use yii\filters\AccessControl;
 use yii\web\Controller;
+use yii\web\ForbiddenHttpException;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
@@ -26,8 +28,26 @@ class TodolistController extends Controller
                 'verbs' => [
                     'class' => VerbFilter::className(),
                     'actions' => [
-                        'delete' => ['POST'],
+                        'delete' => ['POST','GET'],
                     ],
+                ],
+                'access'=>[
+                    'class'=>AccessControl::className(),
+                    'denyCallback' => function ($rule, $action) {
+                        throw new ForbiddenHttpException('คุณไม่ได้รับอนุญาติให้เข้าใช้งาน!');
+                    },
+                    'rules'=>[
+                        [
+                            'allow'=>true,
+                            'roles'=>['@'],
+                            'matchCallback'=>function($rule,$action){
+                                $currentRoute = \Yii::$app->controller->getRoute();
+                                if(\Yii::$app->user->can($currentRoute)){
+                                    return true;
+                                }
+                            }
+                        ]
+                    ]
                 ],
             ]
         );
@@ -121,7 +141,8 @@ class TodolistController extends Controller
                 $model->trans_date = date('Y-m-d',strtotime($save_trans_date));
                 $model->target_date = date('Y-m-d',strtotime($save_target_date));
                 $model->act_date = date('Y-m-d',strtotime($save_act_date));
-                $model->end_date = date('Y-m-d',strtotime($save_end_date));
+                //$model->end_date = date('Y-m-d',strtotime($save_end_date));
+                $model->end_date = date('Y-m-d H:i:s');
                 $model->todolist_no = $model::getLastNo();
                 $model->status = 0;
 
