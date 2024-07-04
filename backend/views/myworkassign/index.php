@@ -499,48 +499,26 @@ $btn_inactive = 'btn-secondary';
                                               rows="5"></textarea>
                                 </td>
                             </tr>
-                                <tr>
-                                    <td style="width: 20%;text-align: right;vertical-align: middle;">
-                                        วันที่คาดว่าจะซ่อมเสร็จ
-                                    </td>
-                                    <td>
-                                        <?php
-                                        echo \kartik\date\DatePicker::widget([
-                                            'name' => 'estimate_finish_date',
-                                            'value' => date('Y-m-d'),
-                                            'pluginOptions' => [
-                                                'format' => 'dd-mm-yyyy',
-                                                'todayHighlight' => true,
-                                                'autoclose' => true,
-                                                'todayBtn' => true
-                                            ]
-                                        ])
-                                        ?>
-                                    </td>
-                                </tr>
-
-<!--                                <tr>-->
-<!--                                    <td style="width: 20%;text-align: right;vertical-align: middle;">-->
-<!--                                        วันที่คาดว่าจะซ่อมเสร็จ-->
-<!--                                    </td>-->
-<!--                                    <td>-->
-<!--                                        --><?php
-//                                        echo \kartik\date\DatePicker::widget([
-//                                            'name' => 'estimate_finish_date',
-//                                            'value' => date('Y-m-d'),
-//                                            'pluginOptions' => [
-//                                                'format' => 'dd-mm-yyyy',
-//                                                'todayHighlight' => true,
-//                                                'autoclose' => true,
-//                                                'todayBtn' => true
-//                                            ]
-//                                        ])
-//                                        ?>
-<!--                                    </td>-->
-<!--                                </tr>-->
-                            <?php endif; ?>
-
-
+                            <tr>
+                                <td style="width: 20%;text-align: right;vertical-align: middle;">
+                                    วันที่คาดว่าจะซ่อมเสร็จ
+                                </td>
+                                <td>
+                                    <?php
+                                    echo \kartik\date\DatePicker::widget([
+                                        'name' => 'estimate_finish_date',
+                                        'value' => date('Y-m-d'),
+                                        'pluginOptions' => [
+                                            'format' => 'dd-mm-yyyy',
+                                            'todayHighlight' => true,
+                                            'autoclose' => true,
+                                            'todayBtn' => true
+                                        ]
+                                    ])
+                                    ?>
+                                </td>
+                            </tr>
+                            
                             </tbody>
                         </table>
 
