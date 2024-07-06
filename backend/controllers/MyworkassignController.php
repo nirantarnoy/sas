@@ -32,24 +32,24 @@ class MyworkassignController extends Controller
                     'delete' => ['POST','GET'],
                 ],
             ],
-            'access'=>[
-                'class'=>AccessControl::className(),
-                'denyCallback' => function ($rule, $action) {
-                    throw new ForbiddenHttpException('คุณไม่ได้รับอนุญาติให้เข้าใช้งาน!');
-                },
-                'rules'=>[
-                    [
-                        'allow'=>true,
-                        'roles'=>['@'],
-                        'matchCallback'=>function($rule,$action){
-                            $currentRoute = \Yii::$app->controller->getRoute();
-                            if(\Yii::$app->user->can($currentRoute)){
-                                return true;
-                            }
-                        }
-                    ]
-                ]
-            ],
+//            'access'=>[
+//                'class'=>AccessControl::className(),
+//                'denyCallback' => function ($rule, $action) {
+//                    throw new ForbiddenHttpException('คุณไม่ได้รับอนุญาติให้เข้าใช้งาน!');
+//                },
+//                'rules'=>[
+//                    [
+//                        'allow'=>true,
+//                        'roles'=>['@'],
+//                        'matchCallback'=>function($rule,$action){
+//                            $currentRoute = \Yii::$app->controller->getRoute();
+//                            if(\Yii::$app->user->can($currentRoute)){
+//                                return true;
+//                            }
+//                        }
+//                    ]
+//                ]
+//            ],
         ];
     }
 
@@ -185,21 +185,21 @@ class MyworkassignController extends Controller
                         <td>ความรุนแรง</td>
                         <td>
                             <input class="form-control factor-risk-1" type="number" min="0" name="factor_risk_1"
-                                   value="' . $model->factor_risk_1 . '">
+                                   value="' . $model->factor_risk_1 . '" readonly>
                         </td>
                     </tr>
                     <tr>
                         <td>ความถี่</td>
                         <td>
                             <input class="form-control factor-risk-2" type="number" min="0" name="factor_risk_2"
-                                   value="' . $model->factor_risk_2 . '">
+                                   value="' . $model->factor_risk_2 . '" readonly>
                         </td>
                     </tr>
                     <tr>
                         <td>มาตรการ Safety</td>
                         <td>
                             <input class="form-control factor-risk-3" type="number" min="0" name="factor_risk_3"
-                                   value="' . $model->factor_risk_3 . '">
+                                   value="' . $model->factor_risk_3 . '" readonly>
                         </td>
                     </tr>
                     <tr>
@@ -213,7 +213,7 @@ class MyworkassignController extends Controller
                         <td>สรุปความเสี่ยง</td>
                         <td>
                             <input class="form-control" type="text" name="factor_final"
-                                   value="' . $model->factor_risk_final . '">
+                                   value="' . $model->factor_risk_final . '" readonly>
                         </td>
                     </tr>';
             }

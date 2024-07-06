@@ -278,6 +278,7 @@ class AssetController extends Controller
     {
         $name = '';
         $asset_id = \Yii::$app->request->post('asset_id');
+//        print_r($asset_id); return;
         if ($asset_id) {
             $name = \backend\models\Asset::findLocationName($asset_id);
         }

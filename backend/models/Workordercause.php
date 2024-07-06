@@ -62,5 +62,11 @@ class Workordercause extends \common\models\WorkorderCause
 //        return count($model)>0?$model->name:"";
 //    }
 
+    public function findCauseName($id){
+        $model = \common\models\WorkorderCauseTitle::find()->where(['id'=>$id])->one();
+        return $model != null?$model->name:'';
+        // return 'niran';
+    }
+
 
 }

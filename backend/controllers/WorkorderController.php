@@ -31,24 +31,24 @@ class WorkorderController extends Controller
                     'delete' => ['POST','GET'],
                 ],
             ],
-            'access'=>[
-                'class'=>AccessControl::className(),
-                'denyCallback' => function ($rule, $action) {
-                    throw new ForbiddenHttpException('คุณไม่ได้รับอนุญาติให้เข้าใช้งาน!');
-                },
-                'rules'=>[
-                    [
-                        'allow'=>true,
-                        'roles'=>['@'],
-                        'matchCallback'=>function($rule,$action){
-                            $currentRoute = \Yii::$app->controller->getRoute();
-                            if(\Yii::$app->user->can($currentRoute)){
-                                return true;
-                            }
-                        }
-                    ]
-                ]
-            ],
+//            'access'=>[
+//                'class'=>AccessControl::className(),
+//                'denyCallback' => function ($rule, $action) {
+//                    throw new ForbiddenHttpException('คุณไม่ได้รับอนุญาติให้เข้าใช้งาน!');
+//                },
+//                'rules'=>[
+//                    [
+//                        'allow'=>true,
+//                        'roles'=>['@'],
+//                        'matchCallback'=>function($rule,$action){
+//                            $currentRoute = \Yii::$app->controller->getRoute();
+//                            if(\Yii::$app->user->can($currentRoute)){
+//                                return true;
+//                            }
+//                        }
+//                    ]
+//                ]
+//            ],
         ];
     }
 
@@ -101,6 +101,7 @@ class WorkorderController extends Controller
                     $w_date = $xdate[2] . '/' . $xdate[1] . '/' . $xdate[0] . ' ' . date('H:i:s');
                 }
             }
+//            print_r($w_date); return;
 
             $r_date = date('Y-m-d');
             $fr_date = explode('/', $model->work_recieve_date);
@@ -203,6 +204,15 @@ class WorkorderController extends Controller
             $work_vdo = $model_work_vdo->file_name;
         }
 
+        $old_date = '';
+        $model_date = \common\models\Workorder::find()->select(['workorder_date'])->where(['id'=>$id])->one();
+        if($model_date){
+            $old_date = $model_date->workorder_date;
+        }
+//        print_r($old_date);return ;
+
+
+
 
         if ($model->load(Yii::$app->request->post())) {
             $work_created_by = \Yii::$app->request->post('work_created_by');
@@ -216,18 +226,18 @@ class WorkorderController extends Controller
             $fac_total = \Yii::$app->request->post('factor_total');
             $fac_final = \Yii::$app->request->post('factor_final');
 
-            $old_date = \Yii::$app->request->post('old_date');
+//            $old_date = \Yii::$app->request->post('old_date');
 
 //            print_r($old_date
 //            );return;
 
-            $w_date = date('Y-m-d');
-            $xdate = explode('/', $old_date);
-            if ($xdate != null) {
-                if (count($xdate) > 1) {
-                    $w_date = $xdate[2] . '/' . $xdate[1] . '/' . $xdate[0] . ' ' . date('H:i:s');
-                }
-            }
+//            $w_date = date('Y-m-d');
+//            $xdate = explode('/', $old_date);
+//            if ($xdate != null) {
+//                if (count($xdate) > 1) {
+//                    $w_date = $xdate[2] . '/' . $xdate[1] . '/' . $xdate[0] . ' ' . date('H:i:s');
+//                }
+//            }
 
 
             $r_date = date('Y-m-d');
@@ -249,9 +259,8 @@ class WorkorderController extends Controller
             }
 
 
-
-
-             $model->workorder_date = date('Y-m-d H:i:s',strtotime($w_date));
+             $model->workorder_date = date('Y-m-d H:i:s',strtotime($old_date));
+//            print_r($model->workorder_date);return;
 
             $model->work_recieve_date = date('Y-m-d H:i:s', strtotime($r_date));
             $model->work_assign_date = date('Y-m-d H:i:s', strtotime($as_date));

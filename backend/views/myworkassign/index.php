@@ -97,7 +97,8 @@ $btn_inactive = 'btn-secondary';
                             <tr>
                                 <td>Task List</td>
                                 <td>
-                                    <div class="btn btn-info btn-sm btn-show-tasklist" data-var="<?= $value->asset_id ?>">
+                                    <div class="btn btn-info btn-sm btn-show-tasklist"
+                                         data-var="<?= $value->asset_id ?>">
                                         View
                                     </div>
                                 </td>
@@ -260,15 +261,15 @@ $btn_inactive = 'btn-secondary';
                 <div class="row">
                     <div class="col-lg-6">
                         <?php
-                           $estimate_completed = 'ยังไม่กำหนดวันเสร็จ';
-                           if ($value->work_estimate_finish_date != null) {
-                               $estimate_completed = date('d/m/Y', strtotime($value->work_estimate_finish_date));
-                           }
+                        $estimate_completed = 'ยังไม่กำหนดวันเสร็จ';
+                        if ($value->work_estimate_finish_date != null) {
+                            $estimate_completed = date('d/m/Y', strtotime($value->work_estimate_finish_date));
+                        }
                         ?>
                         <table style="width: 100%">
                             <tr>
                                 <td style="width: 20%">วันที่คาดว่าจะเสร็จ</td>
-                                <td><b><i><?=$estimate_completed?></i></b></td>
+                                <td><b><i><?= $estimate_completed ?></i></b></td>
                             </tr>
                             <tr>
                                 <td>ข้อความล่าสุด</td>
@@ -288,6 +289,7 @@ $btn_inactive = 'btn-secondary';
                                 $date1 = date_create(date('Y-m-d H:i:s', strtotime($value->workorder_date)));
                                 $date2 = date_create(date('Y-m-d H:i:s'));
                                 $line_time_use = date_diff($date1, $date2);
+//                                print_r($line_time_use);
                                 ?>
                                 <tr>
                                     <td colspan="2">
@@ -504,48 +506,25 @@ $btn_inactive = 'btn-secondary';
                                               rows="5"></textarea>
                                 </td>
                             </tr>
-                                <tr>
-                                    <td style="width: 20%;text-align: right;vertical-align: middle;">
-                                        วันที่คาดว่าจะซ่อมเสร็จ
-                                    </td>
-                                    <td>
-                                        <?php
-                                        echo \kartik\date\DatePicker::widget([
-                                            'name' => 'estimate_finish_date',
-                                            'value' => date('Y-m-d'),
-                                            'pluginOptions' => [
-                                                'format' => 'dd-mm-yyyy',
-                                                'todayHighlight' => true,
-                                                'autoclose' => true,
-                                                'todayBtn' => true
-                                            ]
-                                        ])
-                                        ?>
-                                    </td>
-                                </tr>
-
-<!--                                <tr>-->
-<!--                                    <td style="width: 20%;text-align: right;vertical-align: middle;">-->
-<!--                                        วันที่คาดว่าจะซ่อมเสร็จ-->
-<!--                                    </td>-->
-<!--                                    <td>-->
-<!--                                        --><?php
-//                                        echo \kartik\date\DatePicker::widget([
-//                                            'name' => 'estimate_finish_date',
-//                                            'value' => date('Y-m-d'),
-//                                            'pluginOptions' => [
-//                                                'format' => 'dd-mm-yyyy',
-//                                                'todayHighlight' => true,
-//                                                'autoclose' => true,
-//                                                'todayBtn' => true
-//                                            ]
-//                                        ])
-//                                        ?>
-<!--                                    </td>-->
-<!--                                </tr>-->
-
-
-
+                            <tr>
+                                <td style="width: 20%;text-align: right;vertical-align: middle;">
+                                    วันที่คาดว่าจะซ่อมเสร็จ
+                                </td>
+                                <td>
+                                    <?php
+                                    echo \kartik\date\DatePicker::widget([
+                                        'name' => 'estimate_finish_date',
+                                        'value' => date('Y-m-d'),
+                                        'pluginOptions' => [
+                                            'format' => 'dd-mm-yyyy',
+                                            'todayHighlight' => true,
+                                            'autoclose' => true,
+                                            'todayBtn' => true
+                                        ]
+                                    ])
+                                    ?>
+                                </td>
+                            </tr>
                             </tbody>
                         </table>
 

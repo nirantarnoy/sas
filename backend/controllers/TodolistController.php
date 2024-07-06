@@ -114,11 +114,11 @@ class TodolistController extends Controller
 
                 if($or_trans_date !=null){
                     if(count($or_trans_date)>1){
-                        $save_trans_date = $or_trans_date[2].'/'.$or_trans_date[1].'/'.$or_trans_date[0];
+                        $save_trans_date = $or_trans_date[2].'/'.$or_trans_date[1].'/'.$or_trans_date[0]. ' ' . date('H:i:s');
                     }
                 }
 
-//                print_r($or_trans_date); return ;
+//                print_r( $save_trans_date); return ;
                 if($or_target_date !=null){
                     if(count($or_target_date)>1){
                         $save_target_date = $or_target_date[2].'/'.$or_target_date[1].'/'.$or_target_date[0];
@@ -138,7 +138,7 @@ class TodolistController extends Controller
                 }
 
 
-                $model->trans_date = date('Y-m-d',strtotime($save_trans_date));
+                $model->trans_date = date('Y-m-d H:i:s',strtotime($save_trans_date));
                 $model->target_date = date('Y-m-d',strtotime($save_target_date));
                 $model->act_date = date('Y-m-d',strtotime($save_act_date));
                 //$model->end_date = date('Y-m-d',strtotime($save_end_date));
