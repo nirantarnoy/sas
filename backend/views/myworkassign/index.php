@@ -289,6 +289,7 @@ $btn_inactive = 'btn-secondary';
                                 $date1 = date_create(date('Y-m-d H:i:s', strtotime($value->workorder_date)));
                                 $date2 = date_create(date('Y-m-d H:i:s'));
                                 $line_time_use = date_diff($date1, $date2);
+//                                print_r($line_time_use);
                                 ?>
                                 <tr>
                                     <td colspan="2">

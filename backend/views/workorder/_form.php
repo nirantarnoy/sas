@@ -26,19 +26,28 @@ if ($model->asset_id != null) {
                 <?php if ($model->isNewRecord): ?>
                     <?= $form->field($model, 'workorder_date')->widget(\kartik\date\DatePicker::className(), [
                         'value' => date('Y-m-d'),
+                        'readonly' => true,
                         'pluginOptions' => [
-                            'format' => 'dd-mm-yyyy'
-                        ]
+                            'format' => 'dd-mm-yyyy',
+                        ],
+                        'options' => [
+                            'disabled' => 'true',
+//                            'readonly' => 'readonly',
+                        ],
                     ]) ?>
                 <?php else: ?>
-                <?php //echo 'hello error'?>
+                    <?php //echo 'hello error'?>
                     <input type="hidden" name="old_date" value="<?= $model->workorder_date ?>">
                     <?= $form->field($model, 'workorder_date')->widget(\kartik\date\DatePicker::className(), [
                         'value' => date('Y-m-d'),
                         'readonly' => true,
                         'pluginOptions' => [
                             'format' => 'dd-mm-yyyy',
-                        ]
+                        ],
+                        'options' => [
+                            'disabled' => 'disabled',
+//                            'readonly' => 'readonly',
+                        ],
                     ]) ?>
                 <?php endif; ?>
             </div>
@@ -72,7 +81,7 @@ if ($model->asset_id != null) {
                 ]) ?>
             </div>
             <div class="col-lg-3">
-                <?php $model->work_assign_date = $model->isNewRecord ? date('d/m/Y') : date('d/m/Y' , strtotime($model->work_assign_date)); ?>
+                <?php $model->work_assign_date = $model->isNewRecord ? date('d/m/Y') : date('d/m/Y', strtotime($model->work_assign_date)); ?>
                 <?= $form->field($model, 'work_assign_date')->widget(\kartik\date\DatePicker::className(), [
                     'value' => date('Y-m-d'),
                     'pluginOptions' => [
@@ -271,7 +280,9 @@ function getLocation(e){
         'url': "$url_to_get_location",
         'data': {'asset_id': asset_id},
         'success': function(data){
+            // alert(data)
             if(data!=''){
+                // alert('hello')
                 $(".location-name").val(data);
             }
         }       

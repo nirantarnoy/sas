@@ -24,6 +24,7 @@ $todolist_status = [['id' => 0, 'name' => 'Open'], ['id' => 1, 'name' => 'Close'
                 <?php $model->trans_date = $model->isNewRecord ? date('d-m-Y') : date('d-m-Y', strtotime($model->trans_date)) ?>
                 <?= $form->field($model, 'trans_date')->widget(\kartik\date\DatePicker::className(), [
                     'value' => date('Y-m-d'),
+                    'readonly' => true,
                     'pluginOptions' => [
                         'autoclose' => true,
                         'format' => 'dd-mm-yyyy',
@@ -60,18 +61,20 @@ $todolist_status = [['id' => 0, 'name' => 'Open'], ['id' => 1, 'name' => 'Close'
             </div>
         </div>
         <div class="row">
-            <div class="col-lg-3">
-                <?php $model->act_date = $model->isNewRecord ? date('d-m-Y') : date('d-m-Y', strtotime($model->act_date)) ?>
-                <?= $form->field($model, 'act_date')->widget(\kartik\date\DatePicker::className(), [
-                    'value' => date('Y-m-d'),
-                    'pluginOptions' => [
-                        'autoclose' => true,
-                        'format' => 'dd-mm-yyyy',
-                        'todayHighlight' => true,
-                        'todayBtn' => true,
-                    ]
-                ]) ?>
-            </div>
+<!--            <div class="col-lg-3">-->
+<!--                --><?php //$model->act_date = $model->isNewRecord ? date('d-m-Y') : date('d-m-Y', strtotime($model->act_date)) ?>
+<!--                --><?php //= $form->field($model, 'act_date')->widget(\kartik\date\DatePicker::className(), [
+//                    'value' => date('Y-m-d'),
+//                    'pluginOptions' => [
+//                        'autoclose' => true,
+//                        'format' => 'dd-mm-yyyy',
+//                        'todayHighlight' => true,
+//                        'todayBtn' => true,
+//                    ]
+//                ]) ?>
+<!--            </div>-->
+
+
 <!--            <div class="col-lg-3">-->
 <!--                --><?php //$model->end_date = $model->isNewRecord ? date('d-m-Y') : date('d-m-Y', strtotime($model->end_date)) ?>
 <!--                --><?php //= $form->field($model, 'end_date')->widget(\kartik\date\DatePicker::className(), [
@@ -286,7 +289,7 @@ $(function(){
                
                 var tr = $("#table-list tbody tr:last");
                 
-                if (tr.closest("tr").find(".line-emp-id").val() == "") {
+                if (tr.closest("tr").find(".line-emp-id").val() == 0) {
                   //  alert(line_prod_code);
                     tr.closest("tr").find("td:eq(0)").html(line_count);
                     tr.closest("tr").find(".line-emp-id").val(emp_id);
@@ -430,15 +433,29 @@ function check_dup(id){
                    // $(this).find(".line-prod-photo").attr('src', '');
                    // $(this).find(".line-prod-photo").attr('src', '');
                    //  $(this).find(".line-price").val(0);
-                    // cal_num();
+                   //  cal_num();
                 });
             } else {
                 e.parent().parent().remove();
             }
             // cal_total_all();
-            // cal_linenum();
+            cal_linenum();
         }
     }
+    function cal_linenum() {
+        var xline = 0;
+        $("#table-list tbody tr").each(function () {
+            xline += 1;
+            $(this).closest("tr").find("td:eq(0)").text(xline);
+        });
+    }
+  //    function cal_num(){
+  //     $("#table-list tbody tr").each(function(){
+  //         var x = $(this).closest('tr').find('.line-emp-id').val();
+  //        // alert(x); 
+  //     });
+  // }
+
     
 JS;
 $this->registerJs($js, static::POS_END);

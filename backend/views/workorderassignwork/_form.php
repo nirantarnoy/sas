@@ -16,23 +16,40 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'workorder_date')->textInput() ?>
 
-    <?= $form->field($model, 'asset_id')->textInput() ?>
+    <?php //echo $form->field($model, 'asset_id')->textInput(['maxlength' => true,]) ?>
+    <?= $form->field($model, 'asset_id')->Widget(\kartik\select2\Select2::className(), [
+    'data' => \yii\helpers\ArrayHelper::map(\backend\models\Asset::find()->all(), 'id', function ($data) {
+    return $data->name;
+    }),
+    'options' => [
+    'placeholder' => '--เครื่องจักร--',
+    'onchange' => 'getLocation($(this))',
+    ]
+    ]) ?>
 
-    <?= $form->field($model, 'assign_emp_id')->textInput() ?>
+    <?= $form->field($model, 'assign_emp_id')->textInput(['maxlength' => true,
+        'value' => $model->isNewRecord ? '' : \backend\models\Employee::findName($model->workorder_no)]) ?>
 
-    <?= $form->field($model, 'work_recieve_date')->textInput() ?>
+    <?= $form->field($model, 'work_recieve_date')->textInput(['maxlength' => true,
+        'value' => date('d-m-Y H:i:s',strtotime($model->work_recieve_date) )  ]) ?>
 
-    <?= $form->field($model, 'work_assign_date')->textInput() ?>
+    <?= $form->field($model, 'work_assign_date')->textInput(['maxlength' => true,
+        'value' => date('d-m-Y H:i:s',strtotime($model->work_assign_date) )  ]) ?>
 
-    <?= $form->field($model, 'status')->textInput() ?>
+    <?= $form->field($model, 'status')->textInput(['maxlength' => true,
+        'value' => $model->isNewRecord ? '' : \backend\models\Workorderstatus::findName($model->status)]) ?>
 
-    <?= $form->field($model, 'created_at')->textInput() ?>
+    <?= $form->field($model, 'created_at')->textInput(['maxlength' => true,
+        'value' => date('d-m-Y H:i:s',$model->created_at)  ]) ?>
 
-    <?= $form->field($model, 'created_by')->textInput() ?>
+    <?= $form->field($model, 'created_by')->textInput(['maxlength' => true,
+        'value' => $model->isNewRecord ? '' : \backend\models\Employee::findName($model->created_by)]) ?>
 
-    <?= $form->field($model, 'updated_at')->textInput() ?>
+    <?= $form->field($model, 'updated_at')->textInput(['maxlength' => true,
+        'value' => date('d-m-Y H:i:s',$model->updated_at)  ]) ?>
 
-    <?= $form->field($model, 'updated_by')->textInput() ?>
+    <?= $form->field($model, 'updated_by')->textInput(['maxlength' => true,
+        'value' => $model->isNewRecord ? '' : \backend\models\Employee::findName($model->updated_by)]) ?>
 
     <?= $form->field($model, 'problem_text')->textInput(['maxlength' => true]) ?>
 
@@ -42,7 +59,8 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'view_point')->textInput() ?>
 
-    <?= $form->field($model, 'work_cause_id')->textInput() ?>
+    <?= $form->field($model, 'work_cause_id')->textInput(['maxlength' => true,
+        'value' => $model->isNewRecord ? '' : \backend\models\Workordercause::findCauseName($model->work_cause_id)]) ?>
 
     <?= $form->field($model, 'weak_point_analysis')->textInput() ?>
 

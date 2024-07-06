@@ -30,27 +30,27 @@ class WorkorderassignworkController extends Controller
                 'verbs' => [
                     'class' => VerbFilter::className(),
                     'actions' => [
-                        'delete' => ['POST','GET'],
+                        'delete' => ['POST', 'GET'],
                     ],
                 ],
-                'access'=>[
-                    'class'=>AccessControl::className(),
-                    'denyCallback' => function ($rule, $action) {
-                        throw new ForbiddenHttpException('คุณไม่ได้รับอนุญาติให้เข้าใช้งาน!');
-                    },
-                    'rules'=>[
-                        [
-                            'allow'=>true,
-                            'roles'=>['@'],
-                            'matchCallback'=>function($rule,$action){
-                                $currentRoute = \Yii::$app->controller->getRoute();
-                                if(\Yii::$app->user->can($currentRoute)){
-                                    return true;
-                                }
-                            }
-                        ]
-                    ]
-                ],
+//                'access'=>[
+//                    'class'=>AccessControl::className(),
+//                    'denyCallback' => function ($rule, $action) {
+//                        throw new ForbiddenHttpException('คุณไม่ได้รับอนุญาติให้เข้าใช้งาน!');
+//                    },
+//                    'rules'=>[
+//                        [
+//                            'allow'=>true,
+//                            'roles'=>['@'],
+//                            'matchCallback'=>function($rule,$action){
+//                                $currentRoute = \Yii::$app->controller->getRoute();
+//                                if(\Yii::$app->user->can($currentRoute)){
+//                                    return true;
+//                                }
+//                            }
+//                        ]
+//                    ]
+//                ],
             ]
         );
     }
@@ -204,56 +204,56 @@ class WorkorderassignworkController extends Controller
         $html = '';
         if ($workorder_id) {
             $work_assign_id = 0;
-             $model_assign_data = \common\models\WorkorderAssign::find()->where(['workorder_id'=>$workorder_id])->one();
-             if($model_assign_data){
-                 $work_assign_id = $model_assign_data->id;
-             }
+            $model_assign_data = \common\models\WorkorderAssign::find()->where(['workorder_id' => $workorder_id])->one();
+            if ($model_assign_data) {
+                $work_assign_id = $model_assign_data->id;
+            }
 //            $model_emp_data = \backend\models\Employee::find()->where(['status' => '1'])->all();
-            $model_emp_data = \common\models\ViewEmployeeData::find()->where(['status' => 1,'is_technician' => 1])->all();
+            $model_emp_data = \common\models\ViewEmployeeData::find()->where(['status' => 1, 'is_technician' => 1])->all();
             $model_assign_emp = \common\models\WorkorderAssignLine::find()->where(['workorder_assign_id' => $work_assign_id])->all();
-            if($model_assign_emp){
-               foreach($model_assign_emp as $valuex){
-                   $html .= '<tr data-var="'.$valuex->id.'">';
-                   $html .= '<td><select class="form-control line-emp-id" name="line_emp_id[]">
+            if ($model_assign_emp) {
+                foreach ($model_assign_emp as $valuex) {
+                    $html .= '<tr data-var="' . $valuex->id . '">';
+                    $html .= '<td><select class="form-control line-emp-id" name="line_emp_id[]">
                       <option value="-1">--เลือกพนักงาน--</option>';
-                   foreach($model_emp_data as $value){
+                    foreach ($model_emp_data as $value) {
 
-                       $selected = '';
-                       if($valuex->emp_id == $value->id){
-                           $selected = 'selected';
-                       }
-                       $html.='<option value="' . $value->id . '" ' . $selected . '>' . $value->fname . ' ' . $value->lname . '</option>';
-                   }
+                        $selected = '';
+                        if ($valuex->emp_id == $value->id) {
+                            $selected = 'selected';
+                        }
+                        $html .= '<option value="' . $value->id . '" ' . $selected . '>' . $value->fname . ' ' . $value->lname . '</option>';
+                    }
 
-                   $html.='</select>
+                    $html .= '</select>
                      </td>';
-                   $html .= '<td style="text-align: center;"><input type="hidden" class="line-work-assign-id" value="' . $work_assign_id . '" name="line_work_assign_id[]"><div class="btn btn-danger" onclick="removeline($(this))"><i class="fa fa-trash"></i></div></td>';
-                   $html .= '</tr>';
-               }
-            }else{
+                    $html .= '<td style="text-align: center;"><input type="hidden" class="line-work-assign-id" value="' . $work_assign_id . '" name="line_work_assign_id[]"><div class="btn btn-danger" onclick="removeline($(this))"><i class="fa fa-trash"></i></div></td>';
+                    $html .= '</tr>';
+                }
+            } else {
                 $html .= '<tr data-var="">';
                 $html .= '<td><select class="form-control line-emp-id" name="line_emp_id[]">
                       <option value="-1">--เลือกพนักงาน--</option>';
-                foreach($model_emp_data as $value){
+                foreach ($model_emp_data as $value) {
                     $model_assign_emp = \common\models\WorkorderAssignLine::find()->where(['workorder_assign_id' => $work_assign_id, 'emp_id' => $value->id])->one();
                     $selected = '';
-                    if($model_assign_emp){
+                    if ($model_assign_emp) {
                         $selected = 'selected';
                     }
-                    $html.='<option value="' . $value->id . '" ' . $selected . '>' . $value->fname . ' ' . $value->lname . '</option>';
+                    $html .= '<option value="' . $value->id . '" ' . $selected . '>' . $value->fname . ' ' . $value->lname . '</option>';
                 }
 
-                $html.='</select>
+                $html .= '</select>
                      </td>';
                 $html .= '<td style="text-align: center;"><input type="hidden" class="line-work-assign-id" value="' . $work_assign_id . '" name="line_work_assign_id[]"><div class="btn btn-danger" onclick="removeline($(this))"><i class="fa fa-trash"></i></div></td>';
                 $html .= '</tr>';
             }
 
 
-
             echo $html;
         }
     }
+
     function findTechnician($emp_id)
     {
         if ($emp_id) {
@@ -268,170 +268,174 @@ class WorkorderassignworkController extends Controller
         }
     }
 
-        public
-        function actionSaveassignemployee()
-        {
-            $emp_id = \Yii::$app->request->post('line_emp_id');
-            $work_order_id = \Yii::$app->request->post('work_order_id');
-            $work_assign_id_list = \Yii::$app->request->post('line_work_assign_id');
-            $removelist = \Yii::$app->request->post('removelist');
-            $res = 0;
+    public
+    function actionSaveassignemployee()
+    {
+        $emp_id = \Yii::$app->request->post('line_emp_id');
+        $work_order_id = \Yii::$app->request->post('work_order_id');
+        $work_assign_id_list = \Yii::$app->request->post('line_work_assign_id');
+        $removelist = \Yii::$app->request->post('removelist');
+        $res = 0;
 
-            if ($emp_id != null && $work_assign_id_list != null) {
-                $work_assign_id = $work_assign_id_list[0];
-                $check_assign_no = \backend\models\Workorderassign::find()->where(['id' => $work_assign_id])->one();
-                if ($check_assign_no) {
-                    if ($emp_id != null) {
-                        for ($i = 0; $i <= count($emp_id) - 1; $i++) {
-                            if ($emp_id[$i] == -1) {
-                                continue;
+        if ($emp_id != null && $work_assign_id_list != null) {
+            $work_assign_id = $work_assign_id_list[0];
+            $check_assign_no = \backend\models\Workorderassign::find()->where(['id' => $work_assign_id])->one();
+            if ($check_assign_no) {
+                \common\models\WorkorderAssignLine::deleteAll(['workorder_assign_id' => $work_assign_id]);
+//                return ;
+                if ($emp_id != null) {
+                    for ($i = 0; $i <= count($emp_id) - 1; $i++) {
+                        if ($emp_id[$i] == -1) {
+                            continue;
+                        }
+                        $check_has = \common\models\WorkorderAssignLine::find()->where(['workorder_assign_id' => $check_assign_no->id, 'emp_id' => $emp_id[$i]])->one();
+//                            print_r($emp_id[$i]); return ;
+                        if ($check_has) {
+                            $check_has->emp_message = '';
+                            if ($check_has->save(false)) {
+                                $res = 1;
                             }
-                            $check_has = \common\models\WorkorderAssignLine::find()->where(['workorder_assign_id' => $check_assign_no->id, 'emp_id' => $emp_id[$i]])->one();
-                            if ($check_has) {
-                                $check_has->emp_message = '';
-                                if ($check_has->save(false)) {
-                                    $res = 1;
-                                }
-                            } else {
-                                $model_line = new \common\models\Workorderassignline();
-                                $model_line->workorder_assign_id = $check_assign_no->id;
-                                $model_line->emp_id = $emp_id[$i];
-                                if ($model_line->save(false)) {
-                                    $res = 1;
-                                }
+                        } else {
+                            $model_line = new \common\models\Workorderassignline();
+                            $model_line->workorder_assign_id = $check_assign_no->id;
+                            $model_line->emp_id = $emp_id[$i];
+                            if ($model_line->save(false)) {
+                                $res = 1;
                             }
                         }
                     }
-                } else {
-                  //  print_r($emp_id);return;
-                   if($emp_id[0] > 0){
-                       $model_new = new \backend\models\Workorderassign();
-                       $model_new->workorder_id = $work_order_id;
-                       $model_new->assign_date = date('Y-m-d H:i:s');
-                       $model_new->assign_no = '';
-                       $model_new->status = 0;
-                       if ($model_new->save(false)) {
-                           if ($emp_id != null) {
-                               for ($i = 0; $i <= count($emp_id) - 1; $i++) {
-                                   if ($emp_id[$i] == -1) {
-                                       continue;
-                                   }
-                                   $check_has = \common\models\WorkorderAssignLine::find()->where(['workorder_assign_id' => $model_new->id, 'emp_id' => $emp_id[$i]])->one();
-                                   if ($check_has) {
-                                       $check_has->emp_message = '';
-                                       if ($check_has->save(false)) {
-                                           $res = 1;
-                                       }
-                                   } else {
-                                       $model_line = new \common\models\Workorderassignline();
-                                       $model_line->workorder_assign_id = $model_new->id;
-                                       $model_line->emp_id = $emp_id[$i];
-                                       if ($model_line->save(false)) {
-                                           $res = 1;
-                                       }
-                                   }
-
-                               }
-                           }
-                       }
-                   }
                 }
-
-                if($removelist !=null){
-                    $assign_id = 0;
-                    $xp = explode(',', $removelist);
-                    if($xp !=null){
-//                        print_r($xp); return ;
-                        for($i=0;$i<=count($xp)-1;$i++){
-                            if($i==0){
-                                $assign_id = $this->getWorkassignid($xp[$i]);
-                            }
-                           \common\models\WorkorderAssignLine::deleteAll(['id'=>$xp[$i]]);
-                            $res = 1;
-                        }
-//                        echo $assign_id; return;
-                        $check_has_line = \common\models\WorkorderAssignLine::find()->where(['workorder_assign_id' => $assign_id])->count();
-                        if($check_has_line==0){
-                            \common\models\Workorderassign::deleteAll(['id'=>$assign_id]);
-                            $res =1;
-                        }
-                    }
-                }
-
-            }
-            if ($res == 1) {
-                $sesion = \Yii::$app->session;
-                $sesion->setFlash('msg-success', 'บันทึกข้อมูลสําเร็จ');
             } else {
-                $sesion = \Yii::$app->session;
-                $sesion->setFlash('msg-error', 'บันทึกข้อมูลไม่สําเร็จ');
-            }
-            return $this->redirect(['workorderassignwork/index']);
+                //  print_r($emp_id);return;
+                if ($emp_id[0] > 0) {
+                    $model_new = new \backend\models\Workorderassign();
+                    $model_new->workorder_id = $work_order_id;
+                    $model_new->assign_date = date('Y-m-d H:i:s');
+                    $model_new->assign_no = '';
+                    $model_new->status = 0;
+                    if ($model_new->save(false)) {
+                        if ($emp_id != null) {
+                            for ($i = 0; $i <= count($emp_id) - 1; $i++) {
+                                if ($emp_id[$i] == -1) {
+                                    continue;
+                                }
+                                $check_has = \common\models\WorkorderAssignLine::find()->where(['workorder_assign_id' => $model_new->id, 'emp_id' => $emp_id[$i]])->one();
+                                if ($check_has) {
+                                    $check_has->emp_message = '';
+                                    if ($check_has->save(false)) {
+                                        $res = 1;
+                                    }
+                                } else {
+                                    $model_line = new \common\models\Workorderassignline();
+                                    $model_line->workorder_assign_id = $model_new->id;
+                                    $model_line->emp_id = $emp_id[$i];
+                                    if ($model_line->save(false)) {
+                                        $res = 1;
+                                    }
+                                }
 
-        }
-
-        public function getWorkassignid($assign_line_id){
-        $id=0;
-        $model = \common\models\WorkorderAssignLine::find()->where(['id'=>$assign_line_id])->one();
-            if($model){
-                $id = $model->workorder_assign_id;
-            }
-            return $id;
-        }
-
-        public
-        function actionEvaluatework($id)
-        {
-            return $this->render('_evaluate', [
-                'id' => $id
-            ]);
-        }
-
-        public
-        function actionAddevaluate()
-        {
-            $workorder_id = \Yii::$app->request->post('workorder_id');
-            $result = \Yii::$app->request->post('result');
-            $evaluate_result = \Yii::$app->request->post('evaluate_result');
-            $risk_code = \Yii::$app->request->post('risk_code');
-            $line_risk_id = \Yii::$app->request->post('line_risk_id');
-            $line_risk_after = \Yii::$app->request->post('line_risk_factor');
-
-            if ($result != null || $result != '') {
-//                 echo "OK";return;
-                $evaluate_photo = '';
-                $uploaded = \yii\web\UploadedFile::getInstanceByName('evaluate_photo');
-                if (!empty($uploaded)) {
-                    $new_file = 'photo_evaluate_' . Time() . "." . $uploaded->getExtension();
-                    if ($uploaded->saveAs('uploads/work_evaluate_photo/' . $new_file)) {
-                        $evaluate_photo = $new_file;
-                    }
-                }
-
-                $model_ev = new \common\models\WorkorderEvaluate();
-                $model_ev->workorder_id = $workorder_id;
-                $model_ev->trans_date = date('Y-m-d H:i:s');
-                $model_ev->risk_code = $risk_code;
-                $model_ev->evaluate_result = $evaluate_result;
-                $model_ev->result = $result;
-                $model_ev->photo = $evaluate_photo;
-                if ($model_ev->save(false)) {
-                    \common\models\WorkorderRiskAfter::deleteAll(['workorder_id' => $workorder_id]);
-                    if ($line_risk_id != null || $line_risk_after != null) {
-                        for ($i = 0; $i <= count($line_risk_id) - 1; $i++) {
-                            $model = new \common\models\WorkorderRiskAfter();
-                            $model->workorder_id = $workorder_id;
-                            $model->workorder_evaluate_id = $model_ev->id;
-                            $model->risk_id = $line_risk_id[$i];
-                            $model->risk_value = $line_risk_after[$i];
-                            $model->save(false);
+                            }
                         }
                     }
                 }
-
             }
-            return $this->redirect(['workorderassignwork/index']);
+
+            if ($removelist != null) {
+                $assign_id = 0;
+                $xp = explode(',', $removelist);
+                if ($xp != null) {
+//                        print_r($xp); return ;
+                    for ($i = 0; $i <= count($xp) - 1; $i++) {
+                        if ($i == 0) {
+                            $assign_id = $this->getWorkassignid($xp[$i]);
+                        }
+                        \common\models\WorkorderAssignLine::deleteAll(['id' => $xp[$i]]);
+                        $res = 1;
+                    }
+//                        echo $assign_id; return;
+                    $check_has_line = \common\models\WorkorderAssignLine::find()->where(['workorder_assign_id' => $assign_id])->count();
+                    if ($check_has_line == 0) {
+                        \common\models\Workorderassign::deleteAll(['id' => $assign_id]);
+                        $res = 1;
+                    }
+                }
+            }
+
         }
+        if ($res == 1) {
+            $sesion = \Yii::$app->session;
+            $sesion->setFlash('msg-success', 'บันทึกข้อมูลสําเร็จ');
+        } else {
+            $sesion = \Yii::$app->session;
+            $sesion->setFlash('msg-error', 'บันทึกข้อมูลไม่สําเร็จ');
+        }
+        return $this->redirect(['workorderassignwork/index']);
+
     }
+
+    public function getWorkassignid($assign_line_id)
+    {
+        $id = 0;
+        $model = \common\models\WorkorderAssignLine::find()->where(['id' => $assign_line_id])->one();
+        if ($model) {
+            $id = $model->workorder_assign_id;
+        }
+        return $id;
+    }
+
+    public
+    function actionEvaluatework($id)
+    {
+        return $this->render('_evaluate', [
+            'id' => $id
+        ]);
+    }
+
+    public
+    function actionAddevaluate()
+    {
+        $workorder_id = \Yii::$app->request->post('workorder_id');
+        $result = \Yii::$app->request->post('result');
+        $evaluate_result = \Yii::$app->request->post('evaluate_result');
+        $risk_code = \Yii::$app->request->post('risk_code');
+        $line_risk_id = \Yii::$app->request->post('line_risk_id');
+        $line_risk_after = \Yii::$app->request->post('line_risk_factor');
+
+        if ($result != null || $result != '') {
+//                 echo "OK";return;
+            $evaluate_photo = '';
+            $uploaded = \yii\web\UploadedFile::getInstanceByName('evaluate_photo');
+            if (!empty($uploaded)) {
+                $new_file = 'photo_evaluate_' . Time() . "." . $uploaded->getExtension();
+                if ($uploaded->saveAs('uploads/work_evaluate_photo/' . $new_file)) {
+                    $evaluate_photo = $new_file;
+                }
+            }
+
+            $model_ev = new \common\models\WorkorderEvaluate();
+            $model_ev->workorder_id = $workorder_id;
+            $model_ev->trans_date = date('Y-m-d H:i:s');
+            $model_ev->risk_code = $risk_code;
+            $model_ev->evaluate_result = $evaluate_result;
+            $model_ev->result = $result;
+            $model_ev->photo = $evaluate_photo;
+            if ($model_ev->save(false)) {
+                \common\models\WorkorderRiskAfter::deleteAll(['workorder_id' => $workorder_id]);
+                if ($line_risk_id != null || $line_risk_after != null) {
+                    for ($i = 0; $i <= count($line_risk_id) - 1; $i++) {
+                        $model = new \common\models\WorkorderRiskAfter();
+                        $model->workorder_id = $workorder_id;
+                        $model->workorder_evaluate_id = $model_ev->id;
+                        $model->risk_id = $line_risk_id[$i];
+                        $model->risk_value = $line_risk_after[$i];
+                        $model->save(false);
+                    }
+                }
+            }
+
+        }
+        return $this->redirect(['workorderassignwork/index']);
+    }
+}
 
 

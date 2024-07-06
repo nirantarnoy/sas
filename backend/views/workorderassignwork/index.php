@@ -15,6 +15,8 @@ use yii\widgets\LinkPager;
 
 $this->title = 'จ่ายงานซ่อม';
 $this->params['breadcrumbs'][] = $this->title;
+
+
 ?>
 <div class="workorderassignwork-index">
 
@@ -62,7 +64,7 @@ $this->params['breadcrumbs'][] = $this->title;
         //'tableOptions' => ['class' => 'table table-hover'],
         'emptyText' => '<div style="color: red;text-align: center;"> <b>ไม่พบรายการไดๆ</b> <span> เพิ่มรายการโดยการคลิกที่ปุ่ม </span><span class="text-success">"สร้างใหม่"</span></div>',
         'columns' => [
-            ['class' => 'yii\grid\SerialColumn','headerOptions' => ['style' => 'text-align:center;'],'contentOptions' => ['style' => 'text-align:center;']],
+            ['class' => 'yii\grid\SerialColumn', 'headerOptions' => ['style' => 'text-align:center;'], 'contentOptions' => ['style' => 'text-align:center;']],
             [
                 'attribute' => 'workorder_no',
                 'format' => 'raw',
@@ -125,15 +127,16 @@ $this->params['breadcrumbs'][] = $this->title;
                 'format' => 'raw',
                 'value' => function ($data) {
                     $workstatus_bg = 'badge-secondary';
-                    if($data->status == 1){
+                    if ($data->status == 1) {
                         $workstatus_bg = 'badge-secondary';
-                    }else if($data->status == 3){
+                    } else if ($data->status == 3) {
                         $workstatus_bg = 'badge-info';
-                    }else if($data->status == 4){
+                    } else if ($data->status == 4) {
                         $workstatus_bg = 'badge-success';
-                    }else if($data->status >= 5){
+                    } else if ($data->status >= 5) {
                         $workstatus_bg = 'badge-danger';
                     }
+//                    print_r($data->status); return ;
                     return '<div class="badge ' . $workstatus_bg . '">' . \backend\models\Workorderstatus::findName($data->status) . '</div>';
                 }
             ],
@@ -161,12 +164,16 @@ $this->params['breadcrumbs'][] = $this->title;
                 'headerOptions' => ['style' => 'text-align: center;'],
                 'format' => 'raw',
                 'value' => function ($data) {
+                    $work_no = '';
+                    if ($data->id) {
+                        $work_no = $data->workorder_no;
+                    }
                     $is_has = checkHasAssignEmployee($data->id);
                     $text_style = 'text-danger';
                     if ($is_has) {
                         $text_style = 'text-success';
                     }
-                    return '<div class="" data-var="' . $data->id . '" onclick="showfindemployee($(this))"><i class="fa fa-user '.$text_style.'"></i> </div>';
+                    return '<div class="" data-var="' . $data->id . '" data-var2="' . $work_no . '" onclick="showfindemployee($(this))"><i class="fa fa-user ' . $text_style . '"></i></div>';
                 }
             ],
             //'stop6',
@@ -200,7 +207,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         if ($_has) {
                             $btn_style = 'btn-success';
                         }
-                        if($data->status == 4){
+                        if ($data->status == 4) {
                             return Html::a(
                                 '<span class="fas fa-check-circle btn btn-xs ' . $btn_style . '"></span>', $url, $options);
                         }
@@ -241,6 +248,12 @@ $this->params['breadcrumbs'][] = $this->title;
                 <div class="row">
                     <div class="col-lg-12">
                         <b>รายชื่อพนักงาน</b>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12 workorder-no-ref" name="workorder_no_ref">
+                        <b>เลขที่ใบแจงซ่อม </b>
+                        <b class="work-no-ref"></b>
                     </div>
                 </div>
             </div>
@@ -422,7 +435,8 @@ function myPrint(){
 
 function showfindemployee(e){
     var id = e.attr("data-var");
-  //alert(id);
+    var work_no = e.attr("data-var2");
+  // alert(work_no);
   if(id > 0){
     $.ajax({
       type: 'post',
@@ -434,6 +448,7 @@ function showfindemployee(e){
        //   alert(data);
           $(".table-find-list tbody").html(data);
           $(".assign-workorder-id").val(id);
+          $(".work-no-ref").html(work_no);
           $("#findModal").modal("show");
           disableselectitemNew();
       },
