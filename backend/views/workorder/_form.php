@@ -62,30 +62,58 @@ if ($model->asset_id != null) {
                     }),
                     'options' => [
                         'placeholder' => '--เครื่องจักร--',
-                        'onchange' => 'getLocation($(this))',
+                        'onchange' => 'getLocationOption($(this))',
                     ]
                 ]) ?>
 
             </div>
             <div class="col-lg-3">
                 <label for="">ที่ตั้งเครื่องจักร</label>
-                <input type="text" class="form-control location-name" readonly value="<?= $loc_name ?>">
+                <!--                <input type="text" class="form-control location-name" readonly value="-->
+                <?php //= $loc_name ?><!--">-->
+                <?= $form->field($model, 'work_asset_location_id')->Widget(\kartik\select2\Select2::className(), [
+                    'data' => \yii\helpers\ArrayHelper::map(\backend\models\Location::find()->all(), 'id', 'name'),
+                    'options' => [
+                        'class' => 'select-location',
+                    ]
+                ])->label(false) ?>
             </div>
             <div class="col-lg-3">
-                <?php $model->work_recieve_date = $model->isNewRecord ? date('d/m/Y') : date('d/m/Y', strtotime($model->work_recieve_date)); ?>
+                <?php
+                if ($model->isNewRecord) {
+                    $model->work_recieve_date = null;
+                    $model->work_assign_date = null;
+                } else {
+                    $init_year = date('Y', strtotime($model->work_recieve_date));
+                    if ($init_year != 1970) {
+                        $model->work_recieve_date = date('d/m/Y', strtotime($model->work_recieve_date));
+                        $model->work_assign_date = date('d/m/Y', strtotime($model->work_assign_date));
+                    } else {
+                        $model->work_recieve_date = null;
+                        $model->work_assign_date = null;
+                    }
+                }
+                // $model->work_recieve_date = $model->isNewRecord ? null: date('d/m/Y', strtotime($model->work_recieve_date));
+                ?>
                 <?= $form->field($model, 'work_recieve_date')->widget(\kartik\date\DatePicker::className(), [
-                    'value' => date('Y-m-d'),
+                    //  'value' => $model->work_recieve_datedate('Y-m-d'),
+                    'options' => [
+                        'disabled' => 'disabled',
+                    ],
                     'pluginOptions' => [
                         'format' => 'dd/mm/yyyy'
                     ]
                 ]) ?>
             </div>
             <div class="col-lg-3">
-                <?php $model->work_assign_date = $model->isNewRecord ? date('d/m/Y') : date('d/m/Y', strtotime($model->work_assign_date)); ?>
                 <?= $form->field($model, 'work_assign_date')->widget(\kartik\date\DatePicker::className(), [
-                    'value' => date('Y-m-d'),
+                    //'value' => date('Y-m-d'),
+                    'options' => [
+                        'disabled' => 'disabled',
+                    ],
                     'pluginOptions' => [
-                        'format' => 'dd/mm/yyyy'
+                        'format' => 'dd/mm/yyyy',
+                        //  'disabled' => true,
                     ]
                 ]) ?>
             </div>
@@ -271,6 +299,7 @@ if ($model->asset_id != null) {
     </div>
 <?php
 $url_to_get_location = \yii\helpers\Url::to(['asset/getlocation'], true);
+$url_to_get_location_option = \yii\helpers\Url::to(['asset/getlocationoption'], true);
 $js = <<<JS
 function getLocation(e){
     var asset_id = e.val();
@@ -284,6 +313,22 @@ function getLocation(e){
             if(data!=''){
                 // alert('hello')
                 $(".location-name").val(data);
+            }
+        }       
+    });    
+}
+function getLocationOption(e){
+    var asset_id = e.val();
+    //alert(asset_id);
+    $.ajax({
+        'type': 'post',
+        'dataType': 'html',
+        'url': "$url_to_get_location_option",
+        'data': {'asset_id': asset_id},
+        'success': function(data){
+            // alert(data)
+            if(data!=''){
+                $(".select-location").html(data);
             }
         }       
     });    

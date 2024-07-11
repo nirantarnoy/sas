@@ -1,5 +1,5 @@
 <?php
-
+date_default_timezone_set('Asia/Bangkok');
 use yii\helpers\Html;
 use yii\widgets\DetailView;
 use yii\helpers\Url;
@@ -285,16 +285,27 @@ $btn_inactive = 'btn-secondary';
                             </tr>
                             <?php if ($value->workorder_status == 3): ?>
                                 <?php
+                                $time_zone = new DateTimeZone('Asia/Bangkok');
                                 $line_time_use = '';
-                                $date1 = date_create(date('Y-m-d H:i:s', strtotime($value->workorder_date)));
-                                $date2 = date_create(date('Y-m-d H:i:s'));
-                                $line_time_use = date_diff($date1, $date2);
+                                $date1 = date('Y-m-d H:i:s', strtotime($value->work_assign_date));
+                                $date2 = date('Y-m-d H:i:s');
+
+
+                                $datetime1 = new DateTime($date1, $time_zone);
+                                $datetime2 = new DateTime($date2, $time_zone);
+                                $interval = $datetime1->diff($datetime2);
+
+
+//                                $date1 = date_create(date('Y-m-d H:i:s', strtotime($value->work_assign_date)), new DateTimeZone('Asia/Bangkok'));
+//                                $date2 = date_create(date('Y-m-d H:i:s'), new DateTimeZone('Asia/Bangkok'));
+                               // $data2->setTime(24,0,0);
+//                                $line_time_use = date_diff($date1, $date2);
 //                                print_r($line_time_use);
                                 ?>
                                 <tr>
                                     <td colspan="2">
                                         <input type="hidden" class="line-work-time-use"
-                                               value="<?= $line_time_use->format('%d days %h hours %i minute') ?>">
+                                               value="<?= $interval->days . ' วัน ' . $interval->h . ' ชั่วโมง ' . $interval->i . ' นาที'  ?>">
                                         <input type="hidden" class="line-workorder-no"
                                                value="<?= $value->workorder_no ?>">
                                         <input type="hidden" class="line-workorder-asset"

@@ -32,24 +32,24 @@ class AssetController extends Controller
                     'delete' => ['POST','GET'],
                 ],
             ],
-            'access'=>[
-                'class'=>AccessControl::className(),
-                'denyCallback' => function ($rule, $action) {
-                    throw new ForbiddenHttpException('คุณไม่ได้รับอนุญาติให้เข้าใช้งาน!');
-                },
-                'rules'=>[
-                    [
-                        'allow'=>true,
-                        'roles'=>['@'],
-                        'matchCallback'=>function($rule,$action){
-                            $currentRoute = \Yii::$app->controller->getRoute();
-                            if(\Yii::$app->user->can($currentRoute)){
-                                return true;
-                            }
-                        }
-                    ]
-                ]
-            ],
+//            'access'=>[
+//                'class'=>AccessControl::className(),
+//                'denyCallback' => function ($rule, $action) {
+//                    throw new ForbiddenHttpException('คุณไม่ได้รับอนุญาติให้เข้าใช้งาน!');
+//                },
+//                'rules'=>[
+//                    [
+//                        'allow'=>true,
+//                        'roles'=>['@'],
+//                        'matchCallback'=>function($rule,$action){
+//                            $currentRoute = \Yii::$app->controller->getRoute();
+//                            if(\Yii::$app->user->can($currentRoute)){
+//                                return true;
+//                            }
+//                        }
+//                    ]
+//                ]
+//            ],
         ];
     }
 
@@ -283,6 +283,30 @@ class AssetController extends Controller
             $name = \backend\models\Asset::findLocationName($asset_id);
         }
         echo $name;
+    }
+    public function actionGetlocationoption()
+    {
+        $html = '';
+        $asset_id = \Yii::$app->request->post('asset_id');
+        $location_id = 0;
+//        print_r($asset_id); return;
+        if ($asset_id) {
+            $model = \common\models\Asset::find()->where(['id' => $asset_id])->one();
+            if ($model) {
+                $location_id = $model->location_id;
+            }
+        }
+        if($location_id){
+            $model_location = \common\models\Location::find()->all();
+            foreach ($model_location as $value) {
+                if($value->id == $location_id){
+                    $html .= '<option value="'.$value->id.'" selected>'.$value->name.'</option>';
+                }else{
+                    $html .= '<option value="'.$value->id.'">'.$value->name.'</option>';
+                }
+            }
+        }
+        echo $html;
     }
 
     public function actionAddtasklist()

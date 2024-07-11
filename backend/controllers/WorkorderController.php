@@ -103,21 +103,21 @@ class WorkorderController extends Controller
             }
 //            print_r($w_date); return;
 
-            $r_date = date('Y-m-d');
-            $fr_date = explode('/', $model->work_recieve_date);
-            if ($fr_date != null) {
-                if (count($fr_date) > 1) {
-                    $r_date = $fr_date[2] . '/' . $fr_date[1] . '/' . $fr_date[0] . ' ' . date('H:i:s');
-                }
-            }
-
-            $as_date = date('Y-m-d');
-            $fas_date = explode('/', $model->work_assign_date);
-            if ($fas_date != null) {
-                if (count($fas_date) > 1) {
-                    $as_date = $fas_date[2] . '/' . $fas_date[1] . '/' . $fas_date[0] . ' ' . date('H:i:s');
-                }
-            }
+//            $r_date = date('Y-m-d');
+//            $fr_date = explode('/', $model->work_recieve_date);
+//            if ($fr_date != null) {
+//                if (count($fr_date) > 1) {
+//                    $r_date = $fr_date[2] . '/' . $fr_date[1] . '/' . $fr_date[0] . ' ' . date('H:i:s');
+//                }
+//            }
+//
+//            $as_date = date('Y-m-d');
+//            $fas_date = explode('/', $model->work_assign_date);
+//            if ($fas_date != null) {
+//                if (count($fas_date) > 1) {
+//                    $as_date = $fas_date[2] . '/' . $fas_date[1] . '/' . $fas_date[0] . ' ' . date('H:i:s');
+//                }
+//            }
 
 //            print_r($as_date); return;
 
@@ -134,8 +134,8 @@ class WorkorderController extends Controller
 
             $model->workorder_no = $model::getLastNo();
             $model->workorder_date = date('Y-m-d H:i:s', strtotime($w_date));
-            $model->work_recieve_date = date('Y-m-d H:i:s', strtotime($r_date));
-            $model->work_assign_date = date('Y-m-d H:i:s', strtotime($as_date));
+            $model->work_recieve_date = null;
+            $model->work_assign_date = null;
             $model->status = 1; // open init
             $model->factor_risk_1 = $fac1;
             $model->factor_risk_2 = $fac2;

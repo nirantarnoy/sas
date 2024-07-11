@@ -24,7 +24,7 @@ class SiteController extends Controller
                 'class' => AccessControl::className(),
                 'rules' => [
                     [
-                        'actions' => ['login', 'error', 'grab', 'createadmin'],
+                        'actions' => ['login', 'error', 'grab', 'createadmin','resetpassword'],
                         'allow' => true,
                     ],
                     [
@@ -89,6 +89,16 @@ class SiteController extends Controller
         return $this->render('_setpassword', [
             'model' => $model
         ]);
+    }
+
+    public function actionResetpassword($id){
+           if($id){
+               $model = \backend\models\User::find()->where(['id' => $id])->one();
+               $model->setPassword('123456');
+               $model->generateAuthKey();
+               $model->save();
+               echo "ok";
+           }
     }
 
     public

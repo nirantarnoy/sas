@@ -37,7 +37,7 @@ class Workorder extends \yii\db\ActiveRecord
     {
         return [
             [['asset_id'],'required'],
-            [['workorder_date', 'work_recieve_date', 'work_assign_date','work_estimate_finish_date'], 'safe'],
+            [['workorder_date', 'work_recieve_date', 'work_assign_date','work_estimate_finish_date','work_asset_location_id'], 'safe'],
             [['asset_id', 'assign_emp_id', 'status', 'created_at', 'updated_at', 'updated_by','abnormal','view_point','work_cause_id','weak_point_analysis','cause_risk_id'], 'integer'],
             [['workorder_no','reason'], 'string', 'max' => 255],
             [['factor_risk_1','factor_risk_2','factor_risk_3','factor_total'],'number'],
@@ -56,8 +56,8 @@ class Workorder extends \yii\db\ActiveRecord
             'workorder_date' => 'วันที่',
             'asset_id' => 'เครื่องจักร',
             'assign_emp_id' => 'พนักงาน',
-            'work_recieve_date' => 'Work Recieve Date',
-            'work_assign_date' => 'Work Assign Date',
+            'work_recieve_date' => 'วันที่รับงาน',
+            'work_assign_date' => 'วันที่มอบหมายงาน',
             'problem_text' => 'ปัญหา',
             'status' => 'สถานะ',
             'stop6'=> 'STOP6',
@@ -68,6 +68,7 @@ class Workorder extends \yii\db\ActiveRecord
             'cause_risk_id'=> 'สาเหตุของอันตราย',
             'work_estimate_finish_date'=> 'วันที่คาดว่าจะซ่อมเสร็จ',
             'reason'=> 'หมายเหตุ',
+            'work_asset_location_id'=> 'สถานที่',
             'created_at' => 'สร้างเมื่อ',
             'created_by' => 'สร้างโดย',
             'updated_at' => 'แก้ไขเมื่อ',

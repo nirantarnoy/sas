@@ -65,7 +65,7 @@ class WorkorderassignworkSearch extends Workorderassignwork
             'assign_emp_id' => $this->assign_emp_id,
             'work_recieve_date' => $this->work_recieve_date,
             'work_assign_date' => $this->work_assign_date,
-            'status' => $this->status,
+//            'status' => $this->status,
             'created_at' => $this->created_at,
             'created_by' => $this->created_by,
             'updated_at' => $this->updated_at,
@@ -89,6 +89,10 @@ class WorkorderassignworkSearch extends Workorderassignwork
                     $query->andFilterWhere(['like', 'workorder_date', date('Y-m-d',strtotime($f_date))]);
                 }
             }
+        }
+
+        if($this->status != 6){
+            $query->andFilterWhere(['status' => $this->status]);
         }
 
         $query->andFilterWhere(['like', 'workorder_no', $this->workorder_no])

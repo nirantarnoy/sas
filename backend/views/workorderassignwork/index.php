@@ -173,7 +173,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     if ($is_has) {
                         $text_style = 'text-success';
                     }
-                    return '<div class="" data-var="' . $data->id . '" data-var2="' . $work_no . '" onclick="showfindemployee($(this))"><i class="fa fa-user ' . $text_style . '"></i></div>';
+                    return '<div class="" data-var="' . $data->id . '" data-var2="' . $work_no . '" data-var3="' . $data->status . '" onclick="showfindemployee($(this))"><i class="fa fa-user ' . $text_style . '"></i></div>';
                 }
             ],
             //'stop6',
@@ -284,7 +284,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         <tfoot>
                         <tr>
                             <td>
-                                <div class="btn btn-primary" onclick="addempline($(this))">เพิ่ม</div>
+                                <div class="btn btn-primary btn-add-empline" onclick="addempline($(this))">เพิ่ม</div>
                             </td>
                             <td></td>
                         </tr>
@@ -294,7 +294,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     <br/>
                 </div>
                 <div class="modal-footer">
-                    <button class="btn btn-outline-success" data-dismiss="modalx"><i
+                    <button class="btn btn-outline-success btn-save-assign" data-dismiss="modalx"><i
                                 class="fa fa-check"></i> บันทึก
                     </button>
                     <button type="button" class="btn btn-default" data-dismiss="modal"><i
@@ -436,6 +436,7 @@ function myPrint(){
 function showfindemployee(e){
     var id = e.attr("data-var");
     var work_no = e.attr("data-var2");
+    var work_status = e.attr("data-var3");
   // alert(work_no);
   if(id > 0){
     $.ajax({
@@ -449,7 +450,16 @@ function showfindemployee(e){
           $(".table-find-list tbody").html(data);
           $(".assign-workorder-id").val(id);
           $(".work-no-ref").html(work_no);
+          
+          if(work_status == 1){
+              $(".btn-add-empline").show();
+              $(".btn-save-assign").show();
+          }else{
+              $(".btn-add-empline").hide();
+              $(".btn-save-assign").hide();
+          }
           $("#findModal").modal("show");
+          
           disableselectitemNew();
       },
       error: function(err){
