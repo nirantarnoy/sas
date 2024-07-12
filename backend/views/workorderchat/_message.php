@@ -102,7 +102,6 @@ $model_order_message = \common\models\WorkorderChat::find()->select(['workorder_
                                                 </div>
 
                                             </div>
-
                                         </a>
                                     </div>
                                 </div>
