@@ -117,11 +117,11 @@ $model_order_message = \common\models\WorkorderChat::find()->select(['workorder_
                                     style="vertical-align: middle;">เลขใบแจ้งซ่อม #<?= $workorder_no ?></b><span> แจ้งโดย: <b><?= $workorder_by ?></b></span><span> วันที่แจ้ง: <b><?= $workorder_date ?></b></span><span> สถานะ: <b><?= $workorder_status ?></b></span>
                         </div>
                         <hr style="border: 1px solid lightgrey;">
-                        <div id="chat-box" style="width: 100%;height: 750px;overflow-y: scroll;">
+                        <div id="chat-box" style="width: 100%;height: auto;max-height: 550px;overflow-y: scroll;">
 
                         </div>
                         <br/>
-                        <table style="width: 100%;">
+                        <table style="width: 100%;overflow: scroll">
                             <form id="form-message" action="" method="post" enctype="multipart/form-data">
                                 <?php if ($workorder_no !='' || $workorder_by !=null): ?>
                                     <tr>
