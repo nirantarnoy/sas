@@ -29,22 +29,22 @@ class AuthitemController extends Controller
                     'delete' => ['POST', 'GET'],
                 ],
             ],
-//            'access'=>[
-//                'class'=>AccessControl::className(),
-//                'rules'=>[
-//                    [
-//                        'allow'=>true,
-//                        'actions'=>['index','create','update','view','resetpassword','managerule','initpermission','test'],
-//                        'roles'=>['@'],
-//                    ],
-//                    [
-//                        'allow'=>true,
-//                        'actions'=>['delete'],
-//                        'roles'=>['System Administrator'],
-//                    ]
-//
-//                ]
-//            ]
+            'access'=>[
+                'class'=>AccessControl::className(),
+                'rules'=>[
+                    [
+                        'allow'=>true,
+                        'actions'=>['index','create','update','view','resetpassword','managerule','initpermission','test'],
+                        'roles'=>['@'],
+                    ],
+                    [
+                        'allow'=>true,
+                        'actions'=>['delete'],
+                        'roles'=>['System Administrator'],
+                    ]
+
+                ]
+            ],
         ];
     }
 

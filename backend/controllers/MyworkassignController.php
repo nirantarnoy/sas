@@ -33,24 +33,24 @@ class MyworkassignController extends Controller
                     'delete' => ['POST', 'GET'],
                 ],
             ],
-//            'access'=>[
-//                'class'=>AccessControl::className(),
-//                'denyCallback' => function ($rule, $action) {
-//                    throw new ForbiddenHttpException('คุณไม่ได้รับอนุญาติให้เข้าใช้งาน!');
-//                },
-//                'rules'=>[
-//                    [
-//                        'allow'=>true,
-//                        'roles'=>['@'],
-//                        'matchCallback'=>function($rule,$action){
-//                            $currentRoute = \Yii::$app->controller->getRoute();
-//                            if(\Yii::$app->user->can($currentRoute)){
-//                                return true;
-//                            }
-//                        }
-//                    ]
-//                ]
-//            ],
+            'access'=>[
+                'class'=>AccessControl::className(),
+                'denyCallback' => function ($rule, $action) {
+                    throw new ForbiddenHttpException('คุณไม่ได้รับอนุญาติให้เข้าใช้งาน!');
+                },
+                'rules'=>[
+                    [
+                        'allow'=>true,
+                        'roles'=>['@'],
+                        'matchCallback'=>function($rule,$action){
+                            $currentRoute = \Yii::$app->controller->getRoute();
+                            if(\Yii::$app->user->can($currentRoute)){
+                                return true;
+                            }
+                        }
+                    ]
+                ]
+            ],
         ];
     }
 
@@ -128,7 +128,7 @@ class MyworkassignController extends Controller
             }
 
         }
-        return $this->redirect(['myworkassign/index', 'type' => 1]);
+        return $this->redirect(['myworkassign/index', 'type' => 2]);
     }
 
     public function actionSaveriskafter()
