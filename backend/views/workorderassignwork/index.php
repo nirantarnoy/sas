@@ -129,7 +129,10 @@ $this->params['breadcrumbs'][] = $this->title;
                     $workstatus_bg = 'badge-secondary';
                     if ($data->status == 1) {
                         $workstatus_bg = 'badge-secondary';
-                    } else if ($data->status == 3) {
+                    }else if ($data->status == 2) {
+                        $workstatus_bg = 'badge-warning';
+                    }
+                    else if ($data->status == 3) {
                         $workstatus_bg = 'badge-info';
                     } else if ($data->status == 4) {
                         $workstatus_bg = 'badge-success';
@@ -451,7 +454,7 @@ function showfindemployee(e){
           $(".assign-workorder-id").val(id);
           $(".work-no-ref").html(work_no);
           
-          if(work_status == 1){
+          if(work_status == 1 || work_status ==6){
               $(".btn-add-empline").show();
               $(".btn-save-assign").show();
           }else{

@@ -34,7 +34,7 @@ $btn_inactive = 'btn-secondary';
     <div class="btn-group">
         <a href="index.php?r=myworkassign/index&type=all"
            class="btn <?= $type == 'all' ? $btn_active : $btn_inactive ?>">All</a>
-        <a href="index.php?r=myworkassign/index&type=1" class="btn <?= $type == '1' ? $btn_active : $btn_inactive ?>">รอรับงาน</a>
+        <a href="index.php?r=myworkassign/index&type=2" class="btn <?= $type == '2' ? $btn_active : $btn_inactive ?>">รอรับงาน</a>
         <a href="index.php?r=myworkassign/index&type=3" class="btn <?= $type == '3' ? $btn_active : $btn_inactive ?>">ระหว่างซ่อม</a>
         <a href="index.php?r=myworkassign/index&type=4" class="btn <?= $type == '4' ? $btn_active : $btn_inactive ?>">ซ่อมเสร็จ</a>
         <a href="index.php?r=myworkassign/index&type=5" class="btn <?= $type == '5' ? $btn_active : $btn_inactive ?>">ยกเลิก</a>
@@ -246,7 +246,7 @@ $btn_inactive = 'btn-secondary';
                            value="<?= \backend\models\Asset::findLocationName($value->asset_id) ?>">
                     <input type="hidden" class="accept-workorder-status"
                            value="<?= \backend\models\Workorderstatus::findName($value->workorder_status) ?>">
-                    <?php if ($value->workorder_status == 1): ?>
+                    <?php if ($value->workorder_status == 2): ?>
                         <div class="col-lg-1"
                              style="text-align: right;border: 1px dashed grey;border-right: none;padding: 10px;">
                             <div class="btn btn-success btn-accept-workorder">รับงาน</div>

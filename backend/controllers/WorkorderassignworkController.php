@@ -495,7 +495,7 @@ class WorkorderassignworkController extends Controller
         if ($res == 1) {
 
             if ($res == 1) {
-                \backend\models\Workorder::updateAll(['work_assign_date' => date('Y-m-d H:i:s')], ['id' => $work_order_id]);
+                \backend\models\Workorder::updateAll(['work_assign_date' => date('Y-m-d H:i:s'),'status' => 2], ['id' => $work_order_id]);
             }
 
             $sesion = \Yii::$app->session;

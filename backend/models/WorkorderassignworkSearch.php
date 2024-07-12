@@ -91,7 +91,7 @@ class WorkorderassignworkSearch extends Workorderassignwork
             }
         }
 
-        if($this->status != 6){
+        if($this->status != 7){
             $query->andFilterWhere(['status' => $this->status]);
         }
 

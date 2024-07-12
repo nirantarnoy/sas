@@ -3,6 +3,7 @@
 namespace backend\controllers;
 
 use backend\models\CashrecordSearch;
+use common\models\WorkorderAssignReject;
 use Yii;
 use backend\models\Position;
 use backend\models\PositionSearch;
@@ -29,7 +30,7 @@ class MyworkassignController extends Controller
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
-                    'delete' => ['POST','GET'],
+                    'delete' => ['POST', 'GET'],
                 ],
             ],
 //            'access'=>[
@@ -99,15 +100,30 @@ class MyworkassignController extends Controller
                 }
 
                 $est_date = date('Y-m-d');
-                $xdate = explode('-',$estimate_finish_date);
-                if(count($xdate)>1){
-                    $est_date = $xdate[2].'/'.$xdate[1].'/'.$xdate[0];
+                $xdate = explode('-', $estimate_finish_date);
+                if (count($xdate) > 1) {
+                    $est_date = $xdate[2] . '/' . $xdate[1] . '/' . $xdate[0];
                 }
 
                 $model->work_estimate_finish_date = date('Y-m-d', strtotime($est_date));
                 $model->reason = $workorder_reason;
                 $model->work_recieve_date = date('Y-m-d H:i:s');
-                $model->save(false);
+                if ($model->save(false)) {
+                    if ($model->status == 6) { // reject order must to delete assign work line
+                        $assign_model = \common\models\WorkorderAssign::find()->where(['workorder_id' => $workorder_id])->one();
+                        if ($assign_model) {
+                            $model_reject = new \common\models\WorkorderAssignReject();
+                            $model_reject->workorder_id = $workorder_id;
+                            $model_reject->trans_date = date('Y-m-d H:i:s');
+                            $model_reject->reason = $workorder_reason;
+                            $model_reject->emp_id = \Yii::$app->user->id;
+                            if ($model_reject->save(false)) {
+                                \common\models\WorkorderAssignLine::deleteAll(['workorder_assign_id' => $assign_model->id]);
+                                $assign_model->delete();
+                            }
+                        }
+                    }
+                }
 
             }
 
@@ -263,11 +279,11 @@ class MyworkassignController extends Controller
                 $session->setFlash('msg-success', 'บันทึกรายการเรียบร้อย');
 //        return $this->redirect(['index']);
 
-                return $this->redirect(['myworkassign/index', 'type' => 1 ]);
+                return $this->redirect(['myworkassign/index', 'type' => 1]);
             }
         }
 
-        return $this->redirect(['myworkassign/index', 'type' => 1 ]);
+        return $this->redirect(['myworkassign/index', 'type' => 1]);
     }
 
 }
