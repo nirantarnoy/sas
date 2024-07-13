@@ -157,7 +157,7 @@
                     </ul>
                 </li>
                 <?php endif;?>
-                <?php if (\Yii::$app->user->can('workorder/index') || \Yii::$app->user->can('workorderassignwork/index') || \Yii::$app->user->can('todolist/index')): ?>
+                <?php //echo if (\Yii::$app->user->can('workorder/index') || \Yii::$app->user->can('workorderassignwork/index') || \Yii::$app->user->can('todolist/index')): ?>
                 <li class="nav-item has-treeview has-sub">
                     <a href="#" class="nav-link">
                         <i class="nav-icon fas fa-list-alt"></i>
@@ -167,30 +167,30 @@
                         </p>
                     </a>
                     <ul class="nav nav-treeview">
-                        <?php if (\Yii::$app->user->can('workorder/index')): ?>
+                        <?php //echo if (\Yii::$app->user->can('workorder/index')): ?>
                         <li class="nav-item">
                             <a href="index.php?r=workorder/index" class="nav-link workorder">
                                 <i class="far fa-circlez nav-icon"></i>
                                 <p>แจ้งซ่อม</p>
                             </a>
                         </li>
-                        <?php endif; ?>
-                        <?php if (\Yii::$app->user->can('workorderassignwork/index')): ?>
+                        <?php //echo endif; ?>
+                        <?php //echo if (\Yii::$app->user->can('workorderassignwork/index')): ?>
                         <li class="nav-item">
                             <a href="index.php?r=workorderassignwork" class="nav-link workorderassignwork">
                                 <i class="far fa-circlez nav-icon"></i>
                                 <p>มอบหมายงาน</p>
                             </a>
                         </li>
-                        <?php endif; ?>
-                        <?php if (\Yii::$app->user->can('todolist/index')): ?>
+                        <?php //echo endif; ?>
+                        <?php  //echo if (\Yii::$app->user->can('todolist/index')): ?>
                         <li class="nav-item">
                             <a href="index.php?r=todolist" class="nav-link todolist">
                                 <i class="far fa-circlez nav-icon"></i>
                                 <p>Todo List</p>
                             </a>
                         </li>
-                        <?php endif; ?>
+                        <?php //echo endif; ?>
                         <?php //if (\Yii::$app->user->can('customergroup/index')): ?>
 <!--                        <li class="nav-item">-->
 <!--                            <a href="index.php?r=workorderrate" class="nav-link workorderrate">-->
@@ -212,9 +212,9 @@
 
                     </ul>
                 </li>
-                <?php endif;?>
+                <?php //echo endif;?>
 
-                <?php if (\Yii::$app->user->can('myworkassign/index') || \Yii::$app->user->can('workorderchat/index')): ?>
+                <?php //echo if (\Yii::$app->user->can('myworkassign/index') || \Yii::$app->user->can('workorderchat/index')): ?>
                 <li class="nav-item has-treeview has-sub">
                     <a href="#" class="nav-link">
                         <i class="nav-icon fas fa-comments"></i>
@@ -224,26 +224,26 @@
                         </p>
                     </a>
                     <ul class="nav nav-treeview">
-                        <?php if (\Yii::$app->user->can('myworkassign/index')): ?>
+                        <?php //echo if (\Yii::$app->user->can('myworkassign/index')): ?>
                         <li class="nav-item">
-                            <a href="index.php?r=myworkassign/index&type=1" class="nav-link">
+                            <a href="index.php?r=myworkassign/index&type=2" class="nav-link myworkassign">
                                 <i class="far fa-circlez nav-icon"></i>
                                 <p>งานที่รับมอบหมาย</p>
                             </a>
                         </li>
-                        <?php endif;?>
-                        <?php if (\Yii::$app->user->can('workorderchat/chat')): ?>
+                        <?php //echo endif;?>
+                        <?php //echo if (\Yii::$app->user->can('workorderchat/chat')): ?>
                         <li class="nav-item">
-                            <a href="index.php?r=workorderchat/chat&id=" class="nav-link">
+                            <a href="index.php?r=workorderchat/chat&id=" class="nav-link workorderchat">
                                 <i class="far fa-circlez nav-icon"></i>
                                 <p>แชท</p>
                             </a>
                         </li>
-                        <?php endif;?>
+                        <?php //echo endif;?>
 
                     </ul>
                 </li>
-                <?php endif;?>
+                <?php //echo endif;?>
 
                 <?php if (\Yii::$app->user->can('workorderreport/index') || \Yii::$app->user->can('todolistreport')): ?>
                 <li class="nav-item has-treeview has-sub">
@@ -277,7 +277,7 @@
                 <?php endif;?>
                 <?php // if (isset($_SESSION['user_group_id'])): ?>
                 <?php //if ($_SESSION['user_group_id'] == 1): ?>
-                <?php if (\Yii::$app->user->can('user/index')): ?>
+                <?php //echo if (\Yii::$app->user->can('user/index')): ?>
                     <li class="nav-item has-treeview has-sub">
                         <a href="#" class="nav-link">
                             <i class="nav-icon fas fa-user"></i>
@@ -316,7 +316,7 @@
 
                         </ul>
                     </li>
-                <?php endif; ?>
+                <?php //echo endif; ?>
                 <?php if (\Yii::$app->user->can('dbbackup/backuplist')): ?>
                     <li class="nav-item has-treeview has-sub">
                         <a href="#" class="nav-link">

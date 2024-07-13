@@ -31,24 +31,24 @@ class WorkorderController extends Controller
                     'delete' => ['POST','GET'],
                 ],
             ],
-//            'access'=>[
-//                'class'=>AccessControl::className(),
-//                'denyCallback' => function ($rule, $action) {
-//                    throw new ForbiddenHttpException('คุณไม่ได้รับอนุญาติให้เข้าใช้งาน!');
-//                },
-//                'rules'=>[
-//                    [
-//                        'allow'=>true,
-//                        'roles'=>['@'],
-//                        'matchCallback'=>function($rule,$action){
-//                            $currentRoute = \Yii::$app->controller->getRoute();
-//                            if(\Yii::$app->user->can($currentRoute)){
-//                                return true;
-//                            }
-//                        }
-//                    ]
-//                ]
-//            ],
+            'access'=>[
+                'class'=>AccessControl::className(),
+                'denyCallback' => function ($rule, $action) {
+                    throw new ForbiddenHttpException('คุณไม่ได้รับอนุญาติให้เข้าใช้งาน!');
+                },
+                'rules'=>[
+                    [
+                        'allow'=>true,
+                        'roles'=>['@'],
+                        'matchCallback'=>function($rule,$action){
+                            $currentRoute = \Yii::$app->controller->getRoute();
+                            if(\Yii::$app->user->can($currentRoute)){
+                                return true;
+                            }
+                        }
+                    ]
+                ]
+            ],
         ];
     }
 
@@ -94,7 +94,7 @@ class WorkorderController extends Controller
         $model = new Workorder();
 
         if ($model->load(Yii::$app->request->post())) {
-            $w_date = date('Y-m-d');
+            $w_date = date('Y-m-d H:i:s');
             $xdate = explode('/', $model->workorder_date);
             if ($xdate != null) {
                 if (count($xdate) > 1) {

@@ -34,24 +34,24 @@ class WorkorderassignworkController extends Controller
                         'delete' => ['POST', 'GET'],
                     ],
                 ],
-//                'access'=>[
-//                    'class'=>AccessControl::className(),
-//                    'denyCallback' => function ($rule, $action) {
-//                        throw new ForbiddenHttpException('คุณไม่ได้รับอนุญาติให้เข้าใช้งาน!');
-//                    },
-//                    'rules'=>[
-//                        [
-//                            'allow'=>true,
-//                            'roles'=>['@'],
-//                            'matchCallback'=>function($rule,$action){
-//                                $currentRoute = \Yii::$app->controller->getRoute();
-//                                if(\Yii::$app->user->can($currentRoute)){
-//                                    return true;
-//                                }
-//                            }
-//                        ]
-//                    ]
-//                ],
+                'access'=>[
+                    'class'=>AccessControl::className(),
+                    'denyCallback' => function ($rule, $action) {
+                        throw new ForbiddenHttpException('คุณไม่ได้รับอนุญาติให้เข้าใช้งาน!');
+                    },
+                    'rules'=>[
+                        [
+                            'allow'=>true,
+                            'roles'=>['@'],
+                            'matchCallback'=>function($rule,$action){
+                                $currentRoute = \Yii::$app->controller->getRoute();
+                                if(\Yii::$app->user->can($currentRoute)){
+                                    return true;
+                                }
+                            }
+                        ]
+                    ]
+                ],
             ]
         );
     }
@@ -167,7 +167,7 @@ class WorkorderassignworkController extends Controller
 //        print_r($old_date);return ;
 
 
-        if ($model->load(Yii::$app->request->post())) {
+        if ($model->load(\Yii::$app->request->post())) {
             $work_created_by = \Yii::$app->request->post('work_created_by');
             $work_status = \Yii::$app->request->post('work_status');
             $work_old_photo = \Yii::$app->request->post('work_old_photo');
