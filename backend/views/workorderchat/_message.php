@@ -100,7 +100,6 @@ $model_order_message = \common\models\WorkorderChat::find()->select(['workorder_
                                                     </div>
                                                     <div class="col-lg-4"><div class="badge <?= $workstatus_bg ?>"><?=\backend\models\Workorderstatus::findName($value->workorder_status)?></div></div>
                                                 </div>
-
                                             </div>
                                         </a>
                                     </div>
