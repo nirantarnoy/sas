@@ -36,6 +36,10 @@ class WorkorderchatController extends Controller
                 },
                 'rules'=>[
                     [
+                        'actions' => ['post-message', 'update-message', 'get-messages'],
+                        'allow' => true,
+                    ],
+                    [
                         'allow'=>true,
                         'roles'=>['@'],
                         'matchCallback'=>function($rule,$action){
