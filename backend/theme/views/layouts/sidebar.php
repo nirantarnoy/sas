@@ -257,7 +257,7 @@
                     <ul class="nav nav-treeview">
                         <?php if (\Yii::$app->user->can('workorderreport/index')): ?>
                         <li class="nav-item">
-                            <a href="index.php?r=workorderreport/index" class="nav-link">
+                            <a href="index.php?r=workorderreport/index" class="nav-link workorderreport">
                                 <i class="far fa-circlez nav-icon"></i>
                                 <p>รายงานซ่อมเครื่อง</p>
                             </a>
@@ -265,7 +265,7 @@
                         <?php endif;?>
                         <?php if (\Yii::$app->user->can('todolistreport/index')): ?>
                         <li class="nav-item">
-                            <a href="index.php?r=todolistreport" class="nav-link">
+                            <a href="index.php?r=todolistreport" class="nav-link todolistreport">
                                 <i class="far fa-circlez nav-icon"></i>
                                 <p>รายงาน TodoList</p>
                             </a>
