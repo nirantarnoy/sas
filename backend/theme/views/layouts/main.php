@@ -193,11 +193,12 @@ $is_pos_user = 0;
         $("ul.nav-sidebar li").each(function (index) {
             var cli = $(this).attr("class");
             var list_class = cli.split(" ");
-            //console.log(list_class);
+            console.log(list_class);
             if ($.inArray("has-sub", list_class) !== -1) {
                 $(this).find(".nav-treeview").find(".nav-item").find("." + cururl).addClass("active");
                 $(this).find(".nav-treeview").find(".nav-item").find("." + cururl).parent().parent().parent().find(".nav-link").trigger("click");
                 //console.log(x);
+                //alert(cururl);
             } else {
                 $(this).find("." + cururl).addClass("active");
             }

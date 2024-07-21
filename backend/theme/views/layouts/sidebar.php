@@ -243,7 +243,7 @@
 
                     </ul>
                 </li>
-                <?php endif;?>
+                <?php  endif;?>
 
                 <?php if (\Yii::$app->user->can('workorderreport/index') || \Yii::$app->user->can('todolistreport')): ?>
                 <li class="nav-item has-treeview has-sub">
